@@ -1,0 +1,120 @@
+"use client"
+import { useRouter } from "next/navigation";
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
+
+const boxes = [
+  {
+    subtitle: "IBM Launch",
+    image: "bg-test.jpg",
+    text: "Join us for the IBM Launch event, where groundbreaking innovations in AI, cloud computing, and quantum technology will be unveiled. Network with industry leaders and explore the future of tech.",
+  },
+  {
+    subtitle: "Toronto Tech Expo",
+    image: "bg-test.jpg",
+    text: "Discover the latest trends in software, hardware, and digital innovation at the Toronto Tech Expo. This event will feature product demos, keynote speakers, and opportunities to connect with top companies.",
+  },
+  {
+    subtitle: "FAANG Day",
+    image: "bg-test.jpg",
+    text: "Learn about career opportunities and cutting-edge technologies at FAANG Day, where representatives from Facebook, Amazon, Apple, Netflix, and Google will share insights on working at the world's leading tech giants.",
+  },
+  {
+    subtitle: "WCS Dinner",
+    image: "bg-test.jpg",
+    text: "Celebrate the accomplishments of the Western Cyber Society at our annual dinner. Enjoy an evening of networking, guest speakers, and a discussion of upcoming initiatives in cybersecurity and tech.",
+  },
+];
+
+const socials = [
+  {
+    name: "Instagram",
+    link: "https://www.instagram.com/westerncybersociety/",
+  },
+  {
+    name: "TikTok",
+    link: "https://www.instagram.com/westerncybersociety/",
+  },
+  {
+    name: "LinkedIn",
+    link: "https://www.instagram.com/westerncybersociety/",
+  },
+]
+
+export default function Home() {
+  const router = useRouter();
+
+  return (
+    <div>
+      <Navbar />
+      
+      <div className="mt-2">
+        <div className="flex justify-center">
+          <video controls={false} autoPlay loop muted preload="none">
+            <source src="placeHolderVid.mp4" type="video/mp4" />
+            <track
+              src="/path/to/captions.vtt"
+              kind="subtitles"
+              srcLang="en"
+              label="English"
+            />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+
+      <div className="flex mt-20 justify-center space-x-4 px-5">
+        {boxes.map((box, index) => (
+        <div
+          key={index}
+          className="relative w-72 h-96 bg-gradient-to-r from-slate-900 to-darkBlue overflow-hidden transition-transform duration-500 transform group hover:scale-105"
+        >
+          <img
+            src={box.image}
+            alt={`Image ${index + 1}`}
+            className="w-full h-full object-cover blur-none translate-x-0 translate-y-0 transition-all duration-700 group-hover:translate-x-72 group-hover:translate-y-96 group-hover:scale-150 group-hover:blur-xl"
+          />
+
+          <h3 className="absolute p-3 top-0 left-0 right-0 text-white text-lg font-semibold p-2 text-left z-10">
+            {box.subtitle}
+          </h3>
+          <div className="absolute inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
+            <div className="p-5">
+              <p>
+                {box.text}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))}
+        </div>
+
+        <div className="mt-20">
+        <div className="flex justify-center px-5 space-x-4">
+        {socials.map((social, index) => (
+        <div
+          key={index}
+          className="relative w-96 h-64 bg-gradient-to-r from-slate-900 to-darkBlue overflow-hidden transition-transform duration-500 transform group hover:scale-105"
+        >
+        </div>
+      ))}
+        </div>
+      </div>
+
+      <div className="flex flex-col items-center justify-center text-black mt-20">
+        <h1 className="text-center text-2xl">Join Us?</h1>
+        <p className="w-2/4 text-center">We are a dynamic team of innovators driven by a passion for excellence. 
+          We deeply value skill, imagination, and the pursuit of elegant solutions</p>
+        <button className="mt-3 mb-10 tracking-wider bg-violet-800 text-white text-xl py-2 px-4 rounded-lg shadow-md hover:bg-violet-900 hover:scale-105 transition duration-300 ease-in-out"
+        onClick={() => router.push("/onboarding")}>
+          On-boarding
+        </button>
+      </div>
+
+      
+      <Footer />
+    </div>
+  );
+}
+
+

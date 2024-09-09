@@ -1,0 +1,41 @@
+{
+  "name": "wcs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "@stripe/stripe-js": "^4.4.0",
+    "mailgun-js": "^0.22.0",
+    "next": "14.2.8",
+    "react": "^18",
+    "react-awesome-slider": "^4.1.0",
+    "react-dom": "^18",
+    "react-modal": "^3.16.1",
+    "react-router-dom": "^6.26.2",
+    "react-slick": "^0.30.2",
+    "react-stripe-checkout": "^2.6.3",
+    "react-swiper": "^0.1.5",
+    "react-toastify": "^10.0.5",
+    "slick-carousel": "^1.8.1",
+    "stripe": "^16.10.0",
+    "swiper": "^11.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/react-modal": "^3.16.3",
+    "@types/react-slick": "^0.23.13",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.8",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
