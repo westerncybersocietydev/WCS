@@ -4,9 +4,9 @@ import Image from 'next/image';
 export default function Navbar() {
   return (
     <div>
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center mt-5">
+      <div className="container mx-auto px-4 my-4 flex justify-between items-center mt-5">
         {/* Logo */}
-        <div className='relative inline-block flex items-center mb-4 md:mb-0 transition-transform duration-300 hover:scale-110 group'>
+        <div className="relative inline-block flex items-center mb-4 md:mb-0 transition-transform duration-300 hover:scale-110 group">
           <Link href="/" className="flex items-center">
             <Image
               src="/wcsLogo.png"
@@ -16,12 +16,12 @@ export default function Navbar() {
               alt="Website Logo"
               className="transition-transform duration-300 hover:scale-110"
             />
-            <span className="ml-2 mt-1 text-black text-xl justify- opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ fontFamily: 'Logirent' }}>| western cyber society</span>
+            <span className="ml-2 text-black text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ fontFamily: 'Logirent' }}>| western cyber society</span>
           </Link>
         </div>
 
         {/* Other Buttons */}
-        <div className="space-x-6 relative flex items-center">
+        <div className="flex items-center space-x-6">
           <div className="relative inline-block group hover:text-xl transition-all duration-200">
             <button className="relative text-gray-600 hover:text-blue-600 focus:outline-none before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-blue-600 before:transition-all before:duration-500 hover:before:w-full">
               ABOUT US
