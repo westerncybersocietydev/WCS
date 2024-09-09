@@ -99,7 +99,7 @@ export default function Events() {
             <div className='text-white px-6'>
               <h1 className='text-4xl font-bold'>WCS Events</h1>
               <p className='mt-4 max-w-lg'>
-                Dive into the future with Western Cyber Society's exciting lineup of events! From hands-on workshops to insightful seminars, we have something for everyone. Whether you're looking to explore the latest in technology, connect with industry experts, or enhance your skills, our events are designed to inspire and engage.
+                Dive into the future with Western Cyber Society&apos;s exciting lineup of events! From hands-on workshops to insightful seminars, we have something for everyone. Whether you&apos;re looking to explore the latest in technology, connect with industry experts, or enhance your skills, our events are designed to inspire and engage.
               </p>
             </div>
           </div>
