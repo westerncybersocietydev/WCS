@@ -7,7 +7,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 export default function Overview() {
-  var settings = {
+  const settings = {
     dots: true,
     infinite: true,
     speed: 500,
@@ -71,7 +71,7 @@ export default function Overview() {
               />
               <h3 className='text-2xl font-semibold text-gray-800'>Artificial Intelligence (AI)</h3>
               <p className='mt-2 text-gray-600 text-center'>
-                From expressive NLP models to adaptive machine learning algorithms, current developments in AI offer us an exciting glimpse into a new paradigm of how we will use and develop software in the near future.The Western Cyber Society’s goal is to offer students a stepping-off point into this fascinating, complex, and ever-evolving field so they can better prepare themselves for their careers.To that end, we are excited to offer various workshops and events where students can build their skills.
+                From expressive NLP models to adaptive machine learning algorithms, current developments in AI offer us an exciting glimpse into a new paradigm of how we will use and develop software in the near future.The Western Cyber Society&apos;s goal is to offer students a stepping-off point into this fascinating, complex, and ever-evolving field so they can better prepare themselves for their careers.To that end, we are excited to offer various workshops and events where students can build their skills.
               </p>
             </div>
 
@@ -83,7 +83,7 @@ export default function Overview() {
               />
               <h3 className='text-2xl font-semibold text-gray-800'>Cyber Security</h3>
               <p className='mt-2 text-gray-600 text-center'>
-                Our team's primary goal is to impart exceptional knowledge by harnessing prevalent industry technologies. This equips our members with indispensable hands-on experience in these domains. Additionally, we are committed to delivering practical insights through diverse projects and events throughout the year, each centred around a distinct theme. We opted for WCS because it stands out as one of the best ways to venture into the dynamic field of cyber security, an opportunity uniquely presented by Western.
+                Our team&apos;s primary goal is to impart exceptional knowledge by harnessing prevalent industry technologies. This equips our members with indispensable hands-on experience in these domains. Additionally, we are committed to delivering practical insights through diverse projects and events throughout the year, each centred around a distinct theme. We opted for WCS because it stands out as one of the best ways to venture into the dynamic field of cyber security, an opportunity uniquely presented by Western.
               </p>
             </div>
 

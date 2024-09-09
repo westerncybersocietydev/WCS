@@ -1,6 +1,5 @@
 "use client"
 import React from 'react';
-import { useRouter } from "next/navigation";
 import Footer from '../components/footer';
 import Navbar from '../components/navbar';
 
@@ -11,7 +10,6 @@ const oldSponsors = [
 ];
 
 export default function Sponsorships() {
-  const router = useRouter();
 
   return (
     <div>
@@ -29,7 +27,7 @@ export default function Sponsorships() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Event Details</h2>
             <p className="mb-4">
-              With the rapid evolution of technologies such as generative AI, Cyber Security, and Mainframe and Web3, today's students are positioned to be the pioneering tech leaders of the future. As the next generation, we are at the forefront of creating new technologies to ensure a better tomorrow. Collaborating with leaders from established student organizations across Ontario, Mango Bloom is gathering the next generation's greatest minds to showcase their talent to established industry executives, founders, and recruiters.
+              With the rapid evolution of technologies such as generative AI, Cyber Security, and Mainframe and Web3, today&apos;s students are positioned to be the pioneering tech leaders of the future. As the next generation, we are at the forefront of creating new technologies to ensure a better tomorrow. Collaborating with leaders from established student organizations across Ontario, Mango Bloom is gathering the next generation&apos;s greatest minds to showcase their talent to established industry executives, founders, and recruiters.
             </p>
             <p className="mb-4">
               The Toronto Tech Expo is a single-day event that combines a conference and a student project showcase.
@@ -71,7 +69,7 @@ export default function Sponsorships() {
               All partners will be reserved spots in our Student Innovation Showcase (spots limited). Additionally, partners will be officially recognized in productions, media, delegate books, and more.
             </p>
             <p className="mb-4">
-              By joining as a founding Partner, you are joining a community of student-led tech organizations across the province in our mission to bring opportunities to and establish collaboration with passionate students across Ontario. All founding Partners will be added to the founder's network group chat and receive contacts of all official TTE sponsors, vendors, recruiters, and speakers.
+              By joining as a founding Partner, you are joining a community of student-led tech organizations across the province in our mission to bring opportunities to and establish collaboration with passionate students across Ontario. All founding Partners will be added to the founder&apos;s network group chat and receive contacts of all official TTE sponsors, vendors, recruiters, and speakers.
             </p>
             <p className="mb-4">
               To qualify as a founding partner, clubs must commit at least 10 students by March 1st. Clubs and students are welcome to attend as non-founding partners.

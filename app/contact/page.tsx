@@ -15,7 +15,7 @@ export default function Contact() {
   const [charCount, setCharCount] = useState(0);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleChange = (e: { target: { name: string; value: string; }; }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -55,7 +55,7 @@ export default function Contact() {
     <Navbar />
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-md mt-12 text-black">
       <h1 className="text-3xl font-bold mb-4 text-center">Contact Us</h1>
-      <p className="mb-6 text-gray-600">Have a question or need assistance? Fill out the form below with your inquiry, and we'll get back to you as soon as possible!</p>
+      <p className="mb-6 text-gray-600">Have a question or need assistance? Fill out the form below with your inquiry, and we&apos;ll get back to you as soon as possible!</p>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="topic" className="block mb-2">Topic</label>
