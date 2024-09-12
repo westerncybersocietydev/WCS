@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
+import { useCallback, useEffect, useState } from "react";
 
 const boxes = [
   {
@@ -43,6 +44,30 @@ const socials = [
 
 export default function Home() {
   const router = useRouter();
+  const [token, setToken] = useState(null);
+
+  const getToken = useCallback(async () => {
+    try {
+      const response = await fetch('/api/getToken', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (!response.ok) throw new Error('Network response was not ok');
+      const result = await response.json();
+      if (result) {
+        setToken(result);
+        console.log('Token fetched:', result); // Log the result directly
+      } else {
+        console.log('Token not found.');
+      }
+    } catch (error) {
+      console.error('Failed to fetch token:', error);
+    }
+  }, []); // Remove token from dependencies to avoid unnecessary re-runs
+  
+  useEffect(() => {
+    getToken();
+  }, [getToken]); // Include getToken in the dependencies to ensure it's used correctly  
 
   return (
     <div>
@@ -101,17 +126,19 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center text-black mt-20">
+      {!token && (
+        <div className="flex flex-col items-center justify-center text-black mt-20">
         <h1 className="text-center text-2xl">Join Us?</h1>
         <p className="w-2/4 text-center">We are a dynamic team of innovators driven by a passion for excellence. 
           We deeply value skill, imagination, and the pursuit of elegant solutions</p>
-        <button className="mt-3 mb-10 tracking-wider bg-violet-800 text-white text-xl py-2 px-4 rounded-lg shadow-md hover:bg-violet-900 hover:scale-105 transition duration-300 ease-in-out"
-        onClick={() => router.push("/onboarding")}>
-          On-boarding
+        <button className="mt-3 tracking-wider bg-violet-800 text-white text-xl py-2 px-4 rounded-lg shadow-md hover:bg-violet-900 hover:scale-105 transition duration-300 ease-in-out"
+        onClick={() => router.push("/sign-up")}>
+          Register
         </button>
+        <p className="mt-3">Already have an account? <a href="/sign-in" className="text-blue-500"><u>Login here</u></a></p>
       </div>
-
-      
+      )}
+      <div className="mb-10"></div>
       <Footer />
     </div>
   );
