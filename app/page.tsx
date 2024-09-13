@@ -3,6 +3,8 @@ import { useRouter } from "next/navigation";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import { useCallback, useEffect, useState } from "react";
+import { FaInstagram, FaTiktok, FaLinkedin } from 'react-icons/fa';
+import React from "react";
 
 const boxes = [
   {
@@ -29,18 +31,46 @@ const boxes = [
 
 const socials = [
   {
-    name: "Instagram",
-    link: "https://www.instagram.com/westerncybersociety/",
+    platform: 'Instagram',
+    name: 'westerncybersociety',
+    handle: '@westerncybersociety',
+    bio: 'Western Cyber Society (WCS)\nScience, Technology & Engineering\nLeading the future generation of AI, Cyber Security, and Web3.',
+    profileUrl: 'https://www.instagram.com/westerncybersociety/',
+    profileImage: 'wcsSocialLogo.png',
+    color: 'bg-gradient-to-br from-pink-500 to-orange-500',
+    Icon: FaInstagram
   },
   {
-    name: "TikTok",
-    link: "https://www.instagram.com/westerncybersociety/",
+    platform: 'TikTok',
+    name: 'westerncybersociety',
+    handle: '@westerncybersociety',
+    bio: 'Western Cyber Society\nShaping the future by leading advancements in Artificial Intelligence (AI), Cybersecurity, and Web3.',
+    profileUrl: 'https://www.tiktok.com/@westerncybersociety',
+    profileImage: 'wcsSocialLogo.png',
+    color: 'bg-gradient-to-br from-slate-900 to-neutral-700',
+    Icon: FaTiktok
   },
   {
-    name: "LinkedIn",
-    link: "https://www.instagram.com/westerncybersociety/",
+    platform: 'LinkedIn',
+    name: 'Western Cyber Society',
+    handle: '@westerncybersociety',
+    bio: 'Empowering the next generation of leaders in Artificial Intelligence (AI), Cyber Security, and Web3. #LaunchTheFuture',
+    profileUrl: 'https://www.linkedin.com/company/western-cyber-society?originalSubdomain=ca',
+    profileImage: 'wcsSocialLogo.png',
+    color: 'bg-gradient-to-br from-sky-900 to-blue-400',
+    Icon: FaLinkedin
   },
-]
+];
+
+const formatBio = (bio: string) => {
+  // Split bio by newline characters and map each line to a <span>
+  return bio.split('\n').map((line, index) => (
+    <React.Fragment key={index}>
+      <span className="text-sm text-white">{line}</span>
+      <br />
+    </React.Fragment>
+  ));
+};
 
 export default function Home() {
   const router = useRouter();
@@ -115,17 +145,41 @@ export default function Home() {
         </div>
 
         <div className="mt-20">
-        <div className="flex justify-center px-5 space-x-4">
-        {socials.map((social, index) => (
-        <div
-          key={index}
-          className="relative w-96 h-64 bg-gradient-to-r from-slate-900 to-darkBlue overflow-hidden transition-transform duration-500 transform group hover:scale-105"
-        >
-        </div>
-      ))}
-        </div>
+    <div className="flex justify-center px-5 space-x-4">
+      {socials.map((social, index) => (
+        <div key={index} className={`relative w-1/3 h-60 overflow-hidden group ${social.color} social-hover`}>
+  <a
+    href={social.profileUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="absolute inset-0 flex flex-col p-5"
+  >
+    <div className="flex items-center">
+      <img
+        src={social.profileImage}
+        alt={`${social.platform} logo`}
+        className="w-16 h-16 rounded-full border-2 border-white"
+      />
+      <div className="ml-4 text-white flex flex-col">
+        <h3 className="text-xl font-bold">{social.name}</h3>
+        <p className="text-lg">{social.handle}</p>
       </div>
+    </div>
+    <p className="text-sm text-white mt-4">{formatBio(social.bio)}</p>
+    <div className="absolute bottom-4 right-4 text-white text-3xl">
+      <social.Icon />
+    </div>
 
+    <span className="absolute bottom-[-30px] left-4 text-white text-lg font-semibold transition-all duration-700 ease-in-out group-hover:bottom-4">
+      Visit <i className="fa-solid fa-arrow-right"></i>
+    </span>
+  </a>
+</div>
+
+      ))}
+    </div>
+  </div>
+  
       {!token && (
         <div className="flex flex-col items-center justify-center text-black mt-20">
         <h1 className="text-center text-2xl">Join Us?</h1>
@@ -135,7 +189,7 @@ export default function Home() {
         onClick={() => router.push("/sign-up")}>
           Register
         </button>
-        <p className="mt-3">Already have an account? <a href="/sign-in" className="text-blue-500"><u>Login here</u></a></p>
+        <p className="mt-3">Already have an account? <a href="/sign-in" className="text-blue-500"><u>Sign In</u></a></p>
       </div>
       )}
       <div className="mb-10"></div>

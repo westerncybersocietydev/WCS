@@ -16,7 +16,7 @@ export async function createUser(
     program: string, 
     plan: string,
     password: string
-): Promise<void> {
+): Promise<string> {
     try {
         await connectToDB(); 
 
@@ -39,6 +39,12 @@ export async function createUser(
                 password: hashedPassword, 
             });
             await newUser.save();
+
+            // Log in the user and return the token
+            const token = await loginUser(uwoEmail, password);
+            return token;
+        } else {
+            throw new Error("User already exists");
         }
     } catch (error: any) {
         throw new Error(`Failed to create user :( ${error.message}`);
@@ -68,7 +74,6 @@ export async function loginUser(uwoEmail: string, password: string): Promise<str
         const token = jwt.sign(
             { userId: user._id, firstName: user.firstName }, 
             JWT_SECRET, 
-            { expiresIn: '1h' }
         );
 
         console.log("Login successful.")

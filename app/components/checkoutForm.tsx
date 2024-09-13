@@ -11,6 +11,8 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planPrice, onPaymentSuccess
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState('');
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // New state for error message
 
   useEffect(() => {
     const createPaymentIntent = async () => {
@@ -39,41 +41,60 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planPrice, onPaymentSuccess
       return;
     }
 
-    // Call elements.submit() immediately
-    const { error: submitError } = await elements.submit();
-    if (submitError) {
-      console.error(submitError);
-      setPaymentSuccess(false);
-      return;
-    }
+    setLoading(true); // Set loading to true when the process starts
+    setErrorMessage(null); // Clear previous error message
 
-    // Confirm the payment
-    const { error } = await stripe.confirmPayment({
-      clientSecret: clientSecret,
-      elements,
-      confirmParams: {
-        return_url: "https://example.com",
-    },
-        redirect: 'if_required' 
-    });
+    try {
+      // Call elements.submit() immediately
+      const { error: submitError } = await elements.submit();
+      if (submitError) {
+        console.error(submitError);
+        setErrorMessage('Failed to submit payment details. Please try again.'); // Set error message
+        setPaymentSuccess(false);
+        return;
+      }
 
-    if (error) {
-      console.error(error);
+      // Confirm the payment
+      const { error } = await stripe.confirmPayment({
+        clientSecret: clientSecret,
+        elements,
+        confirmParams: {
+          return_url: "https://example.com",
+        },
+        redirect: 'if_required'
+      });
+
+      if (error) {
+        console.error(error);
+        setErrorMessage('Payment failed. Please try again.'); // Set error message
+        setPaymentSuccess(false);
+      } else {
+        setPaymentSuccess(true);
+        await onPaymentSuccess(event); // Call the callback function
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorMessage('An unexpected error occurred. Please try again.'); // Set error message
       setPaymentSuccess(false);
-    } else {
-      setPaymentSuccess(true);
-      await onPaymentSuccess(event); // Call the callback function
+    } finally {
+      setLoading(false); // Set loading to false after the process ends
     }
   };
 
   return (
-    <div className='flex flex-col justify-center items-center w-full bg-white'>
-      {paymentSuccess && <p className="text-green-500">Payment successful! Redirecting to dashboard...</p>}
-      <form className='max-w-md mt-40' onSubmit={handleSubmit}>
+    <div className='flex justify-center items-center w-full bg-white'>
+      <form onSubmit={handleSubmit} className='w-full p-3'>
         <PaymentElement />
-        <button className='w-full bg-customDark p-2 rounded-lg mt-10' type='submit' disabled={!stripe || !elements || !clientSecret}>
-          Pay
+        <button
+          className='w-full mt-5 bg-violet-800 text-white py-2 rounded-md hover:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-blue-500'
+          type='submit'
+          disabled={!stripe || !elements || !clientSecret || loading} // Disable button while loading
+        >
+          {loading ? 'Processing...' : 'Pay'}
         </button>
+        {errorMessage && (
+          <p className='mt-2 text-red-500'>{errorMessage}</p> // Display error message in red
+        )}
       </form>
     </div>
   );

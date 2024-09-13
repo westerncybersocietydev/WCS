@@ -53,3 +53,47 @@ body {
   font-weight: normal;
   font-style: normal;
 }
+
+.social-hover {
+  background-size: 200%; /* Start with a larger background */
+  background-position: right; /* Start with the secondary color (orange) more visible */
+  transition: background-position 0.5s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.social-hover:hover {
+  background-position: left; /* Move the position to reveal more of the primary color (pink) */
+  transform: scale(1.05); /* Adds the scale effect on hover */
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeInUp {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.fadeInUpTwo {
+  animation: fadeInUp 0.1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 0.2s ease-in;
+}
+

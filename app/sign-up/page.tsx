@@ -2,10 +2,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
-import { createUser } from '../lib/actions/user.action';
+import { createUser, loginUser } from '../lib/actions/user.action';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from '../components/checkoutForm';
 import { Elements } from '@stripe/react-stripe-js';
+import { useUser } from '../context/UserContext'; // Adjust the path as needed
 
 type PlanType = 'Basic' | 'VIP';
 
@@ -32,6 +33,7 @@ export default function Signup() {
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState((step / 3) * 100);
   const [error, setError] = useState<string | null>(null);
+  const { fetchUser } = useUser();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -124,6 +126,11 @@ export default function Signup() {
         selectedPlan,
         formData.password
       );
+
+      const token = await loginUser(formData.uwoEmail, formData.password);
+      document.cookie = `authToken=${token}; path=/; secure; samesite=strict`; // Setting cookie on the client side
+
+      await fetchUser();
 
       const emailDetails = {
         from: formData.uwoEmail,
@@ -252,13 +259,19 @@ export default function Signup() {
       setLoading(false);
     }
   }, [formData, selectedPlan]);
-  
 
+  const handleBack = useCallback(() => {
+    setError(''); // Clear any existing errors
+    if (step > 1) {
+      setStep(prevStep => prevStep - 1); // Go back to the previous step
+    }
+  }, [step]);
+  
   return (
     <div>
       <Navbar />
       <div className="flex text-black items-center justify-center min-h-screen bg-gray-100 p-4" style={{ background: '#ededed' }}>
-        <div className="bg-white shadow-md rounded-lg p-9 w-full max-w-lg">
+        <div className="bg-white shadow-md p-9 w-full max-w-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800">
             {step === 1
               ? "Sign Up"
@@ -271,14 +284,22 @@ export default function Signup() {
             <p className="mb-5 mt-2 text-center">Already have an account? <a href="/sign-in" className="text-blue-500"><u>Login</u></a></p>
           }
           
-
           {/* Progress bar */}
-          <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
+          <div className="w-full bg-gray-200 h-2 mb-4 rounded-full">
             <div
               className="bg-blue-500 h-2 rounded-full"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
+
+          { step === 2 && (
+            <button
+              className='mb-4 text-blue-600 underline cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-105'
+              onClick={() => handleBack()}
+            >
+              Back
+            </button>
+          ) }
 
           {step === 1 && (
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -292,7 +313,7 @@ export default function Signup() {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    className="border border-gray-400 rounded-md px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-400 pl-3 px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 </div>
@@ -306,7 +327,7 @@ export default function Signup() {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    className="border border-gray-400 rounded-md px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-400 pl-3 px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 </div>
@@ -321,7 +342,7 @@ export default function Signup() {
                   name="uwoEmail"
                   value={formData.uwoEmail}
                   onChange={handleChange}
-                  className="border border-gray-400 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-gray-400 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
@@ -334,7 +355,7 @@ export default function Signup() {
                   name="currentYear"
                   value={formData.currentYear}
                   onChange={handleChange}
-                  className="border border-gray-400 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-gray-400 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 >
                   <option value="">Select Year</option>
@@ -355,7 +376,7 @@ export default function Signup() {
                   name="program"
                   value={formData.program}
                   onChange={handleChange}
-                  className="border border-gray-400 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-gray-400 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
@@ -369,7 +390,7 @@ export default function Signup() {
                   name="preferredEmail"
                   value={formData.preferredEmail}
                   onChange={handleChange}
-                  className="border border-gray-400 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-gray-400 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -382,7 +403,7 @@ export default function Signup() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="border border-gray-400 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-gray-400 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
@@ -429,10 +450,7 @@ export default function Signup() {
                 <ul className="mt-4 space-y-2 text-sm text-gray-600">
                   {selectedPlan && planPerks[selectedPlan]?.map((perk, index) => (
                     <li key={index} className="flex items-start space-x-2">
-                      <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9l3 3 6-6" />
-                      </svg>
-                      <span>{perk}</span>
+                      <span><i className="fa-solid fa-check mr-2"></i>{perk}</span>
                     </li>
                   ))}
                 </ul>
