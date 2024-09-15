@@ -6,7 +6,8 @@ import { createUser, loginUser } from '../lib/actions/user.action';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from '../components/checkoutForm';
 import { Elements } from '@stripe/react-stripe-js';
-import { useUser } from '../context/UserContext'; // Adjust the path as needed
+import { useUser } from '../context/UserContext';
+import { useRouter } from "next/navigation";
 
 type PlanType = 'Basic' | 'VIP';
 
@@ -27,9 +28,10 @@ const planPerks: Record<PlanType, string[]> = {
 };
 
 export default function Signup() {
-  
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<PlanType | "">("Basic"); // Update type here
+  const [selectedPlan, setSelectedPlan] = useState<PlanType | "">("Basic");
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState((step / 3) * 100);
   const [error, setError] = useState<string | null>(null);
@@ -42,6 +44,7 @@ export default function Signup() {
     program: '',
     preferredEmail: '',
     password: '',
+    confirmPassword: '', // New field
   });
 
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
@@ -60,7 +63,7 @@ export default function Signup() {
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prevData => ({ ...prevData, [name]: value }));
-  }, []);
+  }, []);  
 
   const isFormComplete = useCallback(() => {
     // Ensure all fields except preferredEmail are filled in
@@ -72,6 +75,12 @@ export default function Signup() {
     setError('');
     if (!isFormComplete()) {
       setError('Please fill in all required fields.');
+      return;
+    }
+
+    // Check if passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match.');
       return;
     }
   
@@ -134,7 +143,7 @@ export default function Signup() {
 
       const emailDetails = {
         from: formData.uwoEmail,
-        to: formData.uwoEmail,
+        to: formData.preferredEmail.trim() === '' ? formData.uwoEmail : formData.preferredEmail,
         subject: 'Welcome to Western Cyber Society',
         message: `
           <!DOCTYPE html>
@@ -270,37 +279,31 @@ export default function Signup() {
   return (
     <div>
       <Navbar />
-      <div className="flex text-black items-center justify-center min-h-screen bg-gray-100 p-4" style={{ background: '#ededed' }}>
-        <div className="bg-white shadow-md p-9 w-full max-w-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-800">
-            {step === 1
-              ? "Sign Up"
-              : step === 2
-              ? "Choose Your Plan"
-              : ""}
-          </h2>
+      <div className="flex flex-col text-black items-center justify-center min-h-screen bg-gray-100 p-4" style={{ background: '#ededed' }}>
+      <div className='w-full'>
+      <h2 className="text-3xl font-bold text-center text-gray-800">
+        {step === 1
+          ? "SIGN UP"
+          : step === 2
+          ? "Choose Your Plan"
+          : ""}
+      </h2>
 
           { (step === 1 || step === 2) &&
-            <p className="mb-5 mt-2 text-center">Already have an account? <a href="/sign-in" className="text-blue-500"><u>Login</u></a></p>
+            <p className="mb-5 mt-1 text-center">Already have an account? <a href="/sign-in" className="text-blue-500"><u>Login</u></a></p>
           }
-          
-          {/* Progress bar */}
-          <div className="w-full bg-gray-200 h-2 mb-4 rounded-full">
-            <div
-              className="bg-blue-500 h-2 rounded-full"
-              style={{ width: `${progress}%` }}
-            ></div>
-          </div>
 
           { step === 2 && (
             <button
-              className='mb-4 text-blue-600 underline cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-105'
+              className='mb-4 ml-80 cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-125'
               onClick={() => handleBack()}
             >
-              Back
+              <i className="fa-solid fa-arrow-left"></i>
             </button>
           ) }
+      </div>
 
+        <div className="bg-white rounded shadow-md p-9 w-full max-w-lg">
           {step === 1 && (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex space-x-4">
@@ -313,9 +316,10 @@ export default function Signup() {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    className="border border-gray-400 pl-3 px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                     required
                   />
+
                 </div>
 
                 {/* Last Name */}
@@ -327,7 +331,7 @@ export default function Signup() {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    className="border border-gray-400 pl-3 px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                     required
                   />
                 </div>
@@ -342,23 +346,36 @@ export default function Signup() {
                   name="uwoEmail"
                   value={formData.uwoEmail}
                   onChange={handleChange}
-                  className="border border-gray-400 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                   required
+                />
+              </div>
+
+              {/* Preferred Email */}
+              <div className="flex flex-col space-y-1">
+                <label htmlFor="preferredEmail" className="text-gray-600">Preferred Email (optional)</label>
+                <input
+                  type="email"
+                  id="preferredEmail"
+                  name="preferredEmail"
+                  value={formData.preferredEmail}
+                  onChange={handleChange}
+                  className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                 />
               </div>
 
               {/* Current Year */}
               <div className="flex flex-col space-y-1">
-                <label htmlFor="currentYear" className="text-gray-600">Current Year</label>
+                <label htmlFor="currentYear" className="text-gray-600 font-medium">Current Year</label>
                 <select
                   id="currentYear"
                   name="currentYear"
                   value={formData.currentYear}
                   onChange={handleChange}
-                  className="border border-gray-400 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-gray-500 rounded-md pl-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:shadow-md hover:border-blue-400 hover:bg-white text-gray-700"
                   required
                 >
-                  <option value="">Select Year</option>
+                  <option value="" disabled>Select Year</option>
                   <option value="1">1st Year</option>
                   <option value="2">2nd Year</option>
                   <option value="3">3rd Year</option>
@@ -376,21 +393,8 @@ export default function Signup() {
                   name="program"
                   value={formData.program}
                   onChange={handleChange}
-                  className="border border-gray-400 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                   required
-                />
-              </div>
-
-              {/* Preferred Email */}
-              <div className="flex flex-col space-y-1">
-                <label htmlFor="preferredEmail" className="text-gray-600">Preferred Email (optional)</label>
-                <input
-                  type="email"
-                  id="preferredEmail"
-                  name="preferredEmail"
-                  value={formData.preferredEmail}
-                  onChange={handleChange}
-                  className="border border-gray-400 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -403,7 +407,21 @@ export default function Signup() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="border border-gray-400 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                  required
+                />
+              </div>
+
+              {/* Confirm Password */}
+              <div className="flex flex-col space-y-1">
+                <label htmlFor="confirmPassword" className="text-gray-600">Confirm Password</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                   required
                 />
               </div>
@@ -412,9 +430,9 @@ export default function Signup() {
                 type="button"
                 onClick={handleNext}
                 disabled={loading}
-                className="w-full bg-violet-800 text-white py-2 rounded-md hover:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full bg-violet-800 text-white py-2 rounded-full hover:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Saving...' : 'Next'}
+                {loading ? 'Saving...' : 'Continue'}
               </button>
             </form>
           )}
@@ -424,7 +442,7 @@ export default function Signup() {
               <h3 className="text-xl font-semibold text-gray-800">Select Your Plan</h3>
               <div className="flex space-x-4">
                 <div
-                  className={`border p-4 rounded-md flex-1 cursor-pointer transition-colors ${selectedPlan === 'Basic' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
+                  className={`border p-4 flex-1 cursor-pointer transition-colors ${selectedPlan === 'Basic' ? 'bg-gradient-to-br from-slate-200 to-purple-300' : 'hover:bg-gradient-to-br from-slate-100 to-purple-200'}`}
                   onClick={() => handlePlanSelection('Basic')}
                 >
                   <h4 className="text-md font-semibold flex justify-between items-center">
@@ -434,7 +452,7 @@ export default function Signup() {
                   <p className="text-sm mt-1 text-gray-600">For students looking to get started.</p>
                 </div>
                 <div
-                  className={`border p-4 rounded-md flex-1 cursor-pointer transition-colors ${selectedPlan === 'VIP' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
+                  className={`p-4 flex-1 cursor-pointer transition-colors cycling-border ${selectedPlan === 'VIP' ? 'bg-gradient-to-br from-slate-200 to-purple-300' : 'hover:bg-gradient-to-br from-slate-100 to-purple-200'}`}
                   onClick={() => handlePlanSelection('VIP')}
                 >
                   <h4 className="text-md font-semibold flex justify-between items-center">
@@ -445,9 +463,9 @@ export default function Signup() {
                 </div>
               </div>
 
-              <div className="p-4 bg-white rounded-lg">
-                <p className="text-xl font-bold text-gray-800">{selectedPlan}</p>
-                <ul className="mt-4 space-y-2 text-sm text-gray-600">
+              <div className={`p-4 bg-white rounded-lg ${selectedPlan === 'VIP' ? 'cycling-border' : 'border'}`}>
+                <p className="text-2xl text-center font-bold text-gray-800">{selectedPlan}</p>
+                <ul className="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-600">
                   {selectedPlan && planPerks[selectedPlan]?.map((perk, index) => (
                     <li key={index} className="flex items-start space-x-2">
                       <span><i className="fa-solid fa-check mr-2"></i>{perk}</span>
@@ -456,14 +474,15 @@ export default function Signup() {
                 </ul>
               </div>
 
+
               {selectedPlan === 'Basic' ? (
                 <button
                 type="submit"
                 onClick={handleSubmit}
                 disabled={loading}
-                className="w-full bg-violet-800 text-white py-2 rounded-md hover:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full bg-violet-800 text-white py-2 rounded-full hover:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Creating...' : 'Create Account'}
+                {loading ? 'Creating Account...' : 'Create Account'}
               </button>
               ) : (
                 <Elements stripe={stripePromise} options={options}>
@@ -475,18 +494,20 @@ export default function Signup() {
           )}
 
           {step === 3 && (
-            <div className="text-center">
-              <h3 className="text-xl font-semibold text-gray-800">Success!</h3>
+            <div className="text-center space-y-2">
+              <h3 className="text-3xl font-semibold text-gray-800">Congratulations!</h3>
+              <h3 className="text-xl font-semibold text-gray-800">You Are Now a VIP</h3>
               <p className="text-gray-600 mt-2">
-                Thank you for signing up for the Western Cyber Society. You will receive a welcome email shortly.
+                Thank you for signing up for the Western Cyber Society. Check your inbox for an email shortly.
               </p>
-              <div className="mt-6">
-                <a
-                  href="/"
-                  className="bg-violet-800 text-white py-2 px-6 rounded-md hover:bg-violet-900"
+              <div className="mt-10">
+                <button
+                  className='w-full mt-5 bg-violet-800 text-white py-2 rounded-full hover:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'
+                  type='button'
+                  onClick={() => router.push('/')}
                 >
                   Go to Dashboard
-                </a>
+                </button>
               </div>
             </div>
           )}

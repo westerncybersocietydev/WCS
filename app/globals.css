@@ -97,3 +97,18 @@ body {
   animation: fadeIn 0.2s ease-in;
 }
 
+.cycling-border {
+  border: 2px solid;
+  border-image: linear-gradient(45deg, red, yellow, green, blue);
+  border-image-slice: 1;
+  animation: borderCycle 4s linear infinite;
+}
+
+@keyframes borderCycle {
+  0% { border-image-source: linear-gradient(45deg, red, yellow); }
+  25% { border-image-source: linear-gradient(45deg, green, blue); }
+  50% { border-image-source: linear-gradient(45deg, blue, pink); }
+  75% { border-image-source: linear-gradient(45deg, pink, green); }
+  100% { border-image-source: linear-gradient(45deg, red, yellow); }
+}
+

@@ -103,7 +103,7 @@ export default function Home() {
     <div>
       <Navbar />
       
-      <div className="mt-2">
+      <div>
         <div className="flex justify-center">
           <video controls={false} autoPlay loop muted preload="none">
             <source src="placeHolderVid.mp4" type="video/mp4" />

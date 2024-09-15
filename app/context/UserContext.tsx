@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface User {
-  firstName?: string;
+  userId?: string;
 }
 
 interface UserContextType {
@@ -27,9 +27,9 @@ export function UserProvider({ children }: UserProviderProps) {
       });
       if (!response.ok) throw new Error('Network response was not ok');
       const result = await response.json();
-      setUser(result.firstName ? { firstName: result.firstName } : null);
+      setUser(result.userId ? { userId: result.userId } : null);
     } catch (error) {
-      console.error('Failed to fetch user:', error);
+      setUser(null);
     }
   };
 
