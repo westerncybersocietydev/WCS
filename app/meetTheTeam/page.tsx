@@ -1,8 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import TeamCard from '../components/teamCard';
 import Navbar from '../components/navbar';
-import Modal from '../components/memberModal';
 import Footer from '../components/footer';
 
 type TeamMember = {
@@ -11,138 +9,199 @@ type TeamMember = {
   title: string;
   program: string;
   year: string;
-  description: string;
   email?: string;
   linkedin?: string;
 };
 
+type TeamCardProps = {
+  image: string;
+  name: string;
+  title: string;
+  year: string;
+  email?: string;
+  linkedin?: string;
+  twitter?: string;
+  onClick: () => void;
+};
+
+type ModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  member: {
+    image: string;
+    name: string;
+    title: string;
+    program: string;
+    year: string;
+    email?: string;
+    linkedin?: string;
+    twitter?: string;
+  };
+};
+
 const teamData: TeamMember[] = [
   {
-    image: '/defaultPfp.png',
+    image: 'profileImg.jpg',
     name: 'John Doe',
     title: 'President',
     program: 'Compsci',
     year: 'Senior',
-    description: 'Leading the team with vision and dedication.',
     email: 'test@gmail.com',
     linkedin: 'https://linkedin.com/in/johndoe',
   },
   {
-    image: '/defaultPfp.png',
+    image: 'profileImg.jpg',
     name: 'John Doe',
     title: 'President',
     program: 'Compsci',
     year: 'Senior',
-    description: 'Leading the team with vision and dedication.',
     email: 'test@gmail.com',
     linkedin: 'https://linkedin.com/in/johndoe',
   },
   {
-    image: '/defaultPfp.png',
+    image: 'profileImg.jpg',
     name: 'Jane Smith',
     title: 'VIP',
     program: 'Compsci',
     year: 'Junior',
-    description: 'Our go-to person for high-level insights and guidance.',
     email: 'test@gmail.com',
     linkedin: 'https://linkedin.com/in/janesmith',
   },
   {
-    image: '/defaultPfp.png',
+    image: 'profileImg.jpg',
     name: 'Alice Johnson',
     title: 'SIP Director',
     program: 'Compsci',
     year: 'Sophomore',
-    description: 'Overseeing SIP projects with expertise and enthusiasm.',
     email: 'test@gmail.com',
     linkedin: 'https://linkedin.com/in/alicejohnson',
   },
   {
-    image: '/defaultPfp.png',
+    image: 'profileImg.jpg',
     name: 'John Doe',
     title: 'President',
     program: 'Compsci',
     year: 'Senior',
-    description: 'Leading the team with vision and dedication.',
     email: 'test@gmail.com',
     linkedin: 'https://linkedin.com/in/johndoe',
   },
   {
-    image: '/defaultPfp.png',
+    image: 'profileImg.jpg',
     name: 'John Doe',
     title: 'President',
     program: 'Compsci',
     year: 'Senior',
-    description: 'Leading the team with vision and dedication.',
     email: 'test@gmail.com',
     linkedin: 'https://linkedin.com/in/johndoe',
   },
   {
-    image: '/defaultPfp.png',
+    image: 'profileImg.jpg',
     name: 'Jane Smith',
     title: 'VIP',
     program: 'Compsci',
     year: 'Junior',
-    description: 'Our go-to person for high-level insights and guidance.',
     email: 'test@gmail.com',
     linkedin: 'https://linkedin.com/in/janesmith',
   },
   {
-    image: '/defaultPfp.png',
+    image: 'profileImg.jpg',
     name: 'Alice Johnson',
     title: 'SIP Director',
     program: 'Compsci',
     year: 'Sophomore',
-    description: 'Overseeing SIP projects with expertise and enthusiasm.',
     email: 'test@gmail.com',
     linkedin: 'https://linkedin.com/in/alicejohnson',
   },
   {
-    image: '/defaultPfp.png',
+    image: 'profileImg.jpg',
     name: 'John Doe',
     title: 'President',
     program: 'Compsci',
     year: 'Senior',
-    description: 'Leading the team with vision and dedication.',
     email: 'test@gmail.com',
     linkedin: 'https://linkedin.com/in/johndoe',
   },
   {
-    image: '/defaultPfp.png',
+    image: 'profileImg.jpg',
     name: 'John Doe',
     title: 'President',
     program: 'Compsci',
     year: 'Senior',
-    description: 'Leading the team with vision and dedication.',
     email: 'test@gmail.com',
     linkedin: 'https://linkedin.com/in/johndoe',
   },
   {
-    image: '/defaultPfp.png',
+    image: 'profileImg.jpg',
     name: 'Jane Smith',
     title: 'VIP',
     program: 'Compsci',
     year: 'Junior',
-    description: 'Our go-to person for high-level insights and guidance.',
     email: 'test@gmail.com',
     linkedin: 'https://linkedin.com/in/janesmith',
   },
   {
-    image: '/defaultPfp.png',
+    image: 'profileImg.jpg',
     name: 'Alice Johnson',
     title: 'SIP Director',
     program: 'Compsci',
     year: 'Sophomore',
-    description: 'Overseeing SIP projects with expertise and enthusiasm.',
     email: 'test@gmail.com',
     linkedin: 'https://linkedin.com/in/alicejohnson',
   },
 ];
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, member }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
+      <div className="relative bg-white px-5 py-3 rounded-sm w-2/6 h-5/6 shadow-lg flex flex-col items-center justify-center">
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-4 bg-transparent text-gray-700 transition-transform duration-300 hover:scale-110 focus:outline-none"
+        >
+          <i className="fa-solid fa-x text-xs"></i>
+        </button>
+          
+        <img src={member.image} alt="Profile" className="w-56 h-56 rounded-full object-cover mb-4 shadow-xl" />
+          
+        <h1 className="text-2xl text-black font-bold text-center">{member.name}</h1>
+        <h2 className="text-lg  text-gray-800 font-semibold text-center">{member.title}</h2>
+        <p className="text-md text-gray-500 font-semibold text-center mb-4">{member.year} - {member.program}</p>
+          
+        <div className="flex text-black text-3xl space-x-5">
+          <button className="transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800">
+            <i className="fa-solid fa-envelope"></i>
+          </button>
+          <button className="transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800">
+            <i className="fa-brands fa-linkedin"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const TeamCard: React.FC<TeamCardProps> = ({ image, name, title, onClick }) => (
+  <div
+    className="relative cursor-pointer overflow-hidden rounded-sm h-[24rem] w-full transition-all duration-300 ease-in-out hover:scale-110"
+    onClick={onClick}
+  >
+    <img
+      src={image}
+      alt={name}
+      className="w-11/12 h-5/6 object-cover shadow-xl"
+    />
+    <div className="absolute z-40 w-3/4 bottom-10 right-0 p-4 bg-gradient-to-r from-violet-200 to-pink-200 text-black rounded-sm shadow-xl">
+      <div className="font-semibold text-xl">{name}</div>
+      <div className="text-sm">{title}</div>
+    </div>
+  </div>
+);
 
 const Section: React.FC<{ members: TeamMember[]; onCardClick: (member: TeamMember) => void; }> = ({ members, onCardClick }) => (
   <section className="mb-8">
     <div className="flex justify-center">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="w-full mx-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
         {members.map((member, index) => (
           <TeamCard
             key={index}
@@ -150,9 +209,6 @@ const Section: React.FC<{ members: TeamMember[]; onCardClick: (member: TeamMembe
             name={member.name}
             title={member.title}
             year={member.year}
-            description={member.description}
-            email={member.email || ''}
-            linkedin={member.linkedin || ''}
             onClick={() => onCardClick(member)}
           />
         ))}
@@ -194,7 +250,7 @@ export default function MeetTheTeam() {
         <div className="p-4 text-black">
           <div className='text-center mt-14'>
             <h1 className='text-4xl'><strong>Meet The Team</strong></h1>
-            <h2 className='mt-3 mb-10'>WCS is proud to present our incredible 2024-2025 student team.</h2>
+            <h2 className='mt-3 mb-14'>WCS is proud to present our incredible 2024-2025 student team.</h2>
           </div>
           <Section members={teamData} onCardClick={handleCardClick} />
           {selectedMember && (

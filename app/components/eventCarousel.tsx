@@ -73,7 +73,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
                 className="w-1/3 flex-shrink-0 p-3 relative group cursor-pointer"
                 onClick={() => openModal(item)}
               >
-                <div className="relative mb-10 overflow-hidden rounded-lg shadow-lg transition-transform transform group-hover:scale-105">
+                <div className="relative mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
                   <img
                     src={item.image}
                     alt={item.name}

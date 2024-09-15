@@ -8,6 +8,7 @@ import Footer from "../components/footer";
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from '../components/checkoutForm';
 import { Elements } from '@stripe/react-stripe-js';
+import { toast } from 'react-hot-toast';
 
 interface ProfileData {
   firstName: string;
@@ -42,57 +43,10 @@ const planPerks: Record<string, string[]> = {
   ],
 };
 
-const Modal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-    if (!isOpen) return null;
-  
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const { user, fetchUser } = useUser();
-
-    const handlePlanSubmit = async () => {
-        if (!user?.userId) return;
-      
-        setLoading(true);
-      
-        try {
-          await updatePlan(user.userId, "VIP");
-          await fetchUser(); // Fetch updated user data
-          window.location.reload();
-          onClose();
-        } catch (error) {
-          setError("Failed to update plan. Please try again.");
-        } finally {
-          setLoading(false);
-        }
-      };      
-
-    return (
-      <div
-        className="fixed inset-0 flex justify-center bg-black bg-opacity-50"
-        onClick={onClose}
-      >
-        <div
-          className="bg-white rounded-lg py-2 shadow-lg my-5"
-          onClick={(e) => e.stopPropagation()} // Prevent clicks inside modal from closing it
-        >
-        {/* Close Button */}
-        <button onClick={onClose} className="flex ml-auto mr-2 text-black transition-all duration-500 hover:scale-110">
-            <i className="fa-solid fa-x text-xl"></i>
-        </button>
-        <div className="px-5">
-          <h2 className="text-2xl font-bold mb-4 text-black">Upgrade to VIP</h2>
-            <Elements stripe={stripePromise} options={options}>
-                <CheckoutForm planPrice={15} onPaymentSuccess={handlePlanSubmit} />
-            </Elements>
-        </div>
-        </div>
-      </div>
-    );
-  };  
-
 export default function Profile() {
     
   const router = useRouter();
+
   const { user, fetchUser } = useUser();
   const [firstName, setFirstName] = useState("");
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
@@ -165,6 +119,7 @@ export default function Profile() {
             profileData?.currentYear,
             profileData?.program,
             );
+        toast.success("User information updated successfully.")
         setFirstName(profileData?.firstName)
     } catch (error) {
       setError("Failed to update basic information. Please try again.");
@@ -191,9 +146,9 @@ export default function Profile() {
             newPassword
         );
 
-        // Handle successful password update (e.g., notify the user)
-        setError(null); // Clear any previous error message
-        // Optionally, you can reset the password fields here
+        toast.success("Password successfully changed.")
+
+        setError("");
         setOldPassword("");
         setNewPassword("");
         setConfirmNewPassword("");
@@ -203,6 +158,30 @@ export default function Profile() {
         setLoading(false);
     }
 };
+
+  const onClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handlePlanSubmit = async () => {
+    if (!user?.userId) return;
+  
+    setLoading(true);
+    setError("");
+  
+    try {
+      await updatePlan(user.userId, "VIP");
+      await getProfileData();
+  
+      onClose();
+      toast.success("Congratulations! You are now a VIP!")
+    } catch (error) {
+      setError("Failed to update the plan. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
 
   return (
     <div>
@@ -453,7 +432,21 @@ export default function Profile() {
         </div>
       </div>
       <Footer />
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
+          <div className="bg-white p-5 rounded-lg shadow-lg my-5">
+            <span className="absolute top-0 right-0 p-2 cursor-pointer" onClick={onClose}>
+              <i className="fa fa-times"></i>
+            </span>
+            <h2 className="text-lg font-bold text-black mb-4">Become a WCS VIP</h2>
+
+            <Elements stripe={stripePromise} options={options}>
+              <CheckoutForm onPaymentSuccess={handlePlanSubmit} planPrice={15} />
+            </Elements>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
