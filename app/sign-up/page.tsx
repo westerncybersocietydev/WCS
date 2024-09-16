@@ -1,9 +1,9 @@
 "use client";
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import { createUser, loginUser } from '../lib/actions/user.action';
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import CheckoutForm from '../components/checkoutForm';
 import { Elements } from '@stripe/react-stripe-js';
 import { useUser } from '../context/UserContext';
@@ -47,7 +47,7 @@ export default function Signup() {
   });
 
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
-  const options:any = {
+  const options:StripeElementsOptions = {
     mode: 'payment',
     amount: 15 * 100,
     currency: 'cad',
@@ -60,9 +60,10 @@ export default function Signup() {
 
   const isFormComplete = useCallback(() => {
     // Ensure all fields except preferredEmail are filled in
-    const { preferredEmail, ...requiredFields } = formData;
-    return Object.values(requiredFields).every(value => value !== "");
-  }, [formData]);
+    return Object.entries(formData).every(([key, value]) => 
+      key === 'preferredEmail' || value !== ""
+    );
+  }, [formData]);  
   
   const handleNext = useCallback(async () => {
     setError('');
