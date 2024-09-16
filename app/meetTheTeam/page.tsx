@@ -249,7 +249,7 @@ export default function MeetTheTeam() {
       <div className="bg-gray-100 min-h-screen">
         <div className="p-4 text-black">
           <div className='text-center mt-14'>
-            <h1 className='text-4xl'><strong>Meet The Team</strong></h1>
+            <h1 className='text-4xl text-center font-bold text-gray-800'><strong>Meet The Team</strong></h1>
             <h2 className='mt-3 mb-14'>WCS is proud to present our incredible 2024-2025 student team.</h2>
           </div>
           <Section members={teamData} onCardClick={handleCardClick} />

@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import { UserProvider } from '../app/context/UserContext';
-import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({

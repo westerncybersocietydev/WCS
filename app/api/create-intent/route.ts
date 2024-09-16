@@ -16,7 +16,7 @@ export async function POST(request: Request) {
         });
 
         return NextResponse.json({ clientSecret: paymentIntent.client_secret }, { status: 200 });
-    } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 400 });
+    } catch (error) {
+        return NextResponse.json({ error: error }, { status: 400 });
     }
 }

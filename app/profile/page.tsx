@@ -1,11 +1,10 @@
 "use client";
-import React, { useState, useEffect, useCallback, FormEvent } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useUser } from "../context/UserContext";
 import { getProfile, updateBasic, updatePassword, updatePlan } from "../lib/actions/user.action";
-import { useRouter } from "next/navigation";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import CheckoutForm from '../components/checkoutForm';
 import { Elements } from '@stripe/react-stripe-js';
 import { toast } from 'react-hot-toast';
@@ -21,10 +20,10 @@ interface ProfileData {
 }
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
-const options:any = {
-  mode: 'payment',
+const options: StripeElementsOptions = {
+  mode: "payment",
   amount: 15 * 100,
-  currency: 'cad',
+  currency: "cad",
 };
 
 const planPerks: Record<string, string[]> = {
@@ -44,10 +43,7 @@ const planPerks: Record<string, string[]> = {
 };
 
 export default function Profile() {
-    
-  const router = useRouter();
-
-  const { user, fetchUser } = useUser();
+  const { user } = useUser();
   const [firstName, setFirstName] = useState("");
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -215,7 +211,7 @@ export default function Profile() {
           {/* Form Content */}
           <div className="w-3/4 max-w-lg">
           {user && (
-            <h2 className="text-3xl mb-1 font-bold text-center text-gray-800">{firstName}'s Profile</h2>
+            <h2 className="text-3xl mb-1 font-bold text-center text-gray-800">{firstName}&apos;s Profile</h2>
           )}
             <h2 className="text-xl mb-5 font-bold text-center text-gray-800">
               {setting === "basic"

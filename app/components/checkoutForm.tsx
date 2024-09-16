@@ -95,6 +95,9 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planPrice, onPaymentSuccess
         {errorMessage && (
           <p className='mt-2 text-red-500'>{errorMessage}</p> // Display error message in red
         )}
+        {paymentSuccess && (
+          <p className='mt-2 text-green-500'>Payment successful! Thank you for your purchase.</p>
+        )}
       </form>
     </div>
   );

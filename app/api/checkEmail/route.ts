@@ -16,9 +16,9 @@ const handler = async (req: NextRequest): Promise<NextResponse> => {
         }
         console.log("Email used.")
         return NextResponse.json(true, { status: 200 });
-    } catch (error: any) {
+    } catch (error) {
         console.error('Error fetching user data:', error);
-        return NextResponse.json({ error: `Failed to fetch user data: ${error.message}` }, { status: 500 });
+        return NextResponse.json({ error: `Failed to fetch user data: ${error}` }, { status: 500 });
     }
 };
 

@@ -52,7 +52,7 @@ export default function SignIn() {
       <div className="flex flex-col text-black items-center min-h-screen bg-gray-100 p-4" style={{ background: '#ededed' }}>
         <div className='w-full'>
           <h2 className="text-3xl font-bold text-center text-gray-800">SIGN IN</h2>
-          <p className="mb-5 mt-2 text-center">Don't have an account? <a href="/sign-up" className="text-blue-500"><u>Sign Up</u></a></p>
+          <p className="mb-5 mt-2 text-center">Don&apos;t have an account? <a href="/sign-up" className="text-blue-500"><u>Sign Up</u></a></p>
         </div>
         <div className="bg-white shadow-md rounded-lg p-9 w-full max-w-lg">
           <form onSubmit={handleSubmit} className="space-y-4">

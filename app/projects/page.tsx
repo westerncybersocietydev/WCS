@@ -176,6 +176,9 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, description
   </div>
 ));
 
+ProjectCard.displayName = 'ProjectCard';
+
+
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project, onClose, isInterested }) => (
   <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
     <div className="relative bg-white px-5 py-3 rounded-sm w-3/5 h-3/4 shadow-lg">
@@ -217,6 +220,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project, onClose, isInt
     </div>
   </div>
 );
+
+ProjectDetails.displayName = 'ProjectDetails';
 
 export default function Projects() {
   const router = useRouter();
@@ -281,7 +286,7 @@ export default function Projects() {
         </section>
 
         <section className="mt-10 px-6">
-          <h1 className="text-3xl md:text-4xl text-center font-bold text-gray-800 mb-16">SIP Projects | 2024 - 2025</h1>
+          <h1 className="text-4xl text-center font-bold text-gray-800 mb-16">SIP Projects | 2024 - 2025</h1>
           <div className="flex text-black flex-col sm:flex-row items-start sm:items-center gap-6 mb-8">
             <input
               type="text"

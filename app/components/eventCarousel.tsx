@@ -40,9 +40,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
   return (
     <div className="mx-10 flex flex-col">
       <div className="flex px-5 mt-10 mb-5 items-start">
-        <h2 className="text-2xl font-semibold">
-          <strong>Upcoming Events</strong>
-        </h2>
+        <h2 className="text-4xl font-bold text-gray-800 mb-5">Upcoming Events</h2>
         <div className="flex space-x-4 ml-auto">
           <button
             onClick={goToPrev}

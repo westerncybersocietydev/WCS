@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Carousel from '../components/eventCarousel'; // Import the custom Carousel
@@ -111,9 +111,7 @@ export default function Events() {
         </div>
 
         <div className='mx-10 mb-10 mt-10'>
-      <h2 className="text-2xl font-semibold">
-        <strong>WCS Time Capsule</strong>
-      </h2>
+      <h2 className="text-4xl font-bold text-gray-800 mb-5">WCS Time Capsule</h2>
       <div className="grid grid-cols-3 gap-4 p-4">
       {images.map((src, index) => (
         <div
