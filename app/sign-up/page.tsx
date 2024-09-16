@@ -33,7 +33,6 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<PlanType | "">("Basic");
   const [step, setStep] = useState(1);
-  const [progress, setProgress] = useState((step / 3) * 100);
   const [error, setError] = useState<string | null>(null);
   const { fetchUser } = useUser();
   const [formData, setFormData] = useState({
@@ -53,12 +52,6 @@ export default function Signup() {
     amount: 15 * 100,
     currency: 'cad',
   };
-
-  // Update progress based on step
-  useEffect(() => {
-    console.log(process.env.MAILGUN_API_KEY)
-    setProgress((step / 3) * 100);
-  }, [step]);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
