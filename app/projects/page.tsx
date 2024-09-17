@@ -236,10 +236,6 @@ export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showArchived, setShowArchived] = React.useState(false);
 
-  const handleToggle = () => {
-    setShowArchived(!showArchived);
-  };
-
   const handleCardClick = (project: Project) => {
     setSelectedProject(project);
   };
