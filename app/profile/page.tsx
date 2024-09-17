@@ -386,7 +386,7 @@ export default function Profile() {
             )}
 
             {setting === "plan" && (
-            <div className="space-y-4">
+            <div className="space-y-4 ">
             <div className="space-x-4 text-black bg-white rounded p-5">
                 <h1 className="text-lg font-bold">You are a {profileData?.plan} User</h1>
                 <ul className="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-600">
