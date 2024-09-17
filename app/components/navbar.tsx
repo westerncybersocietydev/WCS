@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -10,6 +10,7 @@ export default function Navbar() {
   const { user, fetchUser } = useUser();
   const [aboutUsExpanded, setAboutUsExpanded] = useState(false);
   const aboutUsRef = useRef<HTMLDivElement | null>(null);
+  const leaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleLogout = useCallback(() => {
     document.cookie = 'authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; secure; samesite=strict';
@@ -17,15 +18,23 @@ export default function Navbar() {
     router.push('/sign-in');
   }, [fetchUser, router]);
 
-  const handleMouseEnter = () => setAboutUsExpanded(true);
-  const handleMouseLeave = () => {
-    if (aboutUsRef.current && !aboutUsRef.current.contains(document.activeElement)) {
-      setAboutUsExpanded(false);
+  // Toggle dropdown visibility
+  const handleMouseEnter = () => {
+    if (leaveTimeoutRef.current) {
+      clearTimeout(leaveTimeoutRef.current);
     }
+    setAboutUsExpanded(true);
+  };
+
+  const handleMouseLeave = () => {
+    leaveTimeoutRef.current = setTimeout(() => {
+      setAboutUsExpanded(false);
+    }, 300); // Adjust delay as needed
   };
 
   return (
-    <div className='py-5' style={{ backgroundColor: aboutUsExpanded ? 'black' : '' }}>
+    <div className='py-5' 
+    style={{ backgroundColor: aboutUsExpanded ? 'black' : 'white' }}>
       <div className="container mx-auto flex justify-between items-center">
 
         {/* Logo */}
@@ -39,9 +48,12 @@ export default function Navbar() {
               alt="Website Logo"
               className="transition-transform duration-300"
             />
-            <span className="ml-2 text-black text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ fontFamily: 'Logirent' }}>
-              | western cyber society
-            </span>
+          <span
+            className={`ml-2 text-xl transition-opacity duration-300 ${aboutUsExpanded ? 'text-white' : 'text-black'}`}
+            style={{ fontFamily: 'Logirent' }}
+          >
+            | western cyber society
+          </span>
           </Link>
         </div>
 
@@ -54,22 +66,25 @@ export default function Navbar() {
           >
             <button
               className="relative focus:outline-none before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-white before:transition-all before:duration-500 hover:before:w-full"
-              aria-label="About Us" style={{ color: aboutUsExpanded ? '#ededed' : 'black' }}
+              aria-label="About Us"
+              style={{ color: aboutUsExpanded ? '#ededed' : 'black' }}
             >
-              <strong>ABOUT US</strong>
+              <strong>ABOUT US <i className="fa-solid fa-angle-down"></i></strong>
             </button>
           </div>
           <a
             href="/sponsorships"
             className="relative text-gray-600 hover:text-blue-600 hover:text-xl transition-all duration-200 before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-black before:transition-all before:duration-500 hover:before:w-full"
-            aria-label="Sponsorships" style={{ color: aboutUsExpanded ? 'white' : 'black' }}
+            aria-label="Sponsorships"
+            style={{ color: aboutUsExpanded ? 'white' : 'black' }}
           >
             <strong>SPONSORSHIPS</strong>
           </a>
           <a
             href="/ibm"
             className="relative text-gray-600 hover:text-blue-600 hover:text-2xl transition-all duration-200 before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-black before:transition-all before:duration-500 hover:before:w-full"
-            aria-label="IBM" style={{ color: aboutUsExpanded ? 'white' : 'black' }}
+            aria-label="IBM"
+            style={{ color: aboutUsExpanded ? 'white' : 'black' }}
           >
             <strong>IBM</strong>
           </a>
@@ -95,9 +110,10 @@ export default function Navbar() {
             </div>
           ) : (
             <button
-              className="relative z-40 text-black border hover:scale-105 hover:bg-black hover:text-white px-4 py-1 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+              className="relative z-40 rounded-full text-black border-2 hover:scale-105 hover:bg-black hover:text-white px-4 py-1 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
               aria-label="Sign In"
-              onClick={() => router.push('/sign-up')} style={{ color: aboutUsExpanded ? '#ededed' : '', borderColor: aboutUsExpanded ? '#ededed' : 'black' }}
+              onClick={() => router.push('/sign-up')}
+              style={{ color: aboutUsExpanded ? '#ededed' : '', borderColor: aboutUsExpanded ? '#ededed' : 'black' }}
             >
               REGISTER
             </button>
@@ -109,33 +125,33 @@ export default function Navbar() {
       {aboutUsExpanded && (
         <div
           ref={aboutUsRef}
-          className={`absolute top-13 left-0 w-full shadow-lg z-30 ${aboutUsExpanded ? 'fadeInUp' : ''}`}
+          className={`absolute top-13 left-0 w-full shadow-lg z-30 transition-transform duration-500 ${aboutUsExpanded ? 'fadeInUp' : 'fadeOut'}`}
           style={{ backgroundColor: '#ededed' }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           {/* Black bar at the top */}
           <div className="h-3 w-full bg-black"></div>
-          <div className="container flex flex-col">
+          <div className="w-full flex flex-col p-0 m-0">
 
             {/* About Us content */}
-            <div className={`ml-20 transition-transform duration-500 ${aboutUsExpanded ? 'fadeInUp' : ''}`}>
-              <p className="text-gray-800 mb-2 mt-5"><strong>ABOUT US</strong></p>
-              <p className='text-gray-700 text-sm mb-5'>
+            <div className={`transition-transform mx-5  duration-500 ${aboutUsExpanded ? 'fadeInUp' : 'fadeOut'}`}>
+              <p className="text-gray-800 text-2xl mb-2 mt-5"><strong>ABOUT US</strong></p>
+              <p className='text-gray-700 text-md ml-2 mb-5'>
                 We’re dedicated to delivering innovative solutions and driving growth through strategic thinking and expert execution.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-10 ml-20 mb-3">
+            <div className="flex flex-wrap gap-5 mx-5 mb-3 justify-center">
               {[{ title: 'Overview', description: 'Explore how we drive innovation and success through strategic insights and cutting-edge solutions.', link: '/overview' },
                 { title: 'SIP Projects', description: 'Discover our impactful SIP projects that showcase our expertise in transforming ideas into results.', link: '/projects' },
                 { title: 'Events', description: 'Join us at our events to network with industry leaders and gain valuable insights on emerging trends.', link: '/events' },
                 { title: 'Meet the Team', description: 'Get to know the talented individuals behind our success, bringing expertise and passion to every project.', link: '/meetTheTeam' }
               ].map(({ title, description, link }, index) => (
-                <div key={index} className="flex-1 min-w-[200px] mb-5">
-                  <div className={`transition-transform duration-500 ${aboutUsExpanded ? 'fadeInUp' : ''}`}>
-                    <h2 className="text-sm text-gray-700 mb-2"><strong>{title}</strong></h2>
-                    <p className='text-gray-700 text-xs mb-8'>{description}</p>
+                <div key={index} className="flex-1 mb-5">
+                  <div className={`transition-transform duration-500 ${aboutUsExpanded ? 'fadeInUp' : 'fadeOut'}`}>
+                    <h2 className="text-lg text-gray-700 mb-2"><strong>{title}</strong></h2>
+                    <p className='text-gray-700 text-sm mb-8'>{description}</p>
                     <button
                       className="relative text-xs z-40 text-gray-950 border border-gray-700 hover:scale-105 hover:bg-black hover:text-white px-5 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
                       aria-label="Learn More"

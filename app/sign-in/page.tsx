@@ -50,49 +50,46 @@ export default function SignIn() {
     <div>
       <Navbar />
       <div className="flex flex-col text-black items-center min-h-screen bg-gray-100 p-4" style={{ background: '#ededed' }}>
-        <div className='w-full'>
-          <h2 className="text-3xl font-bold text-center text-gray-800">SIGN IN</h2>
-          <p className="mb-5 mt-2 text-center">Don&apos;t have an account? <a href="/sign-up" className="text-blue-500"><u>Sign Up</u></a></p>
-        </div>
-        <div className="bg-white shadow-md rounded-lg p-9 w-full max-w-lg">
+        <div className="bg-white rounded-lg shadow-md p-9 w-full max-w-lg shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300">
+        <h2 className="text-3xl mb-5 font-bold text-center text-gray-800">SIGN IN</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Email */}
+              {/* UWO Email */}
               <div className="flex flex-col space-y-1">
-                <label htmlFor="uwoEmail" className="text-gray-600">Email</label>
+              <label htmlFor="uwoEmail" className="text-gray-600 font-bold text-sm">UWO Email <span className='font-normal'>(required)</span></label>
                 <input
                   type="email"
                   id="uwoEmail"
                   name="uwoEmail"
                   value={formData.uwoEmail}
                   onChange={handleChange}
-                  className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                  className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                   required
                 />
               </div>
 
-            {/* Password */}
-            <div className="flex flex-col space-y-1">
-              <label htmlFor="password" className="text-gray-600">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-                required
-              />
-            </div>
+              {/* Password */}
+              <div className="flex flex-col space-y-1">
+              <label htmlFor="password" className="text-gray-600 font-bold text-sm">Current Password <span className='font-normal'>(required)</span></label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                  required
+                />
+              </div>
 
             <button
               type="submit"
               disabled={loading}
               onClick={handleSubmit}
-              className="w-full bg-violet-800 text-white py-2 rounded-full hover:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full rounded-xl text-white bg-blue-600 border hover:bg-blue-800 hover:text-white px-4 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
-
+            <p className="mb-5 mt-1 text-center text-sm">Don&apos;t have an account? <a href="/sign-up" className="text-blue-500"><u>Sign Up</u></a></p>
           </form>
 
           {error && <p className="text-center text-red-500 mt-2">{error}</p>}

@@ -84,19 +84,19 @@ export default function Events() {
       <Navbar />
       <div className='text-black'>
         {/* Full-width background image with text */}
-        <div
-          className='relative w-full h-80 bg-cover bg-center'
-          style={{ backgroundImage: "url('/overviewBg.jpg')" }}
+        <section
+          className="relative w-full h-[30vw] bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/projectBg.jpg')" }}
         >
-          <div className='absolute inset-0 bg-black bg-opacity-50 flex items-center'>
-            <div className='text-white px-6'>
-              <h1 className='text-4xl font-bold'>WCS Events</h1>
-              <p className='mt-4 max-w-lg'>
-                Dive into the future with Western Cyber Society&apos;s exciting lineup of events! From hands-on workshops to insightful seminars, we have something for everyone. Whether you&apos;re looking to explore the latest in technology, connect with industry experts, or enhance your skills, our events are designed to inspire and engage.
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="text-white text-center px-6 py-12 max-w-3xl mx-auto">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">Events</h1>
+              <p className="text-lg md:text-xl leading-relaxed">
+                SIPs have been meticulously crafted with industry professionals to equip coordinators with essential skills. Dive into hands-on experience with high-demand software and skills through WCS Projects.
               </p>
             </div>
           </div>
-        </div>
+        </section>
         <div className="flex justify-center mx-auto">
           <Carousel
             items={events.map((event) => ({

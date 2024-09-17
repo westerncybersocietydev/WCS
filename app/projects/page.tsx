@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import { useRouter } from 'next/navigation';
+import { Switch } from '@nextui-org/react';
 
 const projects = [
   {
@@ -164,6 +165,8 @@ interface ProjectDetailsProps {
   isInterested: () => void;
 }
 
+
+
 const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, description, onClick }) => (
   <div onClick={onClick} className="relative font-sans antialiased w-full h-full cursor-pointer transition-transform transform hover:scale-105 group flex flex-col justify-between overflow-hidden">
     <div className='p-7'>
@@ -224,12 +227,18 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project, onClose, isInt
 ProjectDetails.displayName = 'ProjectDetails';
 
 export default function Projects() {
+
+  
   const router = useRouter();
 
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showArchived, setShowArchived] = useState(false);
+
+  const handleToggle = () => {
+    setShowArchived(!showArchived);
+  };
 
   const handleCardClick = (project: Project) => {
     setSelectedProject(project);
@@ -286,35 +295,41 @@ export default function Projects() {
         </section>
 
         <section className="mt-10 px-6">
-          <h1 className="text-4xl text-center font-bold text-gray-800 mb-16">SIP Projects | 2024 - 2025</h1>
-          <div className="flex text-black flex-col sm:flex-row items-start sm:items-center gap-6 mb-8">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="border w-1/4 border-gray-500 rounded shadow-sm h-full p-2 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-            />
-            <select
-              value={selectedCategory}
-              onChange={handleCategoryChange}
-              className="border border-gray-500 rounded-md h-full p-2 w-1/5 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:shadow-md hover:border-blue-400 hover:bg-white text-gray-700"
-            >
-              <option value="All">All Categories</option>
-              <option value="Cybersecurity">Cybersecurity</option>
-              <option value="AI">AI</option>
-              <option value="Web3">Web3</option>
-            </select>
-            <label className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              checked={showArchived}
-              onChange={handleCheckboxChange}
-              className="form-checkbox text-blue-500 w-4 h-4 transition"
-            />
-              <span className="text-gray-700">Show archived projects</span>
-            </label>
-          </div>
+        <div className="flex justify-between">
+        <div className="flex items-center">
+          <h1 className="text-2xl font-bold text-gray-800">Student Innovation Projects</h1>
+        </div>
+        <div className="flex space-x-5">
+        <div className="relative flex items-center">
+  <input
+    type="text"
+    placeholder="Project name..."
+    value={searchTerm}
+    onChange={handleSearchChange}
+    className="border w-[30vw] border-gray-500 text-black rounded-full text-sm shadow-sm h-full p-2 pr-10 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+  />
+  <i className="fa-solid fa-magnifying-glass absolute right-4 text-gray-400"></i>
+</div>
+
+          <select
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            className="border border-gray-500 rounded-full h-full p-2 w-[14vw] shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:shadow-md hover:border-blue-400 hover:bg-white text-gray-700"
+          >
+            <option value="All">All</option>
+            <option value="Cybersecurity">Cybersecurity</option>
+            <option value="Mainframe">Mainframe</option>
+            <option value="AI">AI</option>
+            <option value="Web3">Web3</option>
+          </select>
+          <label className="flex text-sm items-center text-black space-x-2 cursor-pointer" onClick={handleToggle}>
+          <Switch defaultSelected size="sm" color="success"></Switch>
+          Show Archived
+          </label>
+        </div>
+      </div>
+      <div className="border-t border-gray-300 my-8 mx-auto w-3/4 opacity-50">
+</div>
 
           {filteredProjects.length > 0 ? (
             Object.keys(groupedProjects).map((category) => (

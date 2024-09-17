@@ -191,7 +191,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ image, name, title, onClick }) => (
       alt={name}
       className="w-11/12 h-5/6 object-cover shadow-xl"
     />
-    <div className="absolute z-40 w-3/4 bottom-10 right-0 p-4 bg-gradient-to-r from-violet-200 to-pink-200 text-black rounded-sm shadow-xl">
+    <div className="absolute z-40 w-3/4 bottom-10 right-0 p-4 bg-gradient-to-r from-zinc-100 to-zinc-100 text-black rounded-sm shadow-xl">
       <div className="font-semibold text-xl">{name}</div>
       <div className="text-sm">{title}</div>
     </div>
@@ -233,19 +233,20 @@ export default function MeetTheTeam() {
       <Navbar />
 
       {/* Full-width background image with text */}
-      <div
-        className='relative w-full h-screen bg-cover bg-center'
-        style={{ backgroundImage: "url('/overviewBg.jpg')" }}
-      >
-      <div className='absolute inset-0 bg-black bg-opacity-50 flex text-left items-center'>
-        <div className='text-white px-4 ml-8'>
-          <h1 className='text-4xl font-bold'>Meet the Minds Behind WCS</h1>
-          <p className='mt-6 max-w-xl'>
-            At Western Cyber Society (WCS), our team is shaping the future of technology, driving innovation in Artificial Intelligence (AI), Cybersecurity, and Web3. We are a community of passionate students dedicated to mastering the skills that are transforming industries like FinTech, Engineering, Medicine, and Law. Through collaborative projects, workshops, and competitions, our team empowers students to lead the next wave of technological advancement.
-          </p>
-        </div>
-      </div>
-      </div>
+      <section
+          className="relative w-full h-[30vw] bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/projectBg.jpg')" }}
+        >
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="text-white text-center px-6 py-12 max-w-3xl mx-auto">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">Meet The Team</h1>
+              <p className="text-lg md:text-xl leading-relaxed">
+                SIPs have been meticulously crafted with industry professionals to equip coordinators with essential skills. Dive into hands-on experience with high-demand software and skills through WCS Projects.
+              </p>
+            </div>
+          </div>
+        </section>
+
       <div className="bg-gray-100 min-h-screen">
         <div className="p-4 text-black">
           <div className='text-center mt-14'>

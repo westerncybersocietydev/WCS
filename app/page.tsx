@@ -118,12 +118,13 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex mt-20 justify-center space-x-4 px-5">
+      <div className="flex justify-center space-x-4 px-5 py-20" style={ { backgroundColor: '#dad8c9' } }>
         {boxes.map((box, index) => (
-        <div
-          key={index}
-          className="relative w-72 h-96 bg-gradient-to-r from-slate-900 to-darkBlue overflow-hidden transition-transform duration-500 transform group hover:scale-105"
-        >
+          <div
+  key={index}
+  className="relative w-72 h-96 bg-gradient-to-r from-slate-900 to-darkBlue overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
+>
+
           <img
             src={box.image}
             alt={`Image ${index + 1}`}
@@ -144,10 +145,12 @@ export default function Home() {
       ))}
         </div>
 
-        <div className="mt-20">
+        <div className="bg-white">
+        <h2 className="text-4xl font-bold text-black pt-10 text-center">Be a Part of Our Community</h2>
+        <h2 className="text-black text-sm mb-8 text-center">lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum</h2>
     <div className="flex justify-center px-5 space-x-4">
       {socials.map((social, index) => (
-        <div key={index} className={`relative w-1/3 h-60 overflow-hidden group ${social.color} social-hover`}>
+        <div key={index} className={`relative w-1/3 h-60 overflow-hidden group ${social.color} social-hover shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)] shadow-gray-500 rounded`}>
   <a
     href={social.profileUrl}
     target="_blank"
@@ -181,18 +184,17 @@ export default function Home() {
   </div>
   
       {!token && (
-        <div className="flex flex-col items-center justify-center text-black mt-20">
-        <h1 className="text-center text-2xl">Join Us?</h1>
+        <div className="flex flex-col items-center justify-center text-black mt-16">
+        <h1 className="text-center text-2xl font-bold">Join Us?</h1>
         <p className="w-2/4 text-center">We are a dynamic team of innovators driven by a passion for excellence. 
           We deeply value skill, imagination, and the pursuit of elegant solutions</p>
         <button className="mt-3 tracking-wider bg-violet-800 text-white text-xl py-2 px-4 rounded-lg shadow-md hover:bg-violet-900 hover:scale-105 transition duration-300 ease-in-out"
         onClick={() => router.push("/sign-up")}>
           Register
         </button>
-        <p className="mt-3">Already have an account? <a href="/sign-in" className="text-blue-500"><u>Sign In</u></a></p>
+        <p className="mt-3 mb-10">Already have an account? <a href="/sign-in" className="text-blue-500"><u>Sign In</u></a></p>
       </div>
       )}
-      <div className="mb-10"></div>
       <Footer />
     </div>
   );

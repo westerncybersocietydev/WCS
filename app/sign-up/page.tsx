@@ -56,7 +56,7 @@ export default function Signup() {
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prevData => ({ ...prevData, [name]: value }));
-  }, []);  
+  }, []);
 
   const isFormComplete = useCallback(() => {
     // Ensure all fields except preferredEmail are filled in
@@ -275,18 +275,6 @@ export default function Signup() {
       <Navbar />
       <div className="flex flex-col text-black items-center justify-center min-h-screen bg-gray-100 p-4" style={{ background: '#ededed' }}>
       <div className='w-full'>
-      <h2 className="text-3xl font-bold text-center text-gray-800">
-        {step === 1
-          ? "SIGN UP"
-          : step === 2
-          ? "Choose Your Plan"
-          : ""}
-      </h2>
-
-          { (step === 1 || step === 2) &&
-            <p className="mb-5 mt-1 text-center">Already have an account? <a href="/sign-in" className="text-blue-500"><u>Login</u></a></p>
-          }
-
           { step === 2 && (
             <button
               className='mb-4 ml-80 cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-125'
@@ -297,35 +285,45 @@ export default function Signup() {
           ) }
       </div>
 
-        <div className="bg-white rounded shadow-md p-9 w-full max-w-lg">
+        <div className="bg-white rounded-lg shadow-md p-9 w-full max-w-lg shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300">
+        <h2 className="text-3xl mb-2 font-bold text-center text-gray-800">
+        {step === 1
+          ? "SIGN UP"
+          : step === 2
+          ? "Choose Your Plan"
+          : ""}
+      </h2>
+      {step === 1 && (
+          <p className='flex justify-center text-xs text-gray-500  mb-6'>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+      )}
+
           {step === 1 && (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex space-x-4">
                 {/* First Name */}
                 <div className="flex flex-col space-y-1 w-1/2">
-                  <label htmlFor="firstName" className="text-gray-600">First Name</label>
+                  <label htmlFor="firstName" className="text-gray-600 font-bold text-sm">First Name <span className='font-normal'>(required)</span></label>
                   <input
                     type="text"
                     id="firstName"
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                    className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                     required
                   />
-
                 </div>
 
                 {/* Last Name */}
                 <div className="flex flex-col space-y-1 w-1/2">
-                  <label htmlFor="lastName" className="text-gray-600">Last Name</label>
+                <label htmlFor="lastName" className="text-gray-600 font-bold text-sm">Last Name <span className='font-normal'>(required)</span></label>
                   <input
                     type="text"
                     id="lastName"
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                    className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                     required
                   />
                 </div>
@@ -333,40 +331,40 @@ export default function Signup() {
 
               {/* UWO Email */}
               <div className="flex flex-col space-y-1">
-                <label htmlFor="uwoEmail" className="text-gray-600">UWO Email</label>
+              <label htmlFor="uwoEmail" className="text-gray-600 font-bold text-sm">UWO Email <span className='font-normal'>(required)</span></label>
                 <input
                   type="email"
                   id="uwoEmail"
                   name="uwoEmail"
                   value={formData.uwoEmail}
                   onChange={handleChange}
-                  className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                  className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                   required
                 />
               </div>
 
               {/* Preferred Email */}
               <div className="flex flex-col space-y-1">
-                <label htmlFor="preferredEmail" className="text-gray-600">Preferred Email (optional)</label>
+              <label htmlFor="preferredEmail" className="text-gray-600 font-bold text-sm">Preferred Email <span className='font-normal'>(optional)</span></label>
                 <input
                   type="email"
                   id="preferredEmail"
                   name="preferredEmail"
                   value={formData.preferredEmail}
                   onChange={handleChange}
-                  className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                  className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                 />
               </div>
 
               {/* Current Year */}
-              <div className="flex flex-col space-y-1">
-                <label htmlFor="currentYear" className="text-gray-600 font-medium">Current Year</label>
+              <div className="flex flex-col space-y-2">
+                <label htmlFor="currentYear" className="text-gray-700 font-semibold text-sm">Current Year <span className='font-normal text-gray-500'>(required)</span></label>
                 <select
                   id="currentYear"
                   name="currentYear"
                   value={formData.currentYear}
                   onChange={handleChange}
-                  className="border border-gray-500 rounded-md pl-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:shadow-md hover:border-blue-400 hover:bg-white text-gray-700"
+                  className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out shadow-sm"
                   required
                 >
                   <option value="" disabled>Select Year</option>
@@ -377,45 +375,44 @@ export default function Signup() {
                   <option value="5">5th Year or higher</option>
                 </select>
               </div>
-
               {/* Program */}
               <div className="flex flex-col space-y-1">
-                <label htmlFor="program" className="text-gray-600">Program</label>
+              <label htmlFor="program" className="text-gray-600 font-bold text-sm">Program <span className='font-normal'>(required)</span></label>
                 <input
                   type="text"
                   id="program"
                   name="program"
                   value={formData.program}
                   onChange={handleChange}
-                  className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                  className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                   required
                 />
               </div>
 
               {/* Password */}
               <div className="flex flex-col space-y-1">
-                <label htmlFor="password" className="text-gray-600">Password</label>
+              <label htmlFor="password" className="text-gray-600 font-bold text-sm">Current Password <span className='font-normal'>(required)</span></label>
                 <input
                   type="password"
                   id="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                  className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                   required
                 />
               </div>
 
               {/* Confirm Password */}
               <div className="flex flex-col space-y-1">
-                <label htmlFor="confirmPassword" className="text-gray-600">Confirm Password</label>
+              <label htmlFor="confirmPassword" className="text-gray-600 font-bold text-sm">Confirm Password <span className='font-normal'>(required)</span></label>
                 <input
                   type="password"
                   id="confirmPassword"
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="border border-gray-500 rounded shadow-sm pl-3 px-1 py-1 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                  className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                   required
                 />
               </div>
@@ -424,40 +421,43 @@ export default function Signup() {
                 type="button"
                 onClick={handleNext}
                 disabled={loading}
-                className="w-full bg-violet-800 text-white py-2 rounded-full hover:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full rounded-xl text-white bg-blue-600 border hover:bg-blue-800 hover:text-white px-4 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
               >
                 {loading ? 'Saving...' : 'Continue'}
               </button>
+              { (step === 1 || step === 2) &&
+                <p className="mb-5 mt-1 text-center text-sm">Already have an account? <a href="/sign-in" className="text-blue-500"><u>Login</u></a></p>
+              }
             </form>
           )}
 
           {step === 2 && (
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-gray-800">Select Your Plan</h3>
+            <div className="space-y-4 mt-5">
               <div className="flex space-x-4">
-                <div
-                  className={`border p-4 flex-1 cursor-pointer transition-colors ${selectedPlan === 'Basic' ? 'bg-gradient-to-br from-slate-200 to-purple-300' : 'hover:bg-gradient-to-br from-slate-100 to-purple-200'}`}
-                  onClick={() => handlePlanSelection('Basic')}
-                >
-                  <h4 className="text-md font-semibold flex justify-between items-center">
-                    <span>Basic Plan</span>
-                    <span className="text-green-500">Free</span>
-                  </h4>
-                  <p className="text-sm mt-1 text-gray-600">For students looking to get started.</p>
-                </div>
-                <div
-                  className={`p-4 flex-1 cursor-pointer transition-colors cycling-border ${selectedPlan === 'VIP' ? 'bg-gradient-to-br from-slate-200 to-purple-300' : 'hover:bg-gradient-to-br from-slate-100 to-purple-200'}`}
-                  onClick={() => handlePlanSelection('VIP')}
-                >
-                  <h4 className="text-md font-semibold flex justify-between items-center">
-                    <span>VIP Plan</span>
-                    <span className="text-blue-500">$15</span>
-                  </h4>
-                  <p className="text-sm mt-1 text-gray-600">For students who want all the features.</p>
-                </div>
+              <div
+                className={`border p-4 flex-1 cursor-pointer hover:bg-gray-100 transition-colors ${selectedPlan === 'Basic' ? 'bg-gray-200' : ''}`}
+                onClick={() => handlePlanSelection('Basic')}
+              >
+                <h4 className="text-md font-semibold flex justify-between items-center">
+                  <span>Basic Plan</span>
+                  <span className="text-green-500">Free</span>
+                </h4>
+                <p className="text-sm mt-1 text-gray-600">For students looking to get started.</p>
+              </div>
+              <div
+                className={`p-4 flex-1 cursor-pointer transition-colors hover:bg-gray-100 ${selectedPlan === 'VIP' ? 'bg-gray-200 cycling-border' : ''}`}
+                onClick={() => handlePlanSelection('VIP')}
+              >
+                <h4 className="text-md font-semibold flex justify-between items-center">
+                  <span>VIP Plan</span>
+                  <span className="text-blue-500">$15</span>
+                </h4>
+                <p className="text-sm mt-1 text-gray-600">For students who want all the features.</p>
               </div>
 
-              <div className={`p-4 bg-white rounded-lg ${selectedPlan === 'VIP' ? 'cycling-border' : 'border'}`}>
+              </div>
+
+              <div className={`p-4 bg-white rounded-lg`}>
                 <p className="text-2xl text-center font-bold text-gray-800">{selectedPlan}</p>
                 <ul className="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-600">
                   {selectedPlan && planPerks[selectedPlan]?.map((perk, index) => (
@@ -474,7 +474,7 @@ export default function Signup() {
                 type="submit"
                 onClick={handleSubmit}
                 disabled={loading}
-                className="w-full bg-violet-800 text-white py-2 rounded-full hover:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full rounded-xl text-white bg-blue-600 border hover:bg-blue-800 hover:text-white px-4 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
               >
                 {loading ? 'Creating Account...' : 'Create Account'}
               </button>
@@ -506,7 +506,7 @@ export default function Signup() {
             </div>
           )}
 
-          {error && <p className="text-center text-red-500 mt-2">{error}</p>}
+          {error && <p className="text-center text-sm font-semibold text-red-500 mt-2">{error}</p>}
 
         </div>
       </div>

@@ -22,19 +22,19 @@ export default function Overview() {
       <Navbar />
 
       {/* Full-width background image with text */}
-      <div
-        className='relative w-full h-screen bg-cover bg-center'
-        style={{ backgroundImage: "url('/overviewBg.jpg')" }}
-      >
-        <div className='absolute inset-0 bg-black bg-opacity-50 flex text-left items-center'>
-          <div className=' text-white px-4 ml-8'>
-            <h1 className='text-4xl font-bold'>Western Cyber Society</h1>
-            <p className='mt-6 max-w-xl'>
-              Western Cyber Society (WCS) is the future generation of leaders in Artificial Intelligence (AI), Cyber Security, and Web3. Our mission is to empower driven students to thrive in the most pivotal sectors of technology. At WCS, students are equipped with high-demand skills through workshops, projects, and competitions. Western Cyber Society empowers students to create digital solutions for industries such as FinTech, Engineering, Medicine, and Law.
-            </p>
+      <section
+          className="relative w-full h-[30vw] bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/projectBg.jpg')" }}
+        >
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="text-white text-center px-6 py-12 max-w-3xl mx-auto">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">Overview</h1>
+              <p className="text-lg md:text-xl leading-relaxed">
+                SIPs have been meticulously crafted with industry professionals to equip coordinators with essential skills. Dive into hands-on experience with high-demand software and skills through WCS Projects.
+              </p>
+            </div>
           </div>
-        </div>
-      </div>
+        </section>
 
       {/* Mission, Vision, Focus Statements */}
       <div className="text-center py-24 bg-gradient-to-b from-gray-100 to-gray-200">

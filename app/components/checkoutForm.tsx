@@ -86,7 +86,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planPrice, onPaymentSuccess
       <form onSubmit={handleSubmit} className='w-full p-3'>
         <PaymentElement />
         <button
-          className='w-full mt-5 bg-violet-800 text-white py-2 rounded-full hover:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'
+          className='w-full mt-3 rounded-xl text-white bg-blue-600 border hover:bg-blue-800 hover:text-white px-4 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg'
           type='submit'
           disabled={!stripe || !elements || !clientSecret || loading} // Disable button while loading
         >
