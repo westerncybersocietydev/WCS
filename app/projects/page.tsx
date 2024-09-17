@@ -256,10 +256,6 @@ export default function Projects() {
     setSelectedCategory(event.target.value);
   };
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setShowArchived(event.target.checked);
-  };
-
   const filteredProjects = projects.filter(project => {
     const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) || project.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || project.category === selectedCategory;
