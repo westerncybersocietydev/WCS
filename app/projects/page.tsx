@@ -234,7 +234,7 @@ export default function Projects() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [showArchived, setShowArchived] = useState(false);
+  const [showArchived, setShowArchived] = React.useState(false);
 
   const handleToggle = () => {
     setShowArchived(!showArchived);
@@ -255,6 +255,7 @@ export default function Projects() {
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(event.target.value);
   };
+
 
   const filteredProjects = projects.filter(project => {
     const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) || project.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -318,10 +319,14 @@ export default function Projects() {
             <option value="AI">AI</option>
             <option value="Web3">Web3</option>
           </select>
-          <label className="flex text-sm items-center text-black space-x-2 cursor-pointer" onClick={handleToggle}>
-          <Switch defaultSelected size="sm" color="success"></Switch>
-          Show Archived
-          </label>
+          <label className="flex text-sm items-center text-black space-x-2 cursor-pointer">
+      <Switch
+        isSelected={showArchived}
+        onValueChange={setShowArchived}
+      >
+      </Switch>
+      Show Archived
+    </label>
         </div>
       </div>
       <div className="border-t border-gray-300 my-8 mx-auto w-3/4 opacity-50">
