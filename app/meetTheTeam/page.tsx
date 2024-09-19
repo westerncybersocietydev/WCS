@@ -189,7 +189,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ image, name, title, onClick }) => (
     <img
       src={image}
       alt={name}
-      className="w-11/12 h-5/6 object-cover shadow-xl"
+      className="w-11/12 h-5/6 object-cover shadow-xl grayscale transition-all duration-500 hover:grayscale-0"
     />
     <div className="absolute z-40 w-3/4 bottom-10 right-0 p-4 bg-gradient-to-r from-zinc-100 to-zinc-100 text-black rounded-sm shadow-xl">
       <div className="font-semibold text-xl">{name}</div>

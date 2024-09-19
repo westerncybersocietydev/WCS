@@ -10,6 +10,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      height: {
+        '11/12': '91.666667%',
+      },
       colors: {
         darkBlue: '#051825',
         background: "var(--background)",

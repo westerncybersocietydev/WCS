@@ -9,7 +9,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #ededed;
+    --background: #fdf7ff;
     --foreground: #ededed90;
   }
 }
@@ -50,6 +50,13 @@ body {
 @font-face {
   font-family: 'Logirent';
   src: url('./fonts/Logirent.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Panton';
+  src: url('./fonts/panton.black-caps.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
@@ -155,4 +162,37 @@ body {
 
 .switchInput:checked + .switchLabel:before {
   transform: translateX(26px);
+}
+
+/* styles.css */
+.text-shadow {
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px; /* Slimmer scrollbar */
+}
+
+/* Scrollbar track */
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light background */
+}
+
+/* Scrollbar thumb */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #6b21a8; /* Custom purple */
+  border-radius: 10px;
+  border: 2px solid #f1f1f1; /* Padding around the thumb */
+  height: 20px; /* Shorter height */
+}
+
+/* Hover effect for the scrollbar thumb */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #9333ea; /* Darker purple on hover */
+}
+
+/* Adding some extra margin to push the scrollbar more to the right */
+.custom-scrollbar {
+  margin-right: 10px;
 }

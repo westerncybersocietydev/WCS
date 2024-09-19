@@ -11,21 +11,19 @@ import { useRouter } from "next/navigation";
 
 type PlanType = 'Basic' | 'VIP';
 
-const planPerks: Record<PlanType, string[]> = {
-  Basic: [
-    'Access to basic features',
-    'Community support',
-    'Limited storage',
-  ],
-  VIP: [
-    'Access to basic features',
-    'Community support',
-    'Limited storage',
-    'Priority support',
-    'Unlimited storage',
-    'Access to exclusive content',
-  ],
-};
+const Basic = [
+  'Ad-free experience',
+  'Early access to new features',
+  'Advanced analytics and insights',
+];
+
+const VIP = [
+  'Multi-device sync',
+  'Offline mode',
+  'Community support',
+  'Limited storage',
+];
+
 
 export default function Signup() {
   const router = useRouter();
@@ -285,19 +283,11 @@ export default function Signup() {
           ) }
       </div>
 
-        <div className="bg-white rounded-lg shadow-md p-9 w-full max-w-lg shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300">
-        <h2 className="text-3xl mb-2 font-bold text-center text-gray-800">
-        {step === 1
-          ? "SIGN UP"
-          : step === 2
-          ? "Choose Your Plan"
-          : ""}
-      </h2>
-      {step === 1 && (
-          <p className='flex justify-center text-xs text-gray-500  mb-6'>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-      )}
-
+        <div className='w-full flex justify-center'>
           {step === 1 && (
+            <div className=' bg-white rounded-lg shadow-md p-9 w-full max-w-lg shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300'>
+            <h2 className="text-3xl mb-2 font-bold text-center text-gray-800">SIGN UP</h2>
+            <p className='flex justify-center text-xs text-gray-500 mb-6'>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex space-x-4">
                 {/* First Name */}
@@ -364,7 +354,7 @@ export default function Signup() {
                   name="currentYear"
                   value={formData.currentYear}
                   onChange={handleChange}
-                  className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out shadow-sm"
+                  className="bg-white border border-gray-300 rounded-lg px-3 py-3 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out shadow-sm"
                   required
                 >
                   <option value="" disabled>Select Year</option>
@@ -429,63 +419,61 @@ export default function Signup() {
                 <p className="mb-5 mt-1 text-center text-sm">Already have an account? <a href="/sign-in" className="text-blue-500"><u>Login</u></a></p>
               }
             </form>
-          )}
-
-          {step === 2 && (
-            <div className="space-y-4 mt-5">
-              <div className="flex space-x-4">
-              <div
-                className={`border p-4 flex-1 cursor-pointer hover:bg-gray-100 transition-colors ${selectedPlan === 'Basic' ? 'bg-gray-200' : ''}`}
-                onClick={() => handlePlanSelection('Basic')}
-              >
-                <h4 className="text-md font-semibold flex justify-between items-center">
-                  <span>Basic Plan</span>
-                  <span className="text-green-500">Free</span>
-                </h4>
-                <p className="text-sm mt-1 text-gray-600">For students looking to get started.</p>
-              </div>
-              <div
-                className={`p-4 flex-1 cursor-pointer transition-colors hover:bg-gray-100 ${selectedPlan === 'VIP' ? 'bg-gray-200 cycling-border' : ''}`}
-                onClick={() => handlePlanSelection('VIP')}
-              >
-                <h4 className="text-md font-semibold flex justify-between items-center">
-                  <span>VIP Plan</span>
-                  <span className="text-blue-500">$15</span>
-                </h4>
-                <p className="text-sm mt-1 text-gray-600">For students who want all the features.</p>
-              </div>
-
-              </div>
-
-              <div className={`p-4 bg-white rounded-lg`}>
-                <p className="text-2xl text-center font-bold text-gray-800">{selectedPlan}</p>
-                <ul className="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-600">
-                  {selectedPlan && planPerks[selectedPlan]?.map((perk, index) => (
-                    <li key={index} className="flex items-start space-x-2">
-                      <span><i className="fa-solid fa-check mr-2"></i>{perk}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-
-              {selectedPlan === 'Basic' ? (
-                <button
-                type="submit"
-                onClick={handleSubmit}
-                disabled={loading}
-                className="w-full rounded-xl text-white bg-blue-600 border hover:bg-blue-800 hover:text-white px-4 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
-              >
-                {loading ? 'Creating Account...' : 'Create Account'}
-              </button>
-              ) : (
-                <Elements stripe={stripePromise} options={options}>
-                  <CheckoutForm planPrice={15} onPaymentSuccess={handleSubmit} />
-                </Elements>
-              )}
-
             </div>
           )}
+
+            {step === 2 && (
+              <div className="flex w-full justify-center space-x-2 mx-32">
+                <div className="w-2/5 bg-white rounded-lg p-8 shadow-lg">
+                <p className="text-gray-400" style={{ fontSize: '13px' }}>Plan</p>
+                  <h1 className="text-black font-bold text-3xl">Basic</h1>
+                  <p className="mt-3 mb-8 text-gray-700 text-sm">
+                    The Basic Plan is ideal for students beginning their journey.
+                  </p>
+                  {Basic.map((benefit, index) => (
+                        <li key={index} className="mt-2 flex font-semibold text-sm items-center text-gray-500 text-md">
+                          <i className="fa-solid fa-circle-check text-green-500 font-bold mr-2"></i>
+                          {benefit}
+                        </li>
+                      ))}
+                  {VIP.map((benefit, index) => (
+                        <li key={index} className="mt-2 flex font-semibold text-sm items-center text-gray-500 text-md">
+                          <i className="fa-solid fa-circle-xmark text-red-500 font-bold mr-2"></i>
+                          {benefit}
+                        </li>
+                      ))}
+                  <button
+                    className="mt-10 w-full font-bold bg-gradient-to-r from-blue-800 to-indigo-900 text-white py-2 px-4 rounded transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
+                  >
+                    Continue
+                  </button>
+                </div>
+                <div className="w-2/5 bg-white rounded-lg p-8 shadow-lg">
+                <p className="text-gray-400" style={{ fontSize: '13px' }}>Plan</p>
+                  <h1 className="text-black font-bold text-3xl">VIP</h1>
+                  <p className="mt-3 mb-8 text-gray-700 text-sm">
+                    The Basic Plan is ideal for students beginning their journey.
+                  </p>
+                  {Basic.map((benefit, index) => (
+                        <li key={index} className="mt-2 flex font-semibold text-sm items-center text-gray-500 text-md">
+                          <i className="fa-solid fa-circle-check text-green-500 font-bold mr-2"></i>
+                          {benefit}
+                        </li>
+                      ))}
+                  {VIP.map((benefit, index) => (
+                        <li key={index} className="mt-2 flex font-semibold text-sm items-center text-gray-500 text-md">
+                          <i className="fa-solid fa-circle-check text-green-500 font-bold mr-2"></i>
+                          {benefit}
+                        </li>
+                      ))}
+              <button
+                className="mt-10 w-full font-bold bg-gradient-to-r from-violet-500 to-purple-500 text-white py-2 px-4 rounded hover:bg-blue-700 hover:scale-105 transition"
+              >
+               <i className="fa-solid fa-rocket"></i> Become a VIP
+              </button>
+                </div>
+              </div>
+            )}
 
           {step === 3 && (
             <div className="text-center space-y-2">

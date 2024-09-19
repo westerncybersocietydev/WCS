@@ -9,7 +9,7 @@ const projects = [
   {
       title: "MicroGuard",
       category: "Cybersecurity",
-      status: "Inactive",
+      status: "Active",
       description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber, and encrypt data with a microcontroller-based ransomware tool. MicroGuard, your ultimate trio of hacking tools.",
       director: {
           name: "Adam Seaton",
@@ -22,7 +22,7 @@ const projects = [
   {
       title: "Software Cryptography Implementation",
       category: "Cybersecurity",
-      status: "Inactive",
+      status: "Active",
       description: "In this project, members will learn how modern cryptographic systems function, with a special emphasis on models used in industry. Participants will put their knowledge to practice by implementing these systems on runnable software.",
       director: {
           name: "Hunter Korble",
@@ -35,7 +35,7 @@ const projects = [
   {
       title: "Pneumonia Detection Model",
       category: "AI",
-      status: "Inactive",
+      status: "Active",
       description: "Many industries have seen exponential improvements due to the growth in the AI industry such as the medical industry. With this growth, thousands of scans that would have to have been done in one by one can be instantly diagnosed. By creating the pneumonia detection model, you will help medical professionals be much more efficient in their diagnosis helping save the lives of many.",
       director: {
           name: "Alp Unsal",
@@ -48,7 +48,7 @@ const projects = [
   {
       title: "Web App VIP (Vulnerability Identification Platform)",
       category: "Cybersecurity",
-      status: "Inactive",
+      status: "Active",
       description: "Web App VIP will introduce a holistic and cost-friendly solution for users to analyze their small web applications to identify potential vulnerabilities. Leveraging OWASP ZAP, an open-source code analysis tool, web app vulnerabilities such as cross-site scripting (XSS), SQL injections, and buffer overflows will be investigated and presented to the user. Web App VIP is a fantastic opportunity for students to gain hands-on experience with vulnerability assessments and penetration testing, both critical areas of cybersecurity.",
       director: {
           name: "Dileep Dhami",
@@ -61,7 +61,7 @@ const projects = [
   {
       title: "NetProbe X",
       category: "Cybersecurity",
-      status: "Inactive",
+      status: "Active",
       description: "Introducing 'NetProbe X', a cutting-edge project aimed at providing a captivating journey into the world of network analysis through a user-friendly Graphical User Interface (GUI). By the power harnessed from Wireshark and Python, this tool promises to simplify network data, offering a seamless experience for capturing, analyzing, and visualizing network information.",
       director: {
           name: "Zaki Hasan Ali",
@@ -74,7 +74,7 @@ const projects = [
   {
       title: "Spotify Playlist Generator",
       category: "AI",
-      status: "Inactive",
+      status: "Active",
       description: "The goal is to create a playlist that seamlessly transitions from one song to the next, where each next song is decided using ML. The project will involve scraping data from the Spotify API and on preprocessing, data will be trained on different models and the best one will be implemented. The project can grow and can take several routes through developments needed after implementation.",
       director: {
           name: "Ethan Carvalho",
@@ -87,7 +87,7 @@ const projects = [
   {
       title: "ASL to English Translator",
       category: "AI",
-      status: "Inactive",
+      status: "Active",
       description: "Communication is uniquely difficult for the hearing-impaired. Our ASL-to-English translator utilizes computer vision to open a channel of communication between the hearing-impaired and non-ASL speakers, as well as assist those interested in learning this rich language.",
       director: {
           name: "Geoff Easton",
@@ -100,7 +100,7 @@ const projects = [
   {
       title: "AWS Cloud Fusion",
       category: "Web3",
-      status: "Inactive",
+      status: "Active",
       description: "A thrilling project merging web hosting, serverless applications, and database management using AWS. Dive into the world of clouds without prior knowledge, and learn to build a static website, create a messaging app, and manage databases in just weeks! Don't miss this opportunity to discover the power of AWS with us—your gateway to the incredible realm of the cloud awaits!",
       director: {
           name: "Siddhant Saraf",
@@ -113,7 +113,7 @@ const projects = [
   {
       title: "Twitter Stock Trading AI",
       category: "AI",
-      status: "Inactive",
+      status: "Active",
       description: "This project uses Transformers to analyse the sentiment of tweets relating to financial instruments and then we will be correlating them with real time stock prices to see how much sentiment influences stock prices.",
       director: {
           name: "Bashshar Atif",
@@ -126,7 +126,7 @@ const projects = [
   {
       title: "NeoArtSphere",
       category: "Web3",
-      status: "Inactive",
+      status: "Active",
       description: "A user-friendly application that enables artists from specific underprivileged geographical areas to profit from their art by providing them with a platform to showcase their art as an NFT. With their art minted as an NFT, they would be able to sell it globally to art enthusiasts who are interested in truly unique perspectives and giving back.",
       director: {
           name: "Ganesh Krishna Menon",

@@ -1,0 +1,58 @@
+const events = [
+  {
+    name: "Tech Innovations 2025",
+    date: "Monday, January 12, 2025",
+    time: "7:00PM",
+    location: "Tech Hall, Western University",
+    price: "Free",
+    description: "Join us for an immersive experience in the latest technological innovations. Discover groundbreaking advancements and connect with industry leaders.",
+    image: "/overview.jpg",
+  },
+  {
+    name: "Cybersecurity Workshop",
+    date: "Friday, February 7, 2025",
+    time: "7:00PM",
+    location: "Room 204, Western University",
+    price: "$5",
+    description: "Enhance your skills with our hands-on cybersecurity workshop. Learn from experts and get practical experience in securing digital environments.",
+    image: "/overview.jpg",
+  },
+  {
+    name: "Tech Innovations 2025",
+    date: "Monday, January 12, 2025",
+    time: "7:00PM",
+    location: "Tech Hall, Western University",
+    price: "$5",
+    description: "Join us for an immersive experience in the latest technological innovations. Discover groundbreaking advancements and connect with industry leaders.",
+    image: "/overview.jpg",
+  },
+  {
+    name: "Cybersecurity Workshop",
+    date: "Friday, February 7, 2025",
+    time: "7:00PM",
+    location: "Room 204, Western University",
+    price: "$5",
+    description: "Enhance your skills with our hands-on cybersecurity workshop. Learn from experts and get practical experience in securing digital environments.",
+    image: "/overview.jpg",
+  },
+  {
+    name: "Tech Innovations 2025",
+    date: "Monday, January 12, 2025",
+    time: "7:00PM",
+    location: "Tech Hall, Western University",
+    price: "$5",
+    description: "Join us for an immersive experience in the latest technological innovations. Discover groundbreaking advancements and connect with industry leaders.",
+    image: "/overview.jpg",
+  },
+  {
+    name: "Cybersecurity Workshop",
+    date: "Friday, February 7, 2025",
+    time: "7:00PM",
+    location: "Room 204, Western University",
+    price: "$5",
+    description: "Enhance your skills with our hands-on cybersecurity workshop. Learn from experts and get practical experience in securing digital environments. Enhance your skills with our hands-on cybersecurity workshop. Learn from experts and get practical experience in securing digital environments. Enhance your skills with our hands-on cybersecurity workshop. Learn from experts and get practical experience in securing digital environments.",
+    image: "/overview.jpg",
+  },
+];
+
+export default events;

@@ -34,7 +34,7 @@ export default function Navbar() {
 
   return (
     <div className='py-5' 
-    style={{ backgroundColor: aboutUsExpanded ? 'black' : 'white' }}>
+    style={{ backgroundColor: aboutUsExpanded ? 'black' : '' }}>
       <div className="container mx-auto flex justify-between items-center">
 
         {/* Logo */}

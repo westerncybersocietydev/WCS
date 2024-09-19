@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 interface CheckoutFormProps {
   planPrice: number;
-  onPaymentSuccess: (e: React.FormEvent) => Promise<void>; // Update type here
+  onPaymentSuccess: (e: React.FormEvent) => Promise<void>;
 }
 
 const CheckoutForm: React.FC<CheckoutFormProps> = ({ planPrice, onPaymentSuccess }) => {
@@ -82,11 +82,11 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planPrice, onPaymentSuccess
   };
 
   return (
-    <div className='flex justify-center w-full'>
-      <form onSubmit={handleSubmit} className='w-full p-3'>
+    <div className='flex justify-center w-full overflow-y-auto custom-scrollbar'>
+      <form onSubmit={handleSubmit} className='w-full p-3 px-1'>
         <PaymentElement />
         <button
-          className='w-full mt-3 rounded-xl text-white bg-blue-600 border hover:bg-blue-800 hover:text-white px-4 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg'
+          className='w-full mt-3 rounded-xl text-white font-bold bg-gradient-to-r from-violet-500 to-purple-500 border hover:bg-blue-800 hover:text-white px-4 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg'
           type='submit'
           disabled={!stripe || !elements || !clientSecret || loading} // Disable button while loading
         >

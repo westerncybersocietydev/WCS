@@ -2,70 +2,9 @@
 import React from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
-import Carousel from '../components/eventCarousel'; // Import the custom Carousel
+import Carousel from '../components/eventCarousel';
 import Image from 'next/image';
-
-// Define TypeScript interface for event
-interface Event {
-  name: string;
-  time: string;
-  location: string;
-  price: string;
-  description: string;
-  image: string;
-}
-
-// Sample events array with type
-const events: Event[] = [
-  {
-    name: "Tech Innovations 2025",
-    time: "Monday, January 12, 2025",
-    location: "Tech Hall, Western University",
-    price: "$5",
-    description: "Join us for an immersive experience in the latest technological innovations. Discover groundbreaking advancements and connect with industry leaders.",
-    image: "/overview.jpg",
-  },
-  {
-    name: "Cybersecurity Workshop",
-    time: "Friday, February 7, 2025",
-    location: "Room 204, Western University",
-    price: "$5",
-    description: "Enhance your skills with our hands-on cybersecurity workshop. Learn from experts and get practical experience in securing digital environments.",
-    image: "/overview.jpg",
-  },
-  {
-    name: "Tech Innovations 2025",
-    time: "Monday, January 12, 2025",
-    location: "Tech Hall, Western University",
-    price: "$5",
-    description: "Join us for an immersive experience in the latest technological innovations. Discover groundbreaking advancements and connect with industry leaders.",
-    image: "/overview.jpg",
-  },
-  {
-    name: "Cybersecurity Workshop",
-    time: "Friday, February 7, 2025",
-    location: "Room 204, Western University",
-    price: "$5",
-    description: "Enhance your skills with our hands-on cybersecurity workshop. Learn from experts and get practical experience in securing digital environments.",
-    image: "/overview.jpg",
-  },
-  {
-    name: "Tech Innovations 2025",
-    time: "Monday, January 12, 2025",
-    location: "Tech Hall, Western University",
-    price: "$5",
-    description: "Join us for an immersive experience in the latest technological innovations. Discover groundbreaking advancements and connect with industry leaders.",
-    image: "/overview.jpg",
-  },
-  {
-    name: "Cybersecurity Workshop",
-    time: "Friday, February 7, 2025",
-    location: "Room 204, Western University",
-    price: "$5",
-    description: "Enhance your skills with our hands-on cybersecurity workshop. Learn from experts and get practical experience in securing digital environments. Enhance your skills with our hands-on cybersecurity workshop. Learn from experts and get practical experience in securing digital environments. Enhance your skills with our hands-on cybersecurity workshop. Learn from experts and get practical experience in securing digital environments.",
-    image: "/overview.jpg",
-  },
-];
+import events from '../dataFiles/events';
 
 const images = [
   "/overview.jpg",
@@ -75,7 +14,6 @@ const images = [
   "/overview.jpg",
   "/overview.jpg",
 ];
-
 
 export default function Events() {
 
@@ -102,6 +40,7 @@ export default function Events() {
             items={events.map((event) => ({
               name: event.name,
               image: event.image,
+              date: event.date,
               time: event.time,
               price: event.price,
               location: event.location,
