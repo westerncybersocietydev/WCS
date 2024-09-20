@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema({
   currentYear: { type: String, required: true },
   program: { type: String, required: true },
   plan: { type: String, required: true },
+  description: { type: String, default: "This is a brief overview of who I am. While it may not capture everything, it provides a good sense of my character and approach." },
+  avatar: { type: String, default: "0" },
+  linkedin: { type: String },
+  website: { type: String },
   password: { type: String, required: true },
   myEvents: [ { type: mongoose.Schema.Types.ObjectId, ref: 'Event' } ]
 }, { collection: 'users' });

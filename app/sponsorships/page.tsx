@@ -15,7 +15,7 @@ export default function Sponsorships() {
     <div>
       <Navbar />
     
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-900 to-purple-900">
+    <div className="mt-16 flex min-h-screen bg-gradient-to-br from-slate-900 to-purple-900">
       <div className="hidden md:block w-1/4 h-screen bg-cover bg-center">
         
       </div>

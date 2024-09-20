@@ -8,7 +8,7 @@ export default function IBM() {
       <Navbar />
       {/* Full-width background image with text */}
       <div
-        className='relative w-full h-screen bg-cover bg-center'
+        className='mt-16 relative w-full h-screen bg-cover bg-center'
         style={{ backgroundImage: "url('/overviewBg.jpg')" }}
       >
         <div className='absolute inset-0 bg-black bg-opacity-50 flex text-left items-center'>

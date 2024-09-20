@@ -5,6 +5,7 @@ import Footer from '../components/footer';
 import { loginUser } from '../lib/actions/user.action';
 import { useRouter } from "next/navigation";
 import { useUser } from '../context/UserContext';
+import toast from 'react-hot-toast';
 
 export default function SignIn() {
     const router = useRouter();
@@ -20,6 +21,7 @@ export default function SignIn() {
   }, []);
 
   const isFormComplete = useCallback(() => {
+    setError('')
     // Ensure all required fields are filled in
     return Object.values(formData).every(value => value !== "");
   }, [formData]);
@@ -38,9 +40,10 @@ export default function SignIn() {
       document.cookie = `authToken=${token}; path=/; secure; samesite=strict`; // Setting cookie on the client side
       // Redirect or handle successful login
       await fetchUser();
+      toast.success("Signed In Successfully.")
       router.push('/')
     } catch (error) {
-      setError('Email or Password is Incorrect.');
+      toast.error('Email or Password is Incorrect.');
     } finally {
       setLoading(false);
     }
@@ -49,7 +52,7 @@ export default function SignIn() {
   return (
     <div>
       <Navbar />
-      <div className="flex flex-col text-black items-center min-h-screen bg-gray-100 p-4" style={{ background: '#ededed' }}>
+      <div className="mt-16 flex flex-col text-black items-center min-h-screen bg-gray-100 p-4" style={{ background: '#ededed' }}>
         <div className="bg-white rounded-lg shadow-md p-9 w-full max-w-lg shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300">
         <h2 className="text-3xl mb-5 font-bold text-center text-gray-800">SIGN IN</h2>
           <form onSubmit={handleSubmit} className="space-y-4">

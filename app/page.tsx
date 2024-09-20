@@ -98,6 +98,7 @@ const formatBio = (bio: string) => {
 
 export default function Home() {
   const router = useRouter();
+  
   const [token, setToken] = useState(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
@@ -118,7 +119,6 @@ export default function Home() {
         if (token) {
           console.log("logged in.")
         }
-        console.log('Token fetched:', result); // Log the result directly
       } else {
         console.log('Token not found.');
       }
@@ -138,19 +138,19 @@ export default function Home() {
       <div className="relative">
 
       <div className="flex flex-col items-center justify-center">
-        <h1 className="pt-16 text-black text-center tracking-widest font-bold max-w-lg text-5xl">
+        <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-lg text-5xl">
           Unlock the Power of WCS With Mango Bloom
         </h1>
         <h1 className="mt-3 text-gray-700 text-center tracking-wide text-sm">
           The #1 tech club in Western with just 1 year of history.
         </h1>
-        <button className="mt-6 tracking-wide rounded-full font-semibold text-white
+        <button className="mt-6 tracking-widest rounded-full font-semibold text-white
                   border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
-                  px-10 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+                  px-14 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
         onClick={() => router.push("/sign-up")}>
           Register
         </button>
-        <p className="mt-1 text-gray-700 text-center tracking-wide text-sm mb-10">Already have an account? <a href="/sign-in" className="text-blue-500"><u>Sign In</u></a></p>
+        <p className="mt-1 text-gray-700 text-center tracking-wide text-sm mb-10">Already have an account? <a href="/sign-in" className="text-blue-500 hover:underline">Sign In</a></p>
       </div>
 
       <div className="flex justify-center">

@@ -6,40 +6,29 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { toast } from 'react-hot-toast';
 import BecomeVIP from "../components/becomeVIP";
-
-const Basic = [
-  'Ad-free experience',
-  'Early access to new features',
-  'Advanced analytics and insights',
-];
-
-const VIP = [
-  'Ad-free experience',
-  'Early access to new features',
-  'Advanced analytics and insights',
-  'Multi-device sync',
-  'Offline mode',
-  'Community support',
-  'Limited storage',
-];
+import Avatar from '../dataFiles/avatars';
+import { Basic, VIP } from "../dataFiles/perks";
 
 interface ProfileData {
   firstName: string;
   lastName: string;
   uwoEmail: string;
-  preferredEmail?: string;
+  preferredEmail: string;
   currentYear: string;
   program: string;
-  plan?: string;
+  plan: string;
+  description: string;
+  avatar: string;
 }
 
 export default function Profile() {
   const { user } = useUser();
   const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [currentAvatar, setCurrentAvatar] = useState("")
+  const [currentAvatarIndex, setCurrentAvatarIndex] = useState("")
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [setting, setSetting] = useState("basic");
   const [selectedTab, setSelectedTab] = useState('basic');
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -48,7 +37,7 @@ export default function Profile() {
 
   const getProfileData = useCallback(async () => {
     if (!user?.userId) {
-      setError("User ID not found.");
+      console.log("Profile Loading...");
       return;
     }
 
@@ -56,9 +45,24 @@ export default function Profile() {
       const profile = await getProfile(user.userId);
       setProfileData(profile);
       setFirstName(profile?.firstName)
-      setError('');
+      setLastName(profile?.lastName)
+
+      switch (profile.avatar) {
+        case "0":
+          setCurrentAvatar(Avatar[0]);
+          break;
+        case "1":
+          setCurrentAvatar(Avatar[1]);
+          break;
+        case "2":
+          setCurrentAvatar(Avatar[2]);
+          break;
+        default:
+          setCurrentAvatar(Avatar[0]);
+      }
+
     } catch (error) {
-      setError("Couldn't retrieve profile data. Please try again.");
+      toast.error("Couldn't retrieve profile data. Please try again.");
     }
   }, [user?.userId]);
 
@@ -79,11 +83,11 @@ export default function Profile() {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
 
     setProfileData((prev) => {
-      if (!prev) return prev; // Prevent updating if prev is null
+      if (!prev) return prev;
 
       return {
         ...prev,
@@ -92,12 +96,20 @@ export default function Profile() {
     });
   };
 
+  const updateAvatar = (avatar: string, index: number) => {
+    setCurrentAvatar(avatar);
+    setCurrentAvatarIndex(index.toString());
+};
+
   const handleBasicSubmit = async () => {
     if (!profileData || !user?.userId) return;
 
     setLoading(true);
 
     try {
+      const avatarIndex = currentAvatarIndex; // Use the state directly
+      console.log(avatarIndex)
+
         await updateBasic(
             user.userId,
             profileData?.firstName,
@@ -106,11 +118,13 @@ export default function Profile() {
             profileData?.preferredEmail || "",
             profileData?.currentYear,
             profileData?.program,
+            profileData?.description,
+            avatarIndex
             );
         toast.success("User information updated successfully.")
         setFirstName(profileData?.firstName)
     } catch (error) {
-      setError("Failed to update basic information. Please try again.");
+      toast.error("Failed to update basic information. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -123,7 +137,7 @@ export default function Profile() {
 
     try {
         if (newPassword !== confirmNewPassword) {
-            setError("New passwords don't match.");
+            toast.error("Password does not match.");
             return;
         }
 
@@ -136,12 +150,11 @@ export default function Profile() {
 
         toast.success("Password successfully changed.")
 
-        setError("");
         setOldPassword("");
         setNewPassword("");
         setConfirmNewPassword("");
     } catch (error) {
-        setError("Old Password Incorrect. Please try again.");
+        toast.error("Old Password Incorrect. Please try again.");
     } finally {
         setLoading(false);
     }
@@ -155,7 +168,6 @@ export default function Profile() {
     if (!user?.userId) return;
   
     setLoading(true);
-    setError("");
   
     try {
       await updatePlan(user.userId, "VIP");
@@ -163,7 +175,7 @@ export default function Profile() {
       onClose();
       toast.success("Congratulations! You are now a VIP!")
     } catch (error) {
-      setError("Failed to update the plan. Please try again.");
+      toast.error("Failed to update the plan. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -176,23 +188,19 @@ export default function Profile() {
           <form className="space-y-4 max-w-lg bg-white rounded-lg shadow-md p-9">
           {/* Form fields */}
           <div className="space-y-2">
-          <label htmlFor="firstName" className="text-gray-600 font-bold text-sm">Avatar <span className='font-normal'>(required)</span></label>
+          <label htmlFor="avatar" className="text-gray-600 font-bold text-sm">Avatar <span className='font-normal'>(required)</span></label>
             <div className="flex space-x-2">
+            {Avatar.map((imgSrc, index) => (
               <img 
-                src='/profileImg.jpg' 
-                alt="Profile" 
-                className="w-12 h-12 rounded object-cover mb-4"
+                key={index}
+                src={imgSrc} 
+                alt={`Profile ${index + 1}`} 
+                onClick={() => updateAvatar(imgSrc, index)}
+                className={`w-12 h-12 rounded object-cover mb-4 cursor-pointer ${
+                  currentAvatar === imgSrc ? 'border-2 border-violet-500' : ''
+                }`}
               />
-              <img 
-                src='/profileImg.jpg' 
-                alt="Profile" 
-                className="w-12 h-12 rounded object-cover mb-4"
-              />
-              <img 
-                src='/profileImg.jpg' 
-                alt="Profile" 
-                className="w-12 h-12 rounded object-cover mb-4"
-              />
+            ))}
             </div>
           </div>
 
@@ -228,16 +236,17 @@ export default function Profile() {
 
           {/* About me */}
           <div className="flex flex-col space-y-1 text-black">
-            <label htmlFor="aboutMe" className="text-gray-600 font-bold text-sm">
+            <label htmlFor="description" className="text-gray-600 font-bold text-sm">
               About Me <span className='font-normal'>(required)</span>
             </label>
             <textarea
-              id="aboutMe"
-              name="aboutMe"
-
+              id="description"
+              name="description"
+              value={profileData?.description || ""}
+              onChange={handleInputChange}
               className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
               required
-              rows={2} // Adjust the number of rows to control the height of the textarea
+              rows={3} // Adjust the number of rows to control the height of the textarea
             />
           </div>
 
@@ -276,7 +285,7 @@ export default function Profile() {
               name="currentYear"
               value={profileData?.currentYear || ""}
               onChange={handleInputChange}
-              className="bg-white border border-gray-300 rounded-lg px-3 py-3 text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out shadow-sm"
+              className="bg-white border border-gray-300 rounded-lg px-3 py-3 text-black text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition duration-200 ease-in-out shadow-sm"
               required
             >
               <option value="" disabled>Select Year</option>
@@ -368,7 +377,6 @@ export default function Profile() {
             >
               {loading ? "Saving..." : "Update Password"}
             </button>
-            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           </div>
         </form>
         );
@@ -436,19 +444,20 @@ export default function Profile() {
   return (
     <div>
       <Navbar />
-      <div className="flex flex-col min-h-screen">
+      <div className="mt-16 flex flex-col min-h-screen">
         <div className="flex w-full">
 
           <div className="w-full"> 
           <div className="absolute flex flex-col">
           <div className="flex flex-col items-center translate-x-20 translate-y-5">
+
             <img 
-              src='/profileImg.jpg' 
+              src={currentAvatar}
               alt="Profile" 
               className="w-36 h-36 rounded-full object-cover mb-4"
             />
-            <h1 className="text-center text-black font-bold" style={{ fontFamily: 'Panton' }}>{profileData?.firstName} {profileData?.lastName}</h1>
-            <p className="mt-1 w-[20vw] text-gray-500 font-semibold text-center text-xs">This is my description. I know it isn't really a real description but it is what it is. Am I right?</p>
+            <h1 className="text-center text-black font-bold" style={{ fontFamily: 'Panton' }}>{firstName} {lastName}</h1>
+            <p className="mt-1 w-[20vw] text-gray-500 font-semibold text-center text-xs">{profileData?.description}</p>
             <p className={`mt-3 py-1 px-2 text-white rounded text-xs ${profileData?.plan === "VIP" ? "bg-violet-500" : "bg-gray-500"}`}>
             {profileData?.plan}
           </p>

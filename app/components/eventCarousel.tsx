@@ -1,31 +1,45 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import CheckoutForm from '../components/checkoutForm';
 import { Elements } from '@stripe/react-stripe-js';
-
-interface CarouselItem {
-  name: string;
-  image: string;
-  date: string;
-  time: string;
-  price: string;
-  location: string;
-  description: string;
-}
+import { EventObject } from '../lib/actions/event.action';
+import { eventRSVP, getMyEvents } from '../lib/actions/user.action';
+import { useUser } from '../context/UserContext';
+import { useRouter } from "next/navigation";
 
 interface CarouselProps {
-  items: CarouselItem[];
+  items: EventObject[];
 }
 
 const Carousel: React.FC<CarouselProps> = ({ items }) => {
+  const router = useRouter();
+
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedItem, setSelectedItem] = useState<CarouselItem | null>(null);
+  const [rsvpEvents, setRsvpEvents] = useState<EventObject[]>([]);
+  const [selectedItem, setSelectedItem] = useState<EventObject | null>(null);
   const [isRSVPModalOpen, setRSVPModalOpen] = useState(false);
+  const { user, fetchUser } = useUser();
+  const [loading, setLoading] = useState(false);
   const itemsToShow = 3;
   const totalItems = items.length;
 
+  const getProfileData = useCallback(async () => {
+    if (!user?.userId) {
+      console.log("Error getting user id.");
+      return;
+    }
+
+    const eventResponse = await getMyEvents(user?.userId);
+    setRsvpEvents(eventResponse)
+
+  }, [user?.userId, fetchUser]);
+
+  useEffect(() => {
+    getProfileData();
+  }, [getProfileData]);
+
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
-  const options:StripeElementsOptions = {
+  const options: StripeElementsOptions = {
     mode: 'payment',
     amount: 15 * 100,
     currency: 'cad',
@@ -41,7 +55,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
     );
   };
 
-  const openModal = (item: CarouselItem) => {
+  const openModal = (item: EventObject) => {
     setSelectedItem(item);
   };
 
@@ -50,6 +64,11 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
   };
 
   const openRSVPModal = () => {
+    if (!user?.userId) {
+      router.push("/sign-up")
+      return
+    }
+
     setRSVPModalOpen(true);
   };
 
@@ -57,81 +76,94 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
     setRSVPModalOpen(false);
   };
 
-  const handleRSVP = async (): Promise<void> => {
-    closeRSVPModal();
-    closeModal();
+  const handleRSVP = async (userId: string, eventId: string): Promise<void> => {
+    if (!user?.userId) {
+      router.push("/sign-up")
+    }
+
+    setLoading(true);
+    try {
+      await eventRSVP(userId, eventId);
+      closeRSVPModal();
+      closeModal();
+      await getProfileData();
+    } catch (error) {
+      console.error("Error RSVPing for event:", error);
+    } finally {
+      setLoading(false);
+    }
   };
-  
 
-// RSVP Modal Component
-const RSVPModal: React.FC<{ onClose: () => void; onRSVP: () => void; item: CarouselItem | null; }> = ({ onClose, onRSVP, item }) => (
-  <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
-    <div className="relative w-3/5 flex justify-center">
-      
-      {item?.price === "Free" ? (
-        <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-xl">
-        <h1 className="text-lg tracking-wide text-center text-gray-900">
-          Are you sure you want to RSVP for <span className="font-bold">{item?.name}</span>?
-        </h1>
-        <div className="flex justify-center text-sm space-x-4">
-          <button 
-            className="px-6 py-2 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-all"
-            onClick={onRSVP}
-          >
-            Yes, I will attend!
-          </button>
-          <button 
-            className="px-6 py-2 bg-red-500 text-white font-medium rounded-full hover:bg-red-700 transition-all"
-            onClick={onClose}
-          >
-            Nevermind
-          </button>
-        </div>
-      </div>
+  // Helper function to check if an event is already RSVP'd
+  const isEventRSVPd = (eventId: string) => {
+    return rsvpEvents.some(event => event.id === eventId);
+  };
 
-      ) : (
-        <div className='bg-white px-5 py-3 rounded'>
-          <button onClick={onClose} className="absolute bg-white px-2 top-2 right-2 text-gray-700 transition-transform duration-300 hover:scale-110 focus:outline-none">
-            <i className="fa-solid fa-x text-xs"></i>
-          </button>
-          <h1 className="text-4xl tracking-wide font-bold text-center text-gray-800">RSVP for Event</h1>
-          <div className="flex mx-3 flex-row items-start h-3/4 overflow-hidden">
-            
-            {/* Left Side */}
-            <div className="w-2/5 mt-14">
-              <img
-                src={item?.image}
-                alt={item?.name}
-                className="w-full object-cover shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300"
-              />
-              <h2 className='text-black text-lg font-bold ml-2 mt-5'>{item?.name}</h2>
-              <h2 className='text-gray-800 text-xs font-semibold ml-2 mt-1'>
-                <i className="fa-solid fa-calendar-days"></i> {item?.date} at {item?.time}
-              </h2>
-              <h2 className='text-gray-800 text-xs font-semibold ml-2 mt-1'>
-                <i className="fa-solid fa-location-dot"></i> {item?.location}
-              </h2>
-              <h2 className='text-gray-800 text-xs font-semibold ml-2 mt-1'>
-                <i className="fa-solid fa-tag"></i> {item?.price}
-              </h2>
-            </div>
-            
-            {/* Divider */}
-            <div className="w-px ml-10 mt-20 h-[24vw] bg-gray-800 mx-2"></div>
-            
-            {/* Right Side: Content */}
-            <div className="w-3/5 p-5 flex flex-col items-center">
-              <Elements stripe={stripePromise} options={options}>
-                <CheckoutForm planPrice={15} onPaymentSuccess={handleRSVP} />
-              </Elements>
+  // RSVP Modal Component
+  const RSVPModal: React.FC<{ onClose: () => void; onRSVP: (userId: string, eventId: string) => void; item: EventObject | null; }> = ({ onClose, onRSVP, item }) => (
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
+      <div className="relative w-3/5 flex justify-center">
+        {item?.price === "Free" ? (
+          <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-lg">
+            <h1 className="text-lg tracking-wide text-center text-gray-900">
+              Are you sure you want to RSVP for <span className="font-bold">{item?.name}</span>?
+            </h1>
+            <div className="flex justify-center text-sm space-x-4">
+              <button 
+                className="px-6 py-2 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-all"
+                onClick={() => onRSVP(user?.userId || '', item.id)}
+              >
+                Yes, I will attend!
+              </button>
+              <button 
+                className="px-6 py-2 bg-red-500 text-white font-medium rounded-full hover:bg-red-700 transition-all"
+                onClick={onClose}
+              >
+                Nevermind
+              </button>
             </div>
           </div>
-        </div>
-      )}
-      
+        ) : (
+          <div className='bg-white px-5 py-3 rounded'>
+            <button onClick={onClose} className="absolute bg-white px-2 top-2 right-2 text-gray-700 transition-transform duration-300 hover:scale-110 focus:outline-none">
+              <i className="fa-solid fa-x text-xs"></i>
+            </button>
+            <h1 className="text-4xl tracking-wide font-bold text-center text-gray-800">RSVP for Event</h1>
+            <div className="flex mx-3 flex-row items-start h-3/4 overflow-hidden">
+              {/* Left Side */}
+              <div className="w-2/5 mt-14">
+                <img
+                  src={item?.image}
+                  alt={item?.name}
+                  className="w-full object-cover shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300"
+                />
+                <h2 className='text-black text-lg font-bold ml-2 mt-5'>{item?.name}</h2>
+                <h2 className='text-gray-800 text-xs font-semibold ml-2 mt-1'>
+                  <i className="fa-solid fa-calendar-days"></i> {item?.date} at {item?.time}
+                </h2>
+                <h2 className='text-gray-800 text-xs font-semibold ml-2 mt-1'>
+                  <i className="fa-solid fa-location-dot"></i> {item?.location}
+                </h2>
+                <h2 className='text-gray-800 text-xs font-semibold ml-2 mt-1'>
+                  <i className="fa-solid fa-tag"></i> {item?.price}
+                </h2>
+              </div>
+              
+              {/* Divider */}
+              <div className="w-px ml-10 mt-20 h-[24vw] bg-gray-800 mx-2"></div>
+              
+              {/* Right Side: Content */}
+              <div className="w-3/5 p-5 flex flex-col items-center">
+                <Elements stripe={stripePromise} options={options}>
+                  <CheckoutForm planPrice={15} onPaymentSuccess={() => handleRSVP(user?.userId || '', item?.id || '')} />
+                </Elements>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
 
   return (
     <div className="mx-10 flex flex-col">
@@ -201,7 +233,7 @@ const RSVPModal: React.FC<{ onClose: () => void; onRSVP: () => void; item: Carou
             <button onClick={closeModal} className="absolute top-2 right-2 p-2 text-black transition-all duration-500 hover:scale-110">
               <i className="fa-solid fa-x text-xl"></i>
             </button>
-            <div className="flex flex-col lg:flex-row bg-white rounded-xl shadow-lg overflow-hidden">
+            <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
               {/* Left Side: Image */}
               <div className="lg:w-1/3 w-full">
                 <img
@@ -220,11 +252,12 @@ const RSVPModal: React.FC<{ onClose: () => void; onRSVP: () => void; item: Carou
                   <p className="font-normal text-gray-700 ml-2 max-w-lg text-base mb-2 leading-relaxed">{selectedItem.description}</p>
                 </div>
                 <button
-                  onClick={openRSVPModal}
-                  className="self-end mr-5 text-xs z-40 text-gray-950 border border-gray-700 rounded-full hover:scale-110 bg-violet-400 hover:bg-violet-950 hover:text-white py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
-                >
-                  RSVP
-                </button>
+                    onClick={isEventRSVPd(selectedItem.id) ? undefined : openRSVPModal} // Disable button if RSVP'd
+                    className={`self-end mr-5 text-xs z-40 text-gray-950 border border-gray-700 rounded-full ${isEventRSVPd(selectedItem.id) ? "bg-gray-300 cursor-not-allowed" : "bg-violet-400 hover:bg-violet-950 hover:text-white"} py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
+                    disabled={isEventRSVPd(selectedItem.id)} // Disable button
+                  >
+                    {isEventRSVPd(selectedItem.id) ? "Already RSVP'd" : "RSVP"}
+                  </button>
               </div>
             </div>
           </div>
@@ -233,7 +266,11 @@ const RSVPModal: React.FC<{ onClose: () => void; onRSVP: () => void; item: Carou
 
       {/* RSVP Modal */}
       {isRSVPModalOpen && selectedItem && (
-        <RSVPModal onClose={closeRSVPModal} onRSVP={handleRSVP} item={selectedItem} />
+        <RSVPModal
+          onClose={closeRSVPModal}
+          onRSVP={(userId: string, eventId: string) => handleRSVP(userId, eventId)}
+          item={selectedItem}
+        />
       )}
     </div>
   );

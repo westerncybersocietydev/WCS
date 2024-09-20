@@ -2,15 +2,61 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useCallback, useState, useRef } from 'react';
-import { useUser } from '../context/UserContext'; // Adjust the path as needed
+import { useCallback, useState, useRef, useEffect } from 'react';
+import { useUser } from '../context/UserContext'; // Adjust the path as 
+import Avatar from '../dataFiles/avatars';
+import { getProfile } from '../lib/actions/user.action';
+
+interface ProfileData {
+  firstName: string;
+  lastName: string;
+  uwoEmail: string;
+  preferredEmail: string;
+  currentYear: string;
+  program: string;
+  plan: string;
+  description: string;
+  avatar: string;
+}
 
 export default function Navbar() {
   const router = useRouter();
   const { user, fetchUser } = useUser();
+  const [avatar, setAvatar] = useState(Avatar[0])
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [aboutUsExpanded, setAboutUsExpanded] = useState(false);
   const aboutUsRef = useRef<HTMLDivElement | null>(null);
   const leaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const getProfileData = useCallback(async () => {
+    if (!user?.userId) {
+      console.log("Error getting user id.")
+      return;
+    }
+
+    try {
+      const profile = await getProfile(user.userId);
+      setProfileData(profile);
+
+      switch (profileData?.avatar) {
+        case "1":
+          setAvatar(Avatar[0]);
+        case "2":
+          setAvatar(Avatar[1]);
+        case "3":
+          setAvatar(Avatar[3]);
+        default:
+          setAvatar(Avatar[0]);
+      }
+
+    } catch (error) {
+      console.log("Couldn't retrieve profile data. Please try again.");
+    }
+  }, [user?.userId]);
+
+  useEffect(() => {
+    getProfileData();
+  }, [getProfileData]);
 
   const handleLogout = useCallback(() => {
     document.cookie = 'authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; secure; samesite=strict';
@@ -33,8 +79,10 @@ export default function Navbar() {
   };
 
   return (
-    <div className='py-5' 
-    style={{ backgroundColor: aboutUsExpanded ? 'black' : '' }}>
+    <div
+      className="fixed top-0 left-0 w-full py-5 z-50"
+      style={{ backgroundColor: aboutUsExpanded ? 'black' : '#fdf7ff' }}
+    >
       <div className="container mx-auto flex justify-between items-center">
 
         {/* Logo */}
@@ -48,12 +96,12 @@ export default function Navbar() {
               alt="Website Logo"
               className="transition-transform duration-300"
             />
-          <span
-            className={`ml-2 text-xl transition-opacity duration-300 ${aboutUsExpanded ? 'text-white' : 'text-black'}`}
-            style={{ fontFamily: 'Logirent' }}
-          >
-            | western cyber society
-          </span>
+            <span
+              className={`ml-2 text-xl transition-opacity duration-300 ${aboutUsExpanded ? 'text-white' : 'text-black'}`}
+              style={{ fontFamily: 'Logirent' }}
+            >
+              | western cyber society
+            </span>
           </Link>
         </div>
 
@@ -91,29 +139,55 @@ export default function Navbar() {
           {user ? (
             <div className="relative inline-block group hover:text-xl transition-all duration-200">
               <button
-                className="relative text-black hover:text-blue-600 text-lg focus:outline-none before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-blue-600 before:transition-all before:duration-500 hover:before:w-full"
+                className="relative text-black hover:text-blue-600 text-lg hover:scale-110 transition-all duration-500"
                 style={{ color: aboutUsExpanded ? '#ededed' : 'black' }}
               >
-                <i className="fa-solid fa-user"></i>
+                <img 
+                  src={avatar}
+                  alt="Profile" 
+                  className="w-7 h-7 rounded-full object-cover"
+                  style={{ flexShrink: 0 }}
+                />
               </button>
-              <div className="absolute right-0 w-36 bg-zinc-200 shadow-lg z-20 hidden group-hover:block transition-opacity duration-500 fadeIn">
+              <div className="absolute right-0 w-64 shadow-lg border border-violet-500 rounded-lg z-20 hidden group-hover:block transition-opacity duration-500 fadeIn"
+              style={{ backgroundColor: '#fdf7ff' }}>
+              <div className="flex items-center justify-center space-x-3 p-2 mt-2">
+                <img 
+                  src={avatar}
+                  alt="Profile" 
+                  className="w-16 h-16 rounded-full object-cover"
+                  style={{ flexShrink: 0 }} // Prevents the image from shrinking
+                />
+                <div className="flex flex-col justify-center">
+                  <h2 className="text-sm font-bold text-gray-600 truncate max-w-[20ch]">{profileData?.firstName} {profileData?.lastName}</h2>
+                  <h2 className="ml-1 text-gray-400 text-xs">{profileData?.uwoEmail}</h2>
+                </div>
+                
+              </div>
+              
+              { profileData?.plan === "Basic" && (
+                <p className="flex justify-end mx-8 text-xs font-bold text-violet-500 cursor-pointer hover:underline">Become a VIP</p>
+              ) }
+              <div className="mt-2 border-t border-violet-500"></div>
+              <div className='text-sm'>
                 <Link href="/profile">
-                  <h2 className="block text-lg px-4 py-2 text-gray-700 hover:bg-blue-100 transition-transform duration-500 fadeInUpTwo">Edit Profile</h2>
+                  <p className="block px-6 py-2 text-gray-700 hover:bg-violet-200">Profile</p>
                 </Link>
-                <Link href="/my-events">
-                  <h2 className="block text-lg px-4 py-2 text-gray-700 hover:bg-blue-100 transition-transform duration-500 fadeInUpTwo">My Events</h2>
+                <Link href="/myevents">
+                  <p className="block px-6 py-2 text-gray-700 hover:bg-violet-200">My Events</p>
                 </Link>
-                <button onClick={handleLogout} className="block text-lg w-full py-2 px-4 text-left text-gray-700 hover:bg-blue-100 transition-transform duration-500 fadeInUpTwo">
+                <button onClick={handleLogout} className="block w-full px-6 py-2 text-left text-gray-700 hover:bg-violet-200">
                   Sign Out
                 </button>
               </div>
             </div>
+            </div>
           ) : (
             <button
-              className="relative z-40 rounded-full text-black border-2 hover:scale-105 hover:bg-black hover:text-white px-4 py-1 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+              className="relative z-40 border-1 text-black hover:scale-105 hover:bg-black hover:text-white px-4 py-1 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
               aria-label="Sign In"
               onClick={() => router.push('/sign-up')}
-              style={{ color: aboutUsExpanded ? '#ededed' : '', borderColor: aboutUsExpanded ? '#ededed' : 'black' }}
+              style={{ color: aboutUsExpanded ? '#ededed' : '', borderColor: aboutUsExpanded ? 'white' : 'black' }}
             >
               REGISTER
             </button>
@@ -135,7 +209,7 @@ export default function Navbar() {
           <div className="w-full flex flex-col p-0 m-0">
 
             {/* About Us content */}
-            <div className={`transition-transform mx-5  duration-500 ${aboutUsExpanded ? 'fadeInUp' : 'fadeOut'}`}>
+            <div className={`transition-transform mx-5 duration-500 ${aboutUsExpanded ? 'fadeInUp' : 'fadeOut'}`}>
               <p className="text-gray-800 text-2xl mb-2 mt-5"><strong>ABOUT US</strong></p>
               <p className='text-gray-700 text-md ml-2 mb-5'>
                 We’re dedicated to delivering innovative solutions and driving growth through strategic thinking and expert execution.
@@ -143,7 +217,7 @@ export default function Navbar() {
             </div>
 
             <div className="flex flex-wrap gap-5 mx-5 mb-3 justify-center">
-              {[{ title: 'Overview', description: 'Explore how we drive innovation and success through strategic insights and cutting-edge solutions.', link: '/overview' },
+              {[{ title: 'About Us', description: 'Explore how we drive innovation and success through strategic insights and cutting-edge solutions.', link: '/overview' },
                 { title: 'SIP Projects', description: 'Discover our impactful SIP projects that showcase our expertise in transforming ideas into results.', link: '/projects' },
                 { title: 'Events', description: 'Join us at our events to network with industry leaders and gain valuable insights on emerging trends.', link: '/events' },
                 { title: 'Meet the Team', description: 'Get to know the talented individuals behind our success, bringing expertise and passion to every project.', link: '/meetTheTeam' }

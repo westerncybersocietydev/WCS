@@ -272,7 +272,7 @@ export default function Projects() {
   return (
     <div>
       <Navbar />
-      <main className="min-h-screen flex flex-col bg-gray-100">
+      <main className="mt-16 min-h-screen flex flex-col bg-gray-100">
         <section
           className="relative w-full h-[30vw] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/projectBg.jpg')" }}

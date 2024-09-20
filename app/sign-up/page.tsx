@@ -1,38 +1,26 @@
 "use client";
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import { createUser, loginUser } from '../lib/actions/user.action';
-import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
-import CheckoutForm from '../components/checkoutForm';
-import { Elements } from '@stripe/react-stripe-js';
 import { useUser } from '../context/UserContext';
 import { useRouter } from "next/navigation";
-
-type PlanType = 'Basic' | 'VIP';
-
-const Basic = [
-  'Ad-free experience',
-  'Early access to new features',
-  'Advanced analytics and insights',
-];
-
-const VIP = [
-  'Multi-device sync',
-  'Offline mode',
-  'Community support',
-  'Limited storage',
-];
-
+import BecomeVIP from '../components/becomeVIP';
+import toast from 'react-hot-toast';
+import { Basic, VIP } from "../dataFiles/perks";
 
 export default function Signup() {
   const router = useRouter();
 
-  const [loading, setLoading] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<PlanType | "">("Basic");
+  const [loading, setLoading] = useState(false)
+  const [basicLoading, setBasicLoading] = useState(false);
+  const [vipLoading, setVipLoading] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [step, setStep] = useState(1);
   const [error, setError] = useState<string | null>(null);
   const { fetchUser } = useUser();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formEvent, setFormEvent] = useState<React.FormEvent | null>(null);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -44,39 +32,37 @@ export default function Signup() {
     confirmPassword: '', // New field
   });
 
-  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
-  const options:StripeElementsOptions = {
-    mode: 'payment',
-    amount: 15 * 100,
-    currency: 'cad',
+  const onClose = () => {
+    setIsModalOpen(false);
   };
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setError('')
     const { name, value } = e.target;
     setFormData(prevData => ({ ...prevData, [name]: value }));
   }, []);
 
   const isFormComplete = useCallback(() => {
-    // Ensure all fields except preferredEmail are filled in
     return Object.entries(formData).every(([key, value]) => 
-      key === 'preferredEmail' || value !== ""
+      key === 'preferredEmail' || value.trim() !== ""
     );
   }, [formData]);  
   
   const handleNext = useCallback(async () => {
     setError('');
+
+    setLoading(true); // Start loading
     if (!isFormComplete()) {
       setError('Please fill in all required fields.');
+      setLoading(false);
       return;
     }
 
     // Check if passwords match
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match.');
+      toast.error('Passwords do not match.');
       return;
     }
-  
-    setLoading(true); // Start loading
   
     if (step === 1) {
       try {
@@ -87,7 +73,7 @@ export default function Signup() {
         });
         const result = await response.json();
         if (result) {
-          setError('UWO email is taken. Please use a different uwo email or login.');
+          toast.error('UWO email is taken. Please use a different uwo email or login.');
           setLoading(false);
           return;
         }
@@ -98,13 +84,13 @@ export default function Signup() {
       }
     }
   
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Optional: smooth scroll
+    });
     setStep(prevStep => prevStep + 1);
     setLoading(false); // Stop loading
   }, [step, formData.uwoEmail, isFormComplete]);  
-
-  const handlePlanSelection = useCallback((plan: PlanType) => {
-    setSelectedPlan(plan);
-  }, []);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,16 +103,19 @@ export default function Signup() {
     setLoading(true); // Start loading
 
     try {
-      await createUser(
-        formData.firstName,
-        formData.lastName,
-        formData.uwoEmail,
-        formData.preferredEmail,
-        formData.currentYear,
-        formData.program,
-        selectedPlan,
-        formData.password
-      );
+
+      if (selectedPlan) {
+        await createUser(
+          formData.firstName,
+          formData.lastName,
+          formData.uwoEmail,
+          formData.preferredEmail,
+          formData.currentYear,
+          formData.program,
+          selectedPlan,
+          formData.password
+        );
+      }
 
       const token = await loginUser(formData.uwoEmail, formData.password);
       document.cookie = `authToken=${token}; path=/; secure; samesite=strict`; // Setting cookie on the client side
@@ -249,18 +238,47 @@ export default function Signup() {
         throw new Error('Failed to send welcome email.');
       }
 
-      const result = await emailResponse.json();
-      console.log(result.message)
-
+      await emailResponse.json();
 
       setStep(3); // Success step
+      toast.success("Registration Completed Successfully.")
     } catch (error) {
-      setError('Error creating account or sending email.');
+      toast.error('Error creating account or sending email.');
     } finally {
       setLoading(false);
+      setBasicLoading(false);
+      setVipLoading(false);
     }
   }, [formData, selectedPlan]);
 
+  
+  const handleVIP = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormEvent(e); 
+    setSelectedPlan("VIP");
+    setIsModalOpen(false);
+    setVipLoading(true)
+  }, []);
+
+  const handleBasic = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormEvent(e); 
+    setSelectedPlan("Basic");
+    setIsModalOpen(false);
+    setBasicLoading(true)
+  }, []);
+
+  useEffect(() => {
+    const submitForm = async () => {
+      if (selectedPlan && formEvent) {
+        await handleSubmit(formEvent);
+        setVipLoading(false);
+      }
+    };
+  
+    submitForm();
+  }, [selectedPlan, formEvent, handleSubmit]);
+  
   const handleBack = useCallback(() => {
     setError(''); // Clear any existing errors
     if (step > 1) {
@@ -271,7 +289,7 @@ export default function Signup() {
   return (
     <div>
       <Navbar />
-      <div className="flex flex-col text-black items-center justify-center min-h-screen bg-gray-100 p-4" style={{ background: '#ededed' }}>
+      <div className="mt-16 flex flex-col text-black items-center justify-center min-h-screen bg-gray-100 p-4" style={{ background: '#ededed' }}>
       <div className='w-full'>
           { step === 2 && (
             <button
@@ -285,10 +303,10 @@ export default function Signup() {
 
         <div className='w-full flex justify-center'>
           {step === 1 && (
-            <div className=' bg-white rounded-lg shadow-md p-9 w-full max-w-lg shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300'>
+            <div className='bg-white rounded-lg shadow-md p-9 w-full max-w-lg shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300'>
             <h2 className="text-3xl mb-2 font-bold text-center text-gray-800">SIGN UP</h2>
             <p className='flex justify-center text-xs text-gray-500 mb-6'>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form className="space-y-4">
               <div className="flex space-x-4">
                 {/* First Name */}
                 <div className="flex flex-col space-y-1 w-1/2">
@@ -354,7 +372,7 @@ export default function Signup() {
                   name="currentYear"
                   value={formData.currentYear}
                   onChange={handleChange}
-                  className="bg-white border border-gray-300 rounded-lg px-3 py-3 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out shadow-sm"
+                  className="bg-white border border-gray-300 rounded-lg px-3 py-3 text-sm text-black focus:outline-none focus:ring-1 focus:ring-blue-500 transition duration-200 ease-in-out shadow-sm"
                   required
                 >
                   <option value="" disabled>Select Year</option>
@@ -430,11 +448,11 @@ export default function Signup() {
                   <p className="mt-3 mb-8 text-gray-700 text-sm">
                     The Basic Plan is ideal for students beginning their journey.
                   </p>
-                  {Basic.map((benefit, index) => (
-                        <li key={index} className="mt-2 flex font-semibold text-sm items-center text-gray-500 text-md">
-                          <i className="fa-solid fa-circle-check text-green-500 font-bold mr-2"></i>
-                          {benefit}
-                        </li>
+                  {Basic.map((benefit) => (
+                      <li key={benefit} className="mt-2 flex font-semibold text-sm items-center text-gray-500 text-md">
+                      <i className="fa-solid fa-circle-check text-green-500 font-bold mr-2"></i>
+                      {benefit}
+                    </li>
                       ))}
                   {VIP.map((benefit, index) => (
                         <li key={index} className="mt-2 flex font-semibold text-sm items-center text-gray-500 text-md">
@@ -444,8 +462,9 @@ export default function Signup() {
                       ))}
                   <button
                     className="mt-10 w-full font-bold bg-gradient-to-r from-blue-800 to-indigo-900 text-white py-2 px-4 rounded transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
+                    onClick={handleBasic}
                   >
-                    Continue
+                    {basicLoading ? 'Creating Account...' : 'Continue'}
                   </button>
                 </div>
                 <div className="w-2/5 bg-white rounded-lg p-8 shadow-lg">
@@ -468,8 +487,12 @@ export default function Signup() {
                       ))}
               <button
                 className="mt-10 w-full font-bold bg-gradient-to-r from-violet-500 to-purple-500 text-white py-2 px-4 rounded hover:bg-blue-700 hover:scale-105 transition"
+                onClick={() => setIsModalOpen(true)}
               >
-               <i className="fa-solid fa-rocket"></i> Become a VIP
+                {vipLoading 
+                  ? 'Creating Account...' 
+                  : <><i className="fa-solid fa-rocket"></i> Become a VIP</>
+                }
               </button>
                 </div>
               </div>
@@ -478,13 +501,13 @@ export default function Signup() {
           {step === 3 && (
             <div className="text-center space-y-2">
               <h3 className="text-3xl font-semibold text-gray-800">Congratulations!</h3>
-              <h3 className="text-xl font-semibold text-gray-800">You Are Now a VIP</h3>
+              <h3 className="text-xl font-semibold text-gray-800">You Are Now a WCS {selectedPlan} Member</h3>
               <p className="text-gray-600 mt-2">
                 Thank you for signing up for the Western Cyber Society. Check your inbox for an email shortly.
               </p>
               <div className="mt-10">
                 <button
-                  className='w-full mt-5 bg-violet-800 text-white py-2 rounded-full hover:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'
+                  className='w-full mt-5 bg-violet-800 text-white py-2 rounded-full hover:bg-violet-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'
                   type='button'
                   onClick={() => router.push('/')}
                 >
@@ -494,11 +517,14 @@ export default function Signup() {
             </div>
           )}
 
-          {error && <p className="text-center text-sm font-semibold text-red-500 mt-2">{error}</p>}
+          
 
         </div>
+        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       </div>
       <Footer />
+      {/* Modal */}
+      <BecomeVIP isOpen={isModalOpen} onClose={onClose} onComplete={handleVIP} />
     </div>
   );
 }

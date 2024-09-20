@@ -1,10 +1,10 @@
 "use client"
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Carousel from '../components/eventCarousel';
 import Image from 'next/image';
-import events from '../dataFiles/events';
+import { EventObject, getAllEvents } from '../lib/actions/event.action';
 
 const images = [
   "/overview.jpg",
@@ -12,10 +12,24 @@ const images = [
   "/overview.jpg",
   "/overview.jpg",
   "/overview.jpg",
-  "/overview.jpg",
-];
+  "/overview.jpg"
+]
 
 export default function Events() {
+  const [events, setEvents] = useState<EventObject[]>([]); // State to store events
+
+  useEffect(() => {
+    // Fetch events when the component mounts
+    async function fetchEvents() {
+      try {
+        const eventData = await getAllEvents(); // Call the API to get events
+        setEvents(eventData); // Set the fetched events to state
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    }
+    fetchEvents();
+  }, []);
 
   return (
     <div>
@@ -23,7 +37,7 @@ export default function Events() {
       <div className='text-black'>
         {/* Full-width background image with text */}
         <section
-          className="relative w-full h-[30vw] bg-cover bg-center bg-no-repeat"
+          className="mt-16 relative w-full h-[30vw] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/projectBg.jpg')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -38,6 +52,7 @@ export default function Events() {
         <div className="flex justify-center mx-auto">
           <Carousel
             items={events.map((event) => ({
+              id: event.id,
               name: event.name,
               image: event.image,
               date: event.date,
@@ -70,9 +85,7 @@ export default function Events() {
       ))}
     </div>
 
-
     </div>
-
       </div>
       <Footer />
     </div>

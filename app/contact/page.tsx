@@ -1,9 +1,14 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
+import toast from 'react-hot-toast';
+import { useRouter } from "next/navigation";
+import { newInquiry } from '../lib/actions/contact.action';
 
 export default function Contact() {
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     topic: 'general',
     firstName: '',
@@ -13,9 +18,12 @@ export default function Contact() {
   });
 
   const [charCount, setCharCount] = useState(0);
-  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: { target: { name: string; value: string; }; }) => {
+
+    setError('')
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -27,44 +35,64 @@ export default function Contact() {
     }
   };
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-    // Handle form submission logic here, e.g., send the form data to the backend.
-    setSubmitted(true);
-  };
-
-  if (submitted) {
-    return (
-    <div>
-    <Navbar />
-      <div className="p-6 text-center text-black mt-20">
-        <h2 className="text-2xl font-bold">Submission Successful!</h2>
-        <p className="mt-4">Thank you for reaching out. We will get back to you as soon as possible.</p>
-        <a href="/" className="mt-5 inline-block text-blue-500 font-semibold py-2 px-4 border-2 border-blue-500
-         rounded transition-all duration-300 hover:bg-blue-500 hover:text-white hover:transform 
-         hover:translate-y-[-3px] focus:outline-none focus:ring-2 focus:ring-blue-500">
-        Go back to Home page</a>
-      </div>
-        <Footer />
-      </div>
+  const isFormComplete = useCallback(() => {
+    return Object.entries(formData).every(([key, value]) => 
+      key === 'preferredEmail' || value.trim() !== ""
     );
-  }
+  }, [formData]);
+
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+
+    if (!isFormComplete()) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await newInquiry(formData?.firstName, formData?.lastName, formData?.email, formData.message);
+      toast.success("Inquiry Received Successfully.");
+      
+      // Clear form data
+      setFormData({
+        topic: 'general',
+        firstName: '',
+        lastName: '',
+        email: '',
+        message: '',
+      });
+      setCharCount(0);  // Reset character count
+      setError(null);    // Clear error message
+      
+      router.push('/');  // Redirect to homepage or another page
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
     <Navbar />
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-md mt-12 text-black">
-      <h1 className="text-3xl font-bold mb-4 text-center">Contact Us</h1>
-      <p className="mb-6 text-gray-600">Have a question or need assistance? Fill out the form below with your inquiry, and we&apos;ll get back to you as soon as possible!</p>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="topic" className="block mb-2">Topic</label>
+    <div className='mt-16 w-full flex justify-center'>
+    <form className="space-y-4 max-w-lg bg-white rounded-lg shadow-md p-9">
+          <h1 className="text-3xl mb-2 font-bold text-center text-gray-800">Contact Us</h1>
+          <p className="mb-6 text-gray-600">Have a question or need assistance? Fill out the form below with your inquiry, and we&apos;ll get back to you as soon as possible!</p>
+
+
+          {/* Form fields */}
+          <div className="flex flex-col space-y-1 text-black">
+          <label htmlFor="topic" className="text-gray-700 font-semibold text-sm">Topic</label>
           <select
             id="topic"
             name="topic"
             value={formData.topic}
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded"
+            className="bg-white border border-gray-300 rounded-lg px-3 py-3 text-black text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition duration-200 ease-in-out shadow-sm"
           >
             <option value="general">General</option>
             <option value="events">Events & Projects</option>
@@ -72,68 +100,77 @@ export default function Contact() {
           </select>
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="firstName" className="block mb-2">First Name</label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
+          <div className="flex space-x-4">
 
-        <div className="mb-4">
-          <label htmlFor="lastName" className="block mb-2">Last Name</label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
+            
+            {/* First Name */}
+            <div className="flex flex-col space-y-1 w-1/2 text-black">
+            <label htmlFor="firstName" className="text-gray-600 font-bold text-sm">First Name <span className='font-normal'>(required)</span></label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                required
+              />
+            </div>
 
-        <div className="mb-4">
-          <label htmlFor="email" className="block mb-2">UWO Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            pattern=".+@uwo\.ca"
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
+            {/* Last Name */}
+            <div className="flex flex-col space-y-1 w-1/2 text-black">
+            <label htmlFor="lastName" className="text-gray-600 font-bold text-sm">Last Name <span className='font-normal'>(required)</span></label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                required
+              />
+            </div>
+            </div>
 
-        <div className="mb-4">
-          <label htmlFor="message" className="block mb-2">Message</label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            maxLength={500}
-            rows={5}
-            required
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-          <p className="text-sm text-gray-500 mt-1">{500 - charCount} characters remaining</p>
-        </div>
+            {/* Email */}
+            <div className="flex flex-col space-y-1 text-black">
+            <label htmlFor="email" className="text-gray-600 font-bold text-sm">UWO Email <span className='font-normal'>(required)</span></label>
+              <input
+                type="text"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                required
+              />
+            </div>
 
-        <button
-          type="submit"
-          className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-        >
-          Submit
-        </button>
-      </form>
+            <div className="flex flex-col space-y-1 text-black">
+              <label htmlFor="message" className="text-gray-600 font-bold text-sm">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                maxLength={500}
+                rows={5}
+                required
+                className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+              />
+              <p className="text-sm text-gray-500 mt-1">{500 - charCount} characters remaining</p>
+            </div>
+
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              disabled={loading}
+              className="w-full rounded-xl text-white bg-blue-600 border hover:bg-blue-800 hover:text-white px-4 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+            >
+              {loading ? "Sending..." : "Update Submit"}
+            </button>
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+        </form>
     </div>
     <Footer />
 </div>
