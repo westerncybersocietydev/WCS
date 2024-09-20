@@ -112,12 +112,14 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
               <button 
                 className="px-6 py-2 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-all"
                 onClick={() => onRSVP(user?.userId || '', item.id)}
+                disabled={loading}
               >
                 Yes, I will attend!
               </button>
               <button 
                 className="px-6 py-2 bg-red-500 text-white font-medium rounded-full hover:bg-red-700 transition-all"
                 onClick={onClose}
+                disabled={loading}
               >
                 Nevermind
               </button>

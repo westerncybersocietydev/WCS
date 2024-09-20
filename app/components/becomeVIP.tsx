@@ -1,5 +1,5 @@
 "use client"
-import React, { FormEvent, useState } from "react";
+import React, { useState } from "react";
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import CheckoutForm from '../components/checkoutForm';
 import { Elements } from '@stripe/react-stripe-js';
