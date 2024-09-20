@@ -118,7 +118,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
   // Utility functions to format date and time for Google Calendar links
   const formatDateTimeForGoogle = (dateStr: string, timeStr: string) => {
     try {
-      const [_dayOfWeek, month, day, year] = dateStr.split(" ");
+      const [, month, day, year] = dateStr.split(" ");
       const fullDateStr = `${month} ${day}, ${year} ${timeStr}`;
       
       // Create a new Date object in the user's local time zone
@@ -157,7 +157,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
 // Function to convert date and time to ISO format for Outlook
 const formatDateTimeForOutlook = (dateStr: string, timeStr: string) => {
   try {
-    const [_dayOfWeek, month, day, year] = dateStr.split(" ");
+    const [, month, day, year] = dateStr.split(" ");
     const time24Hour = convertTo24HourFormat(timeStr); // Convert to 24-hour format
     const fullDateStr = `${month} ${day}, ${year} ${time24Hour}`;
     const startDate = new Date(fullDateStr);
