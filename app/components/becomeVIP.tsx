@@ -28,9 +28,9 @@ interface BecomeVIPProps {
 }
 
 const BecomeVIP: React.FC<BecomeVIPProps> = ({ isOpen, onClose, onComplete }) => {
-  if (!isOpen) return null;
-
   const [paymentOpen, setPaymentOpen] = useState(false);
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
