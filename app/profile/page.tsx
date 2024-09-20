@@ -402,7 +402,7 @@ export default function Profile() {
                   </>
                 ) : profileData?.plan === 'VIP' ? (
                   <>
-                    <p className="mt-3 mb-3 text-gray-700 text-xs w-[24vw]">
+                    <p className="mt-3 mb-3 text-gray-700 text-xs">
                       The VIP Plan is ideal for students who want to go places in their career journey and make an impact.
                     </p>
                     <ul>

@@ -144,13 +144,19 @@ export default function Home() {
         <h1 className="mt-3 text-gray-700 text-center tracking-wide text-sm">
           The #1 tech club in Western with just 1 year of history.
         </h1>
-        <button className="mt-6 tracking-widest rounded-full font-semibold text-white
-                  border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
-                  px-14 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
-        onClick={() => router.push("/sign-up")}>
-          Register
-        </button>
-        <p className="mt-1 text-gray-700 text-center tracking-wide text-sm mb-10">Already have an account? <a href="/sign-in" className="text-blue-500 hover:underline">Sign In</a></p>
+        {token && (
+        <>
+          <button className="mt-6 tracking-widest rounded-full font-semibold text-white
+            border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
+            px-14 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+            onClick={() => router.push("/sign-up")}>
+            Register
+          </button>
+          <p className="mt-1 text-gray-700 text-center tracking-wide text-sm mb-10">
+            Already have an account? <a href="/sign-in" className="text-blue-500 hover:underline">Sign In</a>
+          </p>
+        </>
+      )}
       </div>
 
       <div className="flex justify-center">
@@ -239,14 +245,14 @@ export default function Home() {
     </div>
   </div>
   
-  <div className="w-full flex flex-col items-center h-[32vw] mx-auto bg-cover bg-center" style={{ backgroundImage: 'url(/landing3.png)' }}>
+  <div className="w-full flex flex-col justify-center items-center min-h-[32vw] mx-auto bg-cover bg-center" style={{ backgroundImage: 'url(/landing2.png)' }}>
   <h1 className="text-4xl font-bold text-black pt-10 text-center mb-5">Frequently Asked Questions</h1>
-  <div className="flex flex-col items-center w-5/6 bg-white rounded-lg shadow-[0_1px_4px_1px_rgba(0,0,0,0.75)]">
+  <div className="flex flex-col items-center w-5/6 bg-white rounded-lg shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)]">
     {faqs.map((faq, index) => (
       <div key={index} className="w-full border-b-2 border-gray-300 rounded-lg">
         <button
           onClick={() => toggleAnswer(index)}
-          className="w-full text-md flex justify-between items-center text-black font-bold text-left py-2 px-4 rounded-t-md transition-all duration-500"
+          className="w-full text-lg flex justify-between items-center text-black font-bold text-left py-2 px-4 rounded-t-md transition-all duration-500"
         >
           {faq.question}
           <span className="ml-2">
@@ -262,7 +268,6 @@ export default function Home() {
     ))}
   </div>
 </div>
-
       <Footer />
     </div>
   );

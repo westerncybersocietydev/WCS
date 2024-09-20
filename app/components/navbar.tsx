@@ -102,7 +102,7 @@ export default function Navbar() {
     <div>
     <div
       className="fixed top-0 left-0 w-full py-5 z-50"
-      style={{ backgroundColor: aboutUsExpanded ? '#8b5cf6' : '#fdf7ff' }}
+      style={{ backgroundColor: aboutUsExpanded ? 'black' : '#fdf7ff' }}
     >
       <div className="container mx-auto flex justify-between items-center">
 
@@ -204,14 +204,14 @@ export default function Navbar() {
             </div>
             </div>
           ) : (
-            <button
-              className="relative z-40 border-1 text-black hover:scale-105 hover:bg-black hover:text-white px-4 py-1 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
-              aria-label="Sign In"
-              onClick={() => router.push('/sign-up')}
-              style={{ color: aboutUsExpanded ? '#ededed' : '', borderColor: aboutUsExpanded ? 'white' : 'black' }}
-            >
-              REGISTER
-            </button>
+          <button className={`tracking-widest rounded-full font-semibold
+            border-2 font-bold ${aboutUsExpanded ? 'bg-white text-black' : 'bg-gradient-to-r from-violet-500 to-purple-500 text-white'}
+            hover:scale-105 
+            ${aboutUsExpanded ? '' : 'hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800'} 
+            px-10 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
+            onClick={() => router.push("/sign-up")}>
+            Register
+          </button>
           )}
         </div>
       </div>
@@ -226,7 +226,7 @@ export default function Navbar() {
           onMouseLeave={handleMouseLeave}
         >
           {/* Black bar at the top */}
-          <div className="h-3 w-full bg-violet-500"></div>
+          <div className="h-3 w-full bg-black"></div>
           <div className="w-full flex flex-col p-0 m-0">
 
             {/* About Us content */}
