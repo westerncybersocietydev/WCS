@@ -36,15 +36,16 @@ export default function MyEvents() {
   // Utility function to convert 12-hour time format (e.g., 7:00PM) to 24-hour format
   const convertTo24HourFormat = (timeStr: string) => {
     const [time, modifier] = timeStr.split(' ');
-    let [hours, minutes] = time.split(':').map(Number);
+    const [hours, minutes] = time.split(':').map(Number);
+    let updatedhours = hours;
 
     if (modifier === 'PM' && hours !== 12) {
-      hours += 12;
+      updatedhours += 12;
     } else if (modifier === 'AM' && hours === 12) {
-      hours = 0;
+      updatedhours = 0;
     }
 
-    return `${hours}:${minutes.toString().padStart(2, '0')}`;
+    return `${updatedhours}:${minutes.toString().padStart(2, '0')}`;
   };
 
   // Utility functions to format date and time for Google Calendar links
@@ -89,7 +90,7 @@ export default function MyEvents() {
 // Function to convert date and time to ISO format for Outlook
 const formatDateTimeForOutlook = (dateStr: string, timeStr: string) => {
   try {
-    const [dayOfWeek, month, day, year] = dateStr.split(" ");
+    const [_dayOfWeek, month, day, year] = dateStr.split(" ");
     const time24Hour = convertTo24HourFormat(timeStr); // Convert to 24-hour format
     const fullDateStr = `${month} ${day}, ${year} ${time24Hour}`;
     const startDate = new Date(fullDateStr);
