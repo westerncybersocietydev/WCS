@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { useUser } from '../context/UserContext'; // Adjust the path as 
 import Avatar from '../dataFiles/avatars';
-import { getProfile } from '../lib/actions/user.action';
+import { getProfile, updatePlan } from '../lib/actions/user.action';
+import BecomeVIP from './becomeVIP';
+import toast from 'react-hot-toast';
 
 interface ProfileData {
   firstName: string;
@@ -24,6 +26,7 @@ export default function Navbar() {
   const { user, fetchUser } = useUser();
   const [avatar, setAvatar] = useState(Avatar[0])
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [aboutUsExpanded, setAboutUsExpanded] = useState(false);
   const aboutUsRef = useRef<HTMLDivElement | null>(null);
   const leaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -58,6 +61,10 @@ export default function Navbar() {
     getProfileData();
   }, [getProfileData]);
 
+  const onClose = () => {
+    setIsModalOpen(false);
+  };
+
   const handleLogout = useCallback(() => {
     document.cookie = 'authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; secure; samesite=strict';
     fetchUser(); // Fetch user after logout to update state
@@ -78,10 +85,24 @@ export default function Navbar() {
     }, 300); // Adjust delay as needed
   };
 
+  const handlePlanSubmit = async () => {
+    if (!user?.userId) return;
+  
+    try {
+      await updatePlan(user.userId, "VIP");
+      await getProfileData();
+      onClose();
+      toast.success("Congratulations! You are now a VIP!")
+    } catch (error) {
+      toast.error("Failed to update the plan. Please try again.");
+    }
+  };
+
   return (
+    <div>
     <div
       className="fixed top-0 left-0 w-full py-5 z-50"
-      style={{ backgroundColor: aboutUsExpanded ? 'black' : '#fdf7ff' }}
+      style={{ backgroundColor: aboutUsExpanded ? '#8b5cf6' : '#fdf7ff' }}
     >
       <div className="container mx-auto flex justify-between items-center">
 
@@ -145,7 +166,7 @@ export default function Navbar() {
                 <img 
                   src={avatar}
                   alt="Profile" 
-                  className="w-7 h-7 rounded-full object-cover"
+                  className="w-7 h-7 rounded-full mt-1 object-cover"
                   style={{ flexShrink: 0 }}
                 />
               </button>
@@ -166,7 +187,7 @@ export default function Navbar() {
               </div>
               
               { profileData?.plan === "Basic" && (
-                <p className="flex justify-end mx-8 text-xs font-bold text-violet-500 cursor-pointer hover:underline">Become a VIP</p>
+                <p onClick={() => setIsModalOpen(true)} className="flex justify-end mx-8 text-xs font-bold text-violet-500 cursor-pointer hover:underline">Become a VIP</p>
               ) }
               <div className="mt-2 border-t border-violet-500"></div>
               <div className='text-sm'>
@@ -205,7 +226,7 @@ export default function Navbar() {
           onMouseLeave={handleMouseLeave}
         >
           {/* Black bar at the top */}
-          <div className="h-3 w-full bg-black"></div>
+          <div className="h-3 w-full bg-violet-500"></div>
           <div className="w-full flex flex-col p-0 m-0">
 
             {/* About Us content */}
@@ -240,6 +261,8 @@ export default function Navbar() {
           </div>
         </div>
       )}
+    </div>
+    <BecomeVIP isOpen={isModalOpen} onClose={onClose} onComplete={handlePlanSubmit} />
     </div>
   );
 }

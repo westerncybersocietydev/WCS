@@ -6,6 +6,7 @@ import { EventObject } from '../lib/actions/event.action';
 import { eventRSVP, getMyEvents } from '../lib/actions/user.action';
 import { useUser } from '../context/UserContext';
 import { useRouter } from "next/navigation";
+import toast from 'react-hot-toast';
 
 interface CarouselProps {
   items: EventObject[];
@@ -85,7 +86,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
     try {
       await eventRSVP(userId, eventId);
       closeRSVPModal();
-      closeModal();
+      toast.success("You have successfully RSVP'd")
       await getProfileData();
     } catch (error) {
       console.error("Error RSVPing for event:", error);
@@ -98,6 +99,93 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
   const isEventRSVPd = (eventId: string) => {
     return rsvpEvents.some(event => event.id === eventId);
   };
+
+  // Utility function to convert 12-hour time format (e.g., 7:00PM) to 24-hour format
+  const convertTo24HourFormat = (timeStr: string) => {
+    const [time, modifier] = timeStr.split(' ');
+    let [hours, minutes] = time.split(':').map(Number);
+
+    if (modifier === 'PM' && hours !== 12) {
+      hours += 12;
+    } else if (modifier === 'AM' && hours === 12) {
+      hours = 0;
+    }
+
+    return `${hours}:${minutes.toString().padStart(2, '0')}`;
+  };
+
+  // Utility functions to format date and time for Google Calendar links
+  const formatDateTimeForGoogle = (dateStr: string, timeStr: string) => {
+    try {
+      const [dayOfWeek, month, day, year] = dateStr.split(" ");
+      const fullDateStr = `${month} ${day}, ${year} ${timeStr}`;
+      
+      // Create a new Date object in the user's local time zone
+      const date = new Date(fullDateStr);
+  
+      // Format it as YYYYMMDDTHHmmss without time zone (local time)
+      const yearPart = date.getFullYear();
+      const monthPart = String(date.getMonth() + 1).padStart(2, '0');
+      const dayPart = String(date.getDate()).padStart(2, '0');
+      const hoursPart = String(date.getHours()).padStart(2, '0');
+      const minutesPart = String(date.getMinutes()).padStart(2, '0');
+      const secondsPart = String(date.getSeconds()).padStart(2, '0');
+  
+      return `${yearPart}${monthPart}${dayPart}T${hoursPart}${minutesPart}${secondsPart}`;
+    } catch (error) {
+      console.error("Invalid Google Calendar Date/Time:", error);
+      return '';
+    }
+  };
+  
+  const googleUrl = (event: EventObject) => {
+    const startDateTime = formatDateTimeForGoogle(event.date, event.time);
+    
+    // Assuming the event lasts 1 hour (adjust as needed)
+    const startTime = new Date(`${event.date} ${event.time}`);
+    const endTime = new Date(startTime);
+    endTime.setHours(startTime.getHours() + 1);
+  
+    // Formatting end time similarly
+    const endDateTime = formatDateTimeForGoogle(endTime.toDateString(), endTime.toTimeString().split(' ')[0]);
+  
+    return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.name)}&dates=${startDateTime}/${endDateTime}&location=${encodeURIComponent(event.location)}&details=${encodeURIComponent(event.description)}`;
+  };
+  
+
+// Function to convert date and time to ISO format for Outlook
+const formatDateTimeForOutlook = (dateStr: string, timeStr: string) => {
+  try {
+    const [dayOfWeek, month, day, year] = dateStr.split(" ");
+    const time24Hour = convertTo24HourFormat(timeStr); // Convert to 24-hour format
+    const fullDateStr = `${month} ${day}, ${year} ${time24Hour}`;
+    const startDate = new Date(fullDateStr);
+
+    // Format start time for Outlook
+    const startdt = startDate.toISOString(); // YYYY-MM-DDTHH:MM:SS
+
+    // Set end time by adding the event duration (in hours)
+    const endDate = new Date(startDate);
+    endDate.setHours(startDate.getHours() + 1); // Add duration to the start date
+    const enddt = endDate.toISOString(); // YYYY-MM-DDTHH:MM:SS
+
+    return { startdt, enddt };
+  } catch (error) {
+    console.error("Invalid Outlook Calendar Date/Time:", error);
+    return { startdt: '', enddt: '' };
+  }
+};
+
+const outlookUrl = (event : EventObject) => {
+  const { startdt, enddt } = formatDateTimeForOutlook(event.date, event.time); // Assuming event is 2 hours long
+  return `https://outlook.live.com/calendar/action/compose?subject=${encodeURIComponent(event.name)}&startdt=${startdt}&enddt=${enddt}&location=${encodeURIComponent(event.location)}&body=${encodeURIComponent(event.description)}`;
+};
+
+const isEventPassed = (eventDate: string) => {
+  const eventDateObj = new Date(eventDate);
+  const currentDate = new Date();
+  return eventDateObj < currentDate;
+};
 
   // RSVP Modal Component
   const RSVPModal: React.FC<{ onClose: () => void; onRSVP: (userId: string, eventId: string) => void; item: EventObject | null; }> = ({ onClose, onRSVP, item }) => (
@@ -131,7 +219,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
               <i className="fa-solid fa-x text-xs"></i>
             </button>
             <h1 className="text-4xl tracking-wide font-bold text-center text-gray-800">RSVP for Event</h1>
-            <div className="flex mx-3 flex-row items-start h-3/4 overflow-hidden">
+            <div className="flex mx-3 flex-row items-start h-full overflow-hidden">
               {/* Left Side */}
               <div className="w-2/5 mt-14">
                 <img
@@ -203,12 +291,14 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
               >
                 <div className="relative mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
                   <img
-                    src={item.image}
+                    src={item.image}  
                     alt={item.name}
-                    className="w-full h-1/4 object-cover rounded-t-lg"
+                    className={`w-full h-1/4 object-cover rounded-t-xl ${
+                      isEventPassed(item.date) ? "filter grayscale" : ""
+                    }`}
                   />
-                  <div className="p-4 h-[18vw] bg-white rounded-b-lg">
-                    <h2 className="text-xl font-bold mb-1">{item.name}</h2>
+                  <div className="p-4 h-[18vw] bg-white rounded-b-xl">
+                    <h2 className="text-xl text-gray-800 font-bold mb-1">{item.name}</h2>
                     <p className="text-gray-600 font-semibold mb-1">{item.date}</p>
                     <p className="text-gray-600 mb-1">{item.location}</p>
                     <p className="text-gray-800">
@@ -218,7 +308,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
 
                   {/* View Details overlay on hover */}
                   <div className="absolute bottom-[-30px] right-4 font-semibold transition-all duration-700 ease-in-out group-hover:bottom-2">
-                    <span className='text-sm font-semibold'>View Details <i className="fa-solid fa-arrow-right"></i></span>
+                    <span className='text-sm text-gray-800 font-semibold'>View Details <i className="fa-solid fa-arrow-right"></i></span>
                   </div>
                 </div>
               </div>
@@ -246,20 +336,48 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
               </div>
               {/* Right Side: Content */}
               <div className="lg:w-2/3 p-5 w-full py-5 flex flex-col justify-between">
-                <div className='px-3'>
-                  <h2 className="text-4xl font-bold text-gray-900 mb-2">{selectedItem.name}</h2>
+                <div className='px-3 text-gray-800'>
+                  <h2 className="text-4xl font-bold mb-2">{selectedItem.name}</h2>
+                  {isEventRSVPd(selectedItem.id) && <p className="text-gray-600 ml-2 mb-2 text-xs tracking-wide">Already RSVP&apos;d</p>}
                   <p className="font-semibold ml-2 text-base mb-1"><i className="fa-solid fa-calendar-days"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.date} at {selectedItem.time}</span></p>
                   <p className="font-semibold ml-2 text-base mb-1"><i className="fa-solid fa-location-dot"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.location}</span></p>
                   <p className="font-semibold ml-2 text-base mb-3"><i className="fa-solid fa-tag"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.price}</span></p>
                   <p className="font-normal text-gray-700 ml-2 max-w-lg text-base mb-2 leading-relaxed">{selectedItem.description}</p>
                 </div>
-                <button
-                    onClick={isEventRSVPd(selectedItem.id) ? undefined : openRSVPModal} // Disable button if RSVP'd
-                    className={`self-end mr-5 text-xs z-40 text-gray-950 border border-gray-700 rounded-full ${isEventRSVPd(selectedItem.id) ? "bg-gray-300 cursor-not-allowed" : "bg-violet-400 hover:bg-violet-950 hover:text-white"} py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
-                    disabled={isEventRSVPd(selectedItem.id)} // Disable button
-                  >
-                    {isEventRSVPd(selectedItem.id) ? "Already RSVP'd" : "RSVP"}
-                  </button>
+
+                {isEventRSVPd(selectedItem.id) ? (
+                <div className="flex items-center justify-end space-x-4 mr-5">
+                {/* Add to Outlook Calendar Button */}
+                <a
+                  href={outlookUrl(selectedItem)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-700 hover:to-blue-800 hover:scale-105"
+                >
+                  Add to Outlook Calendar
+                </a>
+
+                {/* Add to Google Calendar Button */}
+                <a
+                  href={googleUrl(selectedItem)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-rose-400 to-red-500 hover:from-rose-600 hover:to-red-700 hover:scale-105"
+                >
+                  Add to Google Calendar
+                </a>
+              </div>
+                ) : (
+                  <button
+                  onClick={openRSVPModal} // Disable button if RSVP'd
+                  className={` self-end mr-5 text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-2 px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
+                  disabled={isEventPassed(selectedItem.date)} // Disable button
+                >
+                  RSVP
+                </button>
+                )}
+
+
               </div>
             </div>
           </div>

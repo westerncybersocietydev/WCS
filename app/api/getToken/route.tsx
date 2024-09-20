@@ -25,6 +25,11 @@ export async function GET(request: Request) {
         return NextResponse.json({ userId: decoded.userId, firstName: decoded.firstName }, { status: 200 });
 
     } catch (error) {
+        if (error instanceof jwt.TokenExpiredError) {
+            // Return a clear message for expired token
+            return NextResponse.json({ message: "Token expired" }, { status: 401 });
+        }
+
         console.error("Error:", error);
         return NextResponse.json({ message: "Failed to verify token", error: error }, { status: 500 });
     }

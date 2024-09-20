@@ -1,5 +1,7 @@
 "use client"
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 interface User {
   userId?: string;
@@ -17,6 +19,7 @@ interface UserProviderProps {
 }
 
 export function UserProvider({ children }: UserProviderProps) {
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
 
   const fetchUser = async () => {
@@ -25,11 +28,25 @@ export function UserProvider({ children }: UserProviderProps) {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
-      if (!response.ok) throw new Error('Network response was not ok');
-      const result = await response.json();
-      setUser(result.userId ? { userId: result.userId } : null);
+
+      const data = await response.json();
+
+      if (response.status === 401 && data.message === 'Token expired') {
+        // Handle expired token case
+        toast.error("Session expired. Please sign in again.");
+        router.push('/sign-in');
+      } else if (response.status === 200) {
+        // Token is valid, set user
+        setUser(data.userId ? { userId: data.userId } : null);
+      } else {
+        // Handle other errors
+        console.error('Error:', data.message);
+        setUser(null);
+      }
+
     } catch (error) {
-      setUser(null);
+      console.error('Error fetching user:', error);
+      setUser(null); // Reset user on error
     }
   };
 
