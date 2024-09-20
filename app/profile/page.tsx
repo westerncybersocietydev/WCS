@@ -319,7 +319,6 @@ export default function Profile() {
           >
             {loading ? "Saving..." : "Update Information"}
           </button>
-          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         </form>
         );
       case 'password':
