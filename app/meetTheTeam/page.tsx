@@ -17,21 +17,6 @@ type TeamCardProps = {
   member: TeamMember;
 };
 
-type ModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  member: {
-    image: string;
-    name: string;
-    title: string;
-    program: string;
-    year: string;
-    email?: string;
-    linkedin?: string;
-    twitter?: string;
-  };
-};
-
 const teamData: TeamMember[] = [
   {
     image: 'alppppp.jpeg',
@@ -177,7 +162,6 @@ const Section: React.FC<{ members: TeamMember[]; }> = ({ members }) => (
 );
 
 export default function MeetTheTeam() {
-  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
   return (
     <div>
