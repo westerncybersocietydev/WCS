@@ -106,7 +106,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
 
   return (
     <div
-      className="relative cursor-pointer overflow-hidden rounded-sm h-[24rem] w-full transition-transform duration-300 ease-in-out hover:scale-110 group"
+      className="relative cursor-pointer overflow-hidden rounded-sm h-[35rem] md:h-[24rem] w-full transition-transform duration-300 ease-in-out hover:scale-110 group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -115,9 +115,9 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
         alt={member.name}
         className="w-11/12 h-5/6 object-cover shadow-xl transition-all duration-500"
       />
-      <div className="absolute z-40 w-3/4 bottom-10 right-2 p-4 bg-gradient-to-r from-zinc-100 to-zinc-100 text-black rounded-sm shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] transition-all duration-200 ease-in-out h-20 group-hover:h-28">
-        <div className="font-semibold text-xl">{member.name}</div>
-        <div className="text-sm">{member.title}</div>
+      <div className="absolute z-40 w-4/5 md:w-3/4 bottom-10 right-2 p-4 bg-gradient-to-r from-zinc-100 to-zinc-100 text-black rounded-sm shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] transition-all duration-200 ease-in-out h-20 group-hover:h-28">
+        <div className="font-semibold text-md md:text-xl">{member.name}</div>
+        <div className="text-xs md:text-sm">{member.title}</div>
         
         {isHovered && (
           <div className="mt-2 flex justify-between items-center">
@@ -149,7 +149,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
 const Section: React.FC<{ members: TeamMember[]; }> = ({ members }) => (
   <section className="mb-8">
     <div className="flex justify-center">
-      <div className="w-full mx-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+      <div className="w-full mx-5 md:mx-20 grid grid-cols-1 md:grid-cols-3 gap-5">
         {members.map((member, index) => (
           <TeamCard
             key={index}
@@ -169,13 +169,13 @@ export default function MeetTheTeam() {
 
       {/* Full-width background image with text */}
       <section
-          className="mt-32 md:mt-16 relative w-full h-[50vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
+          className="mt-40 md:mt-16 relative w-full h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/projectBg.jpg')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="text-white text-center px-6 py-12 max-w-3xl mx-auto">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">Meet The Team</h1>
-              <p className="text-lg md:text-xl leading-relaxed">
+              <h1 className="text-xl md:text-5xl md:text-6xl font-bold mb-6 leading-tight">Behind WCS</h1>
+              <p className="text-sm md:text-lg md:text-xl leading-relaxed">
                 SIPs have been meticulously crafted with industry professionals to equip coordinators with essential skills. Dive into hands-on experience with high-demand software and skills through WCS Projects.
               </p>
             </div>

@@ -134,7 +134,7 @@ export default function Contact() {
 
             {/* Email */}
             <div className="flex flex-col space-y-1 text-black">
-            <label htmlFor="email" className="text-gray-600 font-bold text-sm">UWO Email <span className='font-normal'>(required)</span></label>
+            <label htmlFor="email" className="text-gray-600 font-bold text-sm">Email <span className='font-normal'>(required)</span></label>
               <input
                 type="text"
                 id="email"

@@ -12,13 +12,9 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/overview.jpg",
-      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
+      description: "A cybersecurity project with tools for password brute-force, WiFi password grabbing, and data encryption.",
       director: {
-          name: "Adam Seaton",
-          year: "4th year",
-          email: "adam.seaton@example.com",
-          linkedin: "https://linkedin.com/in/adamseaton",
-          picture: "https://example.com/adam-seaton.jpg"
+          name: "Adam Seaton"
       }
   },
   {
@@ -28,13 +24,9 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/overview.jpg",
-      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
+      description: "Learn and implement modern cryptographic systems used in industry through runnable software.",
       director: {
-          name: "Hunter Korble",
-          year: "4th year",
-          email: "hunter.korble@example.com",
-          linkedin: "https://linkedin.com/in/hunterkorble",
-          picture: "https://example.com/hunter-korble.jpg"
+          name: "Hunter Korble"
       }
   },
   {
@@ -44,13 +36,9 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/overview.jpg",
-      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
+      description: "Create a pneumonia detection model to help medical professionals diagnose scans more efficiently.",
       director: {
-          name: "Alp Unsal",
-          year: "4th year",
-          email: "alp.unsal@example.com",
-          linkedin: "https://linkedin.com/in/alpunzal",
-          picture: "https://example.com/alp-unsal.jpg"
+          name: "Alp Unsal"
       }
   },
   {
@@ -60,13 +48,9 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/overview.jpg",
-      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
+      description: "A solution for users to analyze web apps for vulnerabilities using OWASP ZAP.",
       director: {
-          name: "Dileep Dhami",
-          year: "4th year",
-          email: "dileep.dhami@example.com",
-          linkedin: "https://linkedin.com/in/dileepdhami",
-          picture: "https://example.com/dileep-dhami.jpg"
+          name: "Dileep Dhami"
       }
   },
   {
@@ -76,13 +60,9 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/overview.jpg",
-      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
+      description: "Explore network analysis with a GUI using Wireshark and Python for data visualization.",
       director: {
-          name: "Zaki Hasan Ali",
-          year: "4th year",
-          email: "zaki.hasan.ali@example.com",
-          linkedin: "https://linkedin.com/in/zaki-hasan-ali",
-          picture: "https://example.com/zaki-hasan-ali.jpg"
+          name: "Zaki Hasan Ali"
       }
   },
   {
@@ -92,13 +72,9 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/overview.jpg",
-      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
+      description: "Create playlists that transition seamlessly using ML by scraping and analyzing data from the Spotify API.",
       director: {
-          name: "Ethan Carvalho",
-          year: "4th year",
-          email: "ethan.carvalho@example.com",
-          linkedin: "https://linkedin.com/in/ethancarvalho",
-          picture: "https://example.com/ethan-carvalho.jpg"
+          name: "Ethan Carvalho"
       }
   },
   {
@@ -108,13 +84,9 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/overview.jpg",
-      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
+      description: "Utilize computer vision to bridge communication between the hearing-impaired and non-ASL speakers.",
       director: {
-          name: "Geoff Easton",
-          year: "4th year",
-          email: "geoff.easton@example.com",
-          linkedin: "https://linkedin.com/in/geoffeaston",
-          picture: "profileImg.jpg"
+          name: "Geoff Easton"
       }
   },
   {
@@ -124,13 +96,9 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/overview.jpg",
-      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
+      description: "Merge web hosting and serverless applications on AWS while building a static website and messaging app.",
       director: {
-          name: "Siddhant Saraf",
-          year: "4th year",
-          email: "siddhant.saraf@example.com",
-          linkedin: "https://linkedin.com/in/siddhantsaraf",
-          picture: "https://example.com/siddhant-saraf.jpg"
+          name: "Ganesh Krishna Menon"
       }
   },
   {
@@ -140,13 +108,9 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/overview.jpg",
-      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
+      description: "Analyze tweet sentiment using Transformers and correlate with real-time stock prices.",
       director: {
-          name: "Bashshar Atif",
-          year: "4th year",
-          email: "bashshar.atif@example.com",
-          linkedin: "https://linkedin.com/in/bashsharatif",
-          picture: "https://example.com/bashshar-atif.jpg"
+          name: "Bashshar Atif"
       }
   },
   {
@@ -156,13 +120,9 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/overview.jpg",
-      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
+      description: "A platform for artists in underprivileged areas to showcase and sell their art as NFTs.",
       director: {
-          name: "Ganesh Krishna Menon",
-          year: "4th year",
-          email: "ganesh.krishna.menon@example.com",
-          linkedin: "https://linkedin.com/in/ganeshkrishna",
-          picture: "https://example.com/ganesh-krishna-menon.jpg"
+          name: "Ganesh Krishna Menon"
       }
   }
 ];
@@ -178,10 +138,6 @@ interface Project {
   projectImg: string;
   director: {
     name: string;
-    year: string;
-    email: string;
-    linkedin: string;
-    picture: string;
   };
 }
 
@@ -262,14 +218,14 @@ export default function Projects() {
     <div>
       <Navbar />
       <main className="mt-32 md:mt-16 min-h-screen flex flex-col bg-gray-100">
-        <section
-          className="relative w-full h-[50vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
+      <section
+          className="mt-40 md:mt-16 relative w-full h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/projectBg.jpg')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="text-white text-center px-6 py-12 max-w-3xl mx-auto">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">Student Innovation Projects</h1>
-              <p className="text-lg md:text-xl leading-relaxed">
+              <h1 className="text-xl md:text-5xl md:text-6xl font-bold mb-6 leading-tight">Student Innovation Projects</h1>
+              <p className="text-sm md:text-lg md:text-xl leading-relaxed">
                 SIPs have been meticulously crafted with industry professionals to equip coordinators with essential skills. Dive into hands-on experience with high-demand software and skills through WCS Projects.
               </p>
             </div>
@@ -279,19 +235,19 @@ export default function Projects() {
         <section className="mt-10">
         <div className="flex flex-col md:flex-row justify-between mx-5">
         <div className="flex items-center">
-          <h1 className="text-2xl font-bold text-gray-800">Student Innovation Projects</h1>
+          <h1 className="text-2xl font-bold mx-auto md:mx-2 text-gray-800">Student Innovation Projects</h1>
         </div>
-        <div className="flex space-x-5">
+        <div className="mt-5 md:mt-0 flex justify-center items-center gap-4 md:gap-0 flex-col md:flex-row md:space-x-4">
         <div className="relative flex items-center">
-  <input
-    type="text"
-    placeholder="Project name..."
-    value={searchTerm}
-    onChange={handleSearchChange}
-    className="border w-[30vw] border-gray-500 text-black rounded-full text-sm shadow-sm h-full p-2 pr-10 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-  />
-  <i className="fa-solid fa-magnifying-glass absolute right-4 text-gray-400"></i>
-</div>
+          <input
+            type="text"
+            placeholder="Project name..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="border w-full md:w-[30vw] border-gray-500 text-black rounded-full text-sm shadow-sm h-full p-2 pr-10 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+          />
+          <i className="fa-solid fa-magnifying-glass absolute right-4 text-gray-400"></i>
+        </div>
 
           <select
             value={selectedCategory}
@@ -355,7 +311,7 @@ export default function Projects() {
       For any inquiries, feel free to reach out to us via our 
       <a href="/contact" className="text-blue-600 hover:underline"> Contact Us</a> page.
     </p>
-    <button className="ml-10 w-1/3 md:w-1/4 mt-5 tracking-widest rounded-full font-semibold
+    <button className="ml-10 w-2/4 md:w-1/4 mt-5 tracking-widest rounded-full font-semibold
         border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 text-white 
         hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800 
         px-5 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg">

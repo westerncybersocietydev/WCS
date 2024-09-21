@@ -52,13 +52,13 @@ export default function SignIn() {
   return (
     <div>
       <Navbar />
-      <div className="mt-16 flex flex-col text-black items-center min-h-screen bg-gray-100 p-4" style={{ background: '#ededed' }}>
+      <div className="mt-16 flex flex-col text-black items-center justify-center min-h-screen p-4">
         <div className="bg-white rounded-lg shadow-md p-9 w-full max-w-lg shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300">
         <h2 className="text-3xl mb-5 font-bold text-center text-gray-800">SIGN IN</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
               {/* UWO Email */}
               <div className="flex flex-col space-y-1">
-              <label htmlFor="uwoEmail" className="text-gray-600 font-bold text-sm">UWO Email <span className='font-normal'>(required)</span></label>
+              <label htmlFor="uwoEmail" className="text-gray-600 font-bold text-sm">Email <span className='font-normal'>(required)</span></label>
                 <input
                   type="email"
                   id="uwoEmail"
@@ -72,7 +72,7 @@ export default function SignIn() {
 
               {/* Password */}
               <div className="flex flex-col space-y-1">
-              <label htmlFor="password" className="text-gray-600 font-bold text-sm">Current Password <span className='font-normal'>(required)</span></label>
+              <label htmlFor="password" className="text-gray-600 font-bold text-sm">Password <span className='font-normal'>(required)</span></label>
                 <input
                   type="password"
                   id="password"

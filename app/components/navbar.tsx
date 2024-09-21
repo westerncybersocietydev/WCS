@@ -129,7 +129,7 @@ export default function Navbar() {
         {/* Other Buttons */}
         <div className="flex flex-row items-center text-center justify-center space-x-6 relative">
           <div
-            className="relative  inline-block group hover:text-xl transition-all duration-200"
+            className="relative inline-block group hover:text-xl transition-all duration-200"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
@@ -252,7 +252,7 @@ export default function Navbar() {
       <p className='text-gray-700 text-xs md:text-sm mb-8'>{description}</p>
     </div>
     <button
-      className="relative text-xs z-40 text-gray-950 border border-gray-700 hover:scale-105 hover:bg-black hover:text-white px-5 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+      className="relative rounded-full text-xs text-white z-40 bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800 px-5 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
       aria-label="Learn More"
       onClick={() => router.push(link)}
     >

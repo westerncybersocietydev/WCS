@@ -215,16 +215,16 @@ export default function Home() {
         className="w-16 h-16 rounded-full border-2 border-white"
       />
       <div className="ml-4 text-white flex flex-col">
-        <h3 className="text-xl font-bold">{social.name}</h3>
-        <p className="text-lg">{social.handle}</p>
+        <h3 className="text-base md:text-xl font-bold">{social.name}</h3>
+        <p className="text-small md:">{social.handle}</p>
       </div>
     </div>
-    <p className="text-sm text-white mt-4">{formatBio(social.bio)}</p>
+    <p className="text-xs md:text-sm text-white mt-4">{formatBio(social.bio)}</p>
     <div className="absolute bottom-4 right-4 text-white text-3xl">
       <social.Icon />
     </div>
 
-    <span className="absolute bottom-[-30px] left-4 text-white text-lg font-semibold transition-all duration-700 ease-in-out group-hover:bottom-4">
+    <span className="absolute bottom-[-30px] left-4 text-white text-xs md:text-lg font-semibold transition-all duration-700 ease-in-out group-hover:bottom-4">
       Visit <i className="fa-solid fa-arrow-right"></i>
     </span>
   </a>

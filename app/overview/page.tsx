@@ -10,13 +10,13 @@ export default function Overview() {
 
       {/* Full-width background image with text */}
       <section
-          className="mt-32 md:mt-16 relative w-full h-[50vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
+          className="mt-40 md:mt-16 relative w-full h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/projectBg.jpg')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="text-white text-center px-6 py-12 max-w-3xl mx-auto">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">About Us</h1>
-              <p className="text-lg md:text-xl leading-relaxed">
+              <h1 className="text-xl md:text-5xl md:text-6xl font-bold mb-6 leading-tight">About Us</h1>
+              <p className="text-sm md:text-lg md:text-xl leading-relaxed">
                 SIPs have been meticulously crafted with industry professionals to equip coordinators with essential skills. Dive into hands-on experience with high-demand software and skills through WCS Projects.
               </p>
             </div>
@@ -26,11 +26,11 @@ export default function Overview() {
       {/* Mission, Vision, Focus Statements */}
         <div className='flex flex-col w-full h-full'>
             <div className='flex flex-col md:flex-row gap-4 mx-8 my-8 md:space-x-10'>
-            <div className='bg-black rounded-xl md:w-1/2 h-[48vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-              <img src='/mission.jpeg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
+            <div className='bg-black  rounded-xl md:w-1/2 h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+              <img src='/mission.jpeg' alt='Our Mission' className='object-cover w-full h-full rounded-xl'/>
             </div>
-              <div className='flex flex-col justify-center items-center bg-violet-950 rounded-xl p-16 text-left md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-                <h2 className="text-4xl md:text-9xl font-extrabold text-white">Our Mission</h2>
+              <div className='flex flex-col mx-auto justify-center items-center bg-violet-950 rounded-xl p-16 text-left md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+                <h2 className="text-4xl md:text-7xl font-extrabold text-white">Our Mission</h2>
                 <p className="mt-6 text-md md:text-xl font-semibold text-white">
                   To create innovative solutions that empower communities, enhance connectivity, and foster sustainable growth. 
                   By leveraging cutting-edge technologies, we aim to drive positive change that benefits individuals and societies alike.
@@ -41,13 +41,13 @@ export default function Overview() {
 
         <div className='flex flex-col md:flex-row w-full h-full'>
             <div className='flex flex-col md:flex-row gap-4 mx-8 my-8 md:space-x-10'>
-            <div className='flex flex-col justify-center items-center bg-violet-950 rounded-xl p-16 text-left md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-                <h2 className="text-4xl md:text-9xl font-extrabold text-white">Our Vision</h2>
+            <div className='flex flex-col mx-auto justify-center items-center bg-violet-950 rounded-xl p-16 text-left md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+                <h2 className="text-4xl md:text-7xl font-extrabold text-white">Our Vision</h2>
                 <p className="mt-6 text-md md:text-xl font-semibold text-white">
                 To be a global leader in transformative technology, creating a future where seamless connectivity and sustainable innovation improve lives across the world. 
                 We envision a world where technology works harmoniously with nature.</p>
               </div>
-            <div className='bg-black rounded-xl md:w-1/2 h-[48vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+              <div className='bg-black rounded-xl md:w-1/2 h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
               <img src='/vision.jpeg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
             </div>
             </div>
@@ -55,11 +55,11 @@ export default function Overview() {
 
         <div className='flex flex-col w-full h-full'>
             <div className='flex flex-col md:flex-row gap-4 mx-8 my-8 md:space-x-10'>
-            <div className='bg-black rounded-xl md:w-1/2 h-[48vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+            <div className='bg-black rounded-xl md:w-1/2 h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
               <img src='/focus.jpeg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
             </div>
-              <div className='flex flex-col justify-center items-center bg-violet-950 rounded-xl p-16 text-left md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-                <h2 className="text-4xl md:text-9xl font-extrabold text-white">Our Focus</h2>
+              <div className='flex flex-col mx-auto justify-center items-center bg-violet-950 rounded-xl p-16 text-left md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+                <h2 className="text-4xl md:text-7xl font-extrabold text-white">Our Focus</h2>
                 <p className="mt-6 text-md md:text-xl font-semibold text-white">
                 Western Cyber Society is dedicated to cultivating the next generation of tech leaders by focusing on excellence in key sectors such as cybersecurity, artificial intelligence, and data science. 
                 We provide students with hands-on experience, and mentorship.</p>

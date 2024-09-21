@@ -321,14 +321,14 @@ const isEventPassed = (eventDate: string) => {
       {/* Modal for Selected Item */}
       {selectedItem && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out">
-          <div className="relative rounded-lg w-4/5 m-auto flex">
+          <div className="relative rounded-lg w-4/5 h-full md:h-2/3 py-2 m-auto flex">
             {/* Close Button */}
             <button onClick={closeModal} className="absolute top-2 right-2 p-2 text-black transition-all duration-500 hover:scale-110">
               <i className="fa-solid fa-x text-xl"></i>
             </button>
             <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
               {/* Left Side: Image */}
-              <div className="lg:w-1/3 w-full">
+              <div className="md:w-1/3 h-1/3 md:h-full w-full">
                 <img
                   src={selectedItem.image}
                   alt={selectedItem.name}
@@ -336,14 +336,14 @@ const isEventPassed = (eventDate: string) => {
                 />
               </div>
               {/* Right Side: Content */}
-              <div className="lg:w-2/3 p-5 w-full py-5 flex flex-col justify-between">
-                <div className='px-3 text-gray-800'>
-                  <h2 className="text-4xl font-bold mb-2">{selectedItem.name}</h2>
+              <div className="md:w-2/3 h-2/3 md:h-full p-5 w-full py-5 flex flex-col justify-between">
+                <div className='px-2 text-gray-800'>
+                  <h2 className="text-xl md:text-4xl font-bold mb-2">{selectedItem.name}</h2>
                   {isEventRSVPd(selectedItem.id) && <p className="text-gray-600 ml-2 mb-2 text-xs tracking-wide">Already RSVP&apos;d</p>}
-                  <p className="font-semibold ml-2 text-base mb-1"><i className="fa-solid fa-calendar-days"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.date} at {selectedItem.time}</span></p>
-                  <p className="font-semibold ml-2 text-base mb-1"><i className="fa-solid fa-location-dot"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.location}</span></p>
-                  <p className="font-semibold ml-2 text-base mb-3"><i className="fa-solid fa-tag"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.price}</span></p>
-                  <p className="font-normal text-gray-700 ml-2 max-w-lg text-base mb-2 leading-relaxed">{selectedItem.description}</p>
+                  <p className="font-semibold ml-2 text-sm md:text-base mb-1"><i className="fa-solid fa-calendar-days"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.date} at {selectedItem.time}</span></p>
+                  <p className="font-semibold ml-2 text-sm md:text-base mb-1"><i className="fa-solid fa-location-dot"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.location}</span></p>
+                  <p className="font-semibold ml-2 text-sm md:text-base mb-3"><i className="fa-solid fa-tag"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.price}</span></p>
+                  <p className="font-normal text-gray-700 ml-2 max-w-lg text-sm md:text-base mb-2 leading-relaxed">{selectedItem.description}</p>
                 </div>
 
                 {isEventRSVPd(selectedItem.id) ? (

@@ -185,7 +185,7 @@ export default function Profile() {
     switch (selectedTab) {
       case 'basic':
         return (
-          <form className="space-y-4 max-w-lg bg-white rounded-lg shadow-md p-9">
+          <form className="space-y-4 w-full bg-white rounded-lg shadow-md p-9">
           {/* Form fields */}
           <div className="space-y-2">
           <label htmlFor="avatar" className="text-gray-600 font-bold text-sm">Avatar <span className='font-normal'>(required)</span></label>
@@ -323,7 +323,7 @@ export default function Profile() {
         );
       case 'password':
         return (
-          <form className="space-y-4 bg-white rounded-lg max-w-lg shadow-md p-9">
+          <form className="space-y-4 bg-white rounded-lg w-full shadow-md p-9">
           {/* Form fields */}
           <div className="flex flex-col space-y-4">
               {/* Current Password */}
@@ -382,7 +382,7 @@ export default function Profile() {
       case 'plan':
         case 'plan':
           return (
-            <div className="relative space-y-2 bg-white rounded-lg max-w-lg shadow-md p-9">
+            <div className="relative space-y-2 bg-white rounded-lg w-full shadow-md p-9">
               <div>
                 <p className="text-gray-400" style={{ fontSize: '11px' }}>Current Plan</p>
                 <h1 className="text-black font-bold text-2xl">{profileData?.plan}</h1>
@@ -447,9 +447,8 @@ export default function Profile() {
         <div className="flex w-full">
 
           <div className="w-full"> 
-          <div className="absolute flex flex-col">
-          <div className="flex flex-col items-center translate-x-20 translate-y-5">
-
+          <div className="absolute hidden md:block flex flex-col">
+          <div className="flex flex-col items-center translate-x-6 translate-y-5">
             <img 
               src={currentAvatar}
               alt="Profile" 
@@ -462,9 +461,9 @@ export default function Profile() {
           </p>
           </div>
         </div>
-          <div className="flex text-sm font-bold border-b pt-10 border-gray-300">
+          <div className="flex justify-center items-center text-sm font-bold border-b pt-10 border-gray-300">
             <button
-              className={`ml-96 px-4 py-2 focus:outline-none ${selectedTab === 'basic' ? 'border-b-2 border-violet-500 text-violet-500' : 'text-gray-500'}`}
+              className={`px-4 py-2 focus:outline-none ${selectedTab === 'basic' ? 'border-b-2 border-violet-500 text-violet-500' : 'text-gray-500'}`}
               onClick={() => handleTabClick('basic')}
             >
               Edit Your Profile
@@ -482,7 +481,7 @@ export default function Profile() {
               Plan
             </button>
           </div>
-          <div className="p-4 pl-96 bg-gray-100">{renderTab()}</div>
+          <div className="p-3 flex items-center w-full md:w-1/2 mx-auto justify-center">{renderTab()}</div>
         </div>
           </div>
       </div>

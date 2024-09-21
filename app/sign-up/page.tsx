@@ -289,7 +289,7 @@ export default function Signup() {
   return (
     <div>
       <Navbar />
-      <div className="mt-16 flex flex-col text-black items-center justify-center min-h-screen bg-gray-100 p-4" style={{ background: '#ededed' }}>
+      <div className="mt-16 flex flex-col text-black items-center justify-center min-h-screen p-4">
       <div className='w-full'>
           { step === 2 && (
             <button

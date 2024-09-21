@@ -53,18 +53,19 @@ export default function Events() {
       <div className='text-black'>
         {/* Full-width background image with text */}
         <section
-          className="mt-32 md:mt-16 relative w-full h-[50vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
+          className="mt-40 md:mt-16 relative w-full h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/projectBg.jpg')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="text-white text-center px-6 py-12 max-w-3xl mx-auto">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">Events</h1>
-              <p className="text-lg md:text-xl leading-relaxed">
+              <h1 className="text-xl md:text-5xl md:text-6xl font-bold mb-6 leading-tight">Events</h1>
+              <p className="text-sm md:text-lg md:text-xl leading-relaxed">
                 SIPs have been meticulously crafted with industry professionals to equip coordinators with essential skills. Dive into hands-on experience with high-demand software and skills through WCS Projects.
               </p>
             </div>
           </div>
         </section>
+
         <div className="flex justify-center mx-auto">
           <Carousel
             items={events.map((event) => ({
@@ -82,23 +83,23 @@ export default function Events() {
 
         <div className='mx-10 mb-10 mt-10'>
           <h2 className="text-4xl font-bold text-gray-800 mb-5">WCS Time Capsule</h2>
-          <div className="grid grid-cols-3 gap-4 p-4">
-  {images.map((src, index) => (
-    <div
-      key={index}
-      className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
-    >
-      <Image
-        src={src}
-        alt={`image-${index}`}
-        layout="responsive"
-        width={1000} // Keep the width and height the same for responsiveness
-        height={1000}
-        objectFit="cover"
-        className="w-1/3 h-full"
-      />
-    </div>
-  ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+            {images.map((src, index) => (
+              <div
+                key={index}
+                className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
+              >
+                <Image
+                  src={src}
+                  alt={`image-${index}`}
+                  layout="responsive"
+                  width={1000} // Keep the width and height the same for responsiveness
+                  height={1000}
+                  objectFit="cover"
+                  className="w-full h-full"
+                />
+              </div>
+            ))}
 </div>
         </div>
     
