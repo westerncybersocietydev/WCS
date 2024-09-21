@@ -21,8 +21,25 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
   const [isRSVPModalOpen, setRSVPModalOpen] = useState(false);
   const { user, fetchUser } = useUser();
   const [loading, setLoading] = useState(false);
-  const itemsToShow = 3;
+  const [itemsToShow, setItemsToShow] = useState(1);
   const totalItems = items.length;
+
+  const updateItemsToShow = () => {
+    if (window.innerWidth >= 768) { // Adjust the width as needed for 'md'
+      setItemsToShow(3);
+    } else {
+      setItemsToShow(1); // or however many you want for smaller screens
+    }
+  };
+
+  useEffect(() => {
+    updateItemsToShow(); // Set initial value
+    window.addEventListener('resize', updateItemsToShow); // Listen for resize
+
+    return () => {
+      window.removeEventListener('resize', updateItemsToShow); // Cleanup on unmount
+    };
+  }, []);
 
   const getProfileData = useCallback(async () => {
     if (!user?.userId) {
@@ -290,19 +307,19 @@ const isEventPassed = (eventDate: string) => {
                 className="w-full md:w-1/3 flex-shrink-0 p-3 relative group cursor-pointer"
                 onClick={() => openModal(item)}
               >
-                <div className="relative mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
+                <div className="relative h-[70vw] md:h-[40vw] mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
                   <img
                     src={item.image}  
                     alt={item.name}
-                    className={`w-full h-1/4 object-cover rounded-t-xl ${
+                    className={`w-full h-2/5 md:h-2/4 object-cover rounded-t-xl ${
                       isEventPassed(item.date) ? "filter grayscale" : ""
                     }`}
                   />
-                  <div className="p-4 h-[45vw] md:h-[18vw] bg-white rounded-b-xl">
-                    <h2 className="text-xl text-gray-800 font-bold mb-1">{item.name}</h2>
-                    <p className="text-gray-600 font-semibold mb-1">{item.date}</p>
-                    <p className="text-gray-600 mb-1">{item.location}</p>
-                    <p className="text-gray-800">
+                  <div className="h-3/5 md:h-2/4 p-4 bg-white rounded-b-xl">
+                    <h2 className="text-lg md:text-xl text-gray-800 font-bold mb-1">{item.name}</h2>
+                    <p className="text-sm md:text-base text-gray-600 font-semibold mb-1">{item.date}</p>
+                    <p className="text-sm md:text-base text-gray-600 mb-1">{item.location}</p>
+                    <p className="text-sm md:text-base text-gray-800">
                       {item.description.length > 100 ? item.description.substring(0, 100) + '...' : item.description}
                     </p>
                   </div>
@@ -323,7 +340,7 @@ const isEventPassed = (eventDate: string) => {
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out">
           <div className="relative rounded-lg w-4/5 h-full md:h-2/3 py-2 m-auto flex">
             {/* Close Button */}
-            <button onClick={closeModal} className="absolute top-2 right-2 p-2 text-black transition-all duration-500 hover:scale-110">
+            <button onClick={closeModal} className="absolute top-2 right-2 p-2 text-white transition-all duration-500 hover:scale-110">
               <i className="fa-solid fa-x text-xl"></i>
             </button>
             <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden">

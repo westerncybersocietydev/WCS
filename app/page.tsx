@@ -120,10 +120,10 @@ export default function Home() {
       <div className="relative">
 
       <div className="flex flex-col items-center justify-center  mb-10">
-        <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-lg text-5xl">
+        <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-2xl md:max-w-xl lg:max-w-xl xl:max-w-4xl text-2xl md:text-5xl lg:text-6xl xl:text-8xl">
           Unlock the Power of WCS With Mango Bloom
         </h1>
-        <h1 className="mt-3 text-gray-700 text-center tracking-wide text-sm">
+        <h1 className="mt-3 text-sm md:text-md text-gray-700 text-center tracking-wide text-sm">
           The #1 tech club in Western with just 1 year of history.
         </h1>
         {!user && (
@@ -143,7 +143,7 @@ export default function Home() {
 
       <div className="flex justify-center">
       <video controls={false} autoPlay loop muted preload="none" className="w-full h-[40vw] object-cover">
-        <source src="wcs.mp4" type="video/mp4" />
+        <source src="wcs2.mp4" type="video/mp4" />
         <track
           src="/path/to/captions.vtt"
           kind="subtitles"
@@ -166,26 +166,29 @@ export default function Home() {
     lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
   </h2>
   <div className="flex flex-wrap gap-4 justify-center items-center md:space-x-2 px-5 py-10">
-    {boxes.map((box, index) => (
-      <div
-        key={index}
-        className="relative cursor-pointer w-48 h-64 md:w-1/5 md:h-[30vw] bg-gradient-to-r from-slate-900 to-darkBlue overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
-      >
-        <img
-          src={box.image}
-          alt={`Image ${index + 1}`}
-          className="w-full h-full object-cover blur-none translate-x-0 translate-y-0 transition-all duration-700 group-hover:translate-x-72 group-hover:translate-y-96 group-hover:scale-150 group-hover:blur-xl"
-        />
-        <div className="absolute text-xs md:text-md inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
-          <div className="p-5">
-            <p>{box.text}</p>
-          </div>
-        </div>
-        <span className="absolute bottom-[-30px] right-4 text-white text-xs font-semibold transition-all duration-700 ease-in-out group-hover:bottom-4">
-        View Details <i className="fa-solid fa-arrow-right"></i>
-    </span>
+  {boxes.map((box, index) => (
+  <div
+    key={index}
+    className="relative bg-black cursor-pointer w-48 h-64 md:w-1/5 md:h-[30vw] overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
+  >
+    <div className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:blur-lg group-hover:opacity-90" style={{ backgroundImage: `url(${box.image})` }} />
+    <img
+      src={box.image}
+      alt={`Image ${index + 1}`}
+      className="w-full h-full object-cover transition-all duration-700 group-hover:translate-x-72 group-hover:translate-y-96 group-hover:scale-150"
+    />
+    <div className="absolute text-xs md:text-base inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
+      <div className="p-5">
+        <p>{box.text}</p>
       </div>
-    ))}
+    </div>
+    <span className="absolute bottom-[-30px] right-4 text-white text-xs font-semibold transition-all duration-700 ease-in-out group-hover:bottom-4">
+      View Details <i className="fa-solid fa-arrow-right"></i>
+    </span>
+  </div>
+))}
+
+
   </div>
 </div>
         

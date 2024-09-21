@@ -24,7 +24,6 @@ interface ProfileData {
 export default function Navbar() {
   const router = useRouter();
   const { user, fetchUser } = useUser();
-  const [avatar, setAvatar] = useState(Avatar[0])
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [aboutUsExpanded, setAboutUsExpanded] = useState(false);
@@ -41,25 +40,14 @@ export default function Navbar() {
       const profile = await getProfile(user.userId);
       setProfileData(profile);
 
-      switch (profileData?.avatar) {
-        case "1":
-          setAvatar(Avatar[0]);
-        case "2":
-          setAvatar(Avatar[1]);
-        case "3":
-          setAvatar(Avatar[3]);
-        default:
-          setAvatar(Avatar[0]);
-      }
-
     } catch (error) {
       console.log("Couldn't retrieve profile data. Please try again.");
     }
   }, [user?.userId]);
 
   useEffect(() => {
-    getProfileData();
-  }, [getProfileData]);
+    if (user) getProfileData();
+  }, [user, getProfileData]);
 
   const onClose = () => {
     setIsModalOpen(false);
@@ -164,7 +152,7 @@ export default function Navbar() {
                 style={{ color: aboutUsExpanded ? '#ededed' : 'black' }}
               >
                 <img 
-                  src={avatar}
+                  src={profileData?.avatar}
                   alt="Profile" 
                   className="w-9 h-9 rounded-full mt-1 object-cover"
                   style={{ flexShrink: 0 }}
@@ -174,7 +162,7 @@ export default function Navbar() {
               style={{ backgroundColor: '#fdf7ff' }}>
               <div className="flex items-center justify-center space-x-3 p-2 mt-2">
                 <img 
-                  src={avatar}
+                  src={profileData?.avatar}
                   alt="Profile" 
                   className="w-16 h-16 rounded-full object-cover"
                   style={{ flexShrink: 0 }} // Prevents the image from shrinking
@@ -241,25 +229,25 @@ export default function Navbar() {
 
             <div className="flex flex-wrap gap-5 mx-5 mb-3 justify-center">
             {[
-  { title: 'About Us', description: 'Explore how we drive innovation and success through strategic insights and cutting-edge solutions.', link: '/overview' },
-  { title: 'SIP Projects', description: 'Discover our impactful SIP projects that showcase our expertise in transforming ideas into results.', link: '/projects' },
-  { title: 'Events', description: 'Join us at our events to network with industry leaders and gain valuable insights on emerging trends.', link: '/events' },
-  { title: 'Meet the Team', description: 'Get to know the talented individuals behind our success, bringing expertise and passion to every project.', link: '/meetTheTeam' }
-].map(({ title, description, link }, index) => (
-  <div key={index} className="flex-1 mb-5 flex flex-col justify-between">
-    <div className={`transition-transform duration-500 ${aboutUsExpanded ? 'fadeInUp' : 'fadeOut'}`}>
-      <h2 className="text-lg text-gray-700 mb-2"><strong>{title}</strong></h2>
-      <p className='text-gray-700 text-xs md:text-sm mb-8'>{description}</p>
-    </div>
-    <button
-      className="relative rounded-full text-xs text-white z-40 bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800 px-5 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
-      aria-label="Learn More"
-      onClick={() => router.push(link)}
-    >
-      LEARN MORE
-    </button>
-  </div>
-))}
+            { title: 'About Us', description: 'Explore how we drive innovation and success through strategic insights and cutting-edge solutions.', link: '/overview' },
+            { title: 'SIP Projects', description: 'Discover our impactful SIP projects that showcase our expertise in transforming ideas into results.', link: '/projects' },
+            { title: 'Events', description: 'Join us at our events to network with industry leaders and gain valuable insights on emerging trends.', link: '/events' },
+            { title: 'Meet the Team', description: 'Get to know the talented individuals behind our success, bringing expertise and passion to every project.', link: '/meetTheTeam' }
+          ].map(({ title, description, link }, index) => (
+            <div key={index} className="flex-1 mb-5 flex flex-col justify-between">
+              <div className={`transition-transform duration-500 ${aboutUsExpanded ? 'fadeInUp' : 'fadeOut'}`}>
+                <h2 className="text-lg text-gray-700 mb-2"><strong>{title}</strong></h2>
+                <p className='text-gray-700 text-xs md:text-sm mb-8'>{description}</p>
+              </div>
+              <button
+                className="relative rounded-full text-xs text-white z-40 bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800 px-5 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+                aria-label="Learn More"
+                onClick={() => router.push(link)}
+              >
+                LEARN MORE
+              </button>
+            </div>
+          ))}
 
             </div>
           </div>

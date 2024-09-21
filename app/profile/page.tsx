@@ -22,11 +22,9 @@ interface ProfileData {
 }
 
 export default function Profile() {
-  const { user } = useUser();
+  const { user, updateUser, fetchUser } = useUser();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [currentAvatar, setCurrentAvatar] = useState("")
-  const [currentAvatarIndex, setCurrentAvatarIndex] = useState("")
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState('basic');
@@ -46,22 +44,8 @@ export default function Profile() {
       setProfileData(profile);
       setFirstName(profile?.firstName)
       setLastName(profile?.lastName)
-
-      switch (profile.avatar) {
-        case "0":
-          setCurrentAvatar(Avatar[0]);
-          break;
-        case "1":
-          setCurrentAvatar(Avatar[1]);
-          break;
-        case "2":
-          setCurrentAvatar(Avatar[2]);
-          break;
-        default:
-          setCurrentAvatar(Avatar[0]);
-      }
-
-    } catch (error) {
+      fetchUser();
+     } catch (error) {
       toast.error("Couldn't retrieve profile data. Please try again.");
     }
   }, [user?.userId]);
@@ -96,10 +80,16 @@ export default function Profile() {
     });
   };
 
-  const updateAvatar = (avatar: string, index: number) => {
-    setCurrentAvatar(avatar);
-    setCurrentAvatarIndex(index.toString());
-};
+  const handleAvatarChange = (avatar: string) => {
+    setProfileData((prev) => {
+      if (!prev) return prev;
+  
+      return {
+        ...prev,
+        avatar: avatar,
+      };
+    });
+  };
 
   const handleBasicSubmit = async () => {
     if (!profileData || !user?.userId) return;
@@ -107,9 +97,6 @@ export default function Profile() {
     setLoading(true);
 
     try {
-      const avatarIndex = currentAvatarIndex; // Use the state directly
-      console.log(avatarIndex)
-
         await updateBasic(
             user.userId,
             profileData?.firstName,
@@ -119,10 +106,14 @@ export default function Profile() {
             profileData?.currentYear,
             profileData?.program,
             profileData?.description,
-            avatarIndex
+            profileData?.avatar
             );
+        
         toast.success("User information updated successfully.")
         setFirstName(profileData?.firstName)
+        setLastName(profileData?.lastName)
+
+        updateUser(user, profileData);
     } catch (error) {
       toast.error("Failed to update basic information. Please try again.");
     } finally {
@@ -195,9 +186,9 @@ export default function Profile() {
                 key={index}
                 src={imgSrc} 
                 alt={`Profile ${index + 1}`} 
-                onClick={() => updateAvatar(imgSrc, index)}
+                onClick={() => handleAvatarChange(imgSrc)}
                 className={`w-12 h-12 rounded object-cover mb-4 cursor-pointer ${
-                  currentAvatar === imgSrc ? 'border-2 border-violet-500' : ''
+                  profileData?.avatar === imgSrc ? 'border-2 border-violet-500' : ''
                 }`}
               />
             ))}
@@ -450,7 +441,7 @@ export default function Profile() {
           <div className="absolute hidden md:block flex flex-col">
           <div className="flex flex-col items-center translate-x-6 translate-y-5">
             <img 
-              src={currentAvatar}
+              src={profileData?.avatar}
               alt="Profile" 
               className="w-36 h-36 rounded-full object-cover mb-4"
             />

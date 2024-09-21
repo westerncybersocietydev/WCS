@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
@@ -7,9 +7,23 @@ interface User {
   userId?: string;
 }
 
+interface ProfileData {
+  firstName: string;
+  lastName: string;
+  uwoEmail: string;
+  preferredEmail: string;
+  currentYear: string;
+  program: string;
+  plan: string;
+  description: string;
+  avatar: string;
+}
+
 interface UserContextType {
   user: User | null;
+  profileData: ProfileData | null;
   fetchUser: () => Promise<void>;
+  updateUser: (newData: User | null, profileData?: ProfileData | null) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -21,6 +35,7 @@ interface UserProviderProps {
 export function UserProvider({ children }: UserProviderProps) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
 
   const fetchUser = async () => {
     try {
@@ -32,14 +47,15 @@ export function UserProvider({ children }: UserProviderProps) {
       const data = await response.json();
 
       if (response.status === 401 && data.message === 'Token expired') {
-        // Handle expired token case
         toast.error("Session expired. Please sign in again.");
         router.push('/sign-in');
       } else if (response.status === 200) {
-        // Token is valid, set user
         setUser(data.userId ? { userId: data.userId } : null);
+        // Optionally set profile data if available
+        if (data.profileData) {
+          setProfileData(data.profileData);
+        }
       } else {
-        // Handle other errors
         console.error('Error:', data.message);
         setUser(null);
       }
@@ -50,12 +66,20 @@ export function UserProvider({ children }: UserProviderProps) {
     }
   };
 
+  const updateUser = (newData: User | null, newProfileData?: ProfileData | null) => {
+    setUser((prev) => ({ ...prev, ...newData }));
+    if (newProfileData) {
+      setProfileData(newProfileData);
+    }
+  };
+
   useEffect(() => {
     fetchUser();
   }, []);
 
+
   return (
-    <UserContext.Provider value={{ user, fetchUser }}>
+    <UserContext.Provider value={{ user, profileData, fetchUser, updateUser }}>
       {children}
     </UserContext.Provider>
   );

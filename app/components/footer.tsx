@@ -3,8 +3,8 @@ import React from 'react'
 export default function Footer() {
   return (
     <footer className="text-white py-8" style={ { backgroundColor: '#1f1926' } }>
-    <div className="container mx-auto px-1 flex flex-wrap">
-      <div className="flex-1">
+    <div className="container mx-auto px-3 md:px-14 flex flex-wrap">
+      <div className=" flex-1">
         <h4 className="font-bold text-sm md:text-md mb-1">Resources</h4>
         <ul className="space-y-2 text-xs text-gray-400 pl-0.5">
           <li><a href="/overview" className="hover:underline">Overview</a></li>
@@ -29,7 +29,7 @@ export default function Footer() {
         </ul>
       </div>
     </div>
-    <p className="px-14 mt-8 text-gray-400 text-sm">
+    <p className="px-3 md:px-14 mt-8 text-gray-400 text-sm">
       © {new Date().getFullYear()} Western Cyber Society. All Rights Reserved.
     </p>
   </footer>

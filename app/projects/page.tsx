@@ -151,23 +151,23 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, description, peopleCount, difficulty, imageUrl }) => (
-  <div className="relative font-sans antialiased w-full h-full cursor-pointer transition-transform transform hover:scale-105 group flex flex-col overflow-hidden rounded-lg">
+  <div className="relative font-sans antialiased w-full h-[70vw] md:h-[36vw] cursor-pointer transition-transform transform hover:scale-105 group flex flex-col overflow-hidden rounded-lg">
     
     {/* Top: Image */}
-    <div className="h-2/4 w-full">
+    <div className="h-2/5 w-full">
       <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
     </div>
     
     {/* Bottom: Text content */}
-    <div className="p-5 h-full text-white flex-grow flex flex-col relative">
+    <div className="p-5 h-3/5 text-white flex-grow flex flex-col relative">
       {/* Title and Director */}
       <div>
-        <h2 className="text-2xl font-extrabold">{title}</h2>
+        <h2 className="text-lg md:text-2xl font-extrabold">{title}</h2>
         <p className="text-xs ml-1 text-gray-200">{director}</p>
       </div>
 
       {/* Project description */}
-      <p className="text-sm my-2 flex-grow">
+      <p className="text-xs md:text-sm xl:text-xl my-2 flex-grow">
         {description}
       </p>
       {/* People count and difficulty at the bottom */}
