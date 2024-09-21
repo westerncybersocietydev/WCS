@@ -57,7 +57,7 @@ const teamData: TeamMember[] = [
   {
     image: 'joann.jpeg',
     name: 'Joann R.',
-    title: 'VP Operation Strategy & Exec',
+    title: 'VP Operation Strategy & Execution',
     program: 'CS & MIT',
     year: '3rd year',
     email: 'jranjit@uwo.ca',
@@ -169,7 +169,7 @@ export default function MeetTheTeam() {
 
       {/* Full-width background image with text */}
       <section
-          className="mt-16 relative w-full h-[30vw] bg-cover bg-center bg-no-repeat"
+          className="mt-32 md:mt-16 relative w-full h-[50vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/projectBg.jpg')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">

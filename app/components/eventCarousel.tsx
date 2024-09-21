@@ -298,7 +298,7 @@ const isEventPassed = (eventDate: string) => {
                       isEventPassed(item.date) ? "filter grayscale" : ""
                     }`}
                   />
-                  <div className="p-4 h-[40vw] md:h-[18vw] bg-white rounded-b-xl">
+                  <div className="p-4 h-[45vw] md:h-[18vw] bg-white rounded-b-xl">
                     <h2 className="text-xl text-gray-800 font-bold mb-1">{item.name}</h2>
                     <p className="text-gray-600 font-semibold mb-1">{item.date}</p>
                     <p className="text-gray-600 mb-1">{item.location}</p>

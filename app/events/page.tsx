@@ -82,24 +82,24 @@ export default function Events() {
 
         <div className='mx-10 mb-10 mt-10'>
           <h2 className="text-4xl font-bold text-gray-800 mb-5">WCS Time Capsule</h2>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 p-4">
-            {images.map((src, index) => (
-              <div
-                key={index}
-                className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
-              >
-                <Image
-                  src={src}
-                  alt={`image-${index}`}
-                  layout="responsive"
-                  width={1000} // Keep the width and height the same for responsiveness
-                  height={1000}
-                  objectFit="cover"
-                  className="w-full h-full"
-                />
-              </div>
-            ))}
-          </div>
+          <div className="grid grid-cols-3 gap-4 p-4">
+  {images.map((src, index) => (
+    <div
+      key={index}
+      className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
+    >
+      <Image
+        src={src}
+        alt={`image-${index}`}
+        layout="responsive"
+        width={1000} // Keep the width and height the same for responsiveness
+        height={1000}
+        objectFit="cover"
+        className="w-1/3 h-full"
+      />
+    </div>
+  ))}
+</div>
         </div>
     
       </div>
