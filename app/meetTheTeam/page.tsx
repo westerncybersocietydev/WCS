@@ -192,7 +192,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
   );
 };
 
-const Section: React.FC<{ members: TeamMember[]; onCardClick: (member: TeamMember) => void; }> = ({ members, onCardClick }) => (
+const Section: React.FC<{ members: TeamMember[]; }> = ({ members }) => (
   <section className="mb-8">
     <div className="flex justify-center">
       <div className="w-full mx-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
@@ -243,7 +243,7 @@ export default function MeetTheTeam() {
             <h1 className='text-4xl text-center font-bold text-gray-800'><strong>Meet The Team</strong></h1>
             <h2 className='mt-3 mb-14'>WCS is proud to present our incredible 2024-2025 student team.</h2>
           </div>
-          <Section members={teamData} onCardClick={handleCardClick} />
+          <Section members={teamData} />
           {selectedMember && (
             <Modal
               isOpen={!!selectedMember}

@@ -104,12 +104,7 @@ const formatBio = (bio: string) => {
 export default function Home() {
   const router = useRouter();
   
-  const { user, fetchUser } = useUser();
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  const toggleAnswer = (index: number) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
+  const { user } = useUser();
 
   const getProfileData = useCallback(async () => {
     if (!user?.userId) {

@@ -53,7 +53,7 @@ export default function Events() {
       <div className='text-black'>
         {/* Full-width background image with text */}
         <section
-          className="mt-16 relative w-full h-[30vw] bg-cover bg-center bg-no-repeat"
+          className="mt-32 md:mt-16 relative w-full h-[50vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/projectBg.jpg')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">

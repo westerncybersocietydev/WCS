@@ -257,10 +257,10 @@ const isEventPassed = (eventDate: string) => {
   );
 
   return (
-    <div className="mx-10 flex flex-col">
+    <div className="mx-auto w-full flex flex-col">
       <div className="flex px-5 mt-10 mb-5 items-start">
         <h2 className="text-4xl font-bold text-gray-800 mb-5">Upcoming Events</h2>
-        <div className="flex space-x-4 ml-auto">
+        <div className="flex space-x-4 ml-5 md:ml-auto">
           <button
             onClick={goToPrev}
             className="text-black border border-gray-400 px-4 py-2 rounded-full shadow-lg transition-transform transform hover:scale-110 hover:shadow-xl"
@@ -278,7 +278,7 @@ const isEventPassed = (eventDate: string) => {
         </div>
       </div>
 
-      <div className="w-fit h-full overflow-hidden flex items-center justify-center">
+      <div className="w-full h-full overflow-hidden flex items-center justify-center">
         <div className="relative overflow-hidden flex-grow">
           <div
             className="flex transition-transform duration-700 ease-in-out items-center"
@@ -287,7 +287,7 @@ const isEventPassed = (eventDate: string) => {
             {items.map((item, index) => (
               <div
                 key={index}
-                className="w-1/3 flex-shrink-0 p-3 relative group cursor-pointer"
+                className="w-full md:w-1/3 flex-shrink-0 p-3 relative group cursor-pointer"
                 onClick={() => openModal(item)}
               >
                 <div className="relative mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
@@ -298,7 +298,7 @@ const isEventPassed = (eventDate: string) => {
                       isEventPassed(item.date) ? "filter grayscale" : ""
                     }`}
                   />
-                  <div className="p-4 h-[18vw] bg-white rounded-b-xl">
+                  <div className="p-4 h-[40vw] md:h-[18vw] bg-white rounded-b-xl">
                     <h2 className="text-xl text-gray-800 font-bold mb-1">{item.name}</h2>
                     <p className="text-gray-600 font-semibold mb-1">{item.date}</p>
                     <p className="text-gray-600 mb-1">{item.location}</p>

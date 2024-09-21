@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
-import { useRouter } from 'next/navigation';
 import { Switch } from '@nextui-org/react';
 
 const projects = [
@@ -195,34 +194,28 @@ interface ProjectCardProps {
   imageUrl: string;
 }
 
-interface ProjectDetailsProps {
-  project: Project;
-  onClose: () => void;
-}
-
 const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, description, peopleCount, difficulty, imageUrl }) => (
-  <div className="relative font-sans antialiased w-full h-[40vw] cursor-pointer transition-transform transform hover:scale-105 group flex flex-col overflow-hidden rounded-lg">
+  <div className="relative font-sans antialiased w-full h-full cursor-pointer transition-transform transform hover:scale-105 group flex flex-col overflow-hidden rounded-lg">
     
-    {/* Top 1/3: Image */}
+    {/* Top: Image */}
     <div className="h-2/4 w-full">
       <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
     </div>
     
-    {/* Bottom 2/3: Text content */}
-    <div className="p-5 text-white flex-grow flex flex-col">
-      {/* Title */}
-      <h2 className="text-2xl font-extrabold">{title}</h2>
-      
-      {/* Director name */}
-      <p className="text-xs ml-1 text-gray-200">{director}</p>
-      
+    {/* Bottom: Text content */}
+    <div className="p-5 h-full text-white flex-grow flex flex-col relative">
+      {/* Title and Director */}
+      <div>
+        <h2 className="text-2xl font-extrabold">{title}</h2>
+        <p className="text-xs ml-1 text-gray-200">{director}</p>
+      </div>
+
       {/* Project description */}
-      <p className="text-sm my-2">
+      <p className="text-sm my-2 flex-grow">
         {description}
       </p>
-      
-      {/* People count and difficulty */}
-      <div className="flex space-x-5 text-md font-bold mt-auto">
+      {/* People count and difficulty at the bottom */}
+      <div className="flex space-x-5 text-md font-bold">
         <p><i className="fa-solid fa-user-group"></i> {peopleCount}</p>
         <p><i className="fa-solid fa-bars-progress"></i> {difficulty}</p>
       </div>
@@ -230,12 +223,12 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, d
   </div>
 ));
 
+
+
 ProjectCard.displayName = 'ProjectCard';
 
 
 export default function Projects() {
-  const router = useRouter();
-
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showArchived, setShowArchived] = React.useState(false);
@@ -268,9 +261,9 @@ export default function Projects() {
   return (
     <div>
       <Navbar />
-      <main className="mt-16 min-h-screen flex flex-col bg-gray-100">
+      <main className="mt-32 md:mt-16 min-h-screen flex flex-col bg-gray-100">
         <section
-          className="relative w-full h-[30vw] bg-cover bg-center bg-no-repeat"
+          className="relative w-full h-[50vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/projectBg.jpg')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -284,7 +277,7 @@ export default function Projects() {
         </section>
 
         <section className="mt-10">
-        <div className="flex justify-between mx-5">
+        <div className="flex flex-col md:flex-row justify-between mx-5">
         <div className="flex items-center">
           <h1 className="text-2xl font-bold text-gray-800">Student Innovation Projects</h1>
         </div>
@@ -353,16 +346,16 @@ export default function Projects() {
         </section>
       </main>
 
-      <div className='mt-10 flex bg-violet-400 w-full'>
+      <div className='mt-10 flex flex-col md:flex-row bg-violet-400 w-full'>
   {/* Left half: Text */}
-  <div className='w-1/2 flex flex-col text-white justify-center'>
+  <div className='w-full md:w-1/2 flex flex-col py-5 text-white justify-center'>
   <h1 className='ml-10 text-5xl font-extrabold mt-5'>Intrigued?</h1>
     <p className='ml-10 text-lg mt-5'>
-      If you're interested in any of our projects, please apply using the link below. 
+      If you&apos;re interested in any of our projects, please apply using the link below. 
       For any inquiries, feel free to reach out to us via our 
       <a href="/contact" className="text-blue-600 hover:underline"> Contact Us</a> page.
     </p>
-    <button className="ml-10 w-1/4 mt-5 tracking-widest rounded-full font-semibold
+    <button className="ml-10 w-1/3 md:w-1/4 mt-5 tracking-widest rounded-full font-semibold
         border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 text-white 
         hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800 
         px-5 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg">
@@ -371,8 +364,8 @@ export default function Projects() {
   </div>
 
   {/* Right half: Image */}
-  <div className='w-1/2'>
-    <img src="/projectInterested.jpeg" alt="Project Image" className='w-full h-[26vw] object-cover'/>
+  <div className='w-full md:w-1/2'>
+    <img src="/projectInterested.jpeg" alt="Project Image" className='w-full h-[35vw] md:h-[26vw] object-cover'/>
   </div>
 </div>
       <Footer />

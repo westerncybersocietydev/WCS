@@ -125,9 +125,9 @@ const isEventPassed = (eventDate: string) => {
     <div>
       <Navbar />
 
-      <div className='pt-24 mx-10 min-h-screen'>
+      <div className='mt-32 md:mt-16 mx-10 min-h-screen'>
         <h2 className="text-4xl font-bold text-gray-800 mb-5">My Events</h2>
-        <div className='flex flex-wrap ml-5'>
+        <div className='flex flex-col ml-5'>
         {rsvpEvents.length === 0 ? (
           <div className="flex flex-col justify-center items-center h-screen text-center m-auto text-gray-600 p-4">
             <p>No RSVP&apos;d events found.</p>
