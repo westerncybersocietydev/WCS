@@ -5,6 +5,7 @@ import Footer from "./components/footer";
 import { useCallback, useEffect, useState } from "react";
 import { FaInstagram, FaTiktok, FaLinkedin } from 'react-icons/fa';
 import React from "react";
+import { useUser } from "./context/UserContext";
 
 interface FAQItem {
   question: string;
@@ -83,6 +84,10 @@ const faqs: FAQItem[] = [
   {
     question: "How can I contribute to the project?",
     answer: "You can contribute by joining our GitHub repository and submitting pull requests or issues."
+  },
+  {
+    question: "How can I contribute to the project?",
+    answer: "You can contribute by joining our GitHub repository and submitting pull requests or issues."
   }
 ];
 
@@ -99,37 +104,23 @@ const formatBio = (bio: string) => {
 export default function Home() {
   const router = useRouter();
   
-  const [token, setToken] = useState(null);
+  const { user, fetchUser } = useUser();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const toggleAnswer = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  const getToken = useCallback(async () => {
-    try {
-      const response = await fetch('/api/getToken', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
-      if (!response.ok) throw new Error('Network response was not ok');
-      const result = await response.json();
-      if (result) {
-        setToken(result);
-        if (token) {
-          console.log("logged in.")
-        }
-      } else {
-        console.log('Token not found.');
-      }
-    } catch (error) {
-      console.error('Failed to fetch token:', error);
+  const getProfileData = useCallback(async () => {
+    if (!user?.userId) {
+      console.log("Error getting user id.")
+      return;
     }
-  }, []); // Remove token from dependencies to avoid unnecessary re-runs
+  }, [user?.userId]);
   
   useEffect(() => {
-    getToken();
-  }, [getToken]); // Include getToken in the dependencies to ensure it's used correctly  
+    getProfileData();
+  }, [getProfileData]); // Include getToken in the dependencies to ensure it's used correctly  
 
   return (
     <div>
@@ -137,14 +128,14 @@ export default function Home() {
       
       <div className="relative">
 
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center  mb-10">
         <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-lg text-5xl">
           Unlock the Power of WCS With Mango Bloom
         </h1>
         <h1 className="mt-3 text-gray-700 text-center tracking-wide text-sm">
           The #1 tech club in Western with just 1 year of history.
         </h1>
-        {token && (
+        {!user && (
         <>
           <button className="mt-6 tracking-widest rounded-full font-semibold text-white
             border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
@@ -152,7 +143,7 @@ export default function Home() {
             onClick={() => router.push("/sign-up")}>
             Register
           </button>
-          <p className="mt-1 text-gray-700 text-center tracking-wide text-sm mb-10">
+          <p className="mt-1 text-gray-700 text-center tracking-wide text-sm">
             Already have an account? <a href="/sign-in" className="text-blue-500 hover:underline">Sign In</a>
           </p>
         </>
@@ -183,25 +174,28 @@ export default function Home() {
   <h2 className="text-black text-sm text-center">
     lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
   </h2>
-  <div className="flex justify-center space-x-4 px-5 py-10">
+  <div className="flex flex-wrap gap-4 justify-center items-center md:space-x-2 px-5 py-10">
     {boxes.map((box, index) => (
       <div
         key={index}
-        className="relative w-72 h-96 bg-gradient-to-r from-slate-900 to-darkBlue overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
+        className="relative cursor-pointer w-48 h-64 md:w-1/5 md:h-[30vw] bg-gradient-to-r from-slate-900 to-darkBlue overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
       >
         <img
           src={box.image}
           alt={`Image ${index + 1}`}
           className="w-full h-full object-cover blur-none translate-x-0 translate-y-0 transition-all duration-700 group-hover:translate-x-72 group-hover:translate-y-96 group-hover:scale-150 group-hover:blur-xl"
         />
-        <h3 className="absolute p-3 top-0 left-0 right-0 text-white text-lg font-semibold p-2 text-left z-10">
+        <h3 className="absolute text-xl p-3 top-0 left-0 right-0 text-white font-bold p-2 text-left z-10">
           {box.subtitle}
         </h3>
-        <div className="absolute inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
+        <div className="absolute text-xs md:text-md inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
           <div className="p-5">
             <p>{box.text}</p>
           </div>
         </div>
+        <span className="absolute bottom-[-30px] right-4 text-white text-xs font-semibold transition-all duration-700 ease-in-out group-hover:bottom-4">
+        View Details <i className="fa-solid fa-arrow-right"></i>
+    </span>
       </div>
     ))}
   </div>
@@ -210,9 +204,9 @@ export default function Home() {
         <div className="mb-10">
         <h2 className="text-4xl font-bold text-black pt-10 text-center">Be a Part of Our Community</h2>
         <h2 className="text-black text-sm mb-8 text-center">lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum</h2>
-    <div className="flex justify-center px-5 space-x-4">
+    <div className="flex flex-col md:flex-row justify-center items-center gap-4 px-5 md:space-x-4">
       {socials.map((social, index) => (
-        <div key={index} className={`relative w-1/3 h-60 overflow-hidden group ${social.color} social-hover shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)] shadow-gray-500 rounded`}>
+        <div key={index} className={`relative w-5/6 md:w-1/3 h-60 overflow-hidden group ${social.color} social-hover shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)] shadow-gray-500 rounded`}>
   <a
     href={social.profileUrl}
     target="_blank"
@@ -245,29 +239,18 @@ export default function Home() {
     </div>
   </div>
   
-  <div className="w-full flex flex-col justify-center items-center min-h-[32vw] mx-auto bg-cover bg-center" style={{ backgroundImage: 'url(/landing2.png)' }}>
+  <div className="pb-10 w-full flex flex-col justify-center items-center min-h-[32vw] mx-auto bg-cover bg-center" style={{ backgroundImage: 'url(/landing2.png)' }}>
   <h1 className="text-4xl font-bold text-black pt-10 text-center mb-5">Frequently Asked Questions</h1>
-  <div className="flex flex-col items-center w-5/6 bg-white rounded-lg shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)]">
+  <div className="flex flex-wrap justify-center items-center w-full">
     {faqs.map((faq, index) => (
-      <div key={index} className="w-full border-b-2 border-gray-300 rounded-lg">
-        <button
-          onClick={() => toggleAnswer(index)}
-          className="w-full text-lg flex justify-between items-center text-black font-bold text-left py-2 px-4 rounded-t-md transition-all duration-500"
-        >
-          {faq.question}
-          <span className="ml-2">
-            <i className="fa-solid fa-angle-down"></i>
-          </span>
-        </button>
-        <div
-          className={`overflow-hidden transition-all duration-500 ease-in-out ${activeIndex === index ? 'max-h-screen' : 'max-h-0'}`}
-        >
-          <p className="ml-3 text-sm p-4 text-gray-600">{faq.answer}</p>
-        </div>
+      <div key={index} className="flex flex-col transition-all duration-500 hover:scale-105 cursor-pointer justify-center items-center w-1/2 md:w-1/4 md:min-h-[18vw] p-5 m-3 border-b-2 border-gray-300 bg-white rounded-lg shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)]">
+        <h2 className="text-xl font-extrabold text-black text-center mb-2">{faq.question}</h2>
+        <p className="text-sm text-gray-600 text-center">{faq.answer}</p>
       </div>
     ))}
   </div>
 </div>
+
       <Footer />
     </div>
   );

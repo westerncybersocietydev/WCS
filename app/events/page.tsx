@@ -7,13 +7,29 @@ import Image from 'next/image';
 import { EventObject, getAllEvents } from '../lib/actions/event.action';
 
 const images = [
-  "/overview.jpg",
-  "/overview.jpg",
-  "/overview.jpg",
-  "/overview.jpg",
-  "/overview.jpg",
-  "/overview.jpg"
-]
+  "/gallery/gallery17.jpeg",
+  "/gallery/gallery3.jpeg",
+  "/gallery/gallery4.jpeg",
+  "/gallery/gallery5.jpeg",
+  "/gallery/gallery6.jpeg",
+  "/gallery/gallery7.jpeg",
+  "/gallery/gallery24.jpeg",
+  "/gallery/gallery25.jpeg",
+  "/gallery/gallery21.jpeg",
+  "/gallery/gallery11.jpeg",
+  "/gallery/gallery12.jpeg",
+  "/gallery/gallery13.jpeg",
+  "/gallery/gallery14.jpeg",
+  "/gallery/gallery15.png",
+  "/gallery/gallery26.jpeg",
+  "/gallery/gallery29.jpeg",
+  "/gallery/gallery16.jpeg",
+  "/gallery/gallery30.jpeg",
+  "/gallery/gallery19.jpeg",
+  "/gallery/gallery23.jpeg",
+  "/gallery/gallery22.jpeg",
+];
+
 
 export default function Events() {
   const [events, setEvents] = useState<EventObject[]>([]); // State to store events
@@ -65,27 +81,27 @@ export default function Events() {
         </div>
 
         <div className='mx-10 mb-10 mt-10'>
-      <h2 className="text-4xl font-bold text-gray-800 mb-5">WCS Time Capsule</h2>
-      <div className="grid grid-cols-3 gap-4 p-4">
-      {images.map((src, index) => (
-        <div
-          key={index}
-          className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
-        >
-          <Image
-            src={src}
-            alt={`image-${index}`}
-            layout="responsive"
-            width={1000}  // Use a width that's larger than the container width
-            height={1000} // Maintain the aspect ratio
-            objectFit="fill"
-            className="w-full h-full"
-          />
+          <h2 className="text-4xl font-bold text-gray-800 mb-5">WCS Time Capsule</h2>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 p-4">
+            {images.map((src, index) => (
+              <div
+                key={index}
+                className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
+              >
+                <Image
+                  src={src}
+                  alt={`image-${index}`}
+                  layout="responsive"
+                  width={1000} // Keep the width and height the same for responsiveness
+                  height={1000}
+                  objectFit="cover"
+                  className="w-full h-full"
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-
-    </div>
+    
       </div>
       <Footer />
     </div>

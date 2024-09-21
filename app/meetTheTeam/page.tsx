@@ -14,14 +14,7 @@ type TeamMember = {
 };
 
 type TeamCardProps = {
-  image: string;
-  name: string;
-  title: string;
-  year: string;
-  email?: string;
-  linkedin?: string;
-  twitter?: string;
-  onClick: () => void;
+  member: TeamMember;
 };
 
 type ModalProps = {
@@ -41,112 +34,85 @@ type ModalProps = {
 
 const teamData: TeamMember[] = [
   {
-    image: 'profileImg.jpg',
-    name: 'John Doe',
-    title: 'President',
-    program: 'Compsci',
-    year: 'Senior',
-    email: 'test@gmail.com',
+    image: 'alppppp.jpeg',
+    name: 'Alp Unsal',
+    title: 'Co-President',
+    program: 'CS & Ivey HBA',
+    year: '3rd Year',
+    email: 'aunsal3@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/alpunsal/',
+  },
+  {
+    image: 'taylorr.jpeg',
+    name: 'Taylor McCloskey',
+    title: 'Co-President',
+    program: 'MIT',
+    year: '4th year',
+    email: 'tmcclos2@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/taylor-mccloskey-77950918a/',
+  },
+  {
+    image: 'erin.jpeg',
+    name: 'Erin Hu',
+    title: 'Co-VP Operations',
+    program: 'Urban Development',
+    year: '4th year',
+    email: 'ehu24@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/huerin/',
+  },
+  {
+    image: 'aiden.jpeg',
+    name: 'Aiden Shin',
+    title: 'Co-VP Operations',
+    program: 'Economics',
+    year: '3rd year',
+    email: 'ashin25@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/aidenshin/',
+  },
+  {
+    image: 'joann.jpeg',
+    name: 'Joann R.',
+    title: 'VP Operation Strategy & Exec',
+    program: 'CS & MIT',
+    year: '3rd year',
+    email: 'jranjit@uwo.ca',
     linkedin: 'https://linkedin.com/in/johndoe',
   },
   {
-    image: 'profileImg.jpg',
-    name: 'John Doe',
-    title: 'President',
-    program: 'Compsci',
-    year: 'Senior',
-    email: 'test@gmail.com',
-    linkedin: 'https://linkedin.com/in/johndoe',
+    image: 'mia.jpeg',
+    name: 'Mia Mcdonalds',
+    title: 'VP Internal Affairs',
+    program: 'Engineering',
+    year: '3rd year',
+    email: 'mmacd367@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/mia-s-macdonald/',
   },
   {
-    image: 'profileImg.jpg',
-    name: 'Jane Smith',
-    title: 'VIP',
-    program: 'Compsci',
-    year: 'Junior',
-    email: 'test@gmail.com',
-    linkedin: 'https://linkedin.com/in/janesmith',
+    image: 'megan.jpeg',
+    name: 'Megan Kingston',
+    title: 'VP Brand Strategy',
+    program: 'MIT',
+    year: '3rd year',
+    email: 'mkingst9@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/megan-kingston-/',
   },
   {
-    image: 'profileImg.jpg',
-    name: 'Alice Johnson',
-    title: 'SIP Director',
-    program: 'Compsci',
-    year: 'Sophomore',
-    email: 'test@gmail.com',
-    linkedin: 'https://linkedin.com/in/alicejohnson',
+    image: 'adam.jpeg',
+    name: 'Adam Seaton',
+    title: 'VP Student Innovation Projects',
+    program: 'Computer Science',
+    year: '3rd year',
+    email: 'aseaton3@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/adam-seaton-855440262/',
   },
   {
-    image: 'profileImg.jpg',
-    name: 'John Doe',
-    title: 'President',
-    program: 'Compsci',
-    year: 'Senior',
-    email: 'test@gmail.com',
-    linkedin: 'https://linkedin.com/in/johndoe',
-  },
-  {
-    image: 'profileImg.jpg',
-    name: 'John Doe',
-    title: 'President',
-    program: 'Compsci',
-    year: 'Senior',
-    email: 'test@gmail.com',
-    linkedin: 'https://linkedin.com/in/johndoe',
-  },
-  {
-    image: 'profileImg.jpg',
-    name: 'Jane Smith',
-    title: 'VIP',
-    program: 'Compsci',
-    year: 'Junior',
-    email: 'test@gmail.com',
-    linkedin: 'https://linkedin.com/in/janesmith',
-  },
-  {
-    image: 'profileImg.jpg',
-    name: 'Alice Johnson',
-    title: 'SIP Director',
-    program: 'Compsci',
-    year: 'Sophomore',
-    email: 'test@gmail.com',
-    linkedin: 'https://linkedin.com/in/alicejohnson',
-  },
-  {
-    image: 'profileImg.jpg',
-    name: 'John Doe',
-    title: 'President',
-    program: 'Compsci',
-    year: 'Senior',
-    email: 'test@gmail.com',
-    linkedin: 'https://linkedin.com/in/johndoe',
-  },
-  {
-    image: 'profileImg.jpg',
-    name: 'John Doe',
-    title: 'President',
-    program: 'Compsci',
-    year: 'Senior',
-    email: 'test@gmail.com',
-    linkedin: 'https://linkedin.com/in/johndoe',
-  },
-  {
-    image: 'profileImg.jpg',
-    name: 'Jane Smith',
-    title: 'VIP',
-    program: 'Compsci',
-    year: 'Junior',
-    email: 'test@gmail.com',
-    linkedin: 'https://linkedin.com/in/janesmith',
-  },
-  {
-    image: 'profileImg.jpg',
-    name: 'Alice Johnson',
-    title: 'SIP Director',
-    program: 'Compsci',
-    year: 'Sophomore',
-    email: 'test@gmail.com',
-    linkedin: 'https://linkedin.com/in/alicejohnson',
+    image: 'isabel.jpeg',
+    name: 'Isabel Ke',
+    title: 'VP Finance',
+    program: 'Computer Science',
+    year: '2nd year',
+    email: 'ike@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/isabel-ke/',
   },
 ];
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, member }) => {
@@ -164,9 +130,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, member }) => {
           
         <img src={member.image} alt="Profile" className="w-56 h-56 rounded-full object-cover mb-4 shadow-xl" />
           
-        <h1 className="text-2xl text-black font-bold text-center">{member.name}</h1>
+        <h1 className="text-2xl text-black font-extrabold text-center">{member.name}</h1>
         <h2 className="text-lg  text-gray-800 font-semibold text-center">{member.title}</h2>
-        <p className="text-md text-gray-500 font-semibold text-center mb-4">{member.year} - {member.program}</p>
+        <p className="text-md text-gray-600 font-semibold text-center mb-4">{member.year} - {member.program}</p>
           
         <div className="flex text-black text-3xl space-x-5">
           <button className="transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800">
@@ -181,22 +147,50 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, member }) => {
   );
 };
 
-const TeamCard: React.FC<TeamCardProps> = ({ image, name, title, onClick }) => (
-  <div
-    className="relative cursor-pointer overflow-hidden rounded-sm h-[24rem] w-full transition-all duration-300 ease-in-out hover:scale-110"
-    onClick={onClick}
-  >
-    <img
-      src={image}
-      alt={name}
-      className="w-11/12 h-5/6 object-cover shadow-xl grayscale transition-all duration-500 hover:grayscale-0"
-    />
-    <div className="absolute z-40 w-3/4 bottom-10 right-0 p-4 bg-gradient-to-r from-zinc-100 to-zinc-100 text-black rounded-sm shadow-xl">
-      <div className="font-semibold text-xl">{name}</div>
-      <div className="text-sm">{title}</div>
-    </div>
+const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div
+      className="relative cursor-pointer overflow-hidden rounded-sm h-[24rem] w-full transition-transform duration-300 ease-in-out hover:scale-110 group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <img
+        src={member.image}
+        alt={member.name}
+        className="w-11/12 h-5/6 object-cover shadow-xl transition-all duration-500"
+      />
+      <div className="absolute z-40 w-3/4 bottom-10 right-2 p-4 bg-gradient-to-r from-zinc-100 to-zinc-100 text-black rounded-sm shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] transition-all duration-200 ease-in-out h-20 group-hover:h-28">
+        <div className="font-semibold text-xl">{member.name}</div>
+        <div className="text-sm">{member.title}</div>
+        
+        {isHovered && (
+          <div className="mt-2 flex justify-between items-center">
+  <p className="text-xs">{member.program}</p>
+  <div className="flex text-black text-xl space-x-2">
+    <button
+      onClick={() => {
+        window.open(`mailto:${member.email}`);
+      }}
+      className="transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800"
+    >
+      <i className="fa-solid fa-envelope"></i>
+    </button>
+    <button
+      onClick={() => window.open(member.linkedin || '', '_blank')}
+      className="transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800"
+    >
+      <i className="fa-brands fa-linkedin"></i>
+    </button>
   </div>
-);
+</div>
+
+        )}
+      </div>
+    </div>
+  );
+};
 
 const Section: React.FC<{ members: TeamMember[]; onCardClick: (member: TeamMember) => void; }> = ({ members, onCardClick }) => (
   <section className="mb-8">
@@ -205,11 +199,7 @@ const Section: React.FC<{ members: TeamMember[]; onCardClick: (member: TeamMembe
         {members.map((member, index) => (
           <TeamCard
             key={index}
-            image={member.image}
-            name={member.name}
-            title={member.title}
-            year={member.year}
-            onClick={() => onCardClick(member)}
+            member={member}
           />
         ))}
       </div>

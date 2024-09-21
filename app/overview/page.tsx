@@ -25,13 +25,13 @@ export default function Overview() {
 
       {/* Mission, Vision, Focus Statements */}
         <div className='flex flex-col w-full h-full'>
-            <div className='flex mx-8 my-8 space-x-10'>
-            <div className='bg-black rounded-xl w-1/2 h-[48vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-              <img src='/overview.jpg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
+            <div className='flex flex-col md:flex-row gap-4 mx-8 my-8 md:space-x-10'>
+            <div className='bg-black rounded-xl md:w-1/2 h-[48vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+              <img src='/mission.jpeg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
             </div>
-              <div className='bg-violet-950 rounded-xl p-16 text-left w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-                <h2 className="text-8xl font-extrabold text-white">Our Mission</h2>
-                <p className="mt-6 text-xl font-semibold text-white">
+              <div className='flex flex-col justify-center items-center bg-violet-950 rounded-xl p-16 text-left md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+                <h2 className="text-4xl md:text-9xl font-extrabold text-white">Our Mission</h2>
+                <p className="mt-6 text-md md:text-xl font-semibold text-white">
                   To create innovative solutions that empower communities, enhance connectivity, and foster sustainable growth. 
                   By leveraging cutting-edge technologies, we aim to drive positive change that benefits individuals and societies alike.
                 </p>
@@ -39,28 +39,28 @@ export default function Overview() {
             </div>
         </div>
 
-        <div className='flex flex-col w-full h-full'>
-            <div className='flex mx-8 my-8 space-x-10'>
-            <div className='bg-violet-950 rounded-xl p-16 text-left w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-                <h2 className="text-8xl font-extrabold text-white">Our Vision</h2>
-                <p className="mt-6 text-xl font-semibold text-white">
+        <div className='flex flex-col md:flex-row w-full h-full'>
+            <div className='flex flex-col md:flex-row gap-4 mx-8 my-8 md:space-x-10'>
+            <div className='flex flex-col justify-center items-center bg-violet-950 rounded-xl p-16 text-left md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+                <h2 className="text-4xl md:text-9xl font-extrabold text-white">Our Vision</h2>
+                <p className="mt-6 text-md md:text-xl font-semibold text-white">
                 To be a global leader in transformative technology, creating a future where seamless connectivity and sustainable innovation improve lives across the world. 
                 We envision a world where technology works harmoniously with nature.</p>
               </div>
-            <div className='bg-black rounded-xl w-1/2 h-[48vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-              <img src='/overview.jpg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
+            <div className='bg-black rounded-xl md:w-1/2 h-[48vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+              <img src='/vision.jpeg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
             </div>
             </div>
         </div>
 
         <div className='flex flex-col w-full h-full'>
-            <div className='flex mx-8 my-8 space-x-10'>
-            <div className='bg-black rounded-xl w-1/2 h-[48vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-              <img src='/overview.jpg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
+            <div className='flex flex-col md:flex-row gap-4 mx-8 my-8 md:space-x-10'>
+            <div className='bg-black rounded-xl md:w-1/2 h-[48vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+              <img src='/focus.jpeg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
             </div>
-              <div className='bg-violet-950 rounded-xl p-16 text-left w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-                <h2 className="text-8xl font-extrabold text-white">Our Focus</h2>
-                <p className="mt-6 text-xl font-semibold text-white">
+              <div className='flex flex-col justify-center items-center bg-violet-950 rounded-xl p-16 text-left md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+                <h2 className="text-4xl md:text-9xl font-extrabold text-white">Our Focus</h2>
+                <p className="mt-6 text-md md:text-xl font-semibold text-white">
                 Western Cyber Society is dedicated to cultivating the next generation of tech leaders by focusing on excellence in key sectors such as cybersecurity, artificial intelligence, and data science. 
                 We provide students with hands-on experience, and mentorship.</p>
               </div>
@@ -73,9 +73,9 @@ export default function Overview() {
     <h1 className="text-5xl font-extrabold text-center text-white mt-10 mb-4">
             Our Focus Areas
         </h1>
-        <div className='flex space-x-2 w-full text-center'>
+        <div className='flex flex-col md:flex-row gap-4 md:space-x-2 w-full text-center'>
             <div className='flex flex-col items-center rounded-xl p-8 w-full'>
-                <img src='/overview.jpg' alt='Our Mission' className='object-cover w-36 h-36 rounded-full' />
+                <img src='/ai.jpg' alt='Our Mission' className='object-cover w-36 h-36 rounded-full' />
                 <h2 className="mt-6 text-xl font-extrabold text-white">AI</h2>
                 <p className="mt-3 text-xs text-white">
                     Western Cyber Society is dedicated to cultivating the next generation of tech leaders by focusing on excellence in key sectors such as cybersecurity, artificial intelligence, and data science. 
@@ -86,7 +86,7 @@ export default function Overview() {
             </div>
 
             <div className='flex flex-col items-center rounded-xl p-8 w-full '>
-                <img src='/overview.jpg' alt='Our Mission' className='object-cover w-36 h-36 rounded-full' />
+                <img src='/cs.jpg' alt='Our Mission' className='object-cover w-36 h-36 rounded-full' />
                 <h2 className="mt-6 text-xl font-extrabold text-white">Cybersecurity</h2>
                 <p className="mt-3 text-xs text-white">
                     Western Cyber Society is dedicated to cultivating the next generation of tech leaders by focusing on excellence in key sectors such as cybersecurity, artificial intelligence, and data science. 
@@ -97,7 +97,7 @@ export default function Overview() {
             </div>
 
             <div className='flex flex-col items-center rounded-xl p-8 w-full '>
-                <img src='/overview.jpg' alt='Our Mission' className='object-cover w-36 h-36 rounded-full' />
+                <img src='/web3.jpg' alt='Our Mission' className='object-cover w-36 h-36 rounded-full' />
                 <h2 className="mt-6 text-xl font-extrabold text-white">Web3</h2>
                 <p className="mt-3 text-xs text-white">
                     Western Cyber Society is dedicated to cultivating the next generation of tech leaders by focusing on excellence in key sectors such as cybersecurity, artificial intelligence, and data science. 
@@ -108,7 +108,7 @@ export default function Overview() {
             </div>
 
             <div className='flex flex-col items-center rounded-xl p-8 w-full '>
-                <img src='/overview.jpg' alt='Our Mission' className='object-cover w-36 h-36 rounded-full' />
+                <img src='/mainframe.png' alt='Our Mission' className='object-cover w-36 h-36 rounded-full' />
                 <h2 className="mt-6 text-xl font-extrabold text-white">Mainframe</h2>
                 <p className="mt-3 text-xs text-white">
                     Western Cyber Society is dedicated to cultivating the next generation of tech leaders by focusing on excellence in key sectors such as cybersecurity, artificial intelligence, and data science. 

@@ -10,7 +10,10 @@ const projects = [
       title: "MicroGuard",
       category: "Cybersecurity",
       status: "Active",
-      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber, and encrypt data with a microcontroller-based ransomware tool. MicroGuard, your ultimate trio of hacking tools.",
+      peopleCount: "5",
+      difficulty: "Intermediate",
+      projectImg: "/overview.jpg",
+      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
       director: {
           name: "Adam Seaton",
           year: "4th year",
@@ -23,7 +26,10 @@ const projects = [
       title: "Software Cryptography Implementation",
       category: "Cybersecurity",
       status: "Active",
-      description: "In this project, members will learn how modern cryptographic systems function, with a special emphasis on models used in industry. Participants will put their knowledge to practice by implementing these systems on runnable software.",
+      peopleCount: "5",
+      difficulty: "Intermediate",
+      projectImg: "/overview.jpg",
+      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
       director: {
           name: "Hunter Korble",
           year: "4th year",
@@ -36,7 +42,10 @@ const projects = [
       title: "Pneumonia Detection Model",
       category: "AI",
       status: "Active",
-      description: "Many industries have seen exponential improvements due to the growth in the AI industry such as the medical industry. With this growth, thousands of scans that would have to have been done in one by one can be instantly diagnosed. By creating the pneumonia detection model, you will help medical professionals be much more efficient in their diagnosis helping save the lives of many.",
+      peopleCount: "5",
+      difficulty: "Intermediate",
+      projectImg: "/overview.jpg",
+      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
       director: {
           name: "Alp Unsal",
           year: "4th year",
@@ -49,7 +58,10 @@ const projects = [
       title: "Web App VIP (Vulnerability Identification Platform)",
       category: "Cybersecurity",
       status: "Active",
-      description: "Web App VIP will introduce a holistic and cost-friendly solution for users to analyze their small web applications to identify potential vulnerabilities. Leveraging OWASP ZAP, an open-source code analysis tool, web app vulnerabilities such as cross-site scripting (XSS), SQL injections, and buffer overflows will be investigated and presented to the user. Web App VIP is a fantastic opportunity for students to gain hands-on experience with vulnerability assessments and penetration testing, both critical areas of cybersecurity.",
+      peopleCount: "5",
+      difficulty: "Intermediate",
+      projectImg: "/overview.jpg",
+      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
       director: {
           name: "Dileep Dhami",
           year: "4th year",
@@ -62,7 +74,10 @@ const projects = [
       title: "NetProbe X",
       category: "Cybersecurity",
       status: "Active",
-      description: "Introducing 'NetProbe X', a cutting-edge project aimed at providing a captivating journey into the world of network analysis through a user-friendly Graphical User Interface (GUI). By the power harnessed from Wireshark and Python, this tool promises to simplify network data, offering a seamless experience for capturing, analyzing, and visualizing network information.",
+      peopleCount: "5",
+      difficulty: "Intermediate",
+      projectImg: "/overview.jpg",
+      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
       director: {
           name: "Zaki Hasan Ali",
           year: "4th year",
@@ -75,7 +90,10 @@ const projects = [
       title: "Spotify Playlist Generator",
       category: "AI",
       status: "Active",
-      description: "The goal is to create a playlist that seamlessly transitions from one song to the next, where each next song is decided using ML. The project will involve scraping data from the Spotify API and on preprocessing, data will be trained on different models and the best one will be implemented. The project can grow and can take several routes through developments needed after implementation.",
+      peopleCount: "5",
+      difficulty: "Intermediate",
+      projectImg: "/overview.jpg",
+      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
       director: {
           name: "Ethan Carvalho",
           year: "4th year",
@@ -88,7 +106,10 @@ const projects = [
       title: "ASL to English Translator",
       category: "AI",
       status: "Active",
-      description: "Communication is uniquely difficult for the hearing-impaired. Our ASL-to-English translator utilizes computer vision to open a channel of communication between the hearing-impaired and non-ASL speakers, as well as assist those interested in learning this rich language.",
+      peopleCount: "5",
+      difficulty: "Intermediate",
+      projectImg: "/overview.jpg",
+      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
       director: {
           name: "Geoff Easton",
           year: "4th year",
@@ -101,7 +122,10 @@ const projects = [
       title: "AWS Cloud Fusion",
       category: "Web3",
       status: "Active",
-      description: "A thrilling project merging web hosting, serverless applications, and database management using AWS. Dive into the world of clouds without prior knowledge, and learn to build a static website, create a messaging app, and manage databases in just weeks! Don't miss this opportunity to discover the power of AWS with us—your gateway to the incredible realm of the cloud awaits!",
+      peopleCount: "5",
+      difficulty: "Intermediate",
+      projectImg: "/overview.jpg",
+      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
       director: {
           name: "Siddhant Saraf",
           year: "4th year",
@@ -114,7 +138,10 @@ const projects = [
       title: "Twitter Stock Trading AI",
       category: "AI",
       status: "Active",
-      description: "This project uses Transformers to analyse the sentiment of tweets relating to financial instruments and then we will be correlating them with real time stock prices to see how much sentiment influences stock prices.",
+      peopleCount: "5",
+      difficulty: "Intermediate",
+      projectImg: "/overview.jpg",
+      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
       director: {
           name: "Bashshar Atif",
           year: "4th year",
@@ -127,7 +154,10 @@ const projects = [
       title: "NeoArtSphere",
       category: "Web3",
       status: "Active",
-      description: "A user-friendly application that enables artists from specific underprivileged geographical areas to profit from their art by providing them with a platform to showcase their art as an NFT. With their art minted as an NFT, they would be able to sell it globally to art enthusiasts who are interested in truly unique perspectives and giving back.",
+      peopleCount: "5",
+      difficulty: "Intermediate",
+      projectImg: "/overview.jpg",
+      description: "A cutting-edge cybersecurity project harnessing microcontrollers to create a formidable trio of tools. Unleash a password brute-force powerhouse, seize control with a WiFi password grabber.",
       director: {
           name: "Ganesh Krishna Menon",
           year: "4th year",
@@ -144,6 +174,9 @@ interface Project {
   category: string;
   status: string;
   description: string;
+  peopleCount: string;
+  difficulty: string;
+  projectImg: string;
   director: {
     name: string;
     year: string;
@@ -156,25 +189,43 @@ interface Project {
 interface ProjectCardProps {
   title: string;
   description: string;
-  onClick: () => void;
+  director: string;
+  peopleCount: string;
+  difficulty: string;
+  imageUrl: string;
 }
 
 interface ProjectDetailsProps {
   project: Project;
   onClose: () => void;
-  isInterested: () => void;
 }
 
-
-
-const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, description, onClick }) => (
-  <div onClick={onClick} className="relative font-sans antialiased w-full h-full cursor-pointer transition-transform transform hover:scale-105 group flex flex-col justify-between overflow-hidden">
-    <div className='p-7'>
-      <h2 className="text-md font-semibold text-gray-800 mb-2">{title}</h2>
-      <p className="text-sm text-gray-600">{description.length > 200 ? description.substring(0, 200) + '...' : description}</p>
+const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, description, peopleCount, difficulty, imageUrl }) => (
+  <div className="relative font-sans antialiased w-full h-[40vw] cursor-pointer transition-transform transform hover:scale-105 group flex flex-col overflow-hidden rounded-lg">
+    
+    {/* Top 1/3: Image */}
+    <div className="h-2/4 w-full">
+      <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
     </div>
-    <div className="absolute bottom-0 right-3 p-4 font-semibold transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
-      <span className='text-sm text-gray-400 font-semibold'>Read more <i className="fa-solid fa-arrow-right"></i></span>
+    
+    {/* Bottom 2/3: Text content */}
+    <div className="p-5 text-white flex-grow flex flex-col">
+      {/* Title */}
+      <h2 className="text-2xl font-extrabold">{title}</h2>
+      
+      {/* Director name */}
+      <p className="text-xs ml-1 text-gray-200">{director}</p>
+      
+      {/* Project description */}
+      <p className="text-sm my-2">
+        {description}
+      </p>
+      
+      {/* People count and difficulty */}
+      <div className="flex space-x-5 text-md font-bold mt-auto">
+        <p><i className="fa-solid fa-user-group"></i> {peopleCount}</p>
+        <p><i className="fa-solid fa-bars-progress"></i> {difficulty}</p>
+      </div>
     </div>
   </div>
 ));
@@ -182,67 +233,12 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, description
 ProjectCard.displayName = 'ProjectCard';
 
 
-const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project, onClose, isInterested }) => (
-  <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
-    <div className="relative bg-white px-5 py-3 rounded-sm w-3/5 h-3/4 shadow-lg">
-    <button onClick={onClose} className="absolute bg-white px-2 top-2 right-2 text-gray-700 transition-transform duration-300 hover:scale-110 focus:outline-none">
-      <i className="fa-solid fa-x text-xs"></i>
-    </button>
-      <h1 className="text-2xl font-bold text-black text-center">{project.title}</h1>
-      <h2 className="text-md font-bold text-gray-800 text-center">{project.category}</h2>
-      <div className="flex mx-3 flex-row h-3/4 overflow-hidden">
-        {/* Left Side */}
-        <div className="w-3/5">
-          <h2 className='text-gray-800 underline mt-6 mb-3 font-semibold'>Description</h2>
-          <p className='text-gray-600 w-11/12'>{project.description}</p>
-          <button
-              className="relative mt-6 w-3/4 text-black border border-black hover:scale-110 hover:bg-black hover:text-white px-4 py-1 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
-              aria-label="Sign In"
-              onClick={isInterested}>
-              Interested? Get in Touch!
-            </button>
-        </div>
-
-        {/* Divider */}
-        <div className="w-px h-4/6 mt-12 bg-black lg:block hidden"></div>
-
-        {/* Right Side: Content */}
-        <div className="w-2/5 p-5 flex flex-col items-center">
-          
-          <img src={project.director.picture} alt="Profile" className="w-36 h-36 rounded-full object-cover mb-2" />
-          
-          <h1 className="text-lg text-gray-800 font-bold">{project.director.name}</h1>
-          <h2 className="text-sm text-gray-500 font-semibold mb-2">{project.director.year}</h2>
-          
-          <div className="flex text-black text-2xl space-x-5">
-            <button className='transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800'><i className="fa-solid fa-envelope"></i></button>
-            <button className='transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800'><i className="fa-brands fa-linkedin"></i></button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-ProjectDetails.displayName = 'ProjectDetails';
-
 export default function Projects() {
-
-  
   const router = useRouter();
 
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showArchived, setShowArchived] = React.useState(false);
-
-  const handleCardClick = (project: Project) => {
-    setSelectedProject(project);
-  };
-
-  const handleClose = () => {
-    setSelectedProject(null);
-  };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -287,8 +283,8 @@ export default function Projects() {
           </div>
         </section>
 
-        <section className="mt-10 px-6">
-        <div className="flex justify-between">
+        <section className="mt-10">
+        <div className="flex justify-between mx-5">
         <div className="flex items-center">
           <h1 className="text-2xl font-bold text-gray-800">Student Innovation Projects</h1>
         </div>
@@ -325,23 +321,26 @@ export default function Projects() {
     </label>
         </div>
       </div>
-      <div className="border-t border-gray-300 my-8 mx-auto w-3/4 opacity-50">
-</div>
+
+      <div className="border-t border-gray-500 my-8 mx-auto w-3/4 opacity-50"></div>
 
           {filteredProjects.length > 0 ? (
             Object.keys(groupedProjects).map((category) => (
-              <section key={category} className="mb-12">
+              <section key={category} className="mb-12 mx-5 mt-5">
                 <h2 className="text-2xl text-center font-semibold text-gray-800 mb-6">{category}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {groupedProjects[category].map((project, index) => (
                     <div
                       key={index}
-                      className="bg-white shadow-md rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 ease-in-out"
+                      className="bg-gradient-to-b from-violet-500 to-purple-500 shadow-md rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 ease-in-out"
                     >
                       <ProjectCard
                         title={project.title}
                         description={project.description}
-                        onClick={() => handleCardClick(project)}
+                        director={project.director.name}
+                        peopleCount={project.peopleCount}
+                        difficulty={project.difficulty}
+                        imageUrl={project.projectImg}
                       />
                     </div>
                   ))}
@@ -351,11 +350,31 @@ export default function Projects() {
           ) : (
             <p className="text-center text-gray-500 mb-10">No projects match your criteria.</p>
           )}
-          {selectedProject && (
-            <ProjectDetails project={selectedProject} onClose={handleClose} isInterested={() => router.push('/contact')} />
-          )}
         </section>
       </main>
+
+      <div className='mt-10 flex bg-violet-400 w-full'>
+  {/* Left half: Text */}
+  <div className='w-1/2 flex flex-col text-white justify-center'>
+  <h1 className='ml-10 text-5xl font-extrabold mt-5'>Intrigued?</h1>
+    <p className='ml-10 text-lg mt-5'>
+      If you're interested in any of our projects, please apply using the link below. 
+      For any inquiries, feel free to reach out to us via our 
+      <a href="/contact" className="text-blue-600 hover:underline"> Contact Us</a> page.
+    </p>
+    <button className="ml-10 w-1/4 mt-5 tracking-widest rounded-full font-semibold
+        border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 text-white 
+        hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800 
+        px-5 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg">
+      Apply Now
+    </button>
+  </div>
+
+  {/* Right half: Image */}
+  <div className='w-1/2'>
+    <img src="/projectInterested.jpeg" alt="Project Image" className='w-full h-[26vw] object-cover'/>
+  </div>
+</div>
       <Footer />
     </div>
   );

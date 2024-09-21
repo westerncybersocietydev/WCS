@@ -371,7 +371,7 @@ const isEventPassed = (eventDate: string) => {
                 ) : (
                   <button
                   onClick={openRSVPModal} // Disable button if RSVP'd
-                  className={` self-end mr-5 text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-2 px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
+                  className={`hidden self-end mr-5 text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-2 px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
                   disabled={isEventPassed(selectedItem.date)} // Disable button
                 >
                   RSVP
