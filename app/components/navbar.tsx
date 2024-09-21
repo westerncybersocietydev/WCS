@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { useUser } from '../context/UserContext'; // Adjust the path as 
-import Avatar from '../dataFiles/avatars';
 import { getProfile, updatePlan } from '../lib/actions/user.action';
 import BecomeVIP from './becomeVIP';
 import toast from 'react-hot-toast';
