@@ -11,7 +11,7 @@ const projects = [
       status: "Active",
       peopleCount: "5",
       difficulty: "Intermediate",
-      projectImg: "/overview.jpg",
+      projectImg: "/microg.jpg",
       description: "A cybersecurity project with tools for password brute-force, WiFi password grabbing, and data encryption.",
       director: {
           name: "Adam Seaton"
@@ -23,7 +23,7 @@ const projects = [
       status: "Active",
       peopleCount: "5",
       difficulty: "Intermediate",
-      projectImg: "/overview.jpg",
+      projectImg: "/scyptintero.jpg",
       description: "Learn and implement modern cryptographic systems used in industry through runnable software.",
       director: {
           name: "Hunter Korble"
@@ -35,7 +35,7 @@ const projects = [
       status: "Active",
       peopleCount: "5",
       difficulty: "Intermediate",
-      projectImg: "/overview.jpg",
+      projectImg: "/pnDetect.jpg",
       description: "Create a pneumonia detection model to help medical professionals diagnose scans more efficiently.",
       director: {
           name: "Alp Unsal"
@@ -47,7 +47,7 @@ const projects = [
       status: "Active",
       peopleCount: "5",
       difficulty: "Intermediate",
-      projectImg: "/overview.jpg",
+      projectImg: "/vipWebApp.jpg",
       description: "A solution for users to analyze web apps for vulnerabilities using OWASP ZAP.",
       director: {
           name: "Dileep Dhami"
@@ -59,7 +59,7 @@ const projects = [
       status: "Active",
       peopleCount: "5",
       difficulty: "Intermediate",
-      projectImg: "/overview.jpg",
+      projectImg: "/netprobe.jpg",
       description: "Explore network analysis with a GUI using Wireshark and Python for data visualization.",
       director: {
           name: "Zaki Hasan Ali"
@@ -71,7 +71,7 @@ const projects = [
       status: "Active",
       peopleCount: "5",
       difficulty: "Intermediate",
-      projectImg: "/overview.jpg",
+      projectImg: "/spotify.jpg",
       description: "Create playlists that transition seamlessly using ML by scraping and analyzing data from the Spotify API.",
       director: {
           name: "Ethan Carvalho"
@@ -83,7 +83,7 @@ const projects = [
       status: "Active",
       peopleCount: "5",
       difficulty: "Intermediate",
-      projectImg: "/overview.jpg",
+      projectImg: "/asl.jpg",
       description: "Utilize computer vision to bridge communication between the hearing-impaired and non-ASL speakers.",
       director: {
           name: "Geoff Easton"
@@ -95,7 +95,7 @@ const projects = [
       status: "Active",
       peopleCount: "5",
       difficulty: "Intermediate",
-      projectImg: "/overview.jpg",
+      projectImg: "/awscf.jpg",
       description: "Merge web hosting and serverless applications on AWS while building a static website and messaging app.",
       director: {
           name: "Ganesh Krishna Menon"
@@ -107,7 +107,7 @@ const projects = [
       status: "Active",
       peopleCount: "5",
       difficulty: "Intermediate",
-      projectImg: "/overview.jpg",
+      projectImg: "/TWTRADINGSTOCK.jpg",
       description: "Analyze tweet sentiment using Transformers and correlate with real-time stock prices.",
       director: {
           name: "Bashshar Atif"
@@ -119,7 +119,7 @@ const projects = [
       status: "Active",
       peopleCount: "5",
       difficulty: "Intermediate",
-      projectImg: "/overview.jpg",
+      projectImg: "/neoart.jpg",
       description: "A platform for artists in underprivileged areas to showcase and sell their art as NFTs.",
       director: {
           name: "Ganesh Krishna Menon"

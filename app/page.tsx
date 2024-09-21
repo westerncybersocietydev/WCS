@@ -14,24 +14,20 @@ interface FAQItem {
 
 const boxes = [
   {
-    subtitle: "IBM Launch",
-    image: "bg-test.jpg",
-    text: "Join us for the IBM Launch event, where groundbreaking innovations in AI, cloud computing, and quantum technology will be unveiled. Network with industry leaders and explore the future of tech.",
+    image: "IBMN.png",
+    text: "An evening of innovation and technology exploration hosted by IBM, showcasing their latest advancements and opportunities.",
   },
   {
-    subtitle: "Toronto Tech Expo",
-    image: "bg-test.jpg",
-    text: "Discover the latest trends in software, hardware, and digital innovation at the Toronto Tech Expo. This event will feature product demos, keynote speakers, and opportunities to connect with top companies.",
+    image: "VIPD.png",
+    text: "An exclusive networking event bringing together top industry leaders for insightful discussions over a gourmet meal.",
   },
   {
-    subtitle: "FAANG Day",
-    image: "bg-test.jpg",
-    text: "Learn about career opportunities and cutting-edge technologies at FAANG Day, where representatives from Facebook, Amazon, Apple, Netflix, and Google will share insights on working at the world's leading tech giants.",
+    image: "FD.png",
+    text: "A day dedicated to learning from and connecting with industry professionals from Facebook, Amazon, Apple, Netflix, and Google.",
   },
   {
-    subtitle: "WCS Dinner",
-    image: "bg-test.jpg",
-    text: "Celebrate the accomplishments of the Western Cyber Society at our annual dinner. Enjoy an evening of networking, guest speakers, and a discussion of upcoming initiatives in cybersecurity and tech.",
+    image: "TTE4.png",
+    text: "A dynamic tech showcase featuring cutting-edge innovations and startups from across Toronto's vibrant tech ecosystem.",
   },
 ];
 
@@ -146,8 +142,8 @@ export default function Home() {
       </div>
 
       <div className="flex justify-center">
-      <video controls={false} autoPlay loop muted preload="none" className="w-full h-[30vw] object-cover">
-        <source src="placeHolderVid.mp4" type="video/mp4" />
+      <video controls={false} autoPlay loop muted preload="none" className="w-full h-[40vw] object-cover">
+        <source src="wcs.mp4" type="video/mp4" />
         <track
           src="/path/to/captions.vtt"
           kind="subtitles"
@@ -180,9 +176,6 @@ export default function Home() {
           alt={`Image ${index + 1}`}
           className="w-full h-full object-cover blur-none translate-x-0 translate-y-0 transition-all duration-700 group-hover:translate-x-72 group-hover:translate-y-96 group-hover:scale-150 group-hover:blur-xl"
         />
-        <h3 className="absolute text-xl p-3 top-0 left-0 right-0 text-white font-bold p-2 text-left z-10">
-          {box.subtitle}
-        </h3>
         <div className="absolute text-xs md:text-md inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
           <div className="p-5">
             <p>{box.text}</p>
