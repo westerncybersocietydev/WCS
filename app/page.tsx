@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { FaInstagram, FaTiktok, FaLinkedin } from 'react-icons/fa';
 import React from "react";
 import { useUser } from "./context/UserContext";

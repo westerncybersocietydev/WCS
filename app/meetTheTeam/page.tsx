@@ -115,37 +115,6 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/isabel-ke/',
   },
 ];
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, member }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
-      <div className="relative bg-white px-5 py-3 rounded-sm w-2/6 h-5/6 shadow-lg flex flex-col items-center justify-center">
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-4 bg-transparent text-gray-700 transition-transform duration-300 hover:scale-110 focus:outline-none"
-        >
-          <i className="fa-solid fa-x text-xs"></i>
-        </button>
-          
-        <img src={member.image} alt="Profile" className="w-56 h-56 rounded-full object-cover mb-4 shadow-xl" />
-          
-        <h1 className="text-2xl text-black font-extrabold text-center">{member.name}</h1>
-        <h2 className="text-lg  text-gray-800 font-semibold text-center">{member.title}</h2>
-        <p className="text-md text-gray-600 font-semibold text-center mb-4">{member.year} - {member.program}</p>
-          
-        <div className="flex text-black text-3xl space-x-5">
-          <button className="transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800">
-            <i className="fa-solid fa-envelope"></i>
-          </button>
-          <button className="transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800">
-            <i className="fa-brands fa-linkedin"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -210,14 +179,6 @@ const Section: React.FC<{ members: TeamMember[]; }> = ({ members }) => (
 export default function MeetTheTeam() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
-  const handleCloseModal = () => {
-    setSelectedMember(null);
-  };
-
-  const handleCardClick = (member: TeamMember) => {
-    setSelectedMember(member);
-  };
-
   return (
     <div>
       <Navbar />
@@ -244,13 +205,6 @@ export default function MeetTheTeam() {
             <h2 className='mt-3 mb-14'>WCS is proud to present our incredible 2024-2025 student team.</h2>
           </div>
           <Section members={teamData} />
-          {selectedMember && (
-            <Modal
-              isOpen={!!selectedMember}
-              onClose={handleCloseModal}
-              member={selectedMember}
-            />
-          )}
         </div>
       </div>
       <Footer />
