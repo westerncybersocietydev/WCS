@@ -185,7 +185,7 @@ export default function MeetTheTeam() {
             <div className="text-white text-center px-6 py-12 max-w-3xl mx-auto">
               <h1 className="text-xl md:text-5xl md:text-6xl font-bold mb-6 leading-tight">Behind WCS</h1>
               <p className="text-sm md:text-lg md:text-xl leading-relaxed">
-                SIPs have been meticulously crafted with industry professionals to equip coordinators with essential skills. Dive into hands-on experience with high-demand software and skills through WCS Projects.
+              Get to know the diverse group of talented individuals behind our organization, each bringing unique skills and perspectives. Together, we are committed to driving innovation and creating a supportive environment for all members.
               </p>
             </div>
           </div>
@@ -194,7 +194,7 @@ export default function MeetTheTeam() {
       <div className="bg-gray-100 min-h-screen">
         <div className="p-4 text-black">
           <div className='text-center mt-14'>
-            <h1 className='text-4xl text-center font-bold text-gray-800'><strong>Meet The Team</strong></h1>
+            <h1 className='text-4xl text-center font-bold text-gray-800'><strong>The People Behind WCS</strong></h1>
             <h2 className='mt-3 mb-14'>WCS is proud to present our incredible 2024-2025 student team.</h2>
           </div>
           <Section members={teamData} />

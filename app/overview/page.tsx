@@ -17,7 +17,7 @@ export default function Overview() {
             <div className="text-white text-center px-6 py-12 max-w-3xl mx-auto">
               <h1 className="text-xl md:text-5xl md:text-6xl font-bold mb-6 leading-tight">About Us</h1>
               <p className="text-sm md:text-lg md:text-xl leading-relaxed">
-                SIPs have been meticulously crafted with industry professionals to equip coordinators with essential skills. Dive into hands-on experience with high-demand software and skills through WCS Projects.
+                We are a passionate team dedicated to fostering innovation and collaboration in the tech community. Our mission is to empower individuals through knowledge sharing and hands-on experiences in cutting-edge technology.
               </p>
             </div>
           </div>
@@ -86,32 +86,32 @@ export default function Overview() {
             <div className='flex flex-col items-center rounded-xl p-5 w-full'>
                 <img src='/ai.jpg' alt='Our Mission' className='object-cover w-32 h-32 rounded-full' />
                 <h2 className="mt-6 text-2xl font-extrabold text-white">AI</h2>
-                <p className="mt-3 text-sm text-white">
-                    Western Cyber Society is dedicated to cultivating the next generation of tech leaders by focusing on excellence in key sectors such as cybersecurity, artificial intelligence, and data science. 
+                <p className="mt-3 text-md text-white">
+                Explore our innovative AI projects that harness machine learning algorithms to create intelligent solutions, enhancing decision-making and efficiency across various domains. 
                 </p>
             </div>
 
             <div className='flex flex-col items-center rounded-xl p-5 w-full '>
                 <img src='/cs.jpg' alt='Our Mission' className='object-cover w-32 h-32 rounded-full' />
                 <h2 className="mt-6 text-2xl font-extrabold text-white">Cybersecurity</h2>
-                <p className="mt-3 text-sm text-white">
-                    Western Cyber Society is dedicated to cultivating the next generation of tech leaders by focusing on excellence in key sectors such as cybersecurity, artificial intelligence, and data science. 
+                <p className="mt-3 text-md text-white">
+                Dive into our cybersecurity initiatives focused on protecting digital assets and ensuring safe online experiences through cutting-edge techniques and proactive threat management.
                 </p>
             </div>
 
             <div className='flex flex-col items-center rounded-xl p-5 w-full '>
                 <img src='/web3.jpg' alt='Our Mission' className='object-cover w-32 h-32 rounded-full' />
                 <h2 className="mt-6 text-2xl font-extrabold text-white">Web3</h2>
-                <p className="mt-3 text-sm text-white">
-                    Western Cyber Society is dedicated to cultivating the next generation of tech leaders by focusing on excellence in key sectors such as cybersecurity, artificial intelligence, and data science. 
+                <p className="mt-3 text-md text-white">
+                Discover our Web3 projects that aim to revolutionize the internet by promoting decentralized applications and empowering users with greater control over their data and online interactions.
                 </p>
             </div>
 
             <div className='flex flex-col items-center rounded-xl p-5 w-full '>
                 <img src='/mainframe.png' alt='Our Mission' className='object-cover w-32 h-32 rounded-full' />
                 <h2 className="mt-6 text-2xl font-extrabold text-white">Mainframe</h2>
-                <p className="mt-3 text-sm text-white">
-                    Western Cyber Society is dedicated to cultivating the next generation of tech leaders by focusing on excellence in key sectors such as cybersecurity, artificial intelligence, and data science. 
+                <p className="mt-3 text-md text-white">
+                Learn about our mainframe projects that leverage robust computing power to support large-scale data processing and enterprise solutions, ensuring reliability and security in critical business operations.
                 </p>
             </div>
 

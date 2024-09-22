@@ -226,7 +226,7 @@ export default function Projects() {
             <div className="text-white text-center px-6 py-12 max-w-3xl mx-auto">
               <h1 className="text-xl md:text-5xl md:text-6xl font-bold mb-6 leading-tight">Student Innovation Projects</h1>
               <p className="text-sm md:text-lg md:text-xl leading-relaxed">
-                SIPs have been meticulously crafted with industry professionals to equip coordinators with essential skills. Dive into hands-on experience with high-demand software and skills through WCS Projects.
+              Our Student Initiative Projects (SIP) showcase creative solutions developed by our members, tackling real-world challenges through teamwork and technical skills. Each project represents our commitment to learning, growth, and making a positive impact in our community.
               </p>
             </div>
           </div>
@@ -302,16 +302,16 @@ export default function Projects() {
         </section>
       </main>
 
-      <div className='mt-10 flex flex-col md:flex-row bg-violet-400 w-full'>
+      <div className='mt-10 flex flex-col md:flex-row bg-violet-600 w-full'>
   {/* Left half: Text */}
-  <div className='w-full md:w-1/2 flex flex-col py-5 text-white justify-center'>
+  <div className='w-full md:w-1/2 flex flex-col py-5 text-white justify-center items-center md:items-start'>
   <h1 className='ml-10 text-5xl font-extrabold mt-5'>Intrigued?</h1>
     <p className='ml-10 text-lg mt-5'>
       If you&apos;re interested in any of our projects, please apply using the link below. 
       For any inquiries, feel free to reach out to us via our 
-      <a href="/contact" className="text-blue-600 hover:underline"> Contact Us</a> page.
+      <a href="/contact" className="text-blue-400 hover:underline"> Contact Us</a> page.
     </p>
-    <button className="ml-10 w-2/4 md:w-1/4 mt-5 tracking-widest rounded-full font-semibold
+    <button className="ml-10 w-3/5 md:w-1/4 mt-5 tracking-widest rounded-full font-semibold
         border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 text-white 
         hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800 
         px-5 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg">
