@@ -122,7 +122,7 @@ export default function Home() {
   }, [text]);
 
   const tick = () => {
-      let updatedText = isDeleting ? animatedPart.substring(0, text.length - 1) : animatedPart.substring(0, text.length + 1);
+      const updatedText = isDeleting ? animatedPart.substring(0, text.length - 1) : animatedPart.substring(0, text.length + 1);
 
       setText(updatedText);
 
