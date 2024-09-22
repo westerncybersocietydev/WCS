@@ -115,7 +115,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
 
   return (
     <div
-      className="relative cursor-pointer overflow-hidden rounded-sm h-[35rem] md:h-[24rem] w-full transition-transform duration-300 ease-in-out hover:scale-110 group"
+      className="relative cursor-pointer overflow-hidden rounded-sm h-[45rem] md:h-[30rem] 2xl:h-[40rem] w-full transition-transform duration-300 ease-in-out hover:scale-110 group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

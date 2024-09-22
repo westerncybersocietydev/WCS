@@ -208,7 +208,7 @@ const isEventPassed = (eventDate: string) => {
   // RSVP Modal Component
   const RSVPModal: React.FC<{ onClose: () => void; onRSVP: (userId: string, eventId: string) => void; item: EventObject | null; }> = ({ onClose, onRSVP, item }) => (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
-      <div className="relative w-3/5 flex justify-center">
+      <div className="relative w-full md:w-3/5 h-full px-2 py-10 flex justify-center">
         {item?.price === "Free" ? (
           <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-lg">
             <h1 className="text-lg tracking-wide text-center text-gray-900">
@@ -232,18 +232,18 @@ const isEventPassed = (eventDate: string) => {
             </div>
           </div>
         ) : (
-          <div className='bg-white px-5 py-3 rounded'>
-            <button onClick={onClose} className="absolute bg-white px-2 top-2 right-2 text-gray-700 transition-transform duration-300 hover:scale-110 focus:outline-none">
-              <i className="fa-solid fa-x text-xs"></i>
+          <div className='bg-white px-5 py-3 rounded relative'>
+            <button onClick={onClose} className="absolute bg-white px-2 top-3 right-5 text-gray-700 transition-transform duration-300 hover:scale-110 focus:outline-none">
+              <i className="fa-solid fa-x text-lg"></i>
             </button>
-            <h1 className="text-4xl tracking-wide font-bold text-center text-gray-800">RSVP for Event</h1>
-            <div className="flex mx-3 flex-row items-start h-full overflow-hidden">
+            <h1 className="text-lg md:text-4xl tracking-wide font-bold text-center text-gray-800">RSVP for Event</h1>
+            <div className="flex mx-3 flex-row items-start h-full overflow-y-auto custom-scrollbar">
               {/* Left Side */}
               <div className="w-2/5 mt-14">
                 <img
                   src={item?.image}
                   alt={item?.name}
-                  className="w-full object-cover shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300"
+                  className="w-full h-[15vw] object-cover shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300"
                 />
                 <h2 className='text-black text-lg font-bold ml-2 mt-5'>{item?.name}</h2>
                 <h2 className='text-gray-800 text-xs font-semibold ml-2 mt-1'>
@@ -261,7 +261,7 @@ const isEventPassed = (eventDate: string) => {
               <div className="w-px ml-10 mt-20 h-[24vw] bg-gray-800 mx-2"></div>
               
               {/* Right Side: Content */}
-              <div className="w-3/5 p-5 flex flex-col items-center">
+              <div className="w-3/5 p-2 flex flex-col items-center">
                 <Elements stripe={stripePromise} options={options}>
                   <CheckoutForm planPrice={15} onPaymentSuccess={() => handleRSVP(user?.userId || '', item?.id || '')} />
                 </Elements>
@@ -307,7 +307,7 @@ const isEventPassed = (eventDate: string) => {
                 className="w-full md:w-1/3 flex-shrink-0 p-3 relative group cursor-pointer"
                 onClick={() => openModal(item)}
               >
-                <div className="relative h-[70vw] md:h-[40vw] mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
+                <div className="relative h-[70vw] md:h-[40vw] 3xl:h-[30vw] mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
                   <img
                     src={item.image}  
                     alt={item.name}
@@ -316,11 +316,11 @@ const isEventPassed = (eventDate: string) => {
                     }`}
                   />
                   <div className="h-3/5 md:h-2/4 p-4 bg-white rounded-b-xl">
-                    <h2 className="text-lg md:text-xl text-gray-800 font-bold mb-1">{item.name}</h2>
-                    <p className="text-sm md:text-base text-gray-600 font-semibold mb-1">{item.date}</p>
-                    <p className="text-sm md:text-base text-gray-600 mb-1">{item.location}</p>
-                    <p className="text-sm md:text-base text-gray-800">
-                      {item.description.length > 100 ? item.description.substring(0, 100) + '...' : item.description}
+                    <h2 className="text-lg md:text-xl 2xl:text-2xl text-gray-800 font-bold mb-1">{item.name}</h2>
+                    <p className="text-sm md:text-base 2xl:text-lg text-gray-600 font-semibold mb-1">{item.date}</p>
+                    <p className="text-sm md:text-base 2xl:text-lg text-gray-600 mb-1">{item.location}</p>
+                    <p className="text-sm md:text-base 2xl:text-lg text-gray-800">
+                      {item.description.length > 150 ? item.description.substring(0, 150) + '...' : item.description}
                     </p>
                   </div>
 
@@ -338,12 +338,12 @@ const isEventPassed = (eventDate: string) => {
       {/* Modal for Selected Item */}
       {selectedItem && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out">
-          <div className="relative rounded-lg w-4/5 h-full md:h-2/3 py-2 m-auto flex">
+          <div className="relative rounded-lg w-5/6 h-full md:h-2/3 py-2 m-auto flex">
             {/* Close Button */}
-            <button onClick={closeModal} className="absolute top-2 right-2 p-2 text-white transition-all duration-500 hover:scale-110">
+            <button onClick={closeModal} className="absolute top-3 right-2 p-2 text-white md:text-black transition-all duration-500 hover:scale-110">
               <i className="fa-solid fa-x text-xl"></i>
             </button>
-            <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="flex flex-col lg:flex-row bg-white w-full rounded-lg shadow-lg overflow-hidden">
               {/* Left Side: Image */}
               <div className="md:w-1/3 h-1/3 md:h-full w-full">
                 <img
@@ -355,12 +355,12 @@ const isEventPassed = (eventDate: string) => {
               {/* Right Side: Content */}
               <div className="md:w-2/3 h-2/3 md:h-full p-5 w-full py-5 flex flex-col justify-between">
                 <div className='px-2 text-gray-800'>
-                  <h2 className="text-xl md:text-4xl font-bold mb-2">{selectedItem.name}</h2>
+                  <h2 className="text-xl md:text-4xl 2xl:text-6xl font-bold mb-2">{selectedItem.name}</h2>
                   {isEventRSVPd(selectedItem.id) && <p className="text-gray-600 ml-2 mb-2 text-xs tracking-wide">Already RSVP&apos;d</p>}
-                  <p className="font-semibold ml-2 text-sm md:text-base mb-1"><i className="fa-solid fa-calendar-days"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.date} at {selectedItem.time}</span></p>
-                  <p className="font-semibold ml-2 text-sm md:text-base mb-1"><i className="fa-solid fa-location-dot"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.location}</span></p>
-                  <p className="font-semibold ml-2 text-sm md:text-base mb-3"><i className="fa-solid fa-tag"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.price}</span></p>
-                  <p className="font-normal text-gray-700 ml-2 max-w-lg text-sm md:text-base mb-2 leading-relaxed">{selectedItem.description}</p>
+                  <p className="font-semibold ml-2 text-sm md:text-base 2xl:text-xl mb-1"><i className="fa-solid fa-calendar-days"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.date} at {selectedItem.time}</span></p>
+                  <p className="font-semibold ml-2 text-sm md:text-base 2xl:text-xl mb-1"><i className="fa-solid fa-location-dot"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.location}</span></p>
+                  <p className="font-semibold ml-2 text-sm md:text-base 2xl:text-xl mb-3"><i className="fa-solid fa-tag"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.price}</span></p>
+                  <p className="font-normal text-gray-700 ml-2 max-w-lg text-sm md:text-base 2xl:text-xl mb-2 leading-relaxed">{selectedItem.description}</p>
                 </div>
 
                 {isEventRSVPd(selectedItem.id) ? (

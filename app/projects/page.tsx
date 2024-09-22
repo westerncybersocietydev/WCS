@@ -12,7 +12,7 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/microg.jpg",
-      description: "A cybersecurity project with tools for password brute-force, WiFi password grabbing, and data encryption.",
+      description: "A cybersecurity project with tools for password brute-force, WiFi password grabbing, and data encryption. It aims to enhance user security by providing comprehensive solutions for common vulnerabilities.",
       director: {
           name: "Adam Seaton"
       }
@@ -24,7 +24,7 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/scyptintero.jpg",
-      description: "Learn and implement modern cryptographic systems used in industry through runnable software.",
+      description: "Learn and implement modern cryptographic systems used in industry through runnable software. This project provides hands-on experience with the algorithms and protocols that secure digital communications.",
       director: {
           name: "Hunter Korble"
       }
@@ -36,7 +36,7 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/pnDetect.jpg",
-      description: "Create a pneumonia detection model to help medical professionals diagnose scans more efficiently.",
+      description: "Create a pneumonia detection model to help medical professionals diagnose scans more efficiently. The model leverages AI to analyze medical images, improving diagnostic accuracy and speed.",
       director: {
           name: "Alp Unsal"
       }
@@ -48,7 +48,7 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/vipWebApp.jpg",
-      description: "A solution for users to analyze web apps for vulnerabilities using OWASP ZAP.",
+      description: "A solution for users to analyze web apps for vulnerabilities using OWASP ZAP. This platform empowers developers to identify and address security issues proactively.",
       director: {
           name: "Dileep Dhami"
       }
@@ -60,7 +60,7 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/netprobe.jpg",
-      description: "Explore network analysis with a GUI using Wireshark and Python for data visualization.",
+      description: "Explore network analysis with a GUI using Wireshark and Python for data visualization. This project offers an intuitive interface for monitoring network traffic and identifying anomalies.",
       director: {
           name: "Zaki Hasan Ali"
       }
@@ -72,7 +72,7 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/spotify.jpg",
-      description: "Create playlists that transition seamlessly using ML by scraping and analyzing data from the Spotify API.",
+      description: "Create playlists that transition seamlessly using ML by scraping and analyzing data from the Spotify API. The tool enhances the listening experience by curating personalized music recommendations.",
       director: {
           name: "Ethan Carvalho"
       }
@@ -84,7 +84,7 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/asl.jpg",
-      description: "Utilize computer vision to bridge communication between the hearing-impaired and non-ASL speakers.",
+      description: "Utilize computer vision to bridge communication between the hearing-impaired and non-ASL speakers. This innovative solution fosters inclusivity and enhances interaction in diverse settings.",
       director: {
           name: "Geoff Easton"
       }
@@ -96,7 +96,7 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/awscf.jpg",
-      description: "Merge web hosting and serverless applications on AWS while building a static website and messaging app.",
+      description: "Merge web hosting and serverless applications on AWS while building a static website and messaging app. This project demonstrates the power of cloud technologies in creating scalable applications.",
       director: {
           name: "Ganesh Krishna Menon"
       }
@@ -108,7 +108,7 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/TWTRADINGSTOCK.jpg",
-      description: "Analyze tweet sentiment using Transformers and correlate with real-time stock prices.",
+      description: "Analyze tweet sentiment using Transformers and correlate with real-time stock prices. This project explores the intersection of social media and financial markets, providing insights for traders.",
       director: {
           name: "Bashshar Atif"
       }
@@ -120,7 +120,7 @@ const projects = [
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/neoart.jpg",
-      description: "A platform for artists in underprivileged areas to showcase and sell their art as NFTs.",
+      description: "A platform for artists in underprivileged areas to showcase and sell their art as NFTs. This initiative aims to empower creators by providing them with access to global markets and audiences.",
       director: {
           name: "Ganesh Krishna Menon"
       }
@@ -151,7 +151,7 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, description, peopleCount, difficulty, imageUrl }) => (
-  <div className="relative font-sans antialiased w-full h-[70vw] md:h-[36vw] cursor-pointer transition-transform transform hover:scale-105 group flex flex-col overflow-hidden rounded-lg">
+  <div className="relative font-sans antialiased w-full h-[70vw] md:h-[40vw] 3xl:h-[30vw] cursor-pointer transition-transform transform hover:scale-105 group flex flex-col overflow-hidden rounded-lg">
     
     {/* Top: Image */}
     <div className="h-2/5 w-full">
@@ -167,7 +167,7 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, d
       </div>
 
       {/* Project description */}
-      <p className="text-xs md:text-sm xl:text-xl my-2 flex-grow">
+      <p className="text-xs md:text-sm xl:text-xl 2xl:text-2xl my-2 flex-grow">
         {description}
       </p>
       {/* People count and difficulty at the bottom */}
