@@ -67,24 +67,24 @@ const socials = [
 
 const faqs: FAQItem[] = [
   {
-    question: "What is Fashun AI?",
-    answer: "Fashun AI is a fashion recommender system that helps users find the perfect outfits based on their preferences and trends."
+    question: "Do I need to have a club membership to attend events?",
+    answer: "While most events are open to all attendees, membership offers discounts on event registrations and access to exclusive events held throughout the year."
   },
   {
-    question: "How does CookieGram work?",
-    answer: "CookieGram is a food social media web app where users can share and explore recipes, as well as connect with other food enthusiasts."
+    question: "What kinds of resources does WCS provide for students?",
+    answer: "WCS equips students with in-demand skills in AI, Cyber Security, mainframe, and Web3 through workshops and competitions, while facilitating networking events."
   },
   {
-    question: "What technologies do you use?",
-    answer: "We primarily use React, Next.js, and Tailwind CSS for front-end development, along with Node.js and Express for backend APIs."
+    question: "When do project applications open? How do I apply?",
+    answer: "Project applications are open right now! To apply, visit the projects page and follow the application instructions provided."
   },
   {
-    question: "How can I contribute to the project?",
-    answer: "You can contribute by joining our GitHub repository and submitting pull requests or issues."
+    question: "How can I stay updated on WCS events and announcements?",
+    answer: "To stay updated with WCS, create an account on our website to receive email notifications about upcoming events, and feel free to follow us on our social media for the latest updates!"
   },
   {
-    question: "How can I contribute to the project?",
-    answer: "You can contribute by joining our GitHub repository and submitting pull requests or issues."
+    question: "Is prior experience with the required technology necessary to apply for projects?",
+    answer: "No, you don't need prior experience. If selected, you’ll receive the time and resources to learn. What we value most is your enthusiasm and willingness to engage with the work."
   }
 ];
 
@@ -207,14 +207,14 @@ export default function Home() {
       initial={ { opacity: 0, } }
       whileInView={ { opacity: 1 } }
       viewport={ { margin: '-100px', once: true } }  
-  className="text-4xl font-bold text-black pt-10 text-center">
+  className="text-2xl md:text-4xl 2xl:text-5xl font-bold text-black pt-10 text-center">
     Join us at our featured events for 2025
   </motion.h2>
   <motion.h2
       initial={ { opacity: 0, } }
       whileInView={ { opacity: 1 } }
       viewport={ { margin: '-100px', once: true } }   
- className="text-black text-sm text-center">
+ className="text-black text-sm xl:text-lg 2xl:text-xl text-center">
    Participate in our distinguished events, designed to foster innovation, facilitate collaboration, and connect you with industry leaders
   </motion.h2>
   <div className="flex flex-wrap gap-4 justify-center items-center md:space-x-2 px-5 py-10">
@@ -231,9 +231,9 @@ export default function Home() {
     <img
       src={box.image}
       alt={`Image ${index + 1}`}
-      className="w-full h-full object-cover transition-all duration-700 group-hover:translate-x-72 group-hover:translate-y-96 group-hover:scale-150"
+      className="w-full h-full object-cover transition-all duration-700 group-hover:translate-x-full group-hover:translate-y-full group-hover:blur-xl group-hover:scale-150"
     />
-    <div className="absolute text-xs md:text-base inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
+    <div className="absolute text-xs md:text-base lg:text-md xl:text-xl inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
       <div className="p-5">
         <p>{box.text}</p>
       </div>
@@ -253,12 +253,12 @@ export default function Home() {
       initial={ { opacity: 0, } }
       whileInView={ { opacity: 1 } }
       viewport={ { margin: '-100px', once: true } }    
-        className="text-4xl font-bold text-black pt-10 text-center">Be a Part of Our Community</motion.h2>
+        className="text-2xl md:text-4xl 2xl:text-5xl font-bold text-black pt-10 text-center">Be a Part of Our Community</motion.h2>
         <motion.h2 
       initial={ { opacity: 0, } }
       whileInView={ { opacity: 1 } }
       viewport={ { margin: '-100px', once: true } }   
-        className="text-black text-sm mb-8 text-center">lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum</motion.h2>
+        className="text-black text-sm xl:text-lg 2xl:text-xl mb-8 text-center">Be part of a vibrant community dedicated to innovation, creativity, and the shared goal of making a lasting impact.</motion.h2>
     <div className="flex flex-col md:flex-row justify-center items-center gap-4 px-5 md:space-x-4">
       {socials.map((social, index) => (
         <motion.div
@@ -304,7 +304,7 @@ export default function Home() {
       initial={ { opacity: 0, } }
       whileInView={ { opacity: 1 } }
       viewport={ { margin: '-100px', once: true } }    
-  className="text-4xl font-bold text-black pt-10 text-center mb-5">Frequently Asked Questions</motion.h1>
+  className="text-2xl md:text-4xl 2xl:text-5xl font-bold text-black pt-10 text-center mb-5">Frequently Asked Questions</motion.h1>
   <motion.div 
         initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
         whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
@@ -313,8 +313,8 @@ export default function Home() {
   className="flex flex-wrap justify-center items-center w-full">
     {faqs.map((faq, index) => (
       <div key={index} className="flex flex-col transition-all duration-500 hover:scale-105 cursor-pointer justify-center items-center w-1/2 md:w-1/4 md:min-h-[18vw] p-5 m-3 border-b-2 border-gray-300 bg-white rounded-lg shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)]">
-        <h2 className="text-xl font-extrabold text-black text-center mb-2">{faq.question}</h2>
-        <p className="text-sm text-gray-600 text-center">{faq.answer}</p>
+        <h2 className="text-lg md:text-xl 2xl:text-2xl font-extrabold text-black text-center mb-2">{faq.question}</h2>
+        <p className="text-sm 2xl:text-lg text-gray-600 text-center">{faq.answer}</p>
       </div>
     ))}
   </motion.div>
