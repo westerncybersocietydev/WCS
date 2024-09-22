@@ -174,7 +174,7 @@ export default function Signup() {
                       margin-bottom: 20px;
                   }
                   .highlight {
-                      color: #0071e3;
+                      color: #a723b0;
                       font-weight: 600;
                   }
                   .cta {
@@ -183,16 +183,17 @@ export default function Signup() {
                   }
                   .cta a {
                       display: inline-block;
-                      background-color: #0071e3;
+                      background: linear-gradient(to right, #8b5cf6, #a855f7);
                       color: #ffffff;
                       text-decoration: none;
                       padding: 14px 28px;
-                      border-radius: 28px;
+                      border-radius: 9999px;
                       font-weight: 600;
                       font-size: 18px;
+                      letter-spacing: 0.1em;
                   }
                   .cta a:hover {
-                      background-color: #005bb5;
+                      background: linear-gradient(to right, #7c3aed, #6d28d9); /* Same as hover:bg-gradient-to-r from-violet-800 to-purple-800 */
                   }
                   .footer {
                       text-align: center;
@@ -429,7 +430,9 @@ export default function Signup() {
                 type="button"
                 onClick={handleNext}
                 disabled={loading}
-                className="w-full rounded-xl text-white bg-blue-600 border hover:bg-blue-800 hover:text-white px-4 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+                className="mt-6 w-full tracking-widest rounded-full font-semibold text-white
+            border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
+             py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
               >
                 {loading ? 'Saving...' : 'Continue'}
               </button>
@@ -461,7 +464,9 @@ export default function Signup() {
                         </li>
                       ))}
                   <button
-                    className="mt-10 w-full font-bold bg-gradient-to-r from-blue-800 to-indigo-900 text-white py-2 px-4 rounded transition duration-300 ease-in-out transform hover:bg-blue-700 hover:scale-105"
+                    className="mt-10 w-full tracking-widest rounded-full font-semibold text-white
+            border-2 font-bold bg-gradient-to-r from-sky-500 to-blue-500 hover:scale-105 hover:bg-gradient-to-r hover:from-sky-700 hover:to-blue-800
+             py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
                     onClick={handleBasic}
                   >
                     {basicLoading ? 'Creating Account...' : 'Continue'}
@@ -486,7 +491,9 @@ export default function Signup() {
                         </li>
                       ))}
               <button
-                className="mt-10 w-full font-bold bg-gradient-to-r from-violet-500 to-purple-500 text-white py-2 px-4 rounded hover:bg-blue-700 hover:scale-105 transition"
+                className="mt-10 w-full tracking-widest rounded-full font-semibold text-white
+            border-2 font-bold bg-gradient-to-r from-purple-500 to-violet-500 hover:scale-105 hover:bg-gradient-to-r hover:from-purple-700 hover:to-violet-800
+             py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
                 onClick={() => setIsModalOpen(true)}
               >
                 {vipLoading 
@@ -507,7 +514,9 @@ export default function Signup() {
               </p>
               <div className="mt-10">
                 <button
-                  className='w-full mt-5 bg-violet-800 text-white py-2 rounded-full hover:bg-violet-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'
+                  className='mt-5 w-full tracking-widest rounded-full font-semibold text-white
+            border-2 font-bold bg-gradient-to-r from-purple-500 to-violet-500 hover:scale-105 hover:bg-gradient-to-r hover:from-purple-700 hover:to-violet-800
+             py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg'
                   type='button'
                   onClick={() => router.push('/')}
                 >

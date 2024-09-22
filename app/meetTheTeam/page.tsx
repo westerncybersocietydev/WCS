@@ -61,7 +61,7 @@ const teamData: TeamMember[] = [
     program: 'CS & MIT',
     year: '3rd year',
     email: 'jranjit@uwo.ca',
-    linkedin: 'https://linkedin.com/in/johndoe',
+    linkedin: 'https://www.linkedin.com/in/joannmr/',
   },
   {
     image: 'mia.jpeg',
@@ -98,6 +98,15 @@ const teamData: TeamMember[] = [
     year: '2nd year',
     email: 'ike@uwo.ca',
     linkedin: 'https://www.linkedin.com/in/isabel-ke/',
+  },
+  {
+    image: 'sabina.jpeg',
+    name: 'Sabina Radhi',
+    title: 'VP Communications',
+    program: 'Computer Science',
+    year: '3rd year',
+    email: 'sradhi@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/sabina-radhi-28b590293/',
   },
 ];
 

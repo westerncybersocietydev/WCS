@@ -2,10 +2,11 @@
 import { useRouter } from "next/navigation";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaInstagram, FaTiktok, FaLinkedin } from 'react-icons/fa';
 import React from "react";
 import { useUser } from "./context/UserContext";
+import { motion } from "framer-motion"
 
 interface FAQItem {
   question: string;
@@ -102,6 +103,43 @@ export default function Home() {
   
   const { user } = useUser();
 
+  const fullText = "Unlock the Power of WCS With Mango Bloom";
+  const animatedPart = fullText.slice(-10);  // The last 10 characters
+  const staticPart = fullText.slice(0, -10); // The first part (static)
+
+  const [loopNum, setLoopNum] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [text, setText] = useState('');
+  const [delta, setDelta] = useState<number>(300 - Math.random() * 100);
+  const period: number = 3000;
+
+  useEffect(() => {
+      const ticker = setInterval(() => {
+          tick();
+      }, delta);
+
+      return () => { clearInterval(ticker); };
+  }, [text]);
+
+  const tick = () => {
+      let updatedText = isDeleting ? animatedPart.substring(0, text.length - 1) : animatedPart.substring(0, text.length + 1);
+
+      setText(updatedText);
+
+      if (isDeleting) {
+          setDelta(prevDelta => prevDelta / 2);
+      }
+
+      if (!isDeleting && updatedText === animatedPart) {
+          setIsDeleting(true);
+          setDelta(period);
+      } else if (isDeleting && updatedText === '') {
+          setIsDeleting(false);
+          setLoopNum(loopNum + 1);
+          setDelta(500);
+      }
+  };
+  
   const getProfileData = useCallback(async () => {
     if (!user?.userId) {
       console.log("Error getting user id.")
@@ -121,10 +159,10 @@ export default function Home() {
 
       <div className="flex flex-col items-center justify-center  mb-10">
         <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-2xl md:max-w-xl lg:max-w-xl xl:max-w-4xl text-2xl md:text-5xl lg:text-6xl xl:text-8xl">
-          Unlock the Power of WCS With Mango Bloom
+        {staticPart}<span className="wrap">{text}</span>
         </h1>
-        <h1 className="mt-3 text-sm md:text-md text-gray-700 text-center tracking-wide text-sm">
-          The #1 tech club in Western with just 1 year of history.
+        <h1 className="mt-3 text-sm md:text-md max-w-2xl md:max-w-xl lg:max-w-xl xl:max-w-4xl text-gray-700 text-center tracking-wide text-sm">
+          Recognized as the leading tech club at Western University, we prioritize maximizing value and delivering exceptional returns on investment for our members.
         </h1>
         {!user && (
         <>
@@ -140,8 +178,13 @@ export default function Home() {
         </>
       )}
       </div>
-
-      <div className="flex justify-center">
+        
+      <motion.div
+      initial={ { y:50, opacity: 0, } }
+      whileInView={ { y: 0, opacity: 1 } }
+      transition={{ type: "tween", duration: 0.5 }}
+      viewport={ { margin: '-100px', once: true } }
+      className="flex justify-center">
       <video controls={false} autoPlay loop muted preload="none" className="w-full h-[40vw] object-cover">
         <source src="wcs2.mp4" type="video/mp4" />
         <track
@@ -152,22 +195,35 @@ export default function Home() {
         />
         Your browser does not support the video tag.
       </video>
-      </div>
+      </motion.div>
+
     </div>
 
     <div
   className="relative bg-cover bg-center"
   style={{ backgroundImage: 'url("/landing2.png")' }}
 >
-  <h2 className="text-4xl font-bold text-black pt-10 text-center">
+  <motion.h2
+      initial={ { opacity: 0, } }
+      whileInView={ { opacity: 1 } }
+      viewport={ { margin: '-100px', once: true } }  
+  className="text-4xl font-bold text-black pt-10 text-center">
     Join us at our featured events for 2025
-  </h2>
-  <h2 className="text-black text-sm text-center">
-    lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-  </h2>
+  </motion.h2>
+  <motion.h2
+      initial={ { opacity: 0, } }
+      whileInView={ { opacity: 1 } }
+      viewport={ { margin: '-100px', once: true } }   
+ className="text-black text-sm text-center">
+   Participate in our distinguished events, designed to foster innovation, facilitate collaboration, and connect you with industry leaders
+  </motion.h2>
   <div className="flex flex-wrap gap-4 justify-center items-center md:space-x-2 px-5 py-10">
   {boxes.map((box, index) => (
-  <div
+  <motion.div
+  initial={{ x: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+  whileInView={{ x: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+  transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+  viewport={{ margin: "-50px" }}
     key={index}
     className="relative bg-black cursor-pointer w-48 h-64 md:w-1/5 md:h-[30vw] overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
   >
@@ -185,7 +241,7 @@ export default function Home() {
     <span className="absolute bottom-[-30px] right-4 text-white text-xs font-semibold transition-all duration-700 ease-in-out group-hover:bottom-4">
       View Details <i className="fa-solid fa-arrow-right"></i>
     </span>
-  </div>
+  </motion.div>
 ))}
 
 
@@ -193,11 +249,24 @@ export default function Home() {
 </div>
         
         <div className="mb-10">
-        <h2 className="text-4xl font-bold text-black pt-10 text-center">Be a Part of Our Community</h2>
-        <h2 className="text-black text-sm mb-8 text-center">lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum</h2>
+        <motion.h2
+      initial={ { opacity: 0, } }
+      whileInView={ { opacity: 1 } }
+      viewport={ { margin: '-100px', once: true } }    
+        className="text-4xl font-bold text-black pt-10 text-center">Be a Part of Our Community</motion.h2>
+        <motion.h2 
+      initial={ { opacity: 0, } }
+      whileInView={ { opacity: 1 } }
+      viewport={ { margin: '-100px', once: true } }   
+        className="text-black text-sm mb-8 text-center">lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum</motion.h2>
     <div className="flex flex-col md:flex-row justify-center items-center gap-4 px-5 md:space-x-4">
       {socials.map((social, index) => (
-        <div key={index} className={`relative w-5/6 md:w-1/3 h-60 overflow-hidden group ${social.color} social-hover shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)] shadow-gray-500 rounded`}>
+        <motion.div
+        initial={{ x: -100, opacity: 0 }} // Start from right (x: 100) and invisible
+        whileInView={{ x: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+        transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+        viewport={{ margin: "-50px" }}
+        key={index} className={`relative w-5/6 md:w-1/3 h-60 overflow-hidden group ${social.color} social-hover shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)] shadow-gray-500 rounded`}>
   <a
     href={social.profileUrl}
     target="_blank"
@@ -224,22 +293,31 @@ export default function Home() {
       Visit <i className="fa-solid fa-arrow-right"></i>
     </span>
   </a>
-</div>
+</motion.div>
 
       ))}
     </div>
   </div>
   
   <div className="pb-10 w-full flex flex-col justify-center items-center min-h-[32vw] mx-auto bg-cover bg-center" style={{ backgroundImage: 'url(/landing2.png)' }}>
-  <h1 className="text-4xl font-bold text-black pt-10 text-center mb-5">Frequently Asked Questions</h1>
-  <div className="flex flex-wrap justify-center items-center w-full">
+  <motion.h1
+      initial={ { opacity: 0, } }
+      whileInView={ { opacity: 1 } }
+      viewport={ { margin: '-100px', once: true } }    
+  className="text-4xl font-bold text-black pt-10 text-center mb-5">Frequently Asked Questions</motion.h1>
+  <motion.div 
+        initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+        whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+        transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+        viewport={{ margin: "-50px" }}
+  className="flex flex-wrap justify-center items-center w-full">
     {faqs.map((faq, index) => (
       <div key={index} className="flex flex-col transition-all duration-500 hover:scale-105 cursor-pointer justify-center items-center w-1/2 md:w-1/4 md:min-h-[18vw] p-5 m-3 border-b-2 border-gray-300 bg-white rounded-lg shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)]">
         <h2 className="text-xl font-extrabold text-black text-center mb-2">{faq.question}</h2>
         <p className="text-sm text-gray-600 text-center">{faq.answer}</p>
       </div>
     ))}
-  </div>
+  </motion.div>
 </div>
 
       <Footer />

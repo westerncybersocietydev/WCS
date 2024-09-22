@@ -55,7 +55,7 @@ export default function Overview() {
               </div>
 
               <div className='bg-black rounded-xl md:w-1/2 h-[90vw] md:h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-              <img src='/focus.jpeg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
+              <img src='/vision.jpeg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
             </div>
             
             </div>
