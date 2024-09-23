@@ -1,10 +1,8 @@
 "use client"
-import React, { useEffect, useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Carousel from '../components/eventCarousel';
 import Image from 'next/image';
-import { EventObject, getAllEvents } from '../lib/actions/event.action';
 
 const images = [
   "/gallery/gallery17.jpeg",

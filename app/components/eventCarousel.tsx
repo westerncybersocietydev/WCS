@@ -8,13 +8,14 @@ import { useUser } from '../context/UserContext';
 import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
 
-function debounce<T extends (...args: any[]) => void>(func: T, delay: number) {
+function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
   let timeoutId: ReturnType<typeof setTimeout>;
   return function(...args: Parameters<T>) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => func(...args), delay);
   };
 }
+
 
 const Carousel: React.FC = () => {
   const router = useRouter();
@@ -28,25 +29,6 @@ const Carousel: React.FC = () => {
   const [itemsToShow, setItemsToShow] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [events, setEvents] = useState<EventObject[]>([]); // State to store events
-  const [state, setState] = useState({
-    currentIndex: 0,
-    rsvpEvents: [],
-    events: [],
-    totalItems: 0,
-    loading: false,
-    itemsToShow: 1,
-  });
-
-  async function fetchRSVPEvents() {
-    try {
-      if (user?.userId) {
-      const eventData = await getMyEvents(user?.userId); // Call the API to get events
-      setRsvpEvents(eventData); // Set the fetched events to state
-    }
-    } catch (error) {
-      console.error("Error fetching events:", error);
-    }
-  }
 
   const updateItemsToShow = useCallback(() => {
     if (window.innerWidth >= 768) {
@@ -143,8 +125,6 @@ const Carousel: React.FC = () => {
       setLoading(false);
     }
   };
-
-  // Helper function to check if an event is already RSVP'd
 
   // Utility function to convert 12-hour time format (e.g., 7:00PM) to 24-hour format
   const convertTo24HourFormat = (timeStr: string) => {
