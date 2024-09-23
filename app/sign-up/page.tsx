@@ -457,17 +457,18 @@ export default function Signup() {
               <p className="text-gray-600 mt-2">
               Thank you for signing up for the Western Cyber Society! Please check your inbox for a confirmation email. If you don’t see it shortly, be sure to check your junk mail folder.
               </p>
-              <div className="mt-10">
+              <div className="mt-10 flex justify-center">
                 <button
-                  className='mt-5 w-full tracking-widest rounded-full font-semibold text-white
-            border-2 font-bold bg-gradient-to-r from-purple-500 to-violet-500 hover:scale-105 hover:bg-gradient-to-r hover:from-purple-700 hover:to-violet-800
-             py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg'
+                  className='mt-5 w-3/4 tracking-widest rounded-full font-semibold text-white
+                    border-2 font-bold bg-gradient-to-r from-purple-500 to-violet-500 hover:scale-105 hover:bg-gradient-to-r hover:from-purple-700 hover:to-violet-800
+                    py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg'
                   type='button'
                   onClick={() => router.push('/')}
                 >
                   Go to Dashboard
                 </button>
               </div>
+
             </div>
           )}
 
