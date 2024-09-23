@@ -123,7 +123,7 @@ export default function Signup() {
       await fetchUser();
 
       const emailDetails = {
-        from: "no-reply@westerncybersociety.ca",
+        from: "Western Cyber Society <no-reply@westerncybersociety.ca>",
         to: formData.preferredEmail.trim() === '' ? formData.uwoEmail : formData.preferredEmail,
         subject: 'Welcome to Western Cyber Society',
         message: `
