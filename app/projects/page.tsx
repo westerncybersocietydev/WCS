@@ -123,7 +123,7 @@ const projects = [
       projectImg: "/neoart.jpg",
       description: "A platform for artists in underprivileged areas to showcase and sell their art as NFTs. This initiative aims to empower creators by providing them with access to global markets and audiences.",
       director: {
-          name: "Ganesh Krishna Menon"
+          name: "Bashshar Atif"
       }
   }
 ];
