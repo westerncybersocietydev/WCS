@@ -103,9 +103,9 @@ export default function Home() {
   
   const { user } = useUser();
 
-  const fullText = "Unlock the Power of WCS With Mango Bloom";
-  const animatedPart = fullText.slice(-10);  // The last 10 characters
-  const staticPart = fullText.slice(0, -10); // The first part (static)
+  const fullText = "Welcome to Western Cyber Society";
+  const animatedPart = fullText.slice(-5);  // The last 10 characters
+  const staticPart = fullText.slice(0, -5); // The first part (static)
 
   const [loopNum, setLoopNum] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -158,7 +158,7 @@ export default function Home() {
       <div className="relative">
 
       <div className="flex flex-col items-center justify-center  mb-10">
-        <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-2xl md:max-w-xl lg:max-w-xl xl:max-w-4xl text-2xl md:text-5xl lg:text-6xl xl:text-8xl">
+        <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl text-2xl md:text-5xl lg:text-6xl xl:text-8xl">
         {staticPart}<span className="wrap">{text}</span>
         </h1>
         <h1 className="mt-3 text-sm md:text-md max-w-2xl md:max-w-xl lg:max-w-xl xl:max-w-4xl text-gray-700 text-center tracking-wide text-sm">
@@ -220,8 +220,8 @@ export default function Home() {
   <div className="flex flex-wrap gap-4 justify-center items-center md:space-x-2 px-5 py-10">
   {boxes.map((box, index) => (
   <motion.div
-  initial={{ x: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-  whileInView={{ x: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+  initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+  whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
   transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
   viewport={{ margin: "-50px" }}
     key={index}
@@ -262,8 +262,8 @@ export default function Home() {
     <div className="flex flex-col md:flex-row justify-center items-center gap-4 px-5 md:space-x-4">
       {socials.map((social, index) => (
         <motion.div
-        initial={{ x: -100, opacity: 0 }} // Start from right (x: 100) and invisible
-        whileInView={{ x: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+        initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+        whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
         transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
         viewport={{ margin: "-50px" }}
         key={index} className={`relative w-5/6 md:w-1/3 h-60 overflow-hidden group ${social.color} social-hover shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)] shadow-gray-500 rounded`}>

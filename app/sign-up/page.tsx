@@ -133,101 +133,44 @@ export default function Signup() {
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
               <title>Welcome to Western Cyber Society</title>
-              <style>
-                  body {
-                      font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-                      background-color: #f5f5f7;
-                      color: #1d1d1f;
-                      margin: 0;
-                      padding: 0;
-                  }
-                  .email-container {
-                      max-width: 600px;
-                      margin: 40px auto;
-                      background-color: #ffffff;
-                      padding: 40px;
-                      border-radius: 12px;
-                      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-                  }
-                  .header {
-                      text-align: center;
-                      padding-bottom: 30px;
-                  }
-                  .header h1 {
-                      color: #1d1d1f;
-                      font-size: 32px;
-                      font-weight: 600;
-                      margin-bottom: 0;
-                  }
-                  .header p {
-                      font-size: 18px;
-                      color: #6e6e73;
-                      margin-top: 10px;
-                      margin-bottom: 0;
-                  }
-                  .content {
-                      padding: 20px 0;
-                      line-height: 1.7;
-                      font-size: 18px;
-                  }
-                  .content p {
-                      margin-bottom: 20px;
-                  }
-                  .highlight {
-                      color: #a723b0;
-                      font-weight: 600;
-                  }
-                  .cta {
-                      text-align: center;
-                      margin-top: 40px;
-                  }
-                  .cta a {
-                      display: inline-block;
-                      background: linear-gradient(to right, #8b5cf6, #a855f7);
-                      color: #ffffff;
-                      text-decoration: none;
-                      padding: 14px 28px;
-                      border-radius: 9999px;
-                      font-weight: 600;
-                      font-size: 18px;
-                      letter-spacing: 0.1em;
-                  }
-                  .cta a:hover {
-                      background: linear-gradient(to right, #7c3aed, #6d28d9); /* Same as hover:bg-gradient-to-r from-violet-800 to-purple-800 */
-                  }
-                  .footer {
-                      text-align: center;
-                      margin-top: 40px;
-                      font-size: 12px;
-                      color: #86868b;
-                      border-top: 1px solid #e0e0e2;
-                      padding-top: 20px;
-                  }
-              </style>
           </head>
-          <body>
-              <div class="email-container">
-                  <div class="header">
-                      <h1>Welcome to Western Cyber Society</h1>
-                      <p>Your Journey into Innovation Begins Here</p>
-                  </div>
-                  <div class="content">
-                      <p>Hi <span class="highlight">${formData.firstName}</span>,</p>
-                      <p>Welcome to the <span class="highlight">Western Cyber Society</span>! You are now part of an exclusive community that is dedicated to pushing the boundaries of technology and innovation.</p>
-                      <p>Prepare to explore new horizons, collaborate with like-minded peers, and gain access to resources that will help you shape the future of tech.</p>
-                      <p>We're excited to have you on board. Let's make the future together.</p>
-                  </div>
-                  <div class="cta">
-                      <a href="#">Explore Your Dashboard</a>
-                  </div>
-                  <div class="footer">
-                      <p>&copy; 2024 Western Cyber Society. All rights reserved.</p>
-                  </div>
-              </div>
+          <body style="margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f5f5f7;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                      <td align="center">
+                          <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
+                              <tr>
+                                  <td align="center" style="padding-bottom: 30px;">
+                                      <h1 style="color: #1d1d1f; font-size: 32px; font-weight: 600; margin: 0;">Welcome to Western Cyber Society</h1>
+                                      <p style="font-size: 18px; color: #6e6e73; margin: 10px 0 0;">Your Journey into Innovation Begins Here</p>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td style="padding: 20px 0; line-height: 1.7; font-size: 18px;">
+                                      <p>Hi <span style="color: #a723b0; font-weight: 600;">${formData.firstName}</span>,</p>
+                                      <p style="margin-bottom: 1em;">Welcome to the <span style="color: #a723b0; font-weight: 600;">Western Cyber Society</span>! You are now part of an exclusive community that is dedicated to pushing the boundaries of technology and innovation.</p>
+                                      <p style="margin-bottom: 1em;">Prepare to explore new horizons, collaborate with like-minded peers, and gain access to resources that will help you shape the future of tech.</p>
+                                      <p>We're excited to have you on board. Let's make the future together.</p>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td align="center" style="margin-top: 40px;">
+                                      <a href="#" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: 600; font-size: 18px; letter-spacing: 0.1em; margin-bottom: 2em;" >Explore Your Dashboard</a>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td align="center" style="margin-top: 60px; font-size: 12px; color: #86868b; border-top: 1px solid #e0e0e2; padding-top: 20px;">
+                                      <p>&copy; 2024 Western Cyber Society. All rights reserved.</p>
+                                  </td>
+                              </tr>
+                          </table>
+                      </td>
+                  </tr>
+              </table>
           </body>
           </html>
-        `
-      };
+                  `
+                };
 
       const emailResponse = await fetch('/api/sendEmail', {
         method: 'POST',

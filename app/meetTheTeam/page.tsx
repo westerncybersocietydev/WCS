@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
+import { motion } from "framer-motion"
 
 type TeamMember = {
   image: string;
@@ -114,7 +115,11 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
+    <motion.div
+    initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+    whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+    transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+    viewport={{ margin: "-50px" }}
       className="relative cursor-pointer overflow-hidden rounded-sm h-[45rem] md:h-[30rem] 2xl:h-[40rem] w-full transition-transform duration-300 ease-in-out hover:scale-110 group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -151,7 +156,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
 
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -194,8 +199,12 @@ export default function MeetTheTeam() {
       <div className="bg-gray-100 min-h-screen">
         <div className="p-4 text-black">
           <div className='text-center mt-14'>
-            <h1 className='text-4xl text-center font-bold text-gray-800'><strong>The People Behind WCS</strong></h1>
-            <h2 className='mt-3 mb-14'>WCS is proud to present our incredible 2024-2025 student team.</h2>
+            <motion.h1
+              initial={ { opacity: 0, } }
+              whileInView={ { opacity: 1 } }
+              viewport={ { margin: '-100px', once: true } } 
+            className='text-4xl text-center font-bold text-gray-800'><strong>The People Behind WCS</strong></motion.h1>
+            <motion.h2 className='mt-3 mb-14'>WCS is proud to present our incredible 2024-2025 student team.</motion.h2>
           </div>
           <Section members={teamData} />
         </div>

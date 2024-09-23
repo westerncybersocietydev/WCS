@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import { Switch } from '@nextui-org/react';
+import { motion } from "framer-motion"
 
 const projects = [
   {
@@ -233,7 +234,12 @@ export default function Projects() {
         </section>
 
         <section className="mt-10">
-        <div className="flex flex-col md:flex-row justify-between mx-5">
+        <motion.div 
+  initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+  whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+  transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+  viewport={{ margin: "-50px" }}
+        className="flex flex-col md:flex-row justify-between mx-5">
         <div className="flex items-center">
           <h1 className="text-2xl font-bold mx-auto md:mx-2 text-gray-800">Student Innovation Projects</h1>
         </div>
@@ -269,7 +275,7 @@ export default function Projects() {
       Show Archived
     </label>
         </div>
-      </div>
+      </motion.div>
 
       <div className="border-t border-gray-500 my-8 mx-auto w-3/4 opacity-50"></div>
 
@@ -279,7 +285,11 @@ export default function Projects() {
                 <h2 className="text-2xl text-center font-semibold text-gray-800 mb-6">{category}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {groupedProjects[category].map((project, index) => (
-                    <div
+                    <motion.div
+                    initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+                    whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+                    transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+                    viewport={{ margin: "-50px" }}
                       key={index}
                       className="bg-gradient-to-b from-violet-500 to-purple-500 shadow-md rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 ease-in-out"
                     >
@@ -291,7 +301,7 @@ export default function Projects() {
                         difficulty={project.difficulty}
                         imageUrl={project.projectImg}
                       />
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </section>
@@ -302,7 +312,12 @@ export default function Projects() {
         </section>
       </main>
 
-      <div className='mt-10 flex flex-col md:flex-row bg-violet-600 w-full'>
+      <motion.div 
+  initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+  whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+  transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+  viewport={{ margin: "-50px" }}
+      className='mt-10 flex flex-col md:flex-row bg-violet-600 w-full'>
   {/* Left half: Text */}
   <div className='w-full md:w-1/2 flex flex-col py-5 text-white justify-center items-center md:items-start'>
   <h1 className='ml-10 text-5xl font-extrabold mt-5'>Intrigued?</h1>
@@ -323,7 +338,7 @@ export default function Projects() {
   <div className='w-full md:w-1/2'>
     <img src="/projectInterested.jpeg" alt="Project Image" className='w-full h-[35vw] md:h-[26vw] object-cover'/>
   </div>
-</div>
+</motion.div>
       <Footer />
     </div>
   );

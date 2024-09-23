@@ -2,6 +2,7 @@
 import React from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
+import { motion } from "framer-motion"
 
 export default function Overview() {
   return (
@@ -24,7 +25,12 @@ export default function Overview() {
         </section>
 
       {/* Mission, Vision, Focus Statements */}
-        <div className='flex flex-col w-full h-full'>
+        <motion.div 
+  initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+  whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+  transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+  viewport={{ margin: "-50px" }}
+        className='flex flex-col w-full h-full'>
             <div className='flex flex-col md:flex-row gap-4 m-8 md:space-x-10'>
 
             <div className='bg-black rounded-xl md:w-1/2 h-[90vw] md:h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
@@ -41,9 +47,14 @@ export default function Overview() {
               </div>
 
             </div>
-        </div>
+        </motion.div>
 
-        <div className='flex flex-col w-full h-full'>
+        <motion.div 
+  initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+  whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+  transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+  viewport={{ margin: "-50px" }}
+        className='flex flex-col w-full h-full'>
             <div className='flex flex-col md:flex-row gap-4 m-8 md:space-x-10'>
 
               <div className='flex flex-col mx-auto text-center md:text-left bg-violet-950 justify-center rounded-xl p-16 md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
@@ -59,9 +70,14 @@ export default function Overview() {
             </div>
             
             </div>
-        </div>
+        </motion.div>
 
-        <div className='flex flex-col w-full h-full'>
+        <motion.div 
+        initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+        whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+        transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+        viewport={{ margin: "-50px" }}
+        className='flex flex-col w-full h-full'>
             <div className='flex flex-col md:flex-row gap-4 m-8 md:space-x-10'>
             <div className='bg-black rounded-xl md:w-1/2 h-[90vw] md:h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
               <img src='/focus.jpeg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
@@ -74,15 +90,24 @@ export default function Overview() {
                 We provide students with hands-on experience, and mentorship.</p>
               </div>
             </div>
-        </div>
+        </motion.div>
 
         <div className='flex w-full h-full'>
           
     <div className='flex flex-col items-center bg-violet-950 rounded-xl shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] mx-8 my-8'>
-    <h1 className="text-5xl font-extrabold text-center text-white mt-10 mb-4">
+    <motion.h1 
+      initial={ { opacity: 0, } }
+      whileInView={ { opacity: 1 } }
+      viewport={ { margin: '-100px', once: true } } 
+    className="text-5xl font-extrabold text-center text-white mt-10 mb-4">
             Our Focus Areas
-        </h1>
-        <div className='flex flex-col md:flex-row gap-2 md:gap-0 md:space-x-1 w-full text-center'>
+        </motion.h1>
+        <motion.div 
+  initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+  whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+  transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+  viewport={{ margin: "-50px" }}
+        className='flex flex-col md:flex-row gap-2 md:gap-0 md:space-x-1 w-full text-center'>
             <div className='flex flex-col items-center rounded-xl p-5 w-full'>
                 <img src='/ai.jpg' alt='Our Mission' className='object-cover w-32 h-32 rounded-full' />
                 <h2 className="mt-6 text-2xl font-extrabold text-white">AI</h2>
@@ -115,7 +140,7 @@ export default function Overview() {
                 </p>
             </div>
 
-        </div>
+        </motion.div>
     </div>
 </div>
       

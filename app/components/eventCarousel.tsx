@@ -7,6 +7,7 @@ import { eventRSVP, getMyEvents } from '../lib/actions/user.action';
 import { useUser } from '../context/UserContext';
 import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
+import { motion } from "framer-motion"
 
 function debounce<T extends (...args: unknown[]) => void>(func: T, delay: number) {
   let timeoutId: ReturnType<typeof setTimeout>;
@@ -289,7 +290,11 @@ const isEventPassed = useMemo(() => (eventDate: string) => {
   return (
     <div className="mx-auto w-full flex flex-col">
       <div className="flex px-5 mt-10 mb-5 items-start">
-        <h2 className="text-4xl font-bold text-gray-800 mb-5">Upcoming Events</h2>
+        <motion.h2 
+      initial={ { opacity: 0, } }
+      whileInView={ { opacity: 1 } }
+      viewport={ { margin: '-100px', once: true } } 
+        className="text-4xl font-bold text-gray-800 mb-5">Upcoming Events</motion.h2>
         <div className="flex space-x-4 ml-5 md:ml-auto">
           <button
             onClick={goToPrev}
@@ -310,7 +315,11 @@ const isEventPassed = useMemo(() => (eventDate: string) => {
 
       <div className="w-full h-full overflow-hidden flex items-center justify-center">
         <div className="relative overflow-hidden flex-grow">
-          <div
+          <motion.div
+  initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+  whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+  transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+  viewport={{ margin: "-50px" }}
             className="flex transition-transform duration-700 ease-in-out items-center"
             style={{ transform: `translateX(-${(currentIndex * 100) / itemsToShow}%)` }}
           >
@@ -345,7 +354,7 @@ const isEventPassed = useMemo(() => (eventDate: string) => {
                 </div>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
 

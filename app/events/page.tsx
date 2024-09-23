@@ -3,6 +3,7 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Carousel from '../components/eventCarousel';
 import Image from 'next/image';
+import { motion } from "framer-motion"
 
 const images = [
   "/gallery/gallery17.jpeg",
@@ -54,10 +55,18 @@ export default function Events() {
         </div>
 
         <div className='mx-10 mb-10 mt-10'>
-          <h2 className="text-4xl font-bold text-gray-800 mb-5">WCS Time Capsule</h2>
+          <motion.h2 
+      initial={ { opacity: 0, } }
+      whileInView={ { opacity: 1 } }
+      viewport={ { margin: '-100px', once: true } } 
+          className="text-4xl font-bold text-gray-800 mb-5">WCS Time Capsule</motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
             {images.map((src, index) => (
-              <div
+              <motion.div
+              initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+              whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+              transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+              viewport={{ margin: "-50px" }}
                 key={index}
                 className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
               >
@@ -70,7 +79,7 @@ export default function Events() {
                   objectFit="cover"
                   className="w-full h-full"
                 />
-              </div>
+              </motion.div>
             ))}
 </div>
         </div>
