@@ -122,6 +122,9 @@ export default function Signup() {
 
       await fetchUser();
 
+      toast.success("Registration Completed Successfully.")
+      setStep(3);
+
       const emailDetails = {
         from: "Western Cyber Society <no-reply@westerncybersociety.ca>",
         to: formData.preferredEmail.trim() === '' ? formData.uwoEmail : formData.preferredEmail,
@@ -185,10 +188,6 @@ export default function Signup() {
       }
 
       await emailResponse.json();
-
-      toast.success("Registration Completed Successfully.")
-      setStep(3);
-      
     } catch (error) {
       toast.error('Error sending email.');
       setStep(3);
@@ -473,8 +472,9 @@ export default function Signup() {
                     py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg'
                   type='button'
                   onClick={() => router.push('/')}
+                  disabled={loading}
                 >
-                  Go to Dashboard
+                  {basicLoading ? 'Sending Email...' : 'Go to Dashboard'}
                 </button>
               </div>
 
