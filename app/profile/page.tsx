@@ -424,11 +424,11 @@ export default function Profile() {
         
               {profileData?.plan === 'Basic' && (
                 <button
-                  className="hidden absolute top-10 right-5 rounded text-white
+                  className="absolute top-10 right-5 rounded text-white
                   border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
                   px-6 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
                   style={{ fontSize: '10px' }}
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => window.open("https://estore.eng.uwo.ca/", "_blank")}
                 >
                   <i className="fa-solid fa-rocket"></i> UPGRADE PLAN
                 </button>
