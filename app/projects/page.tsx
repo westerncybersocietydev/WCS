@@ -282,7 +282,11 @@ export default function Projects() {
           {filteredProjects.length > 0 ? (
             Object.keys(groupedProjects).map((category) => (
               <section key={category} className="mb-12 mx-5 mt-5">
-                <h2 className="text-2xl text-center font-semibold text-gray-800 mb-6">{category}</h2>
+                <motion.h2 
+              initial={ { opacity: 0, } }
+              whileInView={ { opacity: 1 } }
+              viewport={ { margin: '-100px', once: true } } 
+                className="text-2xl text-center font-semibold text-gray-800 mb-6">{category}</motion.h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {groupedProjects[category].map((project, index) => (
                     <motion.div
