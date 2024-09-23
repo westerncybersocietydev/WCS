@@ -152,15 +152,15 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, description, peopleCount, difficulty, imageUrl }) => (
-  <div className="relative font-sans antialiased w-full h-[70vw] md:h-[40vw] 3xl:h-[30vw] cursor-pointer transition-transform transform hover:scale-105 group flex flex-col overflow-hidden rounded-lg">
+  <div className="relative font-sans antialiased w-full h-[70vw] md:h-[60vw] lg:h-[50vw] 2xl:h-[40vw] cursor-pointer transition-transform transform hover:scale-105 group flex flex-col overflow-hidden rounded-lg">
     
     {/* Top: Image */}
-    <div className="h-2/5 w-full">
+    <div className="h-2/4 w-full">
       <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
     </div>
     
     {/* Bottom: Text content */}
-    <div className="p-5 h-3/5 text-white flex-grow flex flex-col relative">
+    <div className="p-5 h-2/4 text-white flex-grow flex flex-col relative">
       {/* Title and Director */}
       <div>
         <h2 className="text-lg md:text-2xl font-extrabold">{title}</h2>
@@ -295,7 +295,7 @@ export default function Projects() {
                     transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
                     viewport={{ margin: "-50px" }}
                       key={index}
-                      className="bg-gradient-to-b from-violet-500 to-purple-500 shadow-md rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 ease-in-out"
+                      className="white bg-gradient-to-r from-violet-500 to-purple-500 shadow-md rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 ease-in-out"
                     >
                       <ProjectCard
                         title={project.title}

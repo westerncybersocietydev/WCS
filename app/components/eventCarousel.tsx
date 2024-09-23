@@ -316,10 +316,10 @@ const isEventPassed = useMemo(() => (eventDate: string) => {
       <div className="w-full h-full overflow-hidden flex items-center justify-center">
         <div className="relative overflow-hidden flex-grow">
           <motion.div
-  initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-  whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-  transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
-  viewport={{ margin: "-50px" }}
+            initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+            whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+            transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+            viewport={{ margin: "-50px" }}
             className="flex transition-transform duration-700 ease-in-out items-center"
             style={{ transform: `translateX(-${(currentIndex * 100) / itemsToShow}%)` }}
           >
@@ -329,7 +329,7 @@ const isEventPassed = useMemo(() => (eventDate: string) => {
                 className="w-full md:w-1/3 flex-shrink-0 p-3 relative group cursor-pointer"
                 onClick={() => openModal(item)}
               >
-                <div className="relative h-[70vw] md:h-[40vw] 3xl:h-[30vw] mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
+                <div className="relative h-[70vw] md:h-[60vw] lg:h-[50vw] xl:h-[40vw] mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
                   <img
                     loading="lazy"
                     src={item.image}  
@@ -338,7 +338,7 @@ const isEventPassed = useMemo(() => (eventDate: string) => {
                       isEventPassed(item.date) ? "filter grayscale" : ""
                     }`}
                   />
-                  <div className="h-3/5 md:h-2/4 p-4 bg-white rounded-b-xl">
+                  <div className="h-3/5 md:h-2/4 p-5 bg-white rounded-b-xl">
                     <h2 className="text-lg md:text-xl 2xl:text-2xl text-gray-800 font-bold mb-1">{item.name}</h2>
                     <p className="text-sm md:text-base 2xl:text-lg text-gray-600 font-semibold mb-1">{item.date}</p>
                     <p className="text-sm md:text-base 2xl:text-lg text-gray-600 mb-1">{item.location}</p>
@@ -376,14 +376,14 @@ const isEventPassed = useMemo(() => (eventDate: string) => {
                 />
               </div>
               {/* Right Side: Content */}
-              <div className="md:w-2/3 h-2/3 md:h-full p-5 w-full py-5 flex flex-col justify-between">
+              <div className="md:w-2/3 h-2/3 md:h-full p-10 w-full flex flex-col justify-between">
                 <div className='px-2 text-gray-800'>
                   <h2 className="text-xl md:text-4xl 2xl:text-6xl font-bold mb-2">{selectedItem.name}</h2>
                   {isEventRSVPd(selectedItem.id) && <p className="text-gray-600 ml-2 mb-2 text-xs tracking-wide">Already RSVP&apos;d</p>}
-                  <p className="font-semibold ml-2 text-sm md:text-base 2xl:text-xl mb-1"><i className="fa-solid fa-calendar-days"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.date} at {selectedItem.time}</span></p>
-                  <p className="font-semibold ml-2 text-sm md:text-base 2xl:text-xl mb-1"><i className="fa-solid fa-location-dot"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.location}</span></p>
-                  <p className="font-semibold ml-2 text-sm md:text-base 2xl:text-xl mb-3"><i className="fa-solid fa-tag"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.price}</span></p>
-                  <p className="font-normal text-gray-700 ml-2 max-w-lg text-sm md:text-base 2xl:text-xl mb-2 leading-relaxed">{selectedItem.description}</p>
+                  <p className="font-semibold ml-2 text-sm md:text-base 2xl:text-2xl mb-1"><i className="fa-solid fa-calendar-days"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.date} at {selectedItem.time}</span></p>
+                  <p className="font-semibold ml-2 text-sm md:text-base 2xl:text-2xl mb-1"><i className="fa-solid fa-location-dot"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.location}</span></p>
+                  <p className="font-semibold ml-2 text-sm md:text-base 2xl:text-2xl mb-3"><i className="fa-solid fa-tag"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.price}</span></p>
+                  <p className="font-normal text-gray-700 ml-2 text-sm md:text-base 2xl:text-2xl mb-2 leading-relaxed">{selectedItem.description}</p>
                 </div>
 
                 {isEventRSVPd(selectedItem.id) ? (

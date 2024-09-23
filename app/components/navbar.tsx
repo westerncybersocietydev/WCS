@@ -91,7 +91,7 @@ export default function Navbar() {
       className="fixed top-0 left-0 w-full py-3 z-50"
       style={{ backgroundColor: aboutUsExpanded ? 'black' : '#fdf7ff' }}
     >
-      <div className="container mx-auto flex flex-col md:flex-row justify-normal md:justify-between items-center">
+      <div className="container mx-auto px-5 flex flex-col md:flex-row justify-normal md:justify-between items-center">
 
         {/* Logo */}
         <div className="relative inline-block flex justify-between items-center transition-transform duration-300 hover:scale-110 group">
