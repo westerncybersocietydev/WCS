@@ -8,14 +8,13 @@ import { useUser } from '../context/UserContext';
 import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
 
-function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
+function debounce<T extends (...args: unknown[]) => void>(func: T, delay: number) {
   let timeoutId: ReturnType<typeof setTimeout>;
   return function(...args: Parameters<T>) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => func(...args), delay);
-  };
+  } as (...args: Parameters<T>) => void;
 }
-
 
 const Carousel: React.FC = () => {
   const router = useRouter();
