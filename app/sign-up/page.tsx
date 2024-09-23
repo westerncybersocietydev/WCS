@@ -410,7 +410,7 @@ export default function Signup() {
                       ))}
                   <button
                     className="mt-10 w-full tracking-widest rounded-full font-semibold text-white
-            border-2 font-bold bg-gradient-to-r from-sky-500 to-blue-500 hover:scale-105 hover:bg-gradient-to-r hover:from-sky-700 hover:to-blue-800
+            border-2 font-bold bg-gradient-to-r from-purple-500 to-violet-500 hover:scale-105 hover:bg-gradient-to-r hover:from-purple-700 hover:to-violet-800
              py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
                     onClick={handleBasic}
                   >
@@ -455,7 +455,7 @@ export default function Signup() {
               <h3 className="text-3xl font-semibold text-gray-800">Congratulations!</h3>
               <h3 className="text-xl font-semibold text-gray-800">You Are Now a WCS {selectedPlan} Member</h3>
               <p className="text-gray-600 mt-2">
-                Thank you for signing up for the Western Cyber Society. Check your inbox for an email shortly. (Check Junk mail if too long)
+              Thank you for signing up for the Western Cyber Society! Please check your inbox for a confirmation email. If you don’t see it shortly, be sure to check your junk mail folder.
               </p>
               <div className="mt-10">
                 <button
