@@ -294,7 +294,7 @@ export default function Signup() {
 
               {/* Preferred Email */}
               <div className="flex flex-col space-y-1">
-              <label htmlFor="preferredEmail" className="text-gray-600 font-bold text-sm">Personal Email <span className='font-normal'>(optional)</span></label>
+              <label htmlFor="preferredEmail" className="text-gray-600 font-bold text-sm">Personal Email <span className='font-normal'>(required)</span></label>
                 <input
                   type="email"
                   id="preferredEmail"
