@@ -52,7 +52,7 @@ export default function Contact() {
     setLoading(true);
 
     try {
-      await newInquiry(formData?.firstName, formData?.lastName, formData?.email, formData.message);
+      await newInquiry(formData?.firstName, formData?.lastName, formData?.email, formData?.topic, formData.message);
       toast.success("Inquiry Received Successfully.");
       
       // Clear form data
@@ -165,9 +165,11 @@ export default function Contact() {
               type="submit"
               onClick={handleSubmit}
               disabled={loading}
-              className="w-full rounded-xl text-white bg-blue-600 border hover:bg-blue-800 hover:text-white px-4 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+              className="mt-6 w-full tracking-widest rounded-full font-semibold text-white
+            border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
+            px-14 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
             >
-              {loading ? "Sending..." : "Update Submit"}
+              {loading ? "Sending..." : "Submit"}
             </button>
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </form>

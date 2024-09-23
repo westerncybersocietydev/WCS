@@ -306,7 +306,9 @@ export default function Profile() {
             type="button"
             disabled={loading}
             onClick={handleBasicSubmit}
-            className="w-full rounded-xl text-white bg-blue-600 border hover:bg-blue-800 hover:text-white px-4 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+            className="mt-6 w-full tracking-widest rounded-full font-semibold text-white
+            border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
+            px-14 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
           >
             {loading ? "Saving..." : "Update Information"}
           </button>
@@ -363,7 +365,9 @@ export default function Profile() {
               type="button"
               disabled={loading}
               onClick={handlePasswordSubmit}
-              className="w-full rounded-xl text-white bg-blue-600 border hover:bg-blue-800 hover:text-white px-4 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+              className="mt-6 w-full tracking-widest rounded-full font-semibold text-white
+            border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
+            px-14 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
             >
               {loading ? "Saving..." : "Update Password"}
             </button>
@@ -397,6 +401,12 @@ export default function Profile() {
                       The VIP Plan is ideal for students who want to go places in their career journey and make an impact.
                     </p>
                     <ul>
+                    {Basic.map((benefit, index) => (
+                        <li key={index} className="mt-1 flex font-semibold text-xs items-center text-gray-500 text-md">
+                        <i className="fa-solid fa-circle-check text-green-500 font-bold mr-2"></i>
+                        {benefit}
+                      </li>
+                      ))}
                       {VIP.map((benefit, index) => (
                         <li key={index} className="mt-1 flex font-semibold text-xs items-center text-gray-500 text-md">
                         <i className="fa-solid fa-circle-check text-green-500 font-bold mr-2"></i>

@@ -1,18 +1,15 @@
 // Define your arrays
 const Basic = [
-    'Ad-free experience',
-    'Early access to new features',
-    'Advanced analytics and insights',
+    'WCS opportunities',
+    'Updates on upcoming WCS events',
+    'Networking Channels',
   ];
   
   const VIP = [
-    'Ad-free experience',
-    'Early access to new features',
-    'Advanced analytics and insights',
-    'Multi-device sync',
-    'Offline mode',
-    'Community support',
-    'Limited storage',
+    'Recruitment resources',
+    'Access to VIP excusive events',
+    'Event Discounts',
+    'And more perks coming soon!',
   ];
   
   // Export arrays as named exports

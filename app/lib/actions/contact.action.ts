@@ -2,15 +2,15 @@
 import Contact from "../models/contact.model";
 import { connectToDB } from "../mongoose";
 
-export async function newInquiry(firstName: string, lastName: string, uwoEmail: string, message: string): Promise<void> {
+export async function newInquiry(firstName: string, lastName: string, uwoEmail: string, category: string, message: string): Promise<void> {
   try {
     await connectToDB();
 
-    if (!firstName || !lastName || !uwoEmail || !message) {
+    if (!firstName || !lastName || !uwoEmail || !category || !message) {
       throw new Error('All fields are required.');
     }
 
-    const newContact = new Contact({ firstName, lastName, uwoEmail, message });
+    const newContact = new Contact({ firstName, lastName, uwoEmail, category, message });
     await newContact.save();
   } catch (error) {
     if (error instanceof Error) {

@@ -155,7 +155,7 @@ export default function Signup() {
                               </tr>
                               <tr>
                                   <td align="center" style="margin-top: 40px;">
-                                      <a href="#" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: 600; font-size: 18px; letter-spacing: 0.1em; margin-bottom: 2em;" >Explore Your Dashboard</a>
+                                      <a href="http://westerncybersociety.ca/" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: 600; font-size: 18px; letter-spacing: 0.1em; margin-bottom: 2em;" >Explore Your Dashboard</a>
                                   </td>
                               </tr>
                               <tr>
@@ -184,10 +184,12 @@ export default function Signup() {
 
       await emailResponse.json();
 
-      setStep(3); // Success step
       toast.success("Registration Completed Successfully.")
+      setStep(3);
+      
     } catch (error) {
-      toast.error('Error creating account or sending email.');
+      toast.error('Error sending email.');
+      setStep(3);
     } finally {
       setLoading(false);
       setBasicLoading(false);
