@@ -1,60 +1,92 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import CheckoutForm from '../components/checkoutForm';
 import { Elements } from '@stripe/react-stripe-js';
-import { EventObject } from '../lib/actions/event.action';
+import { EventObject, getAllEvents } from '../lib/actions/event.action';
 import { eventRSVP, getMyEvents } from '../lib/actions/user.action';
 import { useUser } from '../context/UserContext';
 import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
 
-interface CarouselProps {
-  items: EventObject[];
+function debounce<T extends (...args: any[]) => void>(func: T, delay: number) {
+  let timeoutId: ReturnType<typeof setTimeout>;
+  return function(...args: Parameters<T>) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func(...args), delay);
+  };
 }
 
-const Carousel: React.FC<CarouselProps> = ({ items }) => {
+const Carousel: React.FC = () => {
   const router = useRouter();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [rsvpEvents, setRsvpEvents] = useState<EventObject[]>([]);
   const [selectedItem, setSelectedItem] = useState<EventObject | null>(null);
   const [isRSVPModalOpen, setRSVPModalOpen] = useState(false);
-  const { user, fetchUser } = useUser();
+  const { user } = useUser();
   const [loading, setLoading] = useState(false);
   const [itemsToShow, setItemsToShow] = useState(1);
-  const totalItems = items.length;
+  const [totalItems, setTotalItems] = useState(0);
+  const [events, setEvents] = useState<EventObject[]>([]); // State to store events
+  const [state, setState] = useState({
+    currentIndex: 0,
+    rsvpEvents: [],
+    events: [],
+    totalItems: 0,
+    loading: false,
+    itemsToShow: 1,
+  });
 
-  const updateItemsToShow = () => {
-    if (window.innerWidth >= 768) { // Adjust the width as needed for 'md'
+  async function fetchRSVPEvents() {
+    try {
+      if (user?.userId) {
+      const eventData = await getMyEvents(user?.userId); // Call the API to get events
+      setRsvpEvents(eventData); // Set the fetched events to state
+    }
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  }
+
+  const updateItemsToShow = useCallback(() => {
+    if (window.innerWidth >= 768) {
       setItemsToShow(3);
     } else {
-      setItemsToShow(1); // or however many you want for smaller screens
+      setItemsToShow(1);
     }
-  };
-
-  useEffect(() => {
-    updateItemsToShow(); // Set initial value
-    window.addEventListener('resize', updateItemsToShow); // Listen for resize
-
-    return () => {
-      window.removeEventListener('resize', updateItemsToShow); // Cleanup on unmount
-    };
   }, []);
+  
+  useEffect(() => {
+    const debouncedUpdate = debounce(updateItemsToShow, 200); // Debounce for 200ms
+    window.addEventListener('resize', debouncedUpdate);
+    updateItemsToShow(); // Set initial value
+  
+    return () => window.removeEventListener('resize', debouncedUpdate);
+  }, [updateItemsToShow]);
+  
 
   const getProfileData = useCallback(async () => {
-    if (!user?.userId) {
-      console.log("Error getting user id.");
-      return;
+    try {
+      setLoading(true);
+      const eventData = await getAllEvents();
+      setEvents(eventData);
+      setTotalItems(eventData.length);
+  
+      // Call getMyEvents only if userId is not null
+      if (user?.userId) {
+        const rsvpData = await getMyEvents(user.userId);
+        setRsvpEvents(rsvpData);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
-
-    const eventResponse = await getMyEvents(user?.userId);
-    setRsvpEvents(eventResponse)
-
-  }, [user?.userId, fetchUser]);
-
+  }, [user?.userId]);
+  
   useEffect(() => {
     getProfileData();
-  }, [getProfileData]);
+  }, [getProfileData]);  
 
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
   const options: StripeElementsOptions = {
@@ -113,9 +145,6 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
   };
 
   // Helper function to check if an event is already RSVP'd
-  const isEventRSVPd = (eventId: string) => {
-    return rsvpEvents.some(event => event.id === eventId);
-  };
 
   // Utility function to convert 12-hour time format (e.g., 7:00PM) to 24-hour format
   const convertTo24HourFormat = (timeStr: string) => {
@@ -199,11 +228,16 @@ const outlookUrl = (event : EventObject) => {
   return `https://outlook.live.com/calendar/action/compose?subject=${encodeURIComponent(event.name)}&startdt=${startdt}&enddt=${enddt}&location=${encodeURIComponent(event.location)}&body=${encodeURIComponent(event.description)}`;
 };
 
-const isEventPassed = (eventDate: string) => {
+const isEventRSVPd = useMemo(() => (eventId: string) => {
+  return rsvpEvents.some(event => event.id === eventId);
+}, [rsvpEvents]);
+
+const isEventPassed = useMemo(() => (eventDate: string) => {
   const eventDateObj = new Date(eventDate);
   const currentDate = new Date();
   return eventDateObj < currentDate;
-};
+}, []);
+
 
   // RSVP Modal Component
   const RSVPModal: React.FC<{ onClose: () => void; onRSVP: (userId: string, eventId: string) => void; item: EventObject | null; }> = ({ onClose, onRSVP, item }) => (
@@ -301,7 +335,7 @@ const isEventPassed = (eventDate: string) => {
             className="flex transition-transform duration-700 ease-in-out items-center"
             style={{ transform: `translateX(-${(currentIndex * 100) / itemsToShow}%)` }}
           >
-            {items.map((item, index) => (
+            {events.map((item, index) => (
               <div
                 key={index}
                 className="w-full md:w-1/3 flex-shrink-0 p-3 relative group cursor-pointer"
@@ -309,6 +343,7 @@ const isEventPassed = (eventDate: string) => {
               >
                 <div className="relative h-[70vw] md:h-[40vw] 3xl:h-[30vw] mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
                   <img
+                    loading="lazy"
                     src={item.image}  
                     alt={item.name}
                     className={`w-full h-2/5 md:h-2/4 object-cover rounded-t-xl ${

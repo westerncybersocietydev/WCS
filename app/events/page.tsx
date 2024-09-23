@@ -32,21 +32,6 @@ const images = [
 
 
 export default function Events() {
-  const [events, setEvents] = useState<EventObject[]>([]); // State to store events
-
-  useEffect(() => {
-    // Fetch events when the component mounts
-    async function fetchEvents() {
-      try {
-        const eventData = await getAllEvents(); // Call the API to get events
-        setEvents(eventData); // Set the fetched events to state
-      } catch (error) {
-        console.error("Error fetching events:", error);
-      }
-    }
-    fetchEvents();
-  }, []);
-
   return (
     <div>
       <Navbar />
@@ -67,18 +52,7 @@ export default function Events() {
         </section>
 
         <div className="flex justify-center mx-auto">
-          <Carousel
-            items={events.map((event) => ({
-              id: event.id,
-              name: event.name,
-              image: event.image,
-              date: event.date,
-              time: event.time,
-              price: event.price,
-              location: event.location,
-              description: event.description,
-            }))}
-          />
+          <Carousel />
         </div>
 
         <div className='mx-10 mb-10 mt-10'>

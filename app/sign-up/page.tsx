@@ -472,7 +472,7 @@ export default function Signup() {
                     {basicLoading ? 'Creating Account...' : 'Continue'}
                   </button>
                 </div>
-                <div className="w-2/5 bg-white rounded-lg p-8 shadow-lg">
+                <div className="hidden w-2/5 bg-white rounded-lg p-8 shadow-lg">
                 <p className="text-gray-400" style={{ fontSize: '13px' }}>Plan</p>
                   <h1 className="text-black font-bold text-3xl">VIP</h1>
                   <p className="mt-3 mb-8 text-gray-700 text-sm">

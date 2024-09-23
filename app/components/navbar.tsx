@@ -174,7 +174,7 @@ export default function Navbar() {
               </div>
               
               { profileData?.plan === "Basic" && (
-                <p onClick={() => setIsModalOpen(true)} className="flex justify-end mx-8 text-xs font-bold text-violet-500 cursor-pointer hover:underline">Become a VIP</p>
+                <p onClick={() => setIsModalOpen(true)} className="hidden flex justify-end mx-8 text-xs font-bold text-violet-500 cursor-pointer hover:underline">Become a VIP</p>
               ) }
               <div className="mt-2 border-t border-violet-500"></div>
               <div className='text-sm'>
