@@ -16,15 +16,6 @@ export interface EventObject {
     isRsvp?: boolean;
   }
 
-function parseCustomDate(dateString: string, timeString: string): Date {
-    // Example date format: "Friday, November 18, 2024"
-    const [, month, day, year] = dateString.split(" ");
-    const monthIndex = new Date(Date.parse(month + " 1")).getMonth(); // Get month index
-
-    // Construct a new date object
-    return new Date(parseInt(year), monthIndex, parseInt(day), ...timeString.split(":").map(Number));
-}
-
 export async function newEvent(name: string, date: string, time: string, location: string, price: string, description: string, image: string): Promise<void> {
   try {
     await connectToDB();

@@ -1,21 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import CheckoutForm from '../components/checkoutForm';
 import { Elements } from '@stripe/react-stripe-js';
 import { EventObject, getAllEvents } from '../lib/actions/event.action';
-import { eventRSVP, getMyEvents } from '../lib/actions/user.action';
+import { eventRSVP } from '../lib/actions/user.action';
 import { useUser } from '../context/UserContext';
 import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
 import { motion } from "framer-motion"
-
-function debounce<T extends (...args: unknown[]) => void>(func: T, delay: number) {
-  let timeoutId: ReturnType<typeof setTimeout>;
-  return function(...args: Parameters<T>) {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func(...args), delay);
-  } as (...args: Parameters<T>) => void;
-}
 
 const Carousel: React.FC = () => {
   const router = useRouter();
