@@ -123,7 +123,7 @@ export default function Signup() {
       await fetchUser();
 
       const emailDetails = {
-        from: formData.uwoEmail,
+        from: "no-reply@westerncybersociety.ca",
         to: formData.preferredEmail.trim() === '' ? formData.uwoEmail : formData.preferredEmail,
         subject: 'Welcome to Western Cyber Society',
         message: `
@@ -455,7 +455,7 @@ export default function Signup() {
               <h3 className="text-3xl font-semibold text-gray-800">Congratulations!</h3>
               <h3 className="text-xl font-semibold text-gray-800">You Are Now a WCS {selectedPlan} Member</h3>
               <p className="text-gray-600 mt-2">
-                Thank you for signing up for the Western Cyber Society. Check your inbox for an email shortly.
+                Thank you for signing up for the Western Cyber Society. Check your inbox for an email shortly. (Check Junk mail if too long)
               </p>
               <div className="mt-10">
                 <button
