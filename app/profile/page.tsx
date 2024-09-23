@@ -91,10 +91,19 @@ export default function Profile() {
     });
   };
 
+  const isFormComplete = useCallback(() => {
+    return profileData && Object.values(profileData).every((value) => value.trim() !== "");
+  }, [profileData]);
+
   const handleBasicSubmit = async () => {
     if (!profileData || !user?.userId) return;
 
-    setLoading(true);
+    setLoading(true); // Start loading
+    if (!isFormComplete()) {
+      toast.error('Please fill in all required fields.');
+      setLoading(false);
+      return;
+    }
 
     try {
         await updateBasic(
@@ -257,7 +266,7 @@ export default function Profile() {
 
           {/* Preferred Email */}
           <div className="flex flex-col space-y-1 text-black">
-          <label htmlFor="preferredEmail" className="text-gray-600 font-bold text-sm">Preferred Email <span className='font-normal'>(optional)</span></label>
+          <label htmlFor="preferredEmail" className="text-gray-600 font-bold text-sm">Personal Email <span className='font-normal'>(optional)</span></label>
             <input
               type="email"
               id="preferredEmail"
@@ -266,7 +275,7 @@ export default function Profile() {
               onChange={handleInputChange}
               className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
             />
-            <label className="text-gray-500 text-xs">Provide a preferred email address if you prefer to have communications directed to another email</label>
+            <label className="text-gray-500 text-xs">Provide a personal email address to have receive WCS communications</label>
           </div>
 
           {/* Current Year */}

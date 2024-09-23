@@ -17,7 +17,6 @@ export default function Signup() {
   const [vipLoading, setVipLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [step, setStep] = useState(1);
-  const [error, setError] = useState<string | null>(null);
   const { fetchUser } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formEvent, setFormEvent] = useState<React.FormEvent | null>(null);
@@ -37,23 +36,20 @@ export default function Signup() {
   };
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setError('')
     const { name, value } = e.target;
     setFormData(prevData => ({ ...prevData, [name]: value }));
   }, []);
 
   const isFormComplete = useCallback(() => {
     return Object.entries(formData).every(([key, value]) => 
-      key === 'preferredEmail' || value.trim() !== ""
+      value.trim() !== ""
     );
-  }, [formData]);  
+  }, [formData]);
   
   const handleNext = useCallback(async () => {
-    setError('');
-
     setLoading(true); // Start loading
     if (!isFormComplete()) {
-      setError('Please fill in all required fields.');
+      toast.error('Please fill in all required fields.');
       setLoading(false);
       return;
     }
@@ -78,7 +74,7 @@ export default function Signup() {
           return;
         }
       } catch (error) {
-        setError('Error checking email.');
+        toast.error('Error checking email.');
         setLoading(false);
         return;
       }
@@ -94,9 +90,8 @@ export default function Signup() {
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
     if (!isFormComplete()) {
-      setError('Please fill in all required fields.');
+      toast.error('Please fill in all required fields.');
       return;
     }
   
@@ -227,7 +222,6 @@ export default function Signup() {
   }, [selectedPlan, formEvent, handleSubmit]);
   
   const handleBack = useCallback(() => {
-    setError(''); // Clear any existing errors
     if (step > 1) {
       setStep(prevStep => prevStep - 1); // Go back to the previous step
     }
@@ -300,7 +294,7 @@ export default function Signup() {
 
               {/* Preferred Email */}
               <div className="flex flex-col space-y-1">
-              <label htmlFor="preferredEmail" className="text-gray-600 font-bold text-sm">Preferred Email <span className='font-normal'>(optional)</span></label>
+              <label htmlFor="preferredEmail" className="text-gray-600 font-bold text-sm">Personal Email <span className='font-normal'>(optional)</span></label>
                 <input
                   type="email"
                   id="preferredEmail"
@@ -309,7 +303,7 @@ export default function Signup() {
                   onChange={handleChange}
                   className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                 />
-              <label className="text-gray-500 text-xs">Provide a preferred email address if you prefer to have communications directed to another email</label>
+              <label className="text-gray-500 text-xs">Provide a personal email address to have receive WCS communications</label>
               </div>
 
               {/* Current Year */}
@@ -480,11 +474,7 @@ export default function Signup() {
 
             </div>
           )}
-
-          
-
         </div>
-        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       </div>
       <Footer />
       {/* Modal */}

@@ -7,6 +7,7 @@ import { useUser } from '../context/UserContext'; // Adjust the path as
 import { getProfile, updatePlan } from '../lib/actions/user.action';
 import BecomeVIP from './becomeVIP';
 import toast from 'react-hot-toast';
+import Avatar from '../dataFiles/avatars';
 
 interface ProfileData {
   firstName: string;
@@ -151,7 +152,7 @@ export default function Navbar() {
                 style={{ color: aboutUsExpanded ? '#ededed' : 'black' }}
               >
                 <img 
-                  src={profileData?.avatar}
+                  src={profileData?.avatar || Avatar[0]}
                   alt="Profile" 
                   className="w-9 h-9 rounded-full mt-1 object-cover"
                   style={{ flexShrink: 0 }}
