@@ -95,7 +95,8 @@ export default function Contact() {
             className="bg-white border border-gray-300 rounded-lg px-3 py-3 text-black text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition duration-200 ease-in-out shadow-sm"
           >
             <option value="general">General</option>
-            <option value="events">Events & Projects</option>
+            <option value="SIP projects">SIP Projects</option>
+            <option value="events">Events</option>
             <option value="sponsorships">Sponsorships</option>
           </select>
         </div>

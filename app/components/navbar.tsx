@@ -174,7 +174,7 @@ export default function Navbar() {
               </div>
               
               { profileData?.plan === "Basic" && (
-                <p onClick={() => setIsModalOpen(true)} className="hidden flex justify-end mx-8 text-xs font-bold text-violet-500 cursor-pointer hover:underline">Become a VIP</p>
+                <p onClick={() => window.open("https://estore.eng.uwo.ca/", "_blank")} className="flex justify-end mx-8 text-xs font-bold text-violet-500 cursor-pointer hover:underline">Become a VIP</p>
               ) }
               <div className="mt-2 border-t border-violet-500"></div>
               <div className='text-sm'>
@@ -228,10 +228,10 @@ export default function Navbar() {
 
             <div className="flex flex-wrap gap-5 mx-5 mb-3 justify-center">
             {[
-            { title: 'About Us', description: 'Explore how we drive innovation and success through strategic insights and cutting-edge solutions.', link: '/overview' },
+            { title: 'Overview', description: 'Explore how we drive innovation and success through strategic insights and cutting-edge solutions.', link: '/overview' },
             { title: 'SIP Projects', description: 'Discover our impactful SIP projects that showcase our expertise in transforming ideas into results.', link: '/projects' },
             { title: 'Events', description: 'Join us at our events to network with industry leaders and gain valuable insights on emerging trends.', link: '/events' },
-            { title: 'Meet the Team', description: 'Get to know the talented individuals behind our success, bringing expertise and passion to every project.', link: '/meetTheTeam' }
+            { title: 'Meet the Team', description: 'Get to know the talented individuals behind our success, bringing expertise and passion to every project.', link: '/meet-the-team' }
           ].map(({ title, description, link }, index) => (
             <div key={index} className="flex-1 mb-5 flex flex-col justify-between">
               <div className={`transition-transform duration-500 ${aboutUsExpanded ? 'fadeInUp' : 'fadeOut'}`}>

@@ -9,7 +9,7 @@ const projects = [
   {
       title: "MicroGuard",
       category: "Cybersecurity",
-      status: "Active",
+      status: "Archived",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/microg.jpg",
@@ -21,7 +21,7 @@ const projects = [
   {
       title: "Software Cryptography Implementation",
       category: "Cybersecurity",
-      status: "Active",
+      status: "Archived",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/scyptintero.jpg",
@@ -32,8 +32,8 @@ const projects = [
   },
   {
       title: "Pneumonia Detection Model",
-      category: "AI",
-      status: "Active",
+      category: "Artificial Intelligence",
+      status: "Archived",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/pnDetect.jpg",
@@ -45,7 +45,7 @@ const projects = [
   {
       title: "Web App VIP (Vulnerability Identification Platform)",
       category: "Cybersecurity",
-      status: "Active",
+      status: "Archived",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/vipWebApp.jpg",
@@ -57,7 +57,7 @@ const projects = [
   {
       title: "NetProbe X",
       category: "Cybersecurity",
-      status: "Active",
+      status: "Archived",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/netprobe.jpg",
@@ -68,8 +68,8 @@ const projects = [
   },
   {
       title: "Spotify Playlist Generator",
-      category: "AI",
-      status: "Active",
+      category: "Artificial Intelligence",
+      status: "Archived",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/spotify.jpg",
@@ -80,8 +80,8 @@ const projects = [
   },
   {
       title: "ASL to English Translator",
-      category: "AI",
-      status: "Active",
+      category: "Artificial Intelligence",
+      status: "Archived",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/asl.jpg",
@@ -93,7 +93,7 @@ const projects = [
   {
       title: "AWS Cloud Fusion",
       category: "Web3",
-      status: "Active",
+      status: "Archived",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/awscf.jpg",
@@ -104,8 +104,8 @@ const projects = [
   },
   {
       title: "Twitter Stock Trading AI",
-      category: "AI",
-      status: "Active",
+      category: "Artificial Intelligence",
+      status: "Archived",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/TWTRADINGSTOCK.jpg",
@@ -117,7 +117,7 @@ const projects = [
   {
       title: "NeoArtSphere",
       category: "Web3",
-      status: "Active",
+      status: "Archived",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/neoart.jpg",
@@ -172,9 +172,10 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, d
         {description}
       </p>
       {/* People count and difficulty at the bottom */}
-      <div className="flex space-x-5 text-md font-bold">
+      <div className="flex space-x-5 text-md font-bold w-full">
         <p><i className="fa-solid fa-user-group"></i> {peopleCount}</p>
         <p><i className="fa-solid fa-bars-progress"></i> {difficulty}</p>
+        <p className="ml-auto"><i className="fa-solid fa-box-archive"></i> 2023-2024</p>
       </div>
     </div>
   </div>
@@ -186,9 +187,10 @@ ProjectCard.displayName = 'ProjectCard';
 
 
 export default function Projects() {
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [showArchived, setShowArchived] = React.useState(false);
+  const [showArchived, setShowArchived] = React.useState(true);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -218,9 +220,9 @@ export default function Projects() {
   return (
     <div>
       <Navbar />
-      <main className="mt-32 md:mt-16 min-h-screen flex flex-col bg-gray-100">
+      <main className="mt-40 md:mt-16 min-h-screen flex flex-col bg-gray-100">
       <section
-          className="mt-40 md:mt-16 relative w-full h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
+          className="relative w-full h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/projectBg.jpg')" }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -258,12 +260,12 @@ export default function Projects() {
           <select
             value={selectedCategory}
             onChange={handleCategoryChange}
-            className="border border-gray-500 rounded-full h-full p-2 w-[14vw] shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:shadow-md hover:border-blue-400 hover:bg-white text-gray-700"
+            className="border border-gray-500 rounded-full h-full p-2 w-[16vw] shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:shadow-md hover:border-blue-400 hover:bg-white text-gray-700"
           >
             <option value="All">All</option>
             <option value="Cybersecurity">Cybersecurity</option>
             <option value="Mainframe">Mainframe</option>
-            <option value="AI">AI</option>
+            <option value="Artificial Intelligence">Artificial Intelligence</option>
             <option value="Web3">Web3</option>
           </select>
           <label className="flex text-sm items-center text-black space-x-2 cursor-pointer">
@@ -317,26 +319,32 @@ export default function Projects() {
       </main>
 
       <motion.div 
-  initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-  whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-  transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
-  viewport={{ margin: "-50px" }}
-      className='mt-10 flex flex-col md:flex-row bg-violet-600 w-full'>
-  {/* Left half: Text */}
-  <div className='w-full md:w-1/2 flex flex-col py-5 text-white justify-center items-center md:items-start'>
-  <h1 className='ml-10 text-5xl font-extrabold mt-5'>Intrigued?</h1>
-    <p className='ml-10 text-lg mt-5'>
-      If you&apos;re interested in any of our projects, please apply using the link below. 
-      For any inquiries, feel free to reach out to us via our 
-      <a href="/contact" className="text-blue-400 hover:underline"> Contact Us</a> page.
-    </p>
-    <button className="ml-10 w-3/5 md:w-1/4 mt-5 tracking-widest rounded-full font-semibold
-        border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 text-white 
-        hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800 
-        px-5 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg">
-      Apply Now
-    </button>
-  </div>
+      initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+      whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+      transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+      viewport={{ margin: "-50px" }}
+          className='mt-10 flex flex-col md:flex-row bg-violet-600 w-full'>
+      {/* Left half: Text */}
+      <div 
+      className='w-full md:w-1/2 flex flex-col py-5 text-black justify-center items-center md:items-start'
+      style={{ backgroundImage: "url('/landing2.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}
+    >
+      <h1 className='ml-10 text-5xl font-extrabold mt-5'>Intrigued?</h1>
+      <p className='ml-10 text-lg mt-5'>
+        If you&apos;re interested in any of our projects, please apply using the link below. 
+        For any inquiries, feel free to reach out to us via our 
+        <a href="/contact" className="text-blue-500 hover:underline"> Contact Us</a> page.
+      </p>
+      <button
+        onClick={() => window.open("https://forms.gle/dwpx4Y5u2T3tAupK9", "_blank")}
+        className="ml-10 w-3/5 md:w-1/4 mt-5 tracking-widest rounded-full font-semibold
+            border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 text-white 
+            hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800 
+            px-5 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+      >
+        Apply Now
+      </button>
+    </div>
 
   {/* Right half: Image */}
   <div className='w-full md:w-1/2'>

@@ -56,9 +56,9 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/aidenshin/',
   },
   {
-    image: 'joann.jpeg',
+    image: 'joann2.png',
     name: 'Joann R.',
-    title: 'VP Operation Strategy & Execution',
+    title: 'VP Operational Strategy & Execution',
     program: 'CS & MIT',
     year: '3rd year',
     email: 'jranjit@uwo.ca',
@@ -108,6 +108,15 @@ const teamData: TeamMember[] = [
     year: '3rd year',
     email: 'sradhi@uwo.ca',
     linkedin: 'https://www.linkedin.com/in/sabina-radhi-28b590293/',
+  },
+  {
+    image: 'vaanya.jpeg',
+    name: 'Vaanya Puri',
+    title: 'VP Artificial Intelligence',
+    program: 'Computer Science',
+    year: '3rd year',
+    email: 'vpuri22@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/vaanyap/',
   },
 ];
 

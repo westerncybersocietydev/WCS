@@ -15,7 +15,7 @@ export default function Footer() {
       <div className="flex-1">
         <h4 className="font-bold text-sm md:text-md mb-1">Team & Partners</h4>
         <ul className="space-y-2 text-xs text-gray-400 pl-0.5">
-          <li><a href="/meetTheTeam" className="hover:underline">Meet the Team</a></li>
+          <li><a href="/meet-the-team" className="hover:underline">Meet the Team</a></li>
           <li><a href="/sponsorships" className="hover:underline">Sponsorships</a></li>
           <li><a href="/ibm" className="hover:underline">IBM</a></li>
         </ul>

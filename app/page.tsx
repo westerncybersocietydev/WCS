@@ -72,15 +72,15 @@ const faqs: FAQItem[] = [
   },
   {
     question: "What kinds of resources does WCS provide for students?",
-    answer: "WCS equips students with in-demand skills in AI, Cyber Security, mainframe, and Web3 through workshops and competitions, while facilitating networking events."
+    answer: "WCS equips students with in-demand skills in AI, Cyber Security, Mainframe, and Web3 through workshops and competitions, while facilitating networking events."
   },
   {
-    question: "When do project applications open? How do I apply?",
-    answer: "Project applications are open right now! To apply, visit the projects page and follow the application instructions provided."
+    question: "When do SIP project applications open? How do I apply?",
+    answer: "We are excited to announce that project applications are now open! If you're interested in applying, please visit the SIP Projects page located under the About Us section."
   },
   {
     question: "How can I stay updated on WCS events and announcements?",
-    answer: "To stay updated with WCS, create an account on our website to receive email notifications about upcoming events, and feel free to follow us on our social media for the latest updates!"
+    answer: "To stay updated with WCS, create an account on our website to receive email notifications about upcoming events, and be sure to follow us to follow us on our social media for the latest updates!"
   },
   {
     question: "Is prior experience with the required technology necessary to apply for projects?",

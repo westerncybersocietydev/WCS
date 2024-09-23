@@ -21,7 +21,6 @@ const Carousel: React.FC = () => {
   const router = useRouter();
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [rsvpEvents, setRsvpEvents] = useState<EventObject[]>([]);
   const [selectedItem, setSelectedItem] = useState<EventObject | null>(null);
   const [isRSVPModalOpen, setRSVPModalOpen] = useState(false);
   const { user } = useUser();
@@ -30,35 +29,30 @@ const Carousel: React.FC = () => {
   const [totalItems, setTotalItems] = useState(0);
   const [events, setEvents] = useState<EventObject[]>([]); // State to store events
 
-  const updateItemsToShow = useCallback(() => {
-    if (window.innerWidth >= 768) {
+  const updateItemsToShow = () => {
+    if (window.innerWidth >= 768) { // Adjust the width as needed for 'md'
       setItemsToShow(3);
     } else {
-      setItemsToShow(1);
+      setItemsToShow(1); // or however many you want for smaller screens
     }
-  }, []);
-  
+  };
+
   useEffect(() => {
-    const debouncedUpdate = debounce(updateItemsToShow, 200); // Debounce for 200ms
-    window.addEventListener('resize', debouncedUpdate);
     updateItemsToShow(); // Set initial value
-  
-    return () => window.removeEventListener('resize', debouncedUpdate);
-  }, [updateItemsToShow]);
-  
+    window.addEventListener('resize', updateItemsToShow); // Listen for resize
+
+    return () => {
+      window.removeEventListener('resize', updateItemsToShow); // Cleanup on unmount
+    };
+  }, []);
 
   const getProfileData = useCallback(async () => {
     try {
       setLoading(true);
-      const eventData = await getAllEvents();
+      const eventData = await getAllEvents(user?.userId);
       setEvents(eventData);
       setTotalItems(eventData.length);
-  
-      // Call getMyEvents only if userId is not null
-      if (user?.userId) {
-        const rsvpData = await getMyEvents(user.userId);
-        setRsvpEvents(rsvpData);
-      }
+
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -78,6 +72,8 @@ const Carousel: React.FC = () => {
   };
 
   const goToNext = () => {
+    console.log(currentIndex)
+    console.log(itemsToShow)
     setCurrentIndex((prevIndex) => (prevIndex + 1) % (totalItems - itemsToShow + 1));
   };
 
@@ -208,21 +204,10 @@ const outlookUrl = (event : EventObject) => {
   return `https://outlook.live.com/calendar/action/compose?subject=${encodeURIComponent(event.name)}&startdt=${startdt}&enddt=${enddt}&location=${encodeURIComponent(event.location)}&body=${encodeURIComponent(event.description)}`;
 };
 
-const isEventRSVPd = useMemo(() => (eventId: string) => {
-  return rsvpEvents.some(event => event.id === eventId);
-}, [rsvpEvents]);
-
-const isEventPassed = useMemo(() => (eventDate: string) => {
-  const eventDateObj = new Date(eventDate);
-  const currentDate = new Date();
-  return eventDateObj < currentDate;
-}, []);
-
-
   // RSVP Modal Component
   const RSVPModal: React.FC<{ onClose: () => void; onRSVP: (userId: string, eventId: string) => void; item: EventObject | null; }> = ({ onClose, onRSVP, item }) => (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
-      <div className="relative w-full md:w-3/5 h-full px-2 py-10 flex justify-center">
+      <div className="relative w-full md:w-3/5 h-full px-2 py-5 flex justify-center">
         {item?.price === "Free" ? (
           <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-lg">
             <h1 className="text-lg tracking-wide text-center text-gray-900">
@@ -315,11 +300,7 @@ const isEventPassed = useMemo(() => (eventDate: string) => {
 
       <div className="w-full h-full overflow-hidden flex items-center justify-center">
         <div className="relative overflow-hidden flex-grow">
-          <motion.div
-            initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-            whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-            transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
-            viewport={{ margin: "-50px" }}
+          <div
             className="flex transition-transform duration-700 ease-in-out items-center"
             style={{ transform: `translateX(-${(currentIndex * 100) / itemsToShow}%)` }}
           >
@@ -334,9 +315,7 @@ const isEventPassed = useMemo(() => (eventDate: string) => {
                     loading="lazy"
                     src={item.image}  
                     alt={item.name}
-                    className={`w-full h-2/5 md:h-2/4 object-cover rounded-t-xl ${
-                      isEventPassed(item.date) ? "filter grayscale" : ""
-                    }`}
+                    className={`w-full h-2/5 md:h-2/4 object-cover rounded-t-xl`}
                   />
                   <div className="h-3/5 md:h-2/4 p-5 bg-white rounded-b-xl">
                     <h2 className="text-lg md:text-xl 2xl:text-2xl text-gray-800 font-bold mb-1">{item.name}</h2>
@@ -354,7 +333,7 @@ const isEventPassed = useMemo(() => (eventDate: string) => {
                 </div>
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
 
@@ -379,14 +358,14 @@ const isEventPassed = useMemo(() => (eventDate: string) => {
               <div className="md:w-2/3 h-2/3 md:h-full p-10 w-full flex flex-col justify-between">
                 <div className='px-2 text-gray-800'>
                   <h2 className="text-xl md:text-4xl 2xl:text-6xl font-bold mb-2">{selectedItem.name}</h2>
-                  {isEventRSVPd(selectedItem.id) && <p className="text-gray-600 ml-2 mb-2 text-xs tracking-wide">Already RSVP&apos;d</p>}
+                  {selectedItem.isRsvp && <p className="text-gray-600 ml-2 mb-2 text-xs tracking-wide">Already RSVP&apos;d</p>}
                   <p className="font-semibold ml-2 text-sm md:text-base 2xl:text-2xl mb-1"><i className="fa-solid fa-calendar-days"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.date} at {selectedItem.time}</span></p>
                   <p className="font-semibold ml-2 text-sm md:text-base 2xl:text-2xl mb-1"><i className="fa-solid fa-location-dot"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.location}</span></p>
                   <p className="font-semibold ml-2 text-sm md:text-base 2xl:text-2xl mb-3"><i className="fa-solid fa-tag"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.price}</span></p>
                   <p className="font-normal text-gray-700 ml-2 text-sm md:text-base 2xl:text-2xl mb-2 leading-relaxed">{selectedItem.description}</p>
                 </div>
 
-                {isEventRSVPd(selectedItem.id) ? (
+                {selectedItem.isRsvp ? (
                 <div className="flex items-center justify-end space-x-4 mr-5">
                 {/* Add to Outlook Calendar Button */}
                 <a
@@ -412,7 +391,6 @@ const isEventPassed = useMemo(() => (eventDate: string) => {
                   <button
                   onClick={openRSVPModal} // Disable button if RSVP'd
                   className={`hidden self-end mr-5 text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-2 px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
-                  disabled={isEventPassed(selectedItem.date)} // Disable button
                 >
                   RSVP
                 </button>

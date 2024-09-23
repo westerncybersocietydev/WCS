@@ -150,12 +150,14 @@ export default function Signup() {
                                       <p>Hi <span style="color: #a723b0; font-weight: 600;">${formData.firstName}</span>,</p>
                                       <p style="margin-bottom: 1em;">Welcome to the <span style="color: #a723b0; font-weight: 600;">Western Cyber Society</span>! You are now part of an exclusive community that is dedicated to pushing the boundaries of technology and innovation.</p>
                                       <p style="margin-bottom: 1em;">Prepare to explore new horizons, collaborate with like-minded peers, and gain access to resources that will help you shape the future of tech.</p>
-                                      <p>We're excited to have you on board. Let's make the future together.</p>
+                                      <p>We're excited to have you on board, but remember, the choices you make today help shape the future you want tomorrow.</p>
+                                    <p style="margin-bottom: -1em;">Keep innovating,</p>
+                                  <p style="margin-bottom: 1em;">Western Cybern Society Team,</p>
                                   </td>
                               </tr>
                               <tr>
                                   <td align="center" style="margin-top: 40px;">
-                                      <a href="http://westerncybersociety.ca/" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: 600; font-size: 18px; letter-spacing: 0.1em; margin-bottom: 2em;" >Explore Your Dashboard</a>
+                                      <a href="http://westerncybersociety.ca" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: 600; font-size: 18px; letter-spacing: 0.1em; margin-bottom: 2em;" >Explore Your Dashboard</a>
                                   </td>
                               </tr>
                               <tr>
@@ -251,7 +253,7 @@ export default function Signup() {
           {step === 1 && (
             <div className='bg-white rounded-lg shadow-md p-9 w-full max-w-lg shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300'>
             <h2 className="text-3xl mb-2 font-bold text-center text-gray-800">SIGN UP</h2>
-            <p className='flex justify-center text-xs text-gray-500 mb-6'>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            <p className='flex justify-center text-xs text-gray-500 mb-6'>Join Western Cyber Society today and become an innovator in our community.</p>
             <form className="space-y-4">
               <div className="flex space-x-4">
                 {/* First Name */}
@@ -308,6 +310,7 @@ export default function Signup() {
                   onChange={handleChange}
                   className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                 />
+              <label className="text-gray-500 text-xs">Provide a preferred email address if you prefer to have communications directed to another email</label>
               </div>
 
               {/* Current Year */}
@@ -327,6 +330,8 @@ export default function Signup() {
                   <option value="3">3rd Year</option>
                   <option value="4">4th Year</option>
                   <option value="5">5th Year or higher</option>
+                  <option value="6">HBA 1</option>
+                  <option value="7">HBA 2</option>
                 </select>
               </div>
               {/* Program */}
@@ -341,6 +346,7 @@ export default function Signup() {
                   className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                   required
                 />
+              <label className="text-gray-500 text-xs">Provide your full program and any additional majors/minors you are pursuing</label>
               </div>
 
               {/* Password */}
@@ -456,6 +462,9 @@ export default function Signup() {
               <h3 className="text-xl font-semibold text-gray-800">You Are Now a WCS {selectedPlan} Member</h3>
               <p className="text-gray-600 mt-2">
               Thank you for signing up for the Western Cyber Society! Please check your inbox for a confirmation email. If you don’t see it shortly, be sure to check your junk mail folder.
+              </p>
+              <p className="text-gray-600">
+                Interested in becoming a VIP member at Western Cyber Society? Purchase your membership <span className='text-blue-500 hover:underline' onClick={() => window.open("https://estore.eng.uwo.ca/", "_blank")}>here</span>. Your account will be upgraded within 10 business days.
               </p>
               <div className="mt-10 flex justify-center">
                 <button

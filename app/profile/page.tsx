@@ -266,6 +266,7 @@ export default function Profile() {
               onChange={handleInputChange}
               className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
             />
+            <label className="text-gray-500 text-xs">Provide a preferred email address if you prefer to have communications directed to another email</label>
           </div>
 
           {/* Current Year */}
@@ -285,6 +286,8 @@ export default function Profile() {
               <option value="3">3rd Year</option>
               <option value="4">4th Year</option>
               <option value="5">5th Year or higher</option>
+              <option value="6">HBA 1</option>
+              <option value="7">HBA 2</option>
             </select>
           </div>
 
@@ -300,6 +303,7 @@ export default function Profile() {
               className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
               required
             />
+          <label className="text-gray-500 text-xs">Provide your full program and any additional majors/minors you are pursuing</label>
           </div>
 
           <button
