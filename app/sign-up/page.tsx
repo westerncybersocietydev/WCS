@@ -41,7 +41,7 @@ export default function Signup() {
   }, []);
 
   const isFormComplete = useCallback(() => {
-    return Object.entries(formData).every(([key, value]) => 
+    return Object.entries(formData).every(([, value]) => 
       value.trim() !== ""
     );
   }, [formData]);
