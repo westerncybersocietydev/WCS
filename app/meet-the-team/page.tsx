@@ -20,7 +20,7 @@ type TeamCardProps = {
 
 const teamData: TeamMember[] = [
   {
-    image: 'alppppp.jpeg',
+    image: '/team/alppppp.jpeg',
     name: 'Alp Unsal',
     title: 'Co-President',
     program: 'CS & Ivey HBA',
@@ -29,7 +29,7 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/alpunsal/',
   },
   {
-    image: 'taylorr.jpeg',
+    image: '/team/taylorr.jpeg',
     name: 'Taylor McCloskey',
     title: 'Co-President',
     program: 'MIT',
@@ -38,7 +38,7 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/taylor-mccloskey-77950918a/',
   },
   {
-    image: 'erin.jpeg',
+    image: '/team/erin.jpeg',
     name: 'Erin Hu',
     title: 'Co-VP Operations',
     program: 'Urban Development',
@@ -47,7 +47,7 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/huerin/',
   },
   {
-    image: 'aiden.jpeg',
+    image: '/team/aiden.jpeg',
     name: 'Aiden Shin',
     title: 'Co-VP Operations',
     program: 'Economics',
@@ -56,7 +56,7 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/aidenshin/',
   },
   {
-    image: 'joann2.png',
+    image: '/team/joann2.png',
     name: 'Joann R.',
     title: 'VP Operational Strategy & Execution',
     program: 'CS & MIT',
@@ -65,7 +65,7 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/joannmr/',
   },
   {
-    image: 'mia.jpeg',
+    image: '/team/mia.jpeg',
     name: 'Mia Mcdonalds',
     title: 'VP Internal Affairs',
     program: 'Engineering',
@@ -74,7 +74,7 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/mia-s-macdonald/',
   },
   {
-    image: 'megan.jpeg',
+    image: '/team/megan.jpeg',
     name: 'Megan Kingston',
     title: 'VP Brand Strategy',
     program: 'MIT',
@@ -83,7 +83,7 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/megan-kingston-/',
   },
   {
-    image: 'adam.jpeg',
+    image: '/team/adam.jpeg',
     name: 'Adam Seaton',
     title: 'VP Student Innovation Projects',
     program: 'Computer Science',
@@ -92,7 +92,7 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/adam-seaton-855440262/',
   },
   {
-    image: 'isabel.jpeg',
+    image: '/team/isabel.jpeg',
     name: 'Isabel Ke',
     title: 'VP Finance',
     program: 'Computer Science',
@@ -101,7 +101,7 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/isabel-ke/',
   },
   {
-    image: 'sabina.jpeg',
+    image: '/team/sabina.jpeg',
     name: 'Sabina Radhi',
     title: 'VP Communications',
     program: 'Computer Science',
@@ -110,7 +110,7 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/sabina-radhi-28b590293/',
   },
   {
-    image: 'vaanya.jpeg',
+    image: '/team/vaanya.jpeg',
     name: 'Vaanya Puri',
     title: 'VP Artificial Intelligence',
     program: 'Computer Science',
