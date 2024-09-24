@@ -128,7 +128,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
     initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
     whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
     transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
-    viewport={{ margin: "-50px" }}
+    viewport={{ margin: "-50px", once: true }}
       className="relative cursor-pointer overflow-hidden rounded-sm h-[45rem] md:h-[30rem] 2xl:h-[40rem] w-full transition-transform duration-300 ease-in-out hover:scale-110 group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

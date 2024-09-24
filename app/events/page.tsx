@@ -66,7 +66,7 @@ export default function Events() {
               initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
               whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
               transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
-              viewport={{ margin: "-50px" }}
+              viewport={{ margin: "-50px", once: true }}
                 key={index}
                 className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
               >

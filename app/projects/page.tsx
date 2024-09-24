@@ -10,6 +10,7 @@ const projects = [
       title: "MicroGuard",
       category: "Cybersecurity",
       status: "Archived",
+      year: "2023-2024",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/microg.jpg",
@@ -22,6 +23,7 @@ const projects = [
       title: "Software Cryptography Implementation",
       category: "Cybersecurity",
       status: "Archived",
+      year: "2023-2024",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/scyptintero.jpg",
@@ -34,6 +36,7 @@ const projects = [
       title: "Pneumonia Detection Model",
       category: "Artificial Intelligence",
       status: "Archived",
+      year: "2023-2024",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/pnDetect.jpg",
@@ -46,6 +49,7 @@ const projects = [
       title: "Web App VIP (Vulnerability Identification Platform)",
       category: "Cybersecurity",
       status: "Archived",
+      year: "2023-2024",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/vipWebApp.jpg",
@@ -58,6 +62,7 @@ const projects = [
       title: "NetProbe X",
       category: "Cybersecurity",
       status: "Archived",
+      year: "2023-2024",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/netprobe.jpg",
@@ -70,6 +75,7 @@ const projects = [
       title: "Spotify Playlist Generator",
       category: "Artificial Intelligence",
       status: "Archived",
+      year: "2023-2024",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/spotify.jpg",
@@ -82,6 +88,7 @@ const projects = [
       title: "ASL to English Translator",
       category: "Artificial Intelligence",
       status: "Archived",
+      year: "2023-2024",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/asl.jpg",
@@ -94,6 +101,7 @@ const projects = [
       title: "AWS Cloud Fusion",
       category: "Web3",
       status: "Archived",
+      year: "2023-2024",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/awscf.jpg",
@@ -106,6 +114,7 @@ const projects = [
       title: "Twitter Stock Trading AI",
       category: "Artificial Intelligence",
       status: "Archived",
+      year: "2023-2024",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/TWTRADINGSTOCK.jpg",
@@ -118,6 +127,7 @@ const projects = [
       title: "NeoArtSphere",
       category: "Web3",
       status: "Archived",
+      year: "2023-2024",
       peopleCount: "5",
       difficulty: "Intermediate",
       projectImg: "/neoart.jpg",
@@ -133,6 +143,7 @@ interface Project {
   title: string;
   category: string;
   status: string;
+  year: string;
   description: string;
   peopleCount: string;
   difficulty: string;
@@ -149,9 +160,11 @@ interface ProjectCardProps {
   peopleCount: string;
   difficulty: string;
   imageUrl: string;
+  status: string;
+  year: string;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, description, peopleCount, difficulty, imageUrl }) => (
+const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, description, peopleCount, difficulty, imageUrl, status, year }) => (
   <div className="relative font-sans antialiased w-full h-[70vw] md:h-[60vw] lg:h-[50vw] 2xl:h-[40vw] cursor-pointer transition-transform transform hover:scale-105 group flex flex-col overflow-hidden rounded-lg">
     
     {/* Top: Image */}
@@ -175,7 +188,7 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, d
       <div className="flex space-x-5 text-md font-bold w-full">
         <p><i className="fa-solid fa-user-group"></i> {peopleCount}</p>
         <p><i className="fa-solid fa-bars-progress"></i> {difficulty}</p>
-        <p className="ml-auto"><i className="fa-solid fa-box-archive"></i> 2023-2024</p>
+        {(status === "Archived") && <p className="ml-auto"><i className="fa-solid fa-box-archive"></i> {year}</p>}
       </div>
     </div>
   </div>
@@ -237,10 +250,10 @@ export default function Projects() {
 
         <section className="mt-10">
         <motion.div 
-  initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-  whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-  transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
-  viewport={{ margin: "-50px" }}
+        initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
+        whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
+        transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+        viewport={{ margin: "-50px", once: true }}
         className="flex flex-col md:flex-row justify-between mx-5">
         <div className="flex items-center">
           <h1 className="text-2xl font-bold mx-auto md:mx-2 text-gray-800">Student Innovation Projects</h1>
@@ -295,7 +308,7 @@ export default function Projects() {
                     initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
                     whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
                     transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
-                    viewport={{ margin: "-50px" }}
+                    viewport={{ margin: "-50px", once: true }}
                       key={index}
                       className="white bg-gradient-to-r from-violet-500 to-purple-500 shadow-md rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 ease-in-out"
                     >
@@ -306,6 +319,8 @@ export default function Projects() {
                         peopleCount={project.peopleCount}
                         difficulty={project.difficulty}
                         imageUrl={project.projectImg}
+                        status={project.status}
+                        year={project.year}
                       />
                     </motion.div>
                   ))}
@@ -322,7 +337,7 @@ export default function Projects() {
       initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
       whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
       transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
-      viewport={{ margin: "-50px" }}
+      viewport={{ margin: "-50px", once: true }}
           className='mt-10 flex flex-col md:flex-row bg-violet-600 w-full'>
       {/* Left half: Text */}
       <div 

@@ -149,14 +149,13 @@ export default function Home() {
   
   useEffect(() => {
     getProfileData();
-  }, [getProfileData]); // Include getToken in the dependencies to ensure it's used correctly  
+  }, [getProfileData]); 
 
   return (
     <div>
       <Navbar />
       
       <div className="relative">
-
       <div className="flex flex-col items-center justify-center  mb-10">
         <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl text-2xl md:text-5xl lg:text-6xl xl:text-8xl">
         {staticPart}<span className="wrap">{text}</span>
@@ -223,7 +222,7 @@ export default function Home() {
   initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
   whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
   transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
-  viewport={{ margin: "-50px" }}
+  viewport={{ margin: "-50px", once: true }}
     key={index}
     className="relative bg-black cursor-pointer w-48 h-64 md:w-1/5 md:h-[30vw] overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
   >
@@ -265,7 +264,7 @@ export default function Home() {
         initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
         whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
         transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
-        viewport={{ margin: "-50px" }}
+        viewport={{ margin: "-50px", once: true }}
         key={index} className={`relative w-5/6 md:w-1/3 h-60 overflow-hidden group ${social.color} social-hover shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)] shadow-gray-500 rounded`}>
   <a
     href={social.profileUrl}
@@ -309,7 +308,7 @@ export default function Home() {
         initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
         whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
         transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
-        viewport={{ margin: "-50px" }}
+        viewport={{ margin: "-50px", once: true }}
   className="flex flex-wrap justify-center items-center w-full">
     {faqs.map((faq, index) => (
       <div key={index} className="flex flex-col transition-all duration-500 hover:scale-105 cursor-pointer justify-center items-center w-1/2 md:w-1/4 md:min-h-[18vw] p-5 m-3 border-b-2 border-gray-300 bg-white rounded-lg shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)]">
