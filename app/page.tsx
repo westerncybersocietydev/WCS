@@ -311,7 +311,7 @@ export default function Home() {
         viewport={{ margin: "-50px", once: true }}
   className="flex flex-wrap justify-center items-center w-full">
     {faqs.map((faq, index) => (
-      <div key={index} className="flex flex-col transition-all duration-500 hover:scale-105 cursor-pointer justify-center items-center w-1/2 md:w-1/4 md:min-h-[18vw] p-5 m-3 border-b-2 border-gray-300 bg-white rounded-lg shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)]">
+      <div key={index} className="flex flex-col transition-all duration-500 hover:scale-105 cursor-pointer justify-center items-center w-5/6 md:w-1/4 md:min-h-[18vw] p-5 m-3 border-b-2 border-gray-300 bg-white rounded-lg shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)]">
         <h2 className="text-lg md:text-xl 2xl:text-2xl font-extrabold text-black text-center mb-2">{faq.question}</h2>
         <p className="text-sm 2xl:text-lg text-gray-600 text-center">{faq.answer}</p>
       </div>
