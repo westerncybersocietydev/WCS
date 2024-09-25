@@ -16,7 +16,7 @@ const projects = [
     projectImg: "/projects/aimusic2.jpg",
     description: "An AI composing system that uses algorithms to generate unique melodies, harmonies, and rhythms, often tailored to specific genres or emotions.",
     director: {
-        name: "Richard Augustine and Henry Hongbo Wang"
+        name: "Richard Augustine and Henry Wang"
     }
 },
 {
@@ -42,7 +42,7 @@ const projects = [
     projectImg: "/projects/fixer2.jpg",
     description: "An AI-driven platform that automates house searches and optimizes design using AR to build the future of real estate.",
     director: {
-        name: "Ethan Tyler Carvalho"
+        name: "Ethan Carvalho"
     }
 },
 {

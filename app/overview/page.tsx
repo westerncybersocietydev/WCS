@@ -41,8 +41,7 @@ export default function Overview() {
                 <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">Our</h2>
                 <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">Mission</h2>
                 <p className="mt-6 text-md md:text-2xl font-semibold text-white">
-                  To create innovative solutions that empower communities, enhance connectivity, and foster sustainable growth. 
-                  By leveraging cutting-edge technologies, we aim to drive positive change that benefits individuals and societies alike.
+                  At the Western Cyber Society, our mission is to cultivate the next generation of tech leaders by equipping them with the knowledge and skills needed to solve real-world challenges and drive the future of technology forward.
                 </p>
               </div>
 
@@ -61,8 +60,8 @@ export default function Overview() {
                 <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">Our</h2>
                 <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">Vision</h2>
                 <p className="mt-6 text-md md:text-2xl font-semibold text-white">
-                To be a global leader in transformative technology, creating a future where seamless connectivity and sustainable innovation improve lives across the world. 
-                We envision a world where technology works harmoniously with nature.</p>
+                  We envision a vibrant and inclusive community of innovators and tech enthusiasts who are dedicated to advancing the fields of cybersecurity, AI, and mainframe technology. Our goal is to inspire and empower individuals from diverse backgrounds to become leaders in technology, fostering an environment where creativity and collaboration thrive. 
+                </p>
               </div>
 
               <div className='bg-black rounded-xl md:w-1/2 h-[90vw] md:h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
@@ -86,8 +85,8 @@ export default function Overview() {
                 <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">Our</h2>
                 <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">Focus</h2>
                 <p className="mt-6 text-md md:text-2xl font-semibold text-white">
-                Western Cyber Society is dedicated to cultivating the next generation of tech leaders by focusing on excellence in key sectors such as cybersecurity, artificial intelligence, and data science. 
-                We provide students with hands-on experience, and mentorship.</p>
+                  Our focus is on hands-on learning, industry partnerships, and events like the Toronto Tech Expo, empowering students to explore cutting-edge technologies, showcase their talents, and connect with leaders in the tech industry.
+                </p>
               </div>
             </div>
         </motion.div>
