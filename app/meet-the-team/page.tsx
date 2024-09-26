@@ -118,15 +118,7 @@ const teamData: TeamMember[] = [
     email: 'vpuri22@uwo.ca',
     linkedin: 'https://www.linkedin.com/in/vaanyap/',
   },
-  {
-    image: '/team/.jpeg',
-    name: '',
-    title: 'VP Cybersecurity',
-    program: '',
-    year: '',
-    email: '',
-    linkedin: '',
-  },
+
   {
     image: '/team/maya.jpeg',
     name: 'Maya Umicevic',
