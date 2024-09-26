@@ -118,7 +118,15 @@ const teamData: TeamMember[] = [
     email: 'vpuri22@uwo.ca',
     linkedin: 'https://www.linkedin.com/in/vaanyap/',
   },
-
+  {
+    image: '/team/.jpeg',
+    name: '',
+    title: 'VP Cybersecurity',
+    program: '',
+    year: '',
+    email: '',
+    linkedin: '',
+  },
   {
     image: '/team/maya.jpeg',
     name: 'Maya Umicevic',
@@ -211,9 +219,9 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
         alt={member.name}
         className="w-11/12 h-5/6 object-cover shadow-xl transition-all duration-500"
       />
-      <div className="absolute z-40 w-4/5 md:w-3/4 bottom-10 right-2 p-4 bg-gradient-to-r from-zinc-100 to-zinc-100 text-black rounded-sm shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] transition-all duration-200 ease-in-out h-20 group-hover:h-28">
-        <div className="font-semibold text-md md:text-xl">{member.name}</div>
-        <div className="text-xs md:text-sm">{member.title}</div>
+      <div className="absolute z-40 w-4/5 md:w-11/12 bottom-10 right-2 p-4 bg-gradient-to-r from-zinc-100 to-zinc-100 text-black rounded-sm shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] transition-all duration-200 ease-in-out h-20 group-hover:h-28">
+        <div className="font-semibold text-md md:text-xl lg:text-2xl">{member.name}</div>
+        <div className="text-xs md:text-sm lg:text-md">{member.title}</div>
         
         {isHovered && (
           <div className="mt-2 flex justify-between items-center">
