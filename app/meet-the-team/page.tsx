@@ -118,7 +118,15 @@ const teamData: TeamMember[] = [
     email: 'vpuri22@uwo.ca',
     linkedin: 'https://www.linkedin.com/in/vaanyap/',
   },
-
+  {
+    image: '/team/.jpeg',
+    name: '',
+    title: 'VP Cybersecurity',
+    program: '',
+    year: '',
+    email: '',
+    linkedin: '',
+  },
   {
     image: '/team/maya.jpeg',
     name: 'Maya Umicevic',
@@ -149,7 +157,7 @@ const teamData: TeamMember[] = [
   {
     image: '/team/henry.jpeg',
     name: 'Henry Wang',
-    title: 'Director of AI',
+    title: 'Co-Director of AI',
     program: 'Software Engineering',
     year: '3rd year',
     email: 'hwan577@uwo.ca',
@@ -158,7 +166,7 @@ const teamData: TeamMember[] = [
   {
     image: '/team/richard.jpeg',
     name: 'Richard Augustine',
-    title: 'Director of AI',
+    title: 'Co-Director of AI',
     program: 'Mechatronics',
     year: '3rd year',
     email: 'raugust3@uwo.ca',

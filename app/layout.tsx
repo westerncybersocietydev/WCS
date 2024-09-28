@@ -4,6 +4,7 @@ import "./globals.css";
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import { UserProvider } from '../app/context/UserContext';
 import { Toaster } from "react-hot-toast";
+import GoogleAnalytics from '@/app/components/googleAnalytics';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,6 +31,7 @@ export default function RootLayout({
     <UserProvider>
       
     <html lang="en">
+      <GoogleAnalytics />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -40,3 +42,4 @@ export default function RootLayout({
     </UserProvider>
   );
 }
+
