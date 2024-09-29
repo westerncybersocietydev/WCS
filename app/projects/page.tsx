@@ -275,7 +275,7 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, d
   <div className="relative font-sans antialiased w-full h-[70vw] md:h-[60vw] lg:h-[50vw] 2xl:h-[40vw] cursor-pointer transition-transform transform hover:scale-105 group flex flex-col overflow-hidden rounded-lg">
     
     {/* Top: Image */}
-    <div className="h-2/4 w-full">
+    <div className={`h-2/4 w-full ${status === "Archived" ? "grayscale" : ""}`}>
       <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
     </div>
     
