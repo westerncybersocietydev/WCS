@@ -121,7 +121,7 @@ export default function Signup() {
       setStep(3);
 
       const emailDetails = {
-        from: "Western Cyber Society <no-reply@westerncybersociety.ca>",
+        from: "info@westerncybersociety.ca",
         to: formData.preferredEmail.trim() === '' ? formData.uwoEmail : formData.preferredEmail,
         subject: 'Welcome to Western Cyber Society',
         message: `
@@ -450,18 +450,15 @@ export default function Signup() {
             )}
 
           {step === 3 && (
-            <div className="text-center space-y-2">
+            <div className="text-center space-y-2 px-20">
               <h3 className="text-3xl font-semibold text-gray-800">Congratulations!</h3>
               <h3 className="text-xl font-semibold text-gray-800">You Are Now a WCS {selectedPlan} Member</h3>
-              <p className="text-gray-600 mt-2">
+              <p className="text-gray-600 mt-5">
               Thank you for signing up for the Western Cyber Society! Please check your inbox for a confirmation email. If you don’t see it shortly, be sure to check your junk mail folder.
               </p>
-              <p className="text-gray-600">
-                Interested in becoming a VIP member at Western Cyber Society? Purchase your membership <span className='text-blue-500 hover:underline' onClick={() => window.open("https://estore.eng.uwo.ca/", "_blank")}>here</span>. Your account will be upgraded within 10 business days.
-              </p>
-              <div className="mt-10 flex justify-center">
+              <div className="my-10 flex justify-center">
                 <button
-                  className='mt-5 w-3/4 tracking-widest rounded-full font-semibold text-white
+                  className='my-5 w-3/4 tracking-widest rounded-full font-semibold text-white
                     border-2 font-bold bg-gradient-to-r from-purple-500 to-violet-500 hover:scale-105 hover:bg-gradient-to-r hover:from-purple-700 hover:to-violet-800
                     py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg'
                   type='button'
@@ -471,7 +468,9 @@ export default function Signup() {
                   {basicLoading ? 'Sending Email...' : 'Go to Dashboard'}
                 </button>
               </div>
-
+              <p className="text-gray-600">
+                Interested in becoming a VIP member at Western Cyber Society? Purchase your membership <span className='text-blue-500 hover:underline' onClick={() => window.open("https://estore.eng.uwo.ca/", "_blank")}>here</span>. Your account will be upgraded within 10 business days.
+              </p>
             </div>
           )}
         </div>
