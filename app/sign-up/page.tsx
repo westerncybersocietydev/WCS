@@ -150,7 +150,7 @@ export default function Signup() {
                                       <p style="margin-bottom: 1em;">Prepare to explore new horizons, collaborate with like-minded peers, and gain access to resources that will help you shape the future of tech.</p>
                                       <p>We're excited to have you on board, but remember, the choices you make today help shape the future you want tomorrow.</p>
                                     <p style="margin-bottom: -1em;">Keep innovating,</p>
-                                  <p style="margin-bottom: 1em;">Western Cybern Society Team,</p>
+                                  <p style="margin-bottom: 1em;">Western Cybern Society Team</p>
                                   </td>
                               </tr>
                               <tr>
