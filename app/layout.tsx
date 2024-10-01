@@ -31,6 +31,9 @@ export default function RootLayout({
     <UserProvider>
       
     <html lang="en">
+      <head>
+        <link rel="icon" href="/wcsicon.ico" sizes="any" />
+      </head>
       <GoogleAnalytics />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

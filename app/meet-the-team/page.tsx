@@ -119,6 +119,8 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/vaanyap/',
   },
 
+
+  
   {
     image: '/team/maya.jpeg',
     name: 'Maya Umicevic',
