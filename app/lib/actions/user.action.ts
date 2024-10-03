@@ -6,6 +6,26 @@ import Event from "../models/event.model";
 import { connectToDB } from "../mongoose";
 import { EventObject } from './event.action';
 
+function formatDateToLocalISOString(dateStr: string, timeStr: string): string {
+    // Split the date string (e.g., 'Friday, November 18, 2024') into its components
+    const [, month, day, year] = dateStr.split(" ");
+  
+    // Create a full date string that JavaScript's Date object can parse (e.g., 'November 18, 2024 10:30')
+    const fullDateStr = `${month} ${day}, ${year} ${timeStr}`;
+  
+    // Create a new Date object in the user's local time zone
+    const date = new Date(fullDateStr);
+  
+    // Extract and format the parts of the date as YYYYMMDDTHHmmss
+    const yearPart = date.getFullYear();
+    const monthPart = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const dayPart = String(date.getDate()).padStart(2, '0');
+    const hoursPart = String(date.getHours()).padStart(2, '0');
+    const minutesPart = String(date.getMinutes()).padStart(2, '0');
+    const secondsPart = String(date.getSeconds()).padStart(2, '0');
+    return `${yearPart}${monthPart}${dayPart}T${hoursPart}${minutesPart}${secondsPart}`;
+  }
+
 interface ProfileData {
     firstName: string;
     lastName: string;
@@ -248,44 +268,45 @@ export async function eventRSVP(userId: string, eventId: string): Promise<void> 
 
 export async function getMyEvents(userId: string): Promise<EventObject[]> {
     try {
-        await connectToDB();
-
-        // Find the user by ID
-        const user = await User.findById(userId);
-
-        if (!user) {
-            throw new Error("User not found.");
-        }
-
-        // If the user has no events, return an empty array
-        if (!user.myEvents || user.myEvents.length === 0) {
-            return [];
-        }
-
-        // Fetch the events based on the event IDs in myEvents
-        const events = await Event.find({ _id: { $in: user.myEvents } });
-
-        // Create an array to hold transformed events
-        const transformedEvents: EventObject[] = [];
-
-        // Transform events and push to the new array
-        for (const event of events) {
-            const eventObject = event.toObject();
-            transformedEvents.push({
-                id: eventObject._id.toString(),
-                name: eventObject.name,
-                date: eventObject.date,
-                time: eventObject.time,
-                location: eventObject.location,
-                price: eventObject.price,
-                description: eventObject.description,
-                image: eventObject.image,
-            });
-        }
-
-        return transformedEvents;
+      await connectToDB();
+  
+      // Find the user by ID
+      const user = await User.findById(userId);
+  
+      if (!user) {
+        throw new Error("User not found.");
+      }
+  
+      // If the user has no events, return an empty array
+      if (!user.myEvents || user.myEvents.length === 0) {
+        return [];
+      }
+  
+      // Fetch the events based on the event IDs in myEvents
+      const events = await Event.find({ _id: { $in: user.myEvents } });
+  
+      // Transform events and sort by date
+      const transformedEvents = events.map((event) => {
+        const eventObject = event.toObject();
+  
+        return {
+          id: eventObject._id.toString(),
+          name: eventObject.name,
+          date: eventObject.date, // e.g., 'Friday, November 18, 2024'
+          time: eventObject.time, // e.g., '10:30'
+          location: eventObject.location,
+          price: eventObject.price,
+          description: eventObject.description,
+          image: eventObject.image,
+          formattedDate: formatDateToLocalISOString(eventObject.date, eventObject.time), // Use the format function
+        };
+      });
+  
+      // Sort events by the formatted date
+      return transformedEvents.sort((a, b) => a.formattedDate.localeCompare(b.formattedDate));
+  
     } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        throw new Error(`Couldn't get events: ${errorMessage}`);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(`Couldn't get events: ${errorMessage}`);
     }
-}
+  }  

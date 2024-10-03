@@ -120,7 +120,7 @@ const teamData: TeamMember[] = [
   },
 
 
-  
+
   {
     image: '/team/maya.jpeg',
     name: 'Maya Umicevic',
@@ -144,6 +144,15 @@ const teamData: TeamMember[] = [
     name: 'Fahmid Abdullah',
     title: 'VP Digital Transformation & Technology',
     program: 'Computer Science',
+    year: '4th year',
+    email: 'fabdull9@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/fahmid-abdullah/',
+  },
+  {
+    image: '/team/asad.jpeg',
+    name: 'Asad Awawdeh',
+    title: 'Director of Visual Creatives',
+    program: 'Criminology & Political Science',
     year: '4th year',
     email: 'fabdull9@uwo.ca',
     linkedin: 'https://www.linkedin.com/in/fahmid-abdullah/',

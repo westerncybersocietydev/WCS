@@ -196,7 +196,7 @@ export default function Navbar() {
             border-2 font-bold ${aboutUsExpanded ? 'bg-white text-black' : 'bg-gradient-to-r from-violet-500 to-purple-500 text-white'}
             hover:scale-105 
             ${aboutUsExpanded ? '' : 'hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800'} 
-            px-1 md:px-10 text-xs md:text-lg py-1 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
+            px-1 md:px-10 text-xs md:text-lg py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
             onClick={() => router.push("/sign-up")}>
             Register
           </button>

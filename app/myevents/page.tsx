@@ -182,7 +182,7 @@ const isEventPassed = (eventDate: string) => {
               />
             </div>
 
-              <div className="md:w-2/3 h-2/3 md:h-full p-5 w-full py-5 flex flex-col justify-between">
+              <div className="md:w-2/3 h-2/3 md:h-full p-2 md:p-5 w-full flex flex-col justify-between">
                 <div className='px-2 text-gray-800'>
                   <h2 className="text-xl md:text-4xl font-bold mb-2">{selectedItem.name}</h2>
                   <p className="text-gray-600 ml-2 mb-2 text-xs tracking-wide">Already RSVP&apos;d</p>
@@ -192,7 +192,7 @@ const isEventPassed = (eventDate: string) => {
                   <p className="font-normal text-gray-700 ml-2 max-w-lg text-sm md:text-base mb-2 leading-relaxed">{selectedItem.description}</p>
                 </div>
 
-                <div className="flex items-center justify-end space-x-4 mr-5">
+                <div className="flex items-center text-center justify-center md:justify-end space-x-4 md:mr-5">
                   {/* Add to Outlook Calendar Button */}
                   <a
                     href={outlookUrl(selectedItem)}

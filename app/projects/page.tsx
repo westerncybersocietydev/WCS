@@ -277,7 +277,7 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, d
     {/* Top: Image */}
     <div className="relative h-2/4 w-full">
       {status === "Archived" && (
-        <i className="fa-solid fa-link-slash absolute top-5 right-5 font-extrabold text-lg text-white"></i>
+        <p className='absolute top-5 right-5 bg-gradient-to-r from-pink-500 to-rose-500 shadow-md rounded-full px-3 py-1 font-semibold text-xs text-white '>Archived</p>
       )}
       <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
     </div>

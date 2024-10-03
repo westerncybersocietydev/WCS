@@ -9,6 +9,12 @@ import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
 import { motion } from "framer-motion"
 
+const activeEvents = [
+  "AI WORKSHOP",
+  "CYBER WORKSHOP",
+  "IBM WORKSHOP",
+]
+
 const Carousel: React.FC = () => {
   const router = useRouter();
 
@@ -54,7 +60,14 @@ const Carousel: React.FC = () => {
   
   useEffect(() => {
     getProfileData();
-  }, [getProfileData]);  
+  }, [getProfileData]);
+  
+  useEffect(() => {
+    if (selectedItem?.isRsvp) {
+      // Optionally re-fetch the event data if necessary after RSVP
+      getProfileData();
+    }
+  }, [selectedItem?.isRsvp]);
 
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
   const options: StripeElementsOptions = {
@@ -64,8 +77,6 @@ const Carousel: React.FC = () => {
   };
 
   const goToNext = () => {
-    console.log(currentIndex)
-    console.log(itemsToShow)
     setCurrentIndex((prevIndex) => (prevIndex + 1) % (totalItems - itemsToShow + 1));
   };
 
@@ -98,21 +109,24 @@ const Carousel: React.FC = () => {
 
   const handleRSVP = async (userId: string, eventId: string): Promise<void> => {
     if (!user?.userId) {
-      router.push("/sign-up")
+      router.push("/sign-up");
+      return;
     }
-
+  
     setLoading(true);
     try {
       await eventRSVP(userId, eventId);
-      closeRSVPModal();
-      toast.success("You have successfully RSVP'd")
       await getProfileData();
+  
+      closeRSVPModal()
+      closeModal()
+      toast.success("You have successfully RSVP'd");
     } catch (error) {
       console.error("Error RSVPing for event:", error);
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   // Utility function to convert 12-hour time format (e.g., 7:00PM) to 24-hour format
   const convertTo24HourFormat = (timeStr: string) => {
@@ -199,8 +213,8 @@ const outlookUrl = (event : EventObject) => {
   // RSVP Modal Component
   const RSVPModal: React.FC<{ onClose: () => void; onRSVP: (userId: string, eventId: string) => void; item: EventObject | null; }> = ({ onClose, onRSVP, item }) => (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
-      <div className="relative w-full md:w-3/5 h-full px-2 py-5 flex justify-center">
-        {item?.price === "Free" ? (
+      <div className="relative w-full md:w-3/5 px-2 py-5 flex justify-center">
+        {item?.price == "Free" ? (
           <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-lg">
             <h1 className="text-lg tracking-wide text-center text-gray-900">
               Are you sure you want to RSVP for <span className="font-bold">{item?.name}</span>?
@@ -347,7 +361,7 @@ const outlookUrl = (event : EventObject) => {
                 />
               </div>
               {/* Right Side: Content */}
-              <div className="md:w-2/3 h-2/3 md:h-full p-10 w-full flex flex-col justify-between">
+              <div className="md:w-2/3 h-2/3 md:h-full p-2 md:p-5 w-full flex flex-col justify-between">
                 <div className='px-2 text-gray-800'>
                   <h2 className="text-xl md:text-4xl 2xl:text-6xl font-bold mb-2">{selectedItem.name}</h2>
                   {selectedItem.isRsvp && <p className="text-gray-600 ml-2 mb-2 text-xs tracking-wide">Already RSVP&apos;d</p>}
@@ -357,36 +371,40 @@ const outlookUrl = (event : EventObject) => {
                   <p className="font-normal text-gray-700 ml-2 text-sm md:text-base 2xl:text-2xl mb-2 leading-relaxed">{selectedItem.description}</p>
                 </div>
 
-                {selectedItem.isRsvp ? (
-                <div className="flex items-center justify-end space-x-4 mr-5">
-                {/* Add to Outlook Calendar Button */}
-                <a
-                  href={outlookUrl(selectedItem)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-700 hover:to-blue-800 hover:scale-105"
-                >
-                  Add to Outlook Calendar
-                </a>
+                {
+  activeEvents.includes(selectedItem.name) ? (
+    selectedItem.isRsvp ? (
+      <div className="flex flex-col md:flex-row items-center text-center justify-end gap-2 md:gap-0 md:space-x-4 mr-5">
+        {/* Add to Outlook Calendar Button */}
+        <a
+          href={outlookUrl(selectedItem)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-700 hover:to-blue-800 hover:scale-105"
+        >
+          Add to Outlook Calendar
+        </a>
 
-                {/* Add to Google Calendar Button */}
-                <a
-                  href={googleUrl(selectedItem)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-rose-400 to-red-500 hover:from-rose-600 hover:to-red-700 hover:scale-105"
-                >
-                  Add to Google Calendar
-                </a>
-              </div>
-                ) : (
-                  <button
-                  onClick={openRSVPModal} // Disable button if RSVP'd
-                  className={`hidden self-end mr-5 text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-2 px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
-                >
-                  RSVP
-                </button>
-                )}
+        {/* Add to Google Calendar Button */}
+        <a
+          href={googleUrl(selectedItem)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-rose-400 to-red-500 hover:from-rose-600 hover:to-red-700 hover:scale-105"
+        >
+          Add to Google Calendar
+        </a>
+      </div>
+    ) : (
+      <button
+        onClick={openRSVPModal}
+        className={`self-end mr-5 text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-2 px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
+      >
+        RSVP
+      </button>
+    )
+  ) : null
+}
 
 
               </div>
