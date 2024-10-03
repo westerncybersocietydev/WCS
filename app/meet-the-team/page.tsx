@@ -154,8 +154,8 @@ const teamData: TeamMember[] = [
     title: 'Director of Visual Creatives',
     program: 'Criminology & Political Science',
     year: '4th year',
-    email: 'fabdull9@uwo.ca',
-    linkedin: 'https://www.linkedin.com/in/fahmid-abdullah/',
+    email: 'aawawdeh@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/asadawawdeh/',
   },
   {
     image: '/team/henry.jpeg',
