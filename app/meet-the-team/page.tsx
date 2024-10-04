@@ -149,7 +149,7 @@ const teamData: TeamMember[] = [
     linkedin: 'https://www.linkedin.com/in/fahmid-abdullah/',
   },
   {
-    image: '/team/asad.jpeg',
+    image: '/team/asad2.jpeg',
     name: 'Asad Awawdeh',
     title: 'Director of Visual Creatives',
     program: 'Criminology & Political Science',
