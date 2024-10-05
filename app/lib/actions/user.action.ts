@@ -5,6 +5,7 @@ import User from "../models/user.model";
 import Event from "../models/event.model";
 import { connectToDB } from "../mongoose";
 import { EventObject } from './event.action';
+import { sendEmail } from '../../utils/email'; // Adjust the import path as needed
 
 function formatDateToLocalISOString(dateStr: string, timeStr: string): string {
     // Split the date string (e.g., 'Friday, November 18, 2024') into its components
@@ -310,3 +311,81 @@ export async function getMyEvents(userId: string): Promise<EventObject[]> {
       throw new Error(`Couldn't get events: ${errorMessage}`);
     }
   }  
+
+  export async function sendAllEmail(): Promise<void> {
+    try {
+      await connectToDB();
+  
+      // Find the user by ID
+      const users = await User.findById("");
+  
+      if (users.length === 0) {
+        throw new Error("No users found.");
+      }
+  
+      // Prepare email sending promises
+      const emailPromises = users.map(async (user: { preferredEmail: string; uwoEmail: string; firstName: string; }) => {
+        const emailDetails = {
+          from: "info@westerncybersociety.ca",
+          to: user.preferredEmail.trim() === '' ? user.uwoEmail : user.preferredEmail,
+          subject: 'Get Ahead with SIP Prep Workshops!',
+          message: `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Get Ahead with SIP Prep Workshops!</title>
+            </head>
+            <body style="margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f5f5f7;">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td align="center">
+                            <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
+                                <tr>
+                                    <td style="padding: 20px 0; line-height: 1.7; font-size: 18px;">
+                                        <p>Hi <span style="color: #a723b0; font-weight: 600;">${user.firstName}</span>,</p>
+                                        <p style="margin-bottom: 1em;">Ready to supercharge your tech skills? We know that sometimes coursework alone isn’t enough to keep up with the fast-paced tech world. That’s why we’re thrilled to invite you to our upcoming workshops, where we’ll dive into the hottest, most game-changing concepts in the industry.</p>
+                                        <p style="margin-bottom: 1em;">This is your chance to learn, grow, and stay ahead of the curve. Whether you’re gearing up for the Student Innovation Projects or looking to explore exciting new tech frontiers, these workshops are designed to equip you with the tools for the future.</p>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <a href="http://westerncybersociety.ca/events" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 10px 40px; border-radius: 50px; font-weight: 600; font-size: 18px; letter-spacing: 0.1em;">RSVP Now!</a>
+</div>
+
+
+                                        <p>We can’t wait to see you there and help you take your skills to the next level!</p>
+                                        <p style="margin-bottom: -1em;">Keep innovating,</p>
+                                        <p style="margin-bottom: 1em;">Western Cyber Society Team</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="margin-top: 40px;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="margin-top: 60px; font-size: 12px; color: #86868b; border-top: 1px solid #e0e0e2; padding-top: 20px;">
+                                        <p>&copy; 2024 Western Cyber Society. All rights reserved.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </body>
+            </html>
+          `,
+        };
+  
+        // Send email
+        await sendEmail(emailDetails);
+      });
+  
+      // Wait for all emails to be sent
+      await Promise.all(emailPromises);
+      console.log("All emails sent successfully!");
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(`Couldn't send emails: ${errorMessage}`);
+    }
+  }
+  

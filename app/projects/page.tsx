@@ -66,10 +66,36 @@ const projects = [
     peopleCount: "5",
     difficulty: "Expert",
     projectImg: "/projects/secureframe2.jpg",
-    description: "AI-powered video encryption that uses machine learning to dynamically secure video content and protect against unauthorized access and cyber threats.",
+    description: "SecureFrame is a tool that uses AI to allow users to selectively encrypt specific objects in a video, such as faces, cars, or license plates, while leaving the rest of the video untouched. This ensures privacy for sensitive content without requiring full-video encryption, making it both efficient and privacy-focused.",
     director: {
         name: "Rishabh Jain"
     }
+},
+{
+  title: "CryptoCatalyst",
+  category: "Cybersecurity",
+  status: "Active",
+  year: "2024-2025",
+  peopleCount: "5",
+  difficulty: "Expert",
+  projectImg: "/projects/cryptoCatalyst.jpg",
+  description: "CryptoCatalyst is a cloud storage platform that secures data with client-side encryption using advanced block ciphers and Elliptic Curve Cryptography. Even in a cloud breach, user data remains confidential. Prioritizing privacy and compliance, CryptoCatalyst offers a simple yet powerful solution for secure cloud storage without sacrificing usability.",
+  director: {
+      name: "Henrique Leitte"
+  }
+},
+{
+  title: "LatticeTalk",
+  category: "Cybersecurity",
+  status: "Active",
+  year: "2024-2025",
+  peopleCount: "5",
+  difficulty: "Intermediate",
+  projectImg: "/projects/latticeTalk.jpg",
+  description: "LatticeTalk is a messaging app that features highly secure user communication with quantum safe encryption. By leveraging lattice based cryptography LatticeTalk will provide end-to-end encryption for all users.",
+  director: {
+      name: "Kalpi Patel"
+  }
 },
   {
     title: "BankFrame",
@@ -79,7 +105,7 @@ const projects = [
     peopleCount: "5",
     difficulty: "Intermediate",
     projectImg: "/projects/bankframe2.jpg",
-    description: "A banking system replica, modeled after CIBC, showcasing how the mainframe securely manages financial data.",
+    description: "A banking system replica, modelled after CIBC showcasing how the mainframe securely manages financial data.",
     director: {
         name: "Justin Dhillon"
     }
@@ -292,7 +318,7 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, d
       </div>
 
       {/* Project description */}
-      <p className="text-xs md:text-sm xl:text-xl 2xl:text-2xl my-2 flex-grow">
+      <p className="text-xs md:text-sm xl:text-md 2xl:text-xl my-2 flex-grow">
         {description}
       </p>
       {/* People count and difficulty at the bottom */}
