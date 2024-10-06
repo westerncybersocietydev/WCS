@@ -315,9 +315,7 @@ export async function getMyEvents(userId: string): Promise<EventObject[]> {
   export async function sendAllEmail(): Promise<void> {
     try {
       await connectToDB();
-  
-      // Find the user by ID
-      const users = await User.findById("");
+      const users = await User.find();
   
       if (users.length === 0) {
         throw new Error("No users found.");
@@ -328,7 +326,7 @@ export async function getMyEvents(userId: string): Promise<EventObject[]> {
         const emailDetails = {
           from: "info@westerncybersociety.ca",
           to: user.preferredEmail.trim() === '' ? user.uwoEmail : user.preferredEmail,
-          subject: 'Get Ahead with SIP Prep Workshops!',
+          subject: 'Don’t Miss Out—SIP Prep Workshops Start Soon!',
           message: `
             <!DOCTYPE html>
             <html lang="en">
@@ -346,14 +344,14 @@ export async function getMyEvents(userId: string): Promise<EventObject[]> {
                                     <td style="padding: 20px 0; line-height: 1.7; font-size: 18px;">
                                         <p>Hi <span style="color: #a723b0; font-weight: 600;">${user.firstName}</span>,</p>
                                         <p style="margin-bottom: 1em;">Ready to supercharge your tech skills? We know that sometimes coursework alone isn’t enough to keep up with the fast-paced tech world. That’s why we’re thrilled to invite you to our upcoming workshops, where we’ll dive into the hottest, most game-changing concepts in the industry.</p>
-                                        <p style="margin-bottom: 1em;">This is your chance to learn, grow, and stay ahead of the curve. Whether you’re gearing up for the Student Innovation Projects or looking to explore exciting new tech frontiers, these workshops are designed to equip you with the tools for the future.</p>
+                                        <p style="margin-bottom: 2em;">This is your chance to learn, grow, and stay ahead of the curve. Whether you’re gearing up for the Student Innovation Projects or looking to explore exciting new tech frontiers, these workshops are designed to equip you with the tools for the future.</p>
 
 <div style="display: flex; justify-content: center; align-items: center;">
-    <a href="http://westerncybersociety.ca/events" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 10px 40px; border-radius: 50px; font-weight: 600; font-size: 18px; letter-spacing: 0.1em;">RSVP Now!</a>
+    <a href="http://westerncybersociety.ca/events" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 10px 40px; border-radius: 50px; font-weight: 500; font-size: 18px; letter-spacing: 0.1em;">RSVP Now!</a>
 </div>
 
 
-                                        <p>We can’t wait to see you there and help you take your skills to the next level!</p>
+                                        <p style="margin-top: 2em; margin-bottom: 1em;">We can’t wait to see you there and help you take your skills to the next level!</p>
                                         <p style="margin-bottom: -1em;">Keep innovating,</p>
                                         <p style="margin-bottom: 1em;">Western Cyber Society Team</p>
                                     </td>
@@ -378,6 +376,7 @@ export async function getMyEvents(userId: string): Promise<EventObject[]> {
   
         // Send email
         await sendEmail(emailDetails);
+        console.log("Email sent to: ", user.firstName)
       });
   
       // Wait for all emails to be sent

@@ -7,6 +7,8 @@ import { FaInstagram, FaTiktok, FaLinkedin } from 'react-icons/fa';
 import React from "react";
 import { useUser } from "./context/UserContext";
 import { motion } from "framer-motion"
+import Head from 'next/head';
+import SEOHead from "./components/seoHead";
 
 interface FAQItem {
   question: string;
@@ -152,9 +154,15 @@ export default function Home() {
   }, [getProfileData]); 
 
   return (
+    <>
+      <SEOHead 
+        title="Home - Western Cyber Society | Innovate with Us"
+        description="Begin your innovation journey with WCS. Join our cyber society classes, engage in exciting tech events, and connect with like-minded individuals."
+        url="https://www.westerncybersociety.com"
+      />
+      <main>
     <div>
       <Navbar />
-      
       <div className="relative">
       <div className="flex flex-col items-center justify-center  mb-10">
         <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl text-2xl md:text-5xl lg:text-6xl xl:text-8xl">
@@ -321,6 +329,9 @@ export default function Home() {
 
       <Footer />
     </div>
+  
+    </main>
+    </>
   );
 }
 
