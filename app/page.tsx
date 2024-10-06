@@ -7,7 +7,6 @@ import { FaInstagram, FaTiktok, FaLinkedin } from 'react-icons/fa';
 import React from "react";
 import { useUser } from "./context/UserContext";
 import { motion } from "framer-motion"
-import Head from 'next/head';
 import SEOHead from "./components/seoHead";
 
 interface FAQItem {
