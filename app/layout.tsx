@@ -43,6 +43,7 @@ export default function RootLayout({
       <html lang="en">
         <head>
           <link rel="icon" href="/wcsicon.ico" sizes="any" />
+          <link rel="canonical" href="https://www.westerncybersociety.ca/" />
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta
