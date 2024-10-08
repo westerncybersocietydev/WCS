@@ -455,6 +455,8 @@ export default function Profile() {
   };
   
   return (
+    <>
+      <main>
     <div>
       <Navbar />
       <div className="mt-16 flex flex-col min-h-screen">
@@ -503,5 +505,7 @@ export default function Profile() {
       {/* Modal */}
       <BecomeVIP isOpen={isModalOpen} onClose={onClose} onComplete={handlePlanSubmit} />
     </div>
+    </main>
+    </>
   );
 }

@@ -271,6 +271,8 @@ const Section: React.FC<{ members: TeamMember[]; }> = ({ members }) => (
 export default function MeetTheTeam() {
 
   return (
+    <>
+      <main>
     <div>
       <Navbar />
 
@@ -304,5 +306,7 @@ export default function MeetTheTeam() {
       </div>
       <Footer />
     </div>
+    </main>
+    </>
   );
 }

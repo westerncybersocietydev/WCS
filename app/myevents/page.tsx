@@ -122,6 +122,8 @@ const isEventPassed = (eventDate: string) => {
 };
 
   return (
+    <>
+      <main>
     <div>
       <Navbar />
 
@@ -221,5 +223,7 @@ const isEventPassed = (eventDate: string) => {
 
       <Footer />
     </div>
+    </main>
+    </>
   );
 }

@@ -5,6 +5,8 @@ import Navbar from '../components/navbar';
 
 export default function Sponsorships() {
   return (
+    <>
+      <main>
     <div>
       <Navbar />
       <div className="flex items-center justify-center min-h-screen">
@@ -13,5 +15,7 @@ export default function Sponsorships() {
       </div>
       <Footer />
     </div>
+    </main>
+    </>
   );
 }

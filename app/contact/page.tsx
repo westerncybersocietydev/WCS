@@ -76,6 +76,8 @@ export default function Contact() {
   };
 
   return (
+    <>
+      <main>
     <div>
     <Navbar />
     <div className='mt-16 w-full flex justify-center'>
@@ -177,5 +179,7 @@ export default function Contact() {
     </div>
     <Footer />
 </div>
+</main>
+</>
   );
 }

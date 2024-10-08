@@ -228,6 +228,8 @@ export default function Signup() {
   }, [step]);
   
   return (
+    <>
+      <main>
     <div>
       <Navbar />
       <div className="mt-16 flex flex-col text-black items-center justify-center min-h-screen p-4">
@@ -479,5 +481,7 @@ export default function Signup() {
       {/* Modal */}
       <BecomeVIP isOpen={isModalOpen} onClose={onClose} onComplete={handleVIP} />
     </div>
+    </main>
+    </>
   );
 }

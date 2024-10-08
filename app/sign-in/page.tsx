@@ -50,6 +50,8 @@ export default function SignIn() {
   }, [formData, isFormComplete]);
 
   return (
+    <>
+      <main>
     <div>
       <Navbar />
       <div className="mt-16 flex flex-col text-black items-center justify-center min-h-screen p-4">
@@ -102,5 +104,7 @@ export default function SignIn() {
       </div>
       <Footer />
     </div>
+    </main>
+    </>
   );
 }

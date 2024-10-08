@@ -32,6 +32,8 @@ const images = [
 
 export default function Events() {
   return (
+    <>
+      <main>
     <div>
       <Navbar />
       <div className='text-black'>
@@ -87,5 +89,7 @@ export default function Events() {
       </div>
       <Footer />
     </div>
+    </main>
+    </>
   )
 }

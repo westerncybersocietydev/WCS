@@ -6,6 +6,8 @@ import { motion } from "framer-motion"
 
 export default function Overview() {
   return (
+    <>
+      <main>
     <div>
       <Navbar />
 
@@ -144,5 +146,7 @@ export default function Overview() {
       
       <Footer />
     </div>
+    </main>
+    </>
   )
 }

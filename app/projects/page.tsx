@@ -368,6 +368,8 @@ export default function Projects() {
   }, {});
 
   return (
+    <>
+      <main>
     <div>
       <Navbar />
       <main className="mt-40 md:mt-16 min-h-screen flex flex-col bg-gray-100">
@@ -505,5 +507,7 @@ export default function Projects() {
 </motion.div>
       <Footer />
     </div>
+    </main>
+    </>
   );
 };
