@@ -2,7 +2,7 @@
 const config = {
     siteUrl: 'https://www.westerncybersociety.ca',
     generateRobotsTxt: true,
-    exclude: ['/sign-in', '/sign-up', '/myevents', '/profile'], // pages to exclude
+    exclude: ['/sign-in', '/sign-up', '/myevents', '/profile', '/contact'], // pages to exclude
     robotsTxtOptions: {
         additionalSitemaps: [
             'https://www.westerncybersociety.ca/sitemap.xml',
