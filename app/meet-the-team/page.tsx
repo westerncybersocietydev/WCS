@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import { motion } from "framer-motion"
-import Head from 'next/head';
 
 type TeamMember = {
   image: string;
