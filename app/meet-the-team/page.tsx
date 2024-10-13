@@ -202,6 +202,24 @@ const teamData: TeamMember[] = [
     email: 'rjain57@uwo.ca',
     linkedin: 'https://www.linkedin.com/in/1rishabhjain/',
   },
+  {
+    image: '/team/henrique.jpeg',
+    name: 'Henrique Leite',
+    title: 'Director of Cybersecurity',
+    program: 'Computer Science',
+    year: '2nd year',
+    email: 'hleite@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/henrique-leite-3251a4209/',
+  },
+  {
+    image: '/team/kalpi.jpeg',
+    name: 'Kalpi Patel',
+    title: 'Director of Cybersecurity',
+    program: 'Computer Science',
+    year: '3rd year',
+    email: 'kpate629@uwo.ca',
+    linkedin: 'https://www.linkedin.com/in/kalpipatel/',
+  },
 ];
 
 const TeamCard: React.FC<TeamCardProps> = ({ member }) => {

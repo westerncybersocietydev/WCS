@@ -16,7 +16,7 @@ const projects = [
     projectImg: "/projects/aimusic2.jpg",
     description: "An AI composing system that uses algorithms to generate unique melodies, harmonies, and rhythms, often tailored to specific genres or emotions.",
     director: {
-        name: "Richard Augustine and Henry Wang"
+        name: "Richard Augustine & Henry Wang"
     }
 },
 {
@@ -29,7 +29,7 @@ const projects = [
     projectImg: "/projects/aihealthmonitor2.jpg",
     description: "An AI-powered health monitor using Arduino and AI to collect real-time biometric data through sensors, analyzed with machine learning models.",
     director: {
-        name: "Mia Sara Macdonald-Walden"
+        name: "Mia Mcdonalds"
     }
 },
 {
@@ -81,7 +81,7 @@ const projects = [
   projectImg: "/projects/cryptoCatalyst.jpg",
   description: "CryptoCatalyst is a cloud storage platform that secures data with client-side encryption using advanced block ciphers and Elliptic Curve Cryptography. Even in a cloud breach, user data remains confidential. Prioritizing privacy and compliance, CryptoCatalyst offers a simple yet powerful solution for secure cloud storage without sacrificing usability.",
   director: {
-      name: "Henrique Leitte"
+      name: "Henrique Leite"
   }
 },
 {
