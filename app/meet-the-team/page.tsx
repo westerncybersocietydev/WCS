@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import { motion } from "framer-motion"
+import Head from 'next/head';
 
 type TeamMember = {
   image: string;
@@ -224,7 +225,7 @@ const teamData: TeamMember[] = [
 
 const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
   const [isHovered, setIsHovered] = useState(false);
-
+  
   return (
     <motion.div
     initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
@@ -246,24 +247,24 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
         
         {isHovered && (
           <div className="mt-2 flex justify-between items-center">
-  <p className="text-xs">{member.program}</p>
-  <div className="flex text-black text-xl space-x-2">
-    <button
-      onClick={() => {
-        window.open(`mailto:${member.email}`);
-      }}
-      className="transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800"
-    >
-      <i className="fa-solid fa-envelope"></i>
-    </button>
-    <button
-      onClick={() => window.open(member.linkedin || '', '_blank')}
-      className="transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800"
-    >
-      <i className="fa-brands fa-linkedin"></i>
-    </button>
-  </div>
-</div>
+            <p className="text-xs">{member.program}</p>
+            <div className="flex text-black text-xl space-x-2">
+              <button
+                onClick={() => {
+                  window.open(`mailto:${member.email}`);
+                }}
+                className="transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800"
+              >
+                <i className="fa-solid fa-envelope"></i>
+              </button>
+              <button
+                onClick={() => window.open(member.linkedin || '', '_blank')}
+                className="transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800"
+              >
+                <i className="fa-brands fa-linkedin"></i>
+              </button>
+            </div>
+          </div>
 
         )}
       </div>
@@ -287,9 +288,38 @@ const Section: React.FC<{ members: TeamMember[]; }> = ({ members }) => (
 );
 
 export default function MeetTheTeam() {
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Western Cyber Society",
+    "member": teamData.map((teamMember) => ({
+      "@type": "Person",
+      "name": teamMember.name,
+      "jobTitle": teamMember.title,
+      "email": teamMember.email,
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "Western University"
+      },
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Western Cyber Society"
+      },
+      "knowsAbout": teamMember.program,
+      "memberOf": {
+        "@type": "Organization",
+        "name": "Western Cyber Society"
+      },
+      "image": `https://www.westerncybersociety.ca${teamMember.image}`,  // Full URL to the image
+      "url": teamMember.linkedin,
+    }))
+  };
 
   return (
     <>
+    <Head>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
+    </Head>
       <main>
     <div>
       <Navbar />

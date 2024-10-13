@@ -7,6 +7,7 @@ import { FaInstagram, FaTiktok, FaLinkedin } from 'react-icons/fa';
 import React from "react";
 import { useUser } from "./context/UserContext";
 import { motion } from "framer-motion"
+import Head from "next/head";
 
 interface FAQItem {
   question: string;
@@ -88,6 +89,53 @@ const faqs: FAQItem[] = [
   }
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need to have a club membership to attend events?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "While most events are open to all attendees, membership offers discounts on event registrations and access to exclusive events held throughout the year."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What kinds of resources does WCS provide for students?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WCS equips students with in-demand skills in AI, Cyber Security, Mainframe, and Web3 through workshops and competitions, while facilitating networking events."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When do SIP project applications open? How do I apply?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We are excited to announce that project applications are now open! If you're interested in applying, please visit the SIP Projects page located under the About Us section."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I stay updated on WCS events and announcements?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To stay updated with WCS, create an account on our website to receive email notifications about upcoming events, and be sure to follow us on our social media for the latest updates!"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is prior experience with the required technology necessary to apply for projects?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, you don't need prior experience. If selected, you’ll receive the time and resources to learn. What we value most is your enthusiasm and willingness to engage with the work."
+      }
+    }
+  ]
+};
+
 const formatBio = (bio: string) => {
   // Split bio by newline characters and map each line to a <span>
   return bio.split('\n').map((line, index) => (
@@ -152,6 +200,9 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      </Head>
       <main>
     <div>
       <Navbar />
