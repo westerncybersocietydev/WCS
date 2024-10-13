@@ -9,7 +9,6 @@ import GoogleAnalytics from '@/app/components/googleAnalytics';
 import { metadataConfig } from "./metadata";
 import PathMetadata from '@/app/components/PathMetadata';
 import { useState } from "react";
-import Head from "next/head";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
