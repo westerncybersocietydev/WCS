@@ -110,7 +110,7 @@ export default function RootLayout({
   return (
     <UserProvider>
       <html lang="en">
-        <Head>
+        <head>
           <link rel="icon" href="/wcsicon.ico" sizes="any" />
           <link rel="canonical" href="https://www.westerncybersociety.ca/" />
           <title>{title}</title>
@@ -169,8 +169,8 @@ export default function RootLayout({
               }}
             />
           )}
-        
-        </Head>
+
+        </head>
         <GoogleAnalytics />
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <Toaster position="top-right" />

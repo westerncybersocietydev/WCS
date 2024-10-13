@@ -288,38 +288,9 @@ const Section: React.FC<{ members: TeamMember[]; }> = ({ members }) => (
 );
 
 export default function MeetTheTeam() {
-  const personSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Western Cyber Society",
-    "member": teamData.map((teamMember) => ({
-      "@type": "Person",
-      "name": teamMember.name,
-      "jobTitle": teamMember.title,
-      "email": teamMember.email,
-      "alumniOf": {
-        "@type": "CollegeOrUniversity",
-        "name": "Western University"
-      },
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Western Cyber Society"
-      },
-      "knowsAbout": teamMember.program,
-      "memberOf": {
-        "@type": "Organization",
-        "name": "Western Cyber Society"
-      },
-      "image": `https://www.westerncybersociety.ca${teamMember.image}`,  // Full URL to the image
-      "url": teamMember.linkedin,
-    }))
-  };
 
   return (
     <>
-    <Head>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
-    </Head>
       <main>
     <div>
       <Navbar />
