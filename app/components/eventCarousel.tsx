@@ -8,6 +8,7 @@ import { useUser } from '../context/UserContext';
 import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
 import { motion } from "framer-motion"
+import Image from 'next/image';
 
 const activeEvents = [
   "AI WORKSHOP",
@@ -245,11 +246,14 @@ const outlookUrl = (event : EventObject) => {
             <div className="flex mx-3 flex-row items-start h-full overflow-y-auto custom-scrollbar">
               {/* Left Side */}
               <div className="w-2/5 mt-14">
-                <img
-                  src={item?.image}
-                  alt={item?.name}
-                  className="w-full h-[15vw] object-cover shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300"
-                />
+              <div className="relative w-full h-[15vw] overflow-hidden shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300">
+                <Image
+                    src={item?.image as string} // Ensure this path is correct
+                    alt={item?.name as string} // Ensure this is the correct alt text
+                    layout="fill" // Makes the image fill the container
+                    objectFit="cover" // Ensures the image covers the container
+                  />
+                </div>
                 <h2 className='text-black text-lg font-bold ml-2 mt-5'>{item?.name}</h2>
                 <h2 className='text-gray-800 text-xs font-semibold ml-2 mt-1'>
                   <i className="fa-solid fa-calendar-days"></i> {item?.date} at {item?.time}
@@ -317,12 +321,15 @@ const outlookUrl = (event : EventObject) => {
                 onClick={() => openModal(item)}
               >
                 <div className="relative h-[70vw] md:h-[60vw] lg:h-[50vw] xl:h-[40vw] mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
-                  <img
-                    loading="lazy"
-                    src={item.image}  
-                    alt={item.name}
-                    className={`w-full h-2/5 md:h-2/4 object-cover rounded-t-xl`}
-                  />
+                <div className={`relative w-full h-2/5 md:h-2/4 overflow-hidden rounded-t-xl`}>
+                    <Image
+                      loading="lazy" // Next.js Image component supports lazy loading by default
+                      src={item.image} // Ensure this path is correct
+                      alt={item.name} // Ensure this is the correct alt text
+                      layout="fill" // Makes the image fill the container
+                      objectFit="cover" // Ensures the image covers the container
+                    />
+                  </div>
                   <div className="h-3/5 md:h-2/4 p-5 bg-white rounded-b-xl">
                     <h2 className="text-lg md:text-xl 2xl:text-2xl text-gray-800 font-bold mb-1">{item.name}</h2>
                     <p className="text-sm md:text-base 2xl:text-lg text-gray-600 font-semibold mb-1">{item.date}</p>
@@ -354,11 +361,14 @@ const outlookUrl = (event : EventObject) => {
             <div className="flex flex-col lg:flex-row bg-white w-full rounded-lg shadow-lg overflow-hidden">
               {/* Left Side: Image */}
               <div className="md:w-1/3 h-1/3 md:h-full w-full">
-                <img
-                  src={selectedItem.image}
-                  alt={selectedItem.name}
-                  className="w-full h-full object-cover"
+              <div className="relative w-full h-full overflow-hidden">
+                <Image
+                  src={selectedItem.image} // Ensure this path is correct
+                  alt={selectedItem.name} // Ensure this is the correct alt text
+                  layout="fill" // Makes the image fill the container
+                  objectFit="cover" // Ensures the image covers the container
                 />
+                </div>
               </div>
               {/* Right Side: Content */}
               <div className="md:w-2/3 h-2/3 md:h-full p-2 md:p-5 w-full flex flex-col justify-between">

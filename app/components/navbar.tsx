@@ -151,22 +151,26 @@ export default function Navbar() {
                 className="relative text-black hover:text-blue-600 text-lg hover:scale-110 transition-all duration-500"
                 style={{ color: aboutUsExpanded ? '#ededed' : 'black' }}
               >
-                <img 
-                  src={profileData?.avatar || Avatar[0]}
-                  alt="Profile" 
-                  className="w-9 h-9 rounded-full mt-1 object-cover"
-                  style={{ flexShrink: 0 }}
+              <div className="relative w-9 h-9 mt-1 overflow-hidden rounded-full" style={{ flexShrink: 0 }}>
+                <Image
+                  src={profileData?.avatar || Avatar[0]} // Ensure this path is correct
+                  alt="Profile"
+                  layout="fill" // Makes the image fill the container
+                  objectFit="cover" // Ensures the image covers the container
                 />
+              </div>
               </button>
               <div className="absolute right-0 w-64 shadow-lg border border-violet-500 rounded-lg z-20 hidden group-hover:block transition-opacity duration-500 fadeIn"
               style={{ backgroundColor: '#fdf7ff' }}>
               <div className="flex items-center justify-center space-x-3 p-2 mt-2">
-                <img 
-                  src={profileData?.avatar}
-                  alt="Profile" 
-                  className="w-16 h-16 rounded-full object-cover"
-                  style={{ flexShrink: 0 }} // Prevents the image from shrinking
-                />
+              <div className="relative w-16 h-16 overflow-hidden rounded-full" style={{ flexShrink: 0 }}>
+                <Image
+                    src={profileData?.avatar as string} // Ensure this path is correct
+                    alt="Profile"
+                    layout="fill" // Makes the image fill the container
+                    objectFit="cover" // Ensures the image covers the container
+                  />
+                </div>
                 <div className="flex flex-col justify-center">
                   <h2 className="text-sm font-bold text-gray-600 truncate max-w-[20ch]">{profileData?.firstName} {profileData?.lastName}</h2>
                   <h2 className="ml-1 text-gray-400 text-xs">{profileData?.uwoEmail}</h2>

@@ -3,6 +3,7 @@ import React from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import { motion } from "framer-motion"
+import Image from 'next/image';
 
 export default function Overview() {
   return (
@@ -35,9 +36,14 @@ export default function Overview() {
         className='flex flex-col w-full h-full'>
             <div className='flex flex-col md:flex-row gap-4 m-8 md:space-x-10'>
 
-            <div className='bg-black rounded-xl md:w-1/2 h-[90vw] md:h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-              <img src='/mission.jpeg' alt='Our Mission' className='object-cover w-full h-full rounded-xl'/>
-            </div>
+              <div className="relative bg-black rounded-xl md:w-1/2 h-[90vw] md:h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] overflow-hidden">
+                <Image
+                  src="/mission.jpeg" // Ensure this path is correct
+                  alt="Our Mission"
+                  layout="fill" // Makes the image fill the container
+                  objectFit="cover" // This ensures the image covers the container
+                />
+              </div>
 
               <div className='flex flex-col mx-auto text-center md:text-left justify-center bg-violet-950 rounded-xl p-10 md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
                 <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">Our</h2>
@@ -66,8 +72,13 @@ export default function Overview() {
                 </p>
               </div>
 
-              <div className='bg-black rounded-xl md:w-1/2 h-[90vw] md:h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-              <img src='/vision.jpeg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
+              <div className='relative bg-black rounded-xl md:w-1/2 h-[90vw] md:h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+              <Image
+                  src="/vision.jpeg" // Ensure this path is correct
+                  alt="Our Vision"
+                  layout="fill" // Makes the image fill the container
+                  objectFit="cover" // This ensures the image covers the container
+                />
             </div>
             
             </div>
@@ -80,8 +91,13 @@ export default function Overview() {
           viewport={{ margin: "-50px", once: true }}
         className='flex flex-col w-full h-full'>
             <div className='flex flex-col md:flex-row gap-4 m-8 md:space-x-10'>
-            <div className='bg-black rounded-xl md:w-1/2 h-[90vw] md:h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
-              <img src='/focus.jpeg' alt='Our Mission' className='object-cover w-full h-full rounded-xl' />
+            <div className='relative bg-black rounded-xl md:w-1/2 h-[90vw] md:h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
+              <Image
+                  src="/focus.jpeg" // Ensure this path is correct
+                  alt="Our Focus"
+                  layout="fill" // Makes the image fill the container
+                  objectFit="cover" // This ensures the image covers the container
+                />
             </div>
               <div className='flex flex-col mx-auto text-center md:text-left justify-center bg-violet-950 rounded-xl p-16 md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
                 <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">Our</h2>
@@ -110,7 +126,14 @@ export default function Overview() {
           viewport={{ margin: "-50px", once: true }}
         className='flex flex-col md:flex-row gap-2 md:gap-0 md:space-x-1 w-full text-center'>
             <div className='flex flex-col items-center rounded-xl p-5 w-full'>
-                <img src='/ai.jpg' alt='Our Mission' className='object-cover w-32 h-32 rounded-full' />
+                <div className="relative w-32 h-32 rounded-full overflow-hidden">
+                  <Image
+                    src="/ai.jpg" // Ensure this path is correct
+                    alt="Artificial Intelligence"
+                    layout="fill" // Makes the image fill the container
+                    objectFit="cover" // This ensures the image covers the container
+                  />
+                </div>
                 <h2 className="mt-6 text-2xl font-extrabold text-white">AI</h2>
                 <p className="mt-3 text-md text-white">
                 Explore our innovative AI projects that harness machine learning algorithms to create intelligent solutions, enhancing decision-making and efficiency across various domains. 
@@ -118,7 +141,14 @@ export default function Overview() {
             </div>
 
             <div className='flex flex-col items-center rounded-xl p-5 w-full '>
-                <img src='/cs.jpg' alt='Our Mission' className='object-cover w-32 h-32 rounded-full' />
+                <div className="relative w-32 h-32 rounded-full overflow-hidden">
+                  <Image
+                    src="/cs.jpg" // Ensure this path is correct
+                    alt="Cybersecurity"
+                    layout="fill" // Makes the image fill the container
+                    objectFit="cover" // This ensures the image covers the container
+                  />
+                </div>
                 <h2 className="mt-6 text-2xl font-extrabold text-white">Cybersecurity</h2>
                 <p className="mt-3 text-md text-white">
                 Dive into our cybersecurity initiatives focused on protecting digital assets and ensuring safe online experiences through cutting-edge techniques and proactive threat management.
@@ -126,7 +156,14 @@ export default function Overview() {
             </div>
 
             <div className='flex flex-col items-center rounded-xl p-5 w-full '>
-                <img src='/web3.jpg' alt='Our Mission' className='object-cover w-32 h-32 rounded-full' />
+                <div className="relative w-32 h-32 rounded-full overflow-hidden">
+                  <Image
+                    src="/web3.jpg" // Ensure this path is correct
+                    alt="WEB3"
+                    layout="fill" // Makes the image fill the container
+                    objectFit="cover" // This ensures the image covers the container
+                  />
+                </div>
                 <h2 className="mt-6 text-2xl font-extrabold text-white">Web3</h2>
                 <p className="mt-3 text-md text-white">
                 Discover our Web3 projects that aim to revolutionize the internet by promoting decentralized applications and empowering users with greater control over their data and online interactions.
@@ -134,7 +171,14 @@ export default function Overview() {
             </div>
 
             <div className='flex flex-col items-center rounded-xl p-5 w-full '>
-                <img src='/mainframe.png' alt='Our Mission' className='object-cover w-32 h-32 rounded-full' />
+                <div className="relative w-32 h-32 rounded-full overflow-hidden">
+                  <Image
+                    src="/mainframe.png" // Ensure this path is correct
+                    alt="Mainframe"
+                    layout="fill" // Makes the image fill the container
+                    objectFit="cover" // This ensures the image covers the container
+                  />
+                </div>
                 <h2 className="mt-6 text-2xl font-extrabold text-white">Mainframe</h2>
                 <p className="mt-3 text-md text-white">
                 Learn about our mainframe projects that leverage robust computing power to support large-scale data processing and enterprise solutions, ensuring reliability and security in critical business operations.

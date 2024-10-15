@@ -5,6 +5,7 @@ import Footer from '../components/footer';
 import { getMyEvents } from '../lib/actions/user.action';
 import { EventObject } from '../lib/actions/event.action';
 import { useUser } from '../context/UserContext';
+import Image from 'next/image';
 
 export default function MyEvents() {
   const { user, fetchUser } = useUser();
@@ -142,13 +143,14 @@ const isEventPassed = (eventDate: string) => {
               onClick={() => openModal(item)}
             >
               <div className="relative h-[70vw] md:h-[40vw] 3xl:h-[30vw] mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className={`w-full h-2/5 md:h-2/4 object-cover rounded-t-xl ${
-                    isEventPassed(item.date) ? "filter grayscale" : ""
-                  }`}
-                />
+              <div className={`relative w-full h-2/5 md:h-2/4 overflow-hidden rounded-t-xl ${isEventPassed(item.date) ? "filter grayscale" : ""}`}>
+                <Image
+                    src={item.image} // Ensure this path is correct
+                    alt={item.name} // Ensure this is the correct alt text
+                    layout="fill" // Makes the image fill the container
+                    objectFit="cover" // Ensures the image covers the container
+                  />
+                </div>
                 <div className="h-3/5 md:h-2/4 bg-white rounded-b-xl p-4">
                   <h2 className="text-lg md:text-xl 2xl:text-2xl text-gray-800 font-bold mb-1">{item.name}</h2>
                   <p className="text-sm md:text-base 2xl:text-lg text-gray-600 font-semibold mb-1">{item.date}</p>
@@ -177,11 +179,14 @@ const isEventPassed = (eventDate: string) => {
           <div className="flex flex-col lg:flex-row bg-white w-full rounded-lg shadow-lg overflow-hidden">
             {/* Left Side: Image */}
             <div className="md:w-1/3 h-1/3 md:h-full w-full">
-              <img
-                src={selectedItem.image}
-                alt={selectedItem.name}
-                className="w-full h-full object-cover"
-              />
+            <div className="relative w-full h-full overflow-hidden">
+              <Image
+                  src={selectedItem.image} // Ensure this path is correct
+                  alt={selectedItem.name} // Ensure this is the correct alt text
+                  layout="fill" // Makes the image fill the container
+                  objectFit="cover" // Ensures the image covers the container
+                />
+              </div>
             </div>
 
               <div className="md:w-2/3 h-2/3 md:h-full p-2 md:p-5 w-full flex flex-col justify-between">

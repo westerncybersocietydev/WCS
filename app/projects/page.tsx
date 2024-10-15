@@ -4,6 +4,7 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import { Switch } from '@nextui-org/react';
 import { motion } from "framer-motion"
+import Image from 'next/image';
 
 const projects = [
 {
@@ -305,7 +306,14 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, d
       {status === "Archived" && (
         <p className='absolute top-5 right-5 bg-gradient-to-r from-pink-500 to-rose-500 shadow-md rounded-full px-3 py-1 font-semibold text-xs text-white '>Archived</p>
       )}
-      <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
+        <div className="relative w-full h-full overflow-hidden">
+          <Image
+            src={imageUrl} // This can remain as a dynamic URL
+            alt={title} // This can remain as a dynamic title
+            layout="fill" // Makes the image fill the container
+            objectFit="cover" // Ensures the image covers the container
+          />
+      </div>
     </div>
 
     
@@ -502,7 +510,14 @@ export default function Projects() {
 
   {/* Right half: Image */}
   <div className='w-full md:w-1/2'>
-    <img src="/projectInterested.jpeg" alt="Project Image" className='w-full h-[35vw] md:h-[26vw] object-cover'/>
+    <div className="relative w-full h-[35vw] md:h-[26vw] overflow-hidden">
+      <Image
+        src="/projectInterested.jpeg" // Ensure this path is correct
+        alt="Project Image"
+        layout="fill" // Makes the image fill the container
+        objectFit="cover" // Ensures the image covers the container
+      />
+    </div>
   </div>
 </motion.div>
       <Footer />

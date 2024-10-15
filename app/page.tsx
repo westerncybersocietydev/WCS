@@ -7,6 +7,7 @@ import { FaInstagram, FaTiktok, FaLinkedin } from 'react-icons/fa';
 import React from "react";
 import { useUser } from "./context/UserContext";
 import { motion } from "framer-motion"
+import Image from 'next/image';
 
 interface FAQItem {
   question: string;
@@ -15,19 +16,19 @@ interface FAQItem {
 
 const boxes = [
   {
-    image: "IBMN.png",
+    image: "/IBMN.png",
     text: "An evening of innovation and technology exploration hosted by IBM, showcasing their latest advancements and opportunities.",
   },
   {
-    image: "VIPD.png",
+    image: "/VIPD.png",
     text: "An exclusive networking event bringing together top industry leaders for insightful discussions over a gourmet meal.",
   },
   {
-    image: "FD.png",
+    image: "/FD.png",
     text: "A day dedicated to learning from and connecting with industry professionals from Facebook, Amazon, Apple, Netflix, and Google.",
   },
   {
-    image: "TTE4.png",
+    image: "/TTE4.png",
     text: "A dynamic tech showcase featuring cutting-edge innovations and startups from across Toronto's vibrant tech ecosystem.",
   },
 ];
@@ -39,7 +40,7 @@ const socials = [
     handle: '@westerncybersociety',
     bio: 'Western Cyber Society (WCS)\nScience, Technology & Engineering\nLeading the future generation of AI, Cyber Security, and Web3.',
     profileUrl: 'https://www.instagram.com/westerncybersociety/',
-    profileImage: 'wcsSocialLogo.png',
+    profileImage: '/wcsSocialLogo.png',
     color: 'bg-gradient-to-br from-pink-500 to-orange-500',
     Icon: FaInstagram
   },
@@ -49,7 +50,7 @@ const socials = [
     handle: '@westerncybersociety',
     bio: 'Western Cyber Society\nShaping the future by leading advancements in Artificial Intelligence (AI), Cybersecurity, and Web3.',
     profileUrl: 'https://www.tiktok.com/@westerncybersociety',
-    profileImage: 'wcsSocialLogo.png',
+    profileImage: '/wcsSocialLogo.png',
     color: 'bg-gradient-to-br from-slate-900 to-neutral-700',
     Icon: FaTiktok
   },
@@ -59,7 +60,7 @@ const socials = [
     handle: '@westerncybersociety',
     bio: 'Empowering the next generation of leaders in Artificial Intelligence (AI), Cyber Security, and Web3. #LaunchTheFuture',
     profileUrl: 'https://www.linkedin.com/company/western-cyber-society?originalSubdomain=ca',
-    profileImage: 'wcsSocialLogo.png',
+    profileImage: '/wcsSocialLogo.png',
     color: 'bg-gradient-to-br from-sky-900 to-blue-400',
     Icon: FaLinkedin
   },
@@ -83,7 +84,7 @@ const faqs: FAQItem[] = [
     answer: "To stay updated with WCS, create an account on our website to receive email notifications about upcoming events, and be sure to follow us to follow us on our social media for the latest updates!"
   },
   {
-    question: "Is prior experience with the required technology necessary to apply for projects?",
+    question: "Is prior experience with the required technology necessary for projects?",
     answer: "No, you don't need prior experience. If selected, you’ll receive the time and resources to learn. What we value most is your enthusiasm and willingness to engage with the work."
   }
 ];
@@ -227,9 +228,12 @@ export default function Home() {
     className="relative bg-black cursor-pointer w-48 h-64 md:w-1/5 md:h-[30vw] overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
   >
     <div className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:blur-lg group-hover:opacity-90" style={{ backgroundImage: `url(${box.image})` }} />
-    <img
+    <Image
       src={box.image}
       alt={`Image ${index + 1}`}
+      layout="responsive" // You can also use "fill" or "fixed" based on your layout needs
+      width={500} // Specify the width you want
+      height={300} // Specify the height you want
       className="w-full h-full object-cover transition-all duration-700 group-hover:translate-x-full group-hover:translate-y-full group-hover:blur-xl group-hover:scale-150"
     />
     <div className="absolute text-xs md:text-base lg:text-md xl:text-xl inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
@@ -273,9 +277,11 @@ export default function Home() {
     className="absolute inset-0 flex flex-col p-5"
   >
     <div className="flex items-center">
-      <img
+      <Image
         src={social.profileImage}
         alt={`${social.platform} logo`}
+        width={64} // 16 * 4 for 16px with 4x scaling
+        height={64} // 16 * 4 for 16px with 4x scaling
         className="w-16 h-16 rounded-full border-2 border-white"
       />
       <div className="ml-4 text-white flex flex-col">
@@ -312,7 +318,7 @@ export default function Home() {
   className="flex flex-wrap justify-center items-center w-full">
     {faqs.map((faq, index) => (
       <div key={index} className="flex flex-col transition-all duration-500 hover:scale-105 cursor-pointer justify-center items-center w-5/6 md:w-1/4 md:min-h-[18vw] p-5 m-3 border-b-2 border-gray-300 bg-white rounded-lg shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)]">
-        <h2 className="text-lg md:text-xl 2xl:text-2xl font-extrabold text-black text-center mb-2">{faq.question}</h2>
+        <h2 className="text-md md:text-lg 2xl:text-xl font-extrabold text-black text-center mb-2">{faq.question}</h2>
         <p className="text-sm 2xl:text-lg text-gray-600 text-center">{faq.answer}</p>
       </div>
     ))}

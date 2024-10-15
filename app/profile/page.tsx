@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast';
 import BecomeVIP from "../components/becomeVIP";
 import Avatar from '../dataFiles/avatars';
 import { Basic, VIP } from "../dataFiles/perks";
+import Image from 'next/image';
 
 interface ProfileData {
   firstName: string;
@@ -191,15 +192,21 @@ export default function Profile() {
           <label htmlFor="avatar" className="text-gray-600 font-bold text-sm">Avatar <span className='font-normal'>(required)</span></label>
             <div className="flex space-x-2">
             {Avatar.map((imgSrc, index) => (
-              <img 
+              <div 
                 key={index}
-                src={imgSrc} 
-                alt={`Profile ${index + 1}`} 
-                onClick={() => handleAvatarChange(imgSrc)}
-                className={`w-12 h-12 rounded object-cover mb-4 cursor-pointer ${
+                className={`relative w-12 h-12 mb-4 cursor-pointer ${
                   profileData?.avatar === imgSrc ? 'border-2 border-violet-500' : ''
                 }`}
-              />
+                onClick={() => handleAvatarChange(imgSrc)}
+              >
+                <Image
+                  src={imgSrc}
+                  alt={`Profile ${index + 1}`}
+                  layout="fill" // Use fill layout to cover the div
+                  className="rounded object-cover"
+                  priority // Optional: Use priority if this is a key image
+                />
+              </div>
             ))}
             </div>
           </div>
@@ -465,11 +472,15 @@ export default function Profile() {
           <div className="w-full"> 
           <div className="absolute hidden md:block flex flex-col">
           <div className="flex flex-col items-center translate-x-6 translate-y-5">
-            <img 
-              src={profileData?.avatar}
-              alt="Profile" 
-              className="w-36 h-36 rounded-full object-cover mb-4"
+          <div className="relative w-36 h-36 mb-4">
+            <Image
+              src={profileData?.avatar || '/default-avatar.png'} // Use a default image if avatar is not available
+              alt="Profile"
+              layout="fill" // Use fill layout to cover the div
+              className="rounded-full object-cover"
+              priority // Optional: Use priority if this is a key image
             />
+            </div>
             <h1 className="text-center text-black font-bold" style={{ fontFamily: 'Panton' }}>{firstName} {lastName}</h1>
             <p className="mt-1 w-[20vw] text-gray-500 font-semibold text-center text-xs">{profileData?.description}</p>
             <p className={`mt-3 py-1 px-2 text-white rounded text-xs ${profileData?.plan === "VIP" ? "bg-violet-500" : "bg-gray-500"}`}>

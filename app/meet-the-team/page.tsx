@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+import Image from 'next/image';
 
 type TeamMember = {
   image: string;
@@ -235,11 +236,15 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <img
-        src={member.image}
-        alt={member.name}
-        className="w-11/12 h-5/6 object-cover shadow-xl transition-all duration-500"
-      />
+      <div className="relative w-11/12 h-5/6">
+        <Image
+          src={member.image}
+          alt={member.name}
+          layout="fill" // Use fill layout to cover the div
+          className="object-cover shadow-xl transition-all duration-500"
+          priority // Optional: Use priority if this is a key image
+        />
+      </div>
       <div className="absolute z-40 w-4/5 md:w-11/12 bottom-10 right-2 p-4 bg-gradient-to-r from-zinc-100 to-zinc-100 text-black rounded-sm shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] transition-all duration-200 ease-in-out h-20 group-hover:h-28">
         <div className="font-semibold text-md md:text-xl lg:text-2xl">{member.name}</div>
         <div className="text-xs md:text-sm lg:text-md">{member.title}</div>
