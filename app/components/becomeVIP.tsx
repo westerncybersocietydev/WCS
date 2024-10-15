@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import CheckoutForm from '../components/checkoutForm';
 import { Elements } from '@stripe/react-stripe-js';
+import Image from 'next/image';
 
 const VIP = [
   'Ad-free experience',
@@ -44,11 +45,15 @@ const BecomeVIP: React.FC<BecomeVIPProps> = ({ isOpen, onClose, onComplete }) =>
 
     {/* Left side: Image */}
     <div className="relative"> {/* Set a fixed height */}
-        <img
-        src="/vipWCS.png"
-        alt="VIP"
-        className="object-cover w-full h-full" // Use object-contain to preserve image dimensions
+      <div className="relative w-full h-full">
+        <Image
+          src="/vipWCS.png"
+          alt="VIP"
+          layout="fill" // Use fill layout to cover the div
+          className="object-cover"
+          priority // Optional: Use priority if this is a key image
         />
+    </div>
         <div className="absolute inset-0 flex items-center justify-center">
         </div>
     </div>
