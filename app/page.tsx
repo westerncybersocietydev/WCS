@@ -231,9 +231,7 @@ export default function Home() {
     <Image
       src={box.image}
       alt={`Image ${index + 1}`}
-      layout="responsive" // You can also use "fill" or "fixed" based on your layout needs
-      width={500} // Specify the width you want
-      height={300} // Specify the height you want
+      layout="fill" // You can also use "fill" or "fixed" based on your layout needs
       className="w-full h-full object-cover transition-all duration-700 group-hover:translate-x-full group-hover:translate-y-full group-hover:blur-xl group-hover:scale-150"
     />
     <div className="absolute text-xs md:text-base lg:text-md xl:text-xl inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">

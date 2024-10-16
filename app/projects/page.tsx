@@ -304,18 +304,19 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, d
     {/* Top: Image */}
     <div className="relative h-2/4 w-full">
       {status === "Archived" && (
-        <p className='absolute top-5 right-5 bg-gradient-to-r from-pink-500 to-rose-500 shadow-md rounded-full px-3 py-1 font-semibold text-xs text-white '>Archived</p>
+        <p className='absolute top-5 right-5 bg-gradient-to-r from-pink-500 to-rose-500 shadow-md rounded-full px-3 py-1 font-semibold text-xs text-white z-10'>
+          Archived
+        </p>
       )}
-        <div className="relative w-full h-full overflow-hidden">
-          <Image
-            src={imageUrl} // This can remain as a dynamic URL
-            alt={title} // This can remain as a dynamic title
-            layout="fill" // Makes the image fill the container
-            objectFit="cover" // Ensures the image covers the container
-          />
+      <div className="relative w-full h-full overflow-hidden">
+        <Image
+          src={imageUrl} // This can remain as a dynamic URL
+          alt={title} // This can remain as a dynamic title
+          layout="fill" // Makes the image fill the container
+          objectFit="cover" // Ensures the image covers the container
+        />
       </div>
     </div>
-
     
     {/* Bottom: Text content */}
     <div className="p-5 h-2/4 text-white flex-grow flex flex-col relative">
