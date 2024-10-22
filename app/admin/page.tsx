@@ -20,7 +20,6 @@ interface EventRsvp {
 }
 
 export default function AdminDashboard() {
-  const [password, setPassword] = useState('');
   const [inputPassword, setInputPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState('Data');
