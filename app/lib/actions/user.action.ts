@@ -387,4 +387,37 @@ export async function getMyEvents(userId: string): Promise<EventObject[]> {
       throw new Error(`Couldn't send emails: ${errorMessage}`);
     }
   }
-  
+
+  export async function getAllUsers(): Promise<{ firstName: string; lastName: string; program: string; year: string, plan: string }[]> {
+    try {
+        await connectToDB();
+
+        // Fetch all users
+        const users = await User.find().select('firstName lastName program currentYear plan');
+
+        // Transform users to the desired format
+        return users.map(user => ({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            program: user.program,
+            year: user.currentYear,
+            plan: user.plan
+        }));
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        throw new Error(`Couldn't get all users: ${errorMessage}`);
+    }
+}
+
+export async function checkAdmin(password: string): Promise<boolean> {
+    try {
+        if (password === process.env.ADMIN_PASSWORD) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error("Error checking admin password:", error);
+        return false;
+    }
+}

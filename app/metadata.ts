@@ -6,7 +6,7 @@ type MetadataConfig = {
   export const metadataConfig: MetadataConfig = {
     "/": {
       title: "Home - Western Cyber Society",
-      description: "Begin your innovation journey with WCS. Join our cyber society classes, engage in exciting tech events, and connect with like-minded individuals.",
+      description: "Begin your innovation journey with Western Cyber Society (WCS). Join our cyber society classes, engage in exciting tech events, and connect with like-minded individuals.",
       url: "http://westerncybersociety.ca/"
     },
     "/overview": {
@@ -16,7 +16,7 @@ type MetadataConfig = {
     },
     "/contact": {
       title: "Contact Us - Western Cyber Society",
-      description: "Get in touch with us for inquiries, support, and more information about our programs.",
+      description: "Get in touch with Western Cyber Society for inquiries, support, and more information about our programs.",
       url: "http://westerncybersociety.ca/contact"
     },
     "/events": {
@@ -26,17 +26,17 @@ type MetadataConfig = {
     },
     "/ibm": {
       title: "IBM Collaboration - Western Cyber Society",
-      description: "Discover our partnership with IBM and how it enhances our learning and innovation opportunities.",
+      description: "Discover Western Cyber Society's partnership with IBM and how it enhances our learning and innovation opportunities.",
       url: "http://westerncybersociety.ca/ibm"
     },
     "/meet-the-team": {
       title: "Meet the Team - Western Cyber Society",
-      description: "Get to know the passionate individuals behind the Western Cyber Society.",
+      description: "Get to know the passionate individuals behind Western Cyber Society.",
       url: "http://westerncybersociety.ca/meet-the-team"
     },
     "/myevents": {
       title: "My Events - Western Cyber Society",
-      description: "Manage your participation in events, view your registrations, and stay updated.",
+      description: "Manage your participation in events, view your registrations, and stay updated with Western Cyber Society.",
       url: "http://westerncybersociety.ca/myevents"
     },
     "/profile": {
@@ -46,7 +46,7 @@ type MetadataConfig = {
     },
     "/projects": {
       title: "Projects - Western Cyber Society",
-      description: "Showcase your projects, collaborate with others, and explore innovative ideas.",
+      description: "Showcase your projects, collaborate with others, and explore innovative ideas with Western Cyber Society.",
       url: "http://westerncybersociety.ca/projects"
     },
     "/sign-in": {

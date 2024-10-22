@@ -97,3 +97,27 @@ export async function getAllEvents(userId: string | undefined): Promise<EventObj
     }
   }
 }
+
+export async function getEventRsvpCounts(): Promise<{ eventName: string; rsvpCount: number }[]> {
+  try {
+    await connectToDB();
+    const events = await Event.find();
+
+    // Create an array to hold event names and RSVP counts
+    const eventRsvpCounts: { eventName: string; rsvpCount: number }[] = [];
+
+    // Iterate over each event to count RSVPs
+    for (const event of events) {
+      const rsvpCount = await User.countDocuments({ myEvents: event._id }); // Count users who RSVP'd for this event
+      eventRsvpCounts.push({ eventName: event.name, rsvpCount }); // Add to the result array
+    }
+
+    return eventRsvpCounts; // Return the array of event names and RSVP counts
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Error fetching event RSVP counts: ${error.message}`);
+    } else {
+      throw new Error('An unknown error occurred while fetching event RSVP counts');
+    }
+  }
+}

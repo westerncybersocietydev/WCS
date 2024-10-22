@@ -161,9 +161,9 @@ export default function Home() {
         <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl text-2xl md:text-5xl lg:text-6xl xl:text-8xl">
         {staticPart}<span className="wrap">{text}</span>
         </h1>
-        <h1 className="mt-3 text-sm md:text-md max-w-2xl md:max-w-xl lg:max-w-xl xl:max-w-4xl text-gray-700 text-center tracking-wide text-sm">
+        <h2 className="mt-3 text-sm md:text-md max-w-2xl md:max-w-xl lg:max-w-xl xl:max-w-4xl text-gray-700 text-center tracking-wide text-sm">
           Recognized as the leading tech club at Western University, we prioritize maximizing value and delivering exceptional returns on investment for our members.
-        </h1>
+        </h2>
         {!user && (
         <>
           <button className="mt-6 tracking-widest rounded-full font-semibold text-white
@@ -303,11 +303,11 @@ export default function Home() {
   </div>
   
   <div className="pb-10 w-full flex flex-col justify-center items-center min-h-[32vw] mx-auto bg-cover bg-center" style={{ backgroundImage: 'url(/landing2.png)' }}>
-  <motion.h1
+  <motion.h2
       initial={ { opacity: 0, } }
       whileInView={ { opacity: 1 } }
       viewport={ { margin: '-100px', once: true } }    
-  className="text-2xl md:text-4xl 2xl:text-5xl font-bold text-black pt-10 text-center mb-5">Frequently Asked Questions</motion.h1>
+  className="text-2xl md:text-4xl 2xl:text-5xl font-bold text-black pt-10 text-center mb-5">Frequently Asked Questions</motion.h2>
   <motion.div 
         initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
         whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible

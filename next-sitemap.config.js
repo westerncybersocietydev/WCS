@@ -2,7 +2,7 @@
 const config = {
     siteUrl: 'https://www.westerncybersociety.ca',
     generateRobotsTxt: true,
-    exclude: ['/sign-in', '/sign-up', '/myevents', '/profile', '/contact'], // pages to exclude
+    exclude: ['/sign-in', '/sign-up', '/myevents', '/profile', '/contact', '/admin'], // pages to exclude
     robotsTxtOptions: {
       policies: [
         {
@@ -15,7 +15,7 @@ const config = {
         },
         {
           userAgent: '*',
-          disallow: ['/sign-in', '/sign-up', '/myevents', '/profile', '/contact'], // Block specific pages
+          disallow: ['/sign-in', '/sign-up', '/myevents', '/profile', '/contact', '/admin'], // Block specific pages
         },
       ],
       additionalSitemaps: [
