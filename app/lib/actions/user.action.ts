@@ -8,23 +8,29 @@ import { EventObject } from './event.action';
 import { sendEmail } from '../../utils/email'; // Adjust the import path as needed
 
 function formatDateToLocalISOString(dateStr: string, timeStr: string): string {
+    // Check if the date or time is "TBD"
+    if (dateStr === "TBD" || timeStr === "TBD") {
+      console.warn(`Date or time is TBD. Date: ${dateStr}, Time: ${timeStr}`);
+      return ''; // Return an empty string or handle it as needed
+    }
+  
     // Split the date string (e.g., 'Friday, November 18, 2024') into its components
     const [, month, day, year] = dateStr.split(" ");
   
     // Create a full date string that JavaScript's Date object can parse (e.g., 'November 18, 2024 10:30')
-    const fullDateStr = `${month} ${day}, ${year} ${timeStr}`;
+    const fullDateStr = `${month} ${day.replace(',', '')}, ${year} ${timeStr}`;
   
     // Create a new Date object in the user's local time zone
     const date = new Date(fullDateStr);
   
-    // Extract and format the parts of the date as YYYYMMDDTHHmmss
-    const yearPart = date.getFullYear();
-    const monthPart = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-    const dayPart = String(date.getDate()).padStart(2, '0');
-    const hoursPart = String(date.getHours()).padStart(2, '0');
-    const minutesPart = String(date.getMinutes()).padStart(2, '0');
-    const secondsPart = String(date.getSeconds()).padStart(2, '0');
-    return `${yearPart}${monthPart}${dayPart}T${hoursPart}${minutesPart}${secondsPart}`;
+    // Ensure the date is valid
+    if (isNaN(date.getTime())) {
+      console.error("Invalid date:", fullDateStr);
+      return '';
+    }
+  
+    // Return the date in ISO 8601 format (e.g., '2024-11-18T10:30:00.000Z')
+    return date.toISOString(); // This will return the ISO format (e.g., '2024-11-18T10:30:00.000Z')
   }
 
 interface ProfileData {
@@ -285,32 +291,39 @@ export async function getMyEvents(userId: string): Promise<EventObject[]> {
   
       // Fetch the events based on the event IDs in myEvents
       const events = await Event.find({ _id: { $in: user.myEvents } });
+
+      // Transform events, filter for upcoming events, and sort by date
+      const transformedEvents = events
+        .map((event) => {
+          const eventObject = event.toObject();
+          const formattedDate = formatDateToLocalISOString(eventObject.date, eventObject.time);
   
-      // Transform events and sort by date
-      const transformedEvents = events.map((event) => {
-        const eventObject = event.toObject();
+          return {
+            id: eventObject._id.toString(),
+            name: eventObject.name,
+            date: eventObject.date,
+            time: eventObject.time,
+            location: eventObject.location,
+            price: eventObject.price,
+            description: eventObject.description,
+            image: eventObject.image,
+            formattedDate: formattedDate,
+          };
+        })
+        // Sort events by the formatted date
+        .sort((a, b) => {
+          if (!a.formattedDate) return 1; // 'a' is TBD, move it after 'b'
+          if (!b.formattedDate) return -1; // 'b' is TBD, move it after 'a'
+          return a.formattedDate.localeCompare(b.formattedDate);
+        });
   
-        return {
-          id: eventObject._id.toString(),
-          name: eventObject.name,
-          date: eventObject.date, // e.g., 'Friday, November 18, 2024'
-          time: eventObject.time, // e.g., '10:30'
-          location: eventObject.location,
-          price: eventObject.price,
-          description: eventObject.description,
-          image: eventObject.image,
-          formattedDate: formatDateToLocalISOString(eventObject.date, eventObject.time), // Use the format function
-        };
-      });
-  
-      // Sort events by the formatted date
-      return transformedEvents.sort((a, b) => a.formattedDate.localeCompare(b.formattedDate));
+      return transformedEvents;
   
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       throw new Error(`Couldn't get events: ${errorMessage}`);
     }
-  }  
+}
 
   export async function sendAllEmail(): Promise<void> {
     try {
@@ -326,14 +339,14 @@ export async function getMyEvents(userId: string): Promise<EventObject[]> {
         const emailDetails = {
           from: "info@westerncybersociety.ca",
           to: user.preferredEmail.trim() === '' ? user.uwoEmail : user.preferredEmail,
-          subject: 'Don’t Miss Out—SIP Prep Workshops Start Soon!',
+          subject: 'Join Us for the IBM Workshop!',
           message: `
             <!DOCTYPE html>
             <html lang="en">
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Get Ahead with SIP Prep Workshops!</title>
+                <title>Join Us for the IBM Workshop!</title>
             </head>
             <body style="margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f5f5f7;">
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -343,13 +356,12 @@ export async function getMyEvents(userId: string): Promise<EventObject[]> {
                                 <tr>
                                     <td style="padding: 20px 0; line-height: 1.7; font-size: 18px;">
                                         <p>Hi <span style="color: #a723b0; font-weight: 600;">${user.firstName}</span>,</p>
-                                        <p style="margin-bottom: 1em;">Ready to supercharge your tech skills? We know that sometimes coursework alone isn’t enough to keep up with the fast-paced tech world. That’s why we’re thrilled to invite you to our upcoming workshops, where we’ll dive into the hottest, most game-changing concepts in the industry.</p>
-                                        <p style="margin-bottom: 2em;">This is your chance to learn, grow, and stay ahead of the curve. Whether you’re gearing up for the Student Innovation Projects or looking to explore exciting new tech frontiers, these workshops are designed to equip you with the tools for the future.</p>
+                                        <p style="margin-bottom: 1em;">We are excited to invite you to our IBM Workshop featuring special guest <strong>Donald J. Clarke</strong>, a senior zSystems technical specialist from IBM Technology!</p>
+                                        <p style="margin-bottom: 2em;">Join us today, October 23, 2024, at 6:30 PM in Spencer Engineering Building (SEB) 2202 for an engaging session where you can enhance your skills and explore innovative technologies in the industry.</p>
 
-<div style="display: flex; justify-content: center; align-items: center;">
-    <a href="http://westerncybersociety.ca/events" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 10px 40px; border-radius: 50px; font-weight: 500; font-size: 18px; letter-spacing: 0.1em;">RSVP Now!</a>
-</div>
-
+                                        <div style="display: flex; justify-content: center; align-items: center;">
+                                            <a href="http://westerncybersociety.ca/events" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 10px 40px; border-radius: 50px; font-weight: 500; font-size: 18px; letter-spacing: 0.1em;">RSVP Now!</a>
+                                        </div>
 
                                         <p style="margin-top: 2em; margin-bottom: 1em;">We can’t wait to see you there and help you take your skills to the next level!</p>
                                         <p style="margin-bottom: -1em;">Keep innovating,</p>

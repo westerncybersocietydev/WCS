@@ -18,7 +18,7 @@ interface EventRsvp {
   eventName: string;
   rsvpCount: number;
 }
-
+  
 export default function AdminDashboard() {
   const [inputPassword, setInputPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);

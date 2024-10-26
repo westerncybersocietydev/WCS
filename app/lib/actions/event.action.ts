@@ -5,23 +5,29 @@ import { connectToDB } from "../mongoose";
 import { ObjectId } from "mongoose";
 
 function formatDateToLocalISOString(dateStr: string, timeStr: string): string {
+  // Check if the date or time is "TBD"
+  if (dateStr === "TBD" || timeStr === "TBD") {
+    console.warn(`Date or time is TBD. Date: ${dateStr}, Time: ${timeStr}`);
+    return ''; // Return an empty string or handle it as needed
+  }
+
   // Split the date string (e.g., 'Friday, November 18, 2024') into its components
   const [, month, day, year] = dateStr.split(" ");
 
   // Create a full date string that JavaScript's Date object can parse (e.g., 'November 18, 2024 10:30')
-  const fullDateStr = `${month} ${day}, ${year} ${timeStr}`;
+  const fullDateStr = `${month} ${day.replace(',', '')}, ${year} ${timeStr}`;
 
   // Create a new Date object in the user's local time zone
   const date = new Date(fullDateStr);
 
-  // Extract and format the parts of the date as YYYYMMDDTHHmmss
-  const yearPart = date.getFullYear();
-  const monthPart = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-  const dayPart = String(date.getDate()).padStart(2, '0');
-  const hoursPart = String(date.getHours()).padStart(2, '0');
-  const minutesPart = String(date.getMinutes()).padStart(2, '0');
-  const secondsPart = String(date.getSeconds()).padStart(2, '0');
-  return `${yearPart}${monthPart}${dayPart}T${hoursPart}${minutesPart}${secondsPart}`;
+  // Ensure the date is valid
+  if (isNaN(date.getTime())) {
+    console.error("Invalid date:", fullDateStr);
+    return '';
+  }
+
+  // Return the date in ISO 8601 format (e.g., '2024-11-18T10:30:00.000Z')
+  return date.toISOString(); // This will return the ISO format (e.g., '2024-11-18T10:30:00.000Z')
 }
 
 export interface EventObject {
@@ -70,27 +76,47 @@ export async function getAllEvents(userId: string | undefined): Promise<EventObj
       rsvpEventIds = new Set((user.myEvents || []).map((eventId: ObjectId) => eventId.toString()));
     }
 
+    const now = new Date();
+
     const sortedEvents = events
       .map((event) => {
         const eventObject = event.toObject();
+        const formattedDate = formatDateToLocalISOString(eventObject.date, eventObject.time);
 
         return {
           id: eventObject._id.toString(),
           name: eventObject.name,
-          date: eventObject.date, // e.g., 'Friday, November 18, 2024'
-          time: eventObject.time, // e.g., '10:30'
+          date: eventObject.date,
+          time: eventObject.time,
           location: eventObject.location,
           price: eventObject.price,
           description: eventObject.description,
           image: eventObject.image,
           isRsvp: userId ? rsvpEventIds.has(eventObject._id.toString()) : false,
-          formattedDate: formatDateToLocalISOString(eventObject.date, eventObject.time) // Use the new function
+          formattedDate: formattedDate
         };
       })
+      // Filter out events with dates in the past
+      .filter((event) => {
+        const eventDate = event.formattedDate ? new Date(event.formattedDate) : null;
+      
+        // If eventDate is null (i.e., "TBD"), include the event. Otherwise, compare it with the current time.
+        const includeEvent = !eventDate || eventDate >= now;
+        return includeEvent;
+      })      
       // Sort events by the formatted date
-    return sortedEvents.sort((a, b) => a.formattedDate.localeCompare(b.formattedDate));;
+      .sort((a, b) => {
+        // Handle "TBD" cases: If either formattedDate is empty, treat it as greater (should appear last)
+        if (!a.formattedDate) return 1; // 'a' is TBD, move it after 'b'
+        if (!b.formattedDate) return -1; // 'b' is TBD, move it after 'a'
+      
+        // Otherwise, compare the two dates
+        return a.formattedDate.localeCompare(b.formattedDate);
+      });
+    return sortedEvents;
   } catch (error) {
     if (error instanceof Error) {
+      console.error("Error fetching all events:", error.message); // Log the error
       throw new Error(`Error fetching all events: ${error.message}`);
     } else {
       throw new Error('An unknown error occurred while fetching events');
