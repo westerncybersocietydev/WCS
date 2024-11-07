@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import { createUser, loginUser } from '../lib/actions/user.action';
@@ -9,7 +9,16 @@ import BecomeVIP from '../components/becomeVIP';
 import toast from 'react-hot-toast';
 import { Basic, VIP } from "../dataFiles/perks";
 
-export default function Signup() {
+export default function SignUp() {
+  
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchParamsComponent />
+    </Suspense>
+  );
+}
+
+function SearchParamsComponent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect');
