@@ -4,13 +4,15 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import { createUser, loginUser } from '../lib/actions/user.action';
 import { useUser } from '../context/UserContext';
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import BecomeVIP from '../components/becomeVIP';
 import toast from 'react-hot-toast';
 import { Basic, VIP } from "../dataFiles/perks";
 
 export default function Signup() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect');
 
   const [loading, setLoading] = useState(false)
   const [basicLoading, setBasicLoading] = useState(false);
@@ -383,7 +385,7 @@ export default function Signup() {
                 {loading ? 'Saving...' : 'Continue'}
               </button>
               { (step === 1 || step === 2) &&
-                <p className="mb-5 mt-1 text-center text-sm">Already have an account? <a href="/sign-in" className="text-blue-500"><u>Login</u></a></p>
+                <p className="mb-5 mt-1 text-center text-sm">Already have an account? <a onClick={() => router.push(`/sign-in?redirect=${encodeURIComponent(redirect || "")}`)} className="text-blue-500 cursor-pointer"><u>Login</u></a></p>
               }
             </form>
             </div>
@@ -464,7 +466,7 @@ export default function Signup() {
                     border-2 font-bold bg-gradient-to-r from-purple-500 to-violet-500 hover:scale-105 hover:bg-gradient-to-r hover:from-purple-700 hover:to-violet-800
                     py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg'
                   type='button'
-                  onClick={() => router.push('/')}
+                  onClick={() => router.push(redirect || '/')}
                   disabled={loading}
                 >
                   {basicLoading ? 'Sending Email...' : 'Go to Dashboard'}

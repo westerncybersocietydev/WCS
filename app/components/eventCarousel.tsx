@@ -1,21 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
-import CheckoutForm from '../components/checkoutForm';
-import { Elements } from '@stripe/react-stripe-js';
 import { EventObject, getAllEvents } from '../lib/actions/event.action';
 import { eventRSVP } from '../lib/actions/user.action';
 import { useUser } from '../context/UserContext';
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import toast from 'react-hot-toast';
 import { motion } from "framer-motion"
 import Image from 'next/image';
 
 const activeEvents = [
-  ""
+  "IBM NIGHT"
 ]
 
 const Carousel: React.FC = () => {
   const router = useRouter();
+  const pathName = usePathname();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState<EventObject | null>(null);
@@ -24,7 +22,8 @@ const Carousel: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [itemsToShow, setItemsToShow] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-  const [events, setEvents] = useState<EventObject[]>([]); // State to store events
+  const [events, setEvents] = useState<EventObject[]>([]);
+  const [isPaid, setIsPaid] = useState(false);
 
   const updateItemsToShow = () => {
     if (window.innerWidth >= 768) { // Adjust the width as needed for 'md'
@@ -68,13 +67,6 @@ const Carousel: React.FC = () => {
     }
   }, [selectedItem?.isRsvp]);
 
-  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
-  const options: StripeElementsOptions = {
-    mode: 'payment',
-    amount: 15 * 100,
-    currency: 'cad',
-  };
-
   const goToNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % (totalItems - itemsToShow + 1));
   };
@@ -95,10 +87,10 @@ const Carousel: React.FC = () => {
 
   const openRSVPModal = () => {
     if (!user?.userId) {
-      router.push("/sign-up")
-      return
+      // Pass the current route as a query parameter to the sign-up page
+      router.push(`/sign-up?redirect=${encodeURIComponent(pathName)}`);
+      return;
     }
-
     setRSVPModalOpen(true);
   };
 
@@ -209,6 +201,10 @@ const outlookUrl = (event : EventObject) => {
   return `https://outlook.live.com/calendar/action/compose?subject=${encodeURIComponent(event.name)}&startdt=${startdt}&enddt=${enddt}&location=${encodeURIComponent(event.location)}&body=${encodeURIComponent(event.description)}`;
 };
 
+const handleCheckboxChange = () => {
+  setIsPaid(!isPaid);
+};
+
   // RSVP Modal Component
   const RSVPModal: React.FC<{ onClose: () => void; onRSVP: (userId: string, eventId: string) => void; item: EventObject | null; }> = ({ onClose, onRSVP, item }) => (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
@@ -217,7 +213,7 @@ const outlookUrl = (event : EventObject) => {
         <div className='md:w-3/5'>
           <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-lg">
             <h1 className="text-lg tracking-wide text-center text-gray-900">
-              Are you sure you want to RSVP for <span className="font-bold">{item?.name}</span>?
+              Are you sure you want to RSVP for <span className="font-bold">{item?.name}</span>? If you are not a VIP member, you will be required to pay an admission fee.
             </h1>
             <div className="flex justify-center text-sm space-x-4">
               <button 
@@ -238,52 +234,62 @@ const outlookUrl = (event : EventObject) => {
           </div>
         </div>
         ) : (
-          <div className='bg-white px-5 py-5 w-full md:w-4/6 md:rounded relative max-h-full md:h-4/5 m-auto overflow-y-auto lg:overflow-hidden custom-scrollbar'>
+          <div className='bg-white px-5 py-5 w-full md:w-3/5 md:rounded relative max-h-full m-auto overflow-y-auto lg:overflow-hidden custom-scrollbar'>
             <button onClick={onClose} className="absolute bg-white px-2 top-3 right-5 text-gray-700 transition-transform duration-300 hover:scale-110 focus:outline-none m-auto">
               <i className="fa-solid fa-x text-lg"></i>
             </button>
-            <h1 className="text-sm md:text-3xl tracking-wide font-bold text-center text-gray-800">RSVP for {item?.name}</h1>
+            <h1 className="text-sm md:text-3xl tracking-wide font-bold text-center text-gray-800 mb-5">RSVP for {item?.name}</h1>
 
 
-            <div className="flex flex-row items-center h-full"> {/* Change items-start to items-center */}
-              {/* Left Side */}
-              <div className="hidden md:block flex flex-col items-center justify-center w-2/5 pr-2">
-              <div className="relative mx-auto w-3/5 h-[15vw] overflow-hidden shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300">
-                <Image
-                  src={item?.image as string} // Ensure this path is correct
-                  alt={item?.name as string} // Ensure this is the correct alt text
-                  layout="fill" // Makes the image fill the container
-                  objectFit="cover" // Ensures the image covers the container
-                />
+            <div className="flex flex-col h-full space-y-4 px-4 md:px-12">
+              <div className="flex items-center">
+                <h1 className="text-4xl font-bold mr-4">1</h1>
+                <p className="text-xs md:text-sm ml-12">
+                  Send an e-transfer with <strong>Your Full Name | Number of Tickets You Are Purchasing in the Transfer Description</strong> to the following email: <a href="mailto:unsalalp10@gmail.com" className="text-blue-500 hover:underline">unsalalp10@gmail.com</a>.
+                  ($15 / ticket)
+                </p>
+              </div>
+              <div className="flex items-center">
+                <h1 className="text-4xl font-bold mr-4">2</h1>
+                <p className="text-xs md:text-sm ml-12 ">
+                  Complete your RSVP by following the rest of the steps below.
+                </p>
+              </div>
+              <div className="flex items-center">
+                <h1 className="text-4xl font-bold mr-4">3</h1>
+                <p className="text-xs md:text-sm ml-12 ">
+                  Await a confirmation email to confirm the successful e-transfer and completion of registration.
+                </p>
+              </div>
+              <div className="flex items-center">
+                <h1 className="text-4xl font-bold mr-4">4</h1>
+                <p className="text-xs md:text-sm ml-12">
+                  You’re all set! Pick up your ticket on November 10 or 11 between 10:00 am and 3:00 pm.
+                </p>
               </div>
 
-              <div className='flex justify-center'>
-                <div className='flex flex-col'>
-                  <h2 className='text-gray-800 text-xs font-semibold ml-2 mt-6'>
-                    <i className="fa-solid fa-calendar-days"></i> {item?.date} at {item?.time}
-                  </h2>
-                  <h2 className='text-gray-800 text-xs font-semibold ml-2 mt-1'>
-                    <i className="fa-solid fa-location-dot"></i> {item?.location}
-                  </h2>
-                  <h2 className='text-gray-800 text-xs font-semibold ml-2 mt-1'>
-                    <i className="fa-solid fa-tag"></i> {item?.price}
-                  </h2>
-                </div>
+              <div>
+                <label className='mt-5' style={{ display: 'flex', alignItems: 'center' }}>
+                  <input
+                    type="checkbox"
+                    checked={isPaid}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span className='ml-5 cursor-pointer' style={{ fontSize: '12px' }}>
+                    I confirm that I have completed the e-transfer as outlined above, including providing accurate details. I understand that my registration is not finalized until the transfer is verified and that I am responsible for ensuring the correct amount is sent.
+                  </span>
+                </label>
+
+                <button
+                  className='w-full cursor-pointer mt-3 rounded-xl text-white font-bold bg-gradient-to-r from-violet-500 to-purple-500 border hover:bg-blue-800 hover:text-white text-xs md:text-sm py-2 md:py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg'
+                  onClick={() => onRSVP(user?.userId || '', item?.id || '')}
+                  disabled={loading}
+                >
+                  {loading ? 'Processing...' : 'Complete Event Registration'}
+              </button>
               </div>
 
             </div>
-
-              {/* Vertical Divider */}
-              <div className="hidden md:block w-px bg-gray-800 mx-2 h-4/6"></div> {/* Ensure it has a height if needed */}
-
-              {/* Right Side: Content */}
-              <div className="w-full md:w-3/5 h-4/5 pl-2 flex flex-col items-center">
-                <Elements stripe={stripePromise} options={options}>
-                  <CheckoutForm planPrice={15} onPaymentSuccess={() => handleRSVP(user?.userId || '', item?.id || '')} />
-                </Elements>
-              </div>
-            </div>
-
 
           </div>
         )}
@@ -391,41 +397,41 @@ const outlookUrl = (event : EventObject) => {
                 </div>
 
                 {
-  activeEvents.includes(selectedItem.name) ? (
-    selectedItem.isRsvp ? (
-      <div className="flex flex-col md:flex-row items-center text-center justify-end gap-2 md:gap-0 md:space-x-4 mr-5">
-        {/* Add to Outlook Calendar Button */}
-        <a
-          href={outlookUrl(selectedItem)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-700 hover:to-blue-800 hover:scale-105"
-        >
-          Add to Outlook Calendar
-        </a>
+                  activeEvents.includes(selectedItem.name) ? (
+                    selectedItem.isRsvp ? (
+                      <div className="flex flex-col md:flex-row items-center text-center justify-end gap-2 md:gap-0 md:space-x-4 mr-5">
+                        {/* Add to Outlook Calendar Button */}
+                        <a
+                          href={outlookUrl(selectedItem)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-700 hover:to-blue-800 hover:scale-105"
+                        >
+                          Add to Outlook Calendar
+                        </a>
 
-        {/* Add to Google Calendar Button */}
-        <a
-          href={googleUrl(selectedItem)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-rose-400 to-red-500 hover:from-rose-600 hover:to-red-700 hover:scale-105"
-        >
-          Add to Google Calendar
-        </a>
-      </div>
-    ) : (
-      <div className='self-end p-2 md:p-0'>
-        <button
-          onClick={openRSVPModal}
-          className={`text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-1 px-4 md:py-2 md:px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
-        >
-          RSVP
-        </button>
-      </div>
-    )
-  ) : null
-}
+                        {/* Add to Google Calendar Button */}
+                        <a
+                          href={googleUrl(selectedItem)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-rose-400 to-red-500 hover:from-rose-600 hover:to-red-700 hover:scale-105"
+                        >
+                          Add to Google Calendar
+                        </a>
+                      </div>
+                    ) : (
+                      <div className='self-end p-2 md:p-0'>
+                        <button
+                          onClick={openRSVPModal}
+                          className={`text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-1 px-4 md:py-2 md:px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
+                        >
+                          RSVP
+                        </button>
+                      </div>
+                    )
+                  ) : null
+                }
 
 
               </div>

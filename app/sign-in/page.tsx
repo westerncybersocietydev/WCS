@@ -3,14 +3,16 @@ import React, { useCallback, useState } from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import { loginUser } from '../lib/actions/user.action';
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from '../context/UserContext';
 import toast from 'react-hot-toast';
 
 export default function SignIn() {
-    const router = useRouter();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect');
 
-    const { fetchUser } = useUser();
+  const { fetchUser } = useUser();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({ uwoEmail: '', password: '' });
@@ -41,7 +43,7 @@ export default function SignIn() {
       // Redirect or handle successful login
       await fetchUser();
       toast.success("Signed In Successfully.")
-      router.push('/')
+      router.push(redirect || '/')
     } catch (error) {
       toast.error('Email or Password is Incorrect.');
     } finally {
@@ -96,7 +98,7 @@ export default function SignIn() {
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
-            <p className="mb-5 mt-1 text-center text-sm">Don&apos;t have an account? <a href="/sign-up" className="text-blue-500"><u>Sign Up</u></a></p>
+            <p className="mb-5 mt-1 text-center text-sm">Don&apos;t have an account? <a onClick={() => router.push(`/sign-in?redirect=${encodeURIComponent(redirect || "")}`)} className="text-blue-500 cursor-pointer"><u>Sign Up</u></a></p>
           </form>
 
           {error && <p className="text-center text-red-500 mt-2">{error}</p>}
