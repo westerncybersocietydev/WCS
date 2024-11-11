@@ -107,11 +107,10 @@ const Carousel: React.FC = () => {
     setLoading(true);
     try {
       await eventRSVP(userId, eventId);
+      toast.success("You have successfully RSVP'd");  
       await getProfileData();
-  
       closeRSVPModal()
       closeModal()
-      toast.success("You have successfully RSVP'd");
     } catch (error) {
       console.error("Error RSVPing for event:", error);
     } finally {
@@ -210,21 +209,21 @@ const handleCheckboxChange = () => {
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
       <div className="relative w-full h-full px-2 py-1 flex items-center justify-center">
         {item?.price == "Free" ? (
-        <div className='md:w-3/5'>
+        <div className='md:w-3/5 flex justify-center'>
           <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-lg">
             <h1 className="text-lg tracking-wide text-center text-gray-900">
               Are you sure you want to RSVP for <span className="font-bold">{item?.name}</span>? If you are not a VIP member, you will be required to pay an admission fee.
             </h1>
             <div className="flex justify-center text-sm space-x-4">
               <button 
-                className="px-6 py-2 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-all"
+                className="px-6 cursor-pointer py-2 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-all"
                 onClick={() => onRSVP(user?.userId || '', item.id)}
                 disabled={loading}
               >
                 Yes, I will attend!
               </button>
               <button 
-                className="px-6 py-2 bg-red-500 text-white font-medium rounded-full hover:bg-red-700 transition-all"
+                className="px-6 cursor-pointer py-2 bg-red-500 text-white font-medium rounded-full hover:bg-red-700 transition-all"
                 onClick={onClose}
                 disabled={loading}
               >

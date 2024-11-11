@@ -17,18 +17,22 @@ interface FAQItem {
 const boxes = [
   {
     image: "/IBMN.png",
+    link: "/events",
     text: "An evening of innovation and technology exploration hosted by IBM, showcasing their latest advancements and opportunities.",
   },
   {
     image: "/VIPD.png",
+    link: "/events",
     text: "An exclusive networking event bringing together top industry leaders for insightful discussions over a gourmet meal.",
   },
   {
     image: "/FD.png",
+    link: "/events",
     text: "A day dedicated to learning from and connecting with industry professionals from Facebook, Amazon, Apple, Netflix, and Google.",
   },
   {
     image: "/TTE4.png",
+    link: "/events",
     text: "A dynamic tech showcase featuring cutting-edge innovations and startups from across Toronto's vibrant tech ecosystem.",
   },
 ];
@@ -227,14 +231,17 @@ export default function Home() {
     key={index}
     className="relative bg-black cursor-pointer w-48 h-64 md:w-1/5 md:h-[30vw] overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
   >
-    <div className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:blur-lg group-hover:opacity-90" style={{ backgroundImage: `url(${box.image})` }} />
+    <div 
+    className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:blur-lg group-hover:opacity-90" style={{ backgroundImage: `url(${box.image})` }} />
     <Image
       src={box.image}
       alt={`Image ${index + 1}`}
       layout="fill" // You can also use "fill" or "fixed" based on your layout needs
       className="w-full h-full object-cover transition-all duration-700 group-hover:translate-x-full group-hover:translate-y-full group-hover:blur-xl group-hover:scale-150"
     />
-    <div className="absolute text-xs md:text-base lg:text-md xl:text-xl inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
+    <div 
+    onClick={() => router.push(box.link)}
+    className="absolute text-xs md:text-sm xl:text-lg inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
       <div className="p-5">
         <p>{box.text}</p>
       </div>
