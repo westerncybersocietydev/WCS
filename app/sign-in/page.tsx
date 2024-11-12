@@ -19,7 +19,7 @@ export default function SignIn() {
 function SearchParamsComponent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams.get('redirect');
+  const redirect = searchParams.get('event');
   
   const { fetchUser } = useUser();
   const [loading, setLoading] = useState(false);
@@ -104,7 +104,7 @@ function SearchParamsComponent() {
               >
                 {loading ? 'Signing in...' : 'Sign In'}
               </button>
-              <p className="mb-5 mt-1 text-center text-sm">Don&apos;t have an account? <a onClick={() => router.push(`/sign-up?redirect=${encodeURIComponent(redirect || "")}`)} className="text-blue-500 cursor-pointer"><u>Sign Up</u></a></p>
+              <p className="mb-5 mt-1 text-center text-sm">Don&apos;t have an account? <a onClick={() => router.push(`/sign-up?event=${encodeURIComponent(redirect || "")}`)} className="text-blue-500 cursor-pointer"><u>Sign Up</u></a></p>
             </form>
 
             {error && <p className="text-center text-red-500 mt-2">{error}</p>}

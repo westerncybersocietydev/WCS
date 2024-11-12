@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { EventObject, getAllEvents } from '../lib/actions/event.action';
 import { eventRSVP } from '../lib/actions/user.action';
 import { useUser } from '../context/UserContext';
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import toast from 'react-hot-toast';
 import { motion } from "framer-motion"
 import Image from 'next/image';
@@ -14,6 +14,8 @@ const activeEvents = [
 const Carousel: React.FC = () => {
   const router = useRouter();
   const pathName = usePathname();
+  const searchParams = useSearchParams();
+  const eventRedirect = searchParams.get('event');
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState<EventObject | null>(null);
@@ -46,6 +48,8 @@ const Carousel: React.FC = () => {
     try {
       setLoading(true);
       const eventData = await getAllEvents(user?.userId);
+      const eventObj = eventData.find(event => event.name.toLowerCase() === eventRedirect?.toLowerCase());
+      eventObj && openModal(eventObj);      
       setEvents(eventData);
       setTotalItems(eventData.length);
 
@@ -85,10 +89,10 @@ const Carousel: React.FC = () => {
     setSelectedItem(null);
   };
 
-  const openRSVPModal = () => {
+  const openRSVPModal = (eventName: string) => {
     if (!user?.userId) {
       // Pass the current route as a query parameter to the sign-up page
-      router.push(`/sign-up?redirect=${encodeURIComponent(pathName)}`);
+      router.push(`/sign-up?event=${encodeURIComponent("/events?event=" + eventName)}`);
       return;
     }
     setRSVPModalOpen(true);
@@ -422,7 +426,7 @@ const handleCheckboxChange = () => {
                     ) : (
                       <div className='self-end p-2 md:p-0'>
                         <button
-                          onClick={openRSVPModal}
+                          onClick={() => openRSVPModal(selectedItem.name)}
                           className={`text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-1 px-4 md:py-2 md:px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
                         >
                           RSVP

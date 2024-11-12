@@ -17,7 +17,7 @@ interface FAQItem {
 const boxes = [
   {
     image: "/IBMN.png",
-    link: "/events",
+    link: "/events?event=IBM%20NIGHT",
     text: "An evening of innovation and technology exploration hosted by IBM, showcasing their latest advancements and opportunities.",
   },
   {

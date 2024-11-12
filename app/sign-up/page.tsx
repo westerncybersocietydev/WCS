@@ -21,7 +21,7 @@ export default function SignUp() {
 function SearchParamsComponent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams.get('redirect');
+  const redirect = searchParams.get('event');
 
   const [loading, setLoading] = useState(false)
   const [basicLoading, setBasicLoading] = useState(false);
@@ -394,7 +394,7 @@ function SearchParamsComponent() {
                 {loading ? 'Saving...' : 'Continue'}
               </button>
               { (step === 1 || step === 2) &&
-                <p className="mb-5 mt-1 text-center text-sm">Already have an account? <a onClick={() => router.push(`/sign-in?redirect=${encodeURIComponent(redirect || "")}`)} className="text-blue-500 cursor-pointer"><u>Login</u></a></p>
+                <p className="mb-5 mt-1 text-center text-sm">Already have an account? <a onClick={() => router.push(`/sign-in?event=${encodeURIComponent(redirect || "")}`)} className="text-blue-500 cursor-pointer"><u>Login</u></a></p>
               }
             </form>
             </div>
