@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { EventObject, getAllEvents } from '../lib/actions/event.action';
 import { eventRSVP } from '../lib/actions/user.action';
 import { useUser } from '../context/UserContext';
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import toast from 'react-hot-toast';
 import { motion } from "framer-motion"
 import Image from 'next/image';
@@ -13,7 +13,6 @@ const activeEvents = [
 
 const Carousel: React.FC = () => {
   const router = useRouter();
-  const pathName = usePathname();
   const searchParams = useSearchParams();
   const eventRedirect = searchParams.get('event');
 
