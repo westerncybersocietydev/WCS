@@ -208,7 +208,7 @@ const handleCheckboxChange = () => {
   const RSVPModal: React.FC<{ onClose: () => void; onRSVP: (userId: string, eventId: string) => void; item: EventObject | null; }> = ({ onClose, onRSVP, item }) => (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
       <div className="relative w-full h-full px-2 py-1 flex items-center justify-center">
-        {item?.price == "Free" ? (
+        {item?.price === "Free" || item?.price === "Free for VIP Members" ? (
         <div className='md:w-3/5 flex justify-center'>
           <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-lg">
             <h1 className="text-lg tracking-wide text-center text-gray-900">
@@ -220,7 +220,7 @@ const handleCheckboxChange = () => {
                 onClick={() => onRSVP(user?.userId || '', item.id)}
                 disabled={loading}
               >
-                Yes, I will attend!
+                {loading ? 'Registering...' : 'Yes, I will attend!'}
               </button>
               <button 
                 className="px-6 cursor-pointer py-2 bg-red-500 text-white font-medium rounded-full hover:bg-red-700 transition-all"
