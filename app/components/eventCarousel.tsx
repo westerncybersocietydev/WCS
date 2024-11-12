@@ -429,7 +429,7 @@ const handleCheckboxChange = () => {
                         </button>
                       </div>
                     )
-                  ) : null
+                  ) : <a className='self-end text-xs'>Registration Will be Open Soon!</a>
                 }
 
 
