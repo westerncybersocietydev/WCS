@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import { EventObject, getAllEvents } from '../lib/actions/event.action';
 import { eventRSVP } from '../lib/actions/user.action';
 import { useUser } from '../context/UserContext';
@@ -11,7 +11,16 @@ const activeEvents = [
   "IBM NIGHT"
 ]
 
-const Carousel: React.FC = () => {
+export default function Carousel() {
+  
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchParamsComponent />
+    </Suspense>
+  );
+}
+
+const SearchParamsComponent: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const eventRedirect = searchParams.get('event');
@@ -81,6 +90,10 @@ const Carousel: React.FC = () => {
   };
 
   const openModal = (item: EventObject) => {
+    const newParams = new URLSearchParams(searchParams.toString());
+    newParams.delete('event');
+    
+    router.replace(`?${newParams.toString()}`, { scroll: false });
     setSelectedItem(item);
   };
 
@@ -453,5 +466,3 @@ const handleCheckboxChange = () => {
     </div>
   );
 };
-
-export default Carousel;
