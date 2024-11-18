@@ -45,6 +45,12 @@ interface ProfileData {
     avatar: string;
 }
 
+interface MinData {
+    firstName: string;
+    preferredEmail: string;
+    uwoEmail: string;
+}
+
 const JWT_SECRET = process.env.JWT_SECRET || '';
 const SALT_ROUNDS = 10;
 
@@ -121,6 +127,28 @@ export async function loginUser(uwoEmail: string, password: string): Promise<str
     }
 }
 
+export async function getNameAndUserId(uwoEmail: string): Promise<MinData> {
+    try {
+        await connectToDB();
+        console.log("test")
+        // Find the user by ID
+        const user = await User.findOne({ uwoEmail });
+
+        if (!user) {
+            throw new Error("User not found.");
+        }
+
+        return {
+            firstName: user.firstName,
+            preferredEmail: user.preferredEmail,
+            uwoEmail: user.uwoEmail
+        };
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        throw new Error(`Couldn't get profile: ${errorMessage}`);
+    }
+}
+
 export async function getProfile(userId: string): Promise<ProfileData> {
     try {
         await connectToDB();
@@ -190,6 +218,30 @@ export async function updateBasic(
     } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         throw new Error(`Couldn't update user: ${errorMessage}`);
+    }
+}
+
+export async function resetPassword(uwoEmail: string, newPassword: string): Promise<void> {
+    try {
+        await connectToDB();
+
+        // Find the user by ID
+        const user = await User.findOne({ uwoEmail });
+
+        if (!user) {
+            throw new Error("User not found.");
+        }
+
+        // Hash the new password
+        const hashedNewPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+        // Update user password
+        user.password = hashedNewPassword;
+
+        await user.save();
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        throw new Error(`Couldn't update password: ${errorMessage}`);
     }
 }
 

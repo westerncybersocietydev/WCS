@@ -10,7 +10,6 @@ import toast from 'react-hot-toast';
 import { Basic, VIP } from "../dataFiles/perks";
 
 export default function SignUp() {
-  
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <SearchParamsComponent />

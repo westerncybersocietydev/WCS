@@ -8,7 +8,6 @@ import { useUser } from '../context/UserContext';
 import toast from 'react-hot-toast';
 
 export default function SignIn() {
-  
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <SearchParamsComponent />
@@ -66,9 +65,10 @@ function SearchParamsComponent() {
         <div className="mt-16 flex flex-col text-black items-center justify-center min-h-screen p-4">
           <div className="bg-white rounded-lg shadow-md p-9 w-full max-w-lg shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300">
             <h2 className="text-3xl mb-5 font-bold text-center text-gray-800">SIGN IN</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit}>
+              <div className='space-y-4'>
               {/* UWO Email */}
-              <div className="flex flex-col space-y-1">
+              <div className="flex flex-col">
                 <label htmlFor="uwoEmail" className="text-gray-600 font-bold text-sm">Email <span className='font-normal'>(required)</span></label>
                 <input
                   type="email"
@@ -82,7 +82,7 @@ function SearchParamsComponent() {
               </div>
 
               {/* Password */}
-              <div className="flex flex-col space-y-1">
+              <div className="flex flex-col">
                 <label htmlFor="password" className="text-gray-600 font-bold text-sm">Password <span className='font-normal'>(required)</span></label>
                 <input
                   type="password"
@@ -94,7 +94,7 @@ function SearchParamsComponent() {
                   required
                 />
               </div>
-
+              </div>
               <button
                 type="submit"
                 disabled={loading}
@@ -104,7 +104,10 @@ function SearchParamsComponent() {
               >
                 {loading ? 'Signing in...' : 'Sign In'}
               </button>
-              <p className="mb-5 mt-1 text-center text-sm">Don&apos;t have an account? <a onClick={() => router.push(`/sign-up?event=${encodeURIComponent(redirect || "")}`)} className="text-blue-500 cursor-pointer"><u>Sign Up</u></a></p>
+              <div>
+              <p className="mb-1 mt-5 text-center text-sm">Forgot your password? <a onClick={() => router.push(`/resetpassword?event=${encodeURIComponent(redirect || "")}`)} className="text-blue-500 cursor-pointer"><u>Reset Your Password</u></a></p>
+              <p className="mb-5 mt-1 text-center text-sm">Don&apos;t have an account yet? <a onClick={() => router.push(`/sign-up?event=${encodeURIComponent(redirect || "")}`)} className="text-blue-500 cursor-pointer"><u>Sign Up</u></a></p>
+              </div>
             </form>
 
             {error && <p className="text-center text-red-500 mt-2">{error}</p>}
