@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { checkAdmin, getAllUsers, getEventRsvps } from '../lib/actions/user.action';
+import { checkAdmin, getEventRsvps } from '../lib/actions/user.action';
 import { getEventRsvpCounts } from '../lib/actions/event.action';
 import Footer from '../components/footer';
 import Navbar from '../components/navbar';
@@ -29,7 +29,6 @@ export default function AdminDashboard() {
   const [inputPassword, setInputPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState('Data');
-  const [users, setUsers] = useState<User[]>([]);
   const [rsvpCounts, setRsvpCounts] = useState<EventRsvp[]>([]);
   const [ibmRsvps, setIbmRsvps] = useState<Rsvp[]>([]);
 
