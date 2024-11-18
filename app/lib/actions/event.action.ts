@@ -100,8 +100,18 @@ export async function getAllEvents(userId: string | undefined): Promise<EventObj
       .filter((event) => {
         const eventDate = event.formattedDate ? new Date(event.formattedDate) : null;
       
-        // If eventDate is null (i.e., "TBD"), include the event. Otherwise, compare it with the current time.
-        const includeEvent = !eventDate || eventDate >= now;
+        // Get the current date without time (midnight)
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set the time to midnight
+      
+        // Create a date representing one day before today
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+      
+        // If eventDate is null (i.e., "TBD"), include the event.
+        // Otherwise, check if the event date is today or from yesterday onward.
+        const includeEvent = !eventDate || eventDate >= yesterday;
+        
         return includeEvent;
       })      
       // Sort events by the formatted date
