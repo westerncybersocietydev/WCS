@@ -44,9 +44,6 @@ export default function AdminDashboard() {
 
   const fetchUsersAndRsvps = async () => {
     try {
-      const usersData = await getAllUsers();
-      setUsers(usersData);
-
       const rsvpData = await getEventRsvpCounts();
       setRsvpCounts(rsvpData);
     } catch (error) {
