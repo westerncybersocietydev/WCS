@@ -76,8 +76,6 @@ export async function getAllEvents(userId: string | undefined): Promise<EventObj
       rsvpEventIds = new Set((user.myEvents || []).map((eventId: ObjectId) => eventId.toString()));
     }
 
-    const now = new Date();
-
     const sortedEvents = events
       .map((event) => {
         const eventObject = event.toObject();
