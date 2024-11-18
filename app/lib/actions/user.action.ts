@@ -485,3 +485,33 @@ export async function checkAdmin(password: string): Promise<boolean> {
         return false;
     }
 }
+
+export async function getEventRsvps(eventId: string): Promise<{ firstName: string; lastName: string; plan: string }[]> {
+  try {
+    // Connect to the database
+    await connectToDB();
+
+    // Find users who have RSVP'd for the given event
+    const users = await User.find({ myEvents: eventId })
+      .select('firstName lastName plan') // Select only the necessary fields
+      .lean(); // Return plain JavaScript objects for better performance
+
+    // If no users are found, return an empty array
+    if (!users.length) {
+      return [];
+    }
+
+    // Return the list of users with the selected fields
+    return users.map(user => ({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      plan: user.plan,
+    }));
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Error fetching event RSVPs: ${error.message}`);
+    } else {
+      throw new Error('An unknown error occurred while fetching event RSVPs');
+    }
+  }
+}
