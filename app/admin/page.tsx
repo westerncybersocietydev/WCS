@@ -84,7 +84,7 @@ export default function AdminDashboard() {
 
   return (
     <div>
-
+        <Navbar />
     <div className="admin-dashboard bg-gray-100 min-h-screen p-8 text-black">
       {!isAuthenticated ? (
         <div className="login-container flex justify-center items-center min-h-screen">
@@ -125,6 +125,29 @@ export default function AdminDashboard() {
           {activeTab === 'Data' && (
             <div className="data-tab bg-white shadow-md rounded-lg p-6">
     <section className="mb-6">
+      <h3 className="text-xl font-semibold mb-2">RSVP Data</h3>
+      <p className="mb-4 text-gray-500">Total RSVPs: <span className="font-bold">{ibmRsvps.length}</span></p>
+      <table className="w-full table-auto bg-gray-50 rounded-lg shadow-sm">
+        <thead className="bg-gray-200">
+          <tr>
+            <th className="px-4 py-2">First Name</th>
+            <th className="px-4 py-2">Last Name</th>
+            <th className="px-4 py-2">Plan</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ibmRsvps.map((user, index) => (
+            <tr key={index} className="bg-white odd:bg-gray-100">
+              <td className="px-4 py-2">{user.firstName}</td>
+              <td className="px-4 py-2">{user.lastName}</td>
+              <td className="px-4 py-2">{user.plan}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <section className="mb-6">
       <h3 className="text-xl font-semibold mb-2">IBM RSVPs</h3>
       <p className="mb-4 text-gray-500">Total RSVPs: <span className="font-bold">{ibmRsvps.length}</span></p>
       <table className="w-full table-auto bg-gray-50 rounded-lg shadow-sm">
@@ -147,7 +170,22 @@ export default function AdminDashboard() {
       </table>
     </section>
 
-                          </div>
+              <section className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">Event RSVP Counts</h3>
+                <ul className="space-y-2">
+                  {rsvpCounts.map((event, index) => (
+                    <li key={index} className="p-2 bg-gray-50 rounded-md shadow-sm">
+                      <span className="font-semibold">{event.eventName}</span>: {event.rsvpCount} RSVP(s)
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              <section>
+                <h3 className="text-xl font-semibold mb-2">Contact</h3>
+                <p className="text-gray-500">Contact details or form can go here.</p>
+              </section>
+            </div>
           )}
 
           {activeTab === 'Google Analytics' && (
@@ -158,6 +196,7 @@ export default function AdminDashboard() {
         </div>
       )}
     </div>
+    <Footer />
     </div>
   );
 }
