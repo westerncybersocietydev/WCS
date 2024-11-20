@@ -313,6 +313,12 @@ export async function eventRSVP(userId: string, eventId: string): Promise<void> 
             throw new Error("Event not found.");
         }
 
+        const dinnerRsvps = await getEventRsvps('66ec8fe9adb24a0b510d97e9')
+
+        if (dinnerRsvps.length >= 44) {
+            throw new Error(`Couldn't RSVP to event. Event is full :(`);
+        }
+
         // Check if the event is already in the user's myEvents array
         if (!user.myEvents.includes(eventId)) {
             user.myEvents.push(eventId); // Add the eventId to myEvents
@@ -482,6 +488,23 @@ export async function checkAdmin(password: string): Promise<boolean> {
         }
     } catch (error) {
         console.error("Error checking admin password:", error);
+        return false;
+    }
+}
+
+export async function checkVIP(userId: string): Promise<boolean> {
+    try {
+        await connectToDB();
+
+        const user = await User.findById(userId);
+        console.log(user.plan)
+        if (user.plan === "VIP") {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error("User not found.", error);
         return false;
     }
 }

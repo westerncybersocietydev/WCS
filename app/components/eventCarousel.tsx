@@ -1,6 +1,6 @@
 import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import { EventObject, getAllEvents } from '../lib/actions/event.action';
-import { eventRSVP } from '../lib/actions/user.action';
+import { checkVIP, eventRSVP } from '../lib/actions/user.action';
 import { useUser } from '../context/UserContext';
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from 'react-hot-toast';
@@ -8,7 +8,7 @@ import { motion } from "framer-motion"
 import Image from 'next/image';
 
 const activeEvents = [
-  "IBM NIGHT"
+  "VIP DINNER"
 ]
 
 export default function Carousel() {
@@ -32,6 +32,7 @@ const SearchParamsComponent: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [itemsToShow, setItemsToShow] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const [isVip, setIsVip] = useState(false);
   const [events, setEvents] = useState<EventObject[]>([]);
   const [isPaid, setIsPaid] = useState(false);
 
@@ -55,6 +56,10 @@ const SearchParamsComponent: React.FC = () => {
   const getProfileData = useCallback(async () => {
     try {
       setLoading(true);
+      if (user?.userId) {
+        const userPlan = await checkVIP(user?.userId)
+        setIsVip(userPlan)
+      }
       const eventData = await getAllEvents(user?.userId);
       const eventObj = eventData.find(event => event.name.toLowerCase() === eventRedirect?.toLowerCase());
       eventObj && openModal(eventObj);      
@@ -248,7 +253,32 @@ const handleCheckboxChange = () => {
             </div>
           </div>
         </div>
-        ) : (
+        ) : item?.price === "Free RSVP for VIP Members" ? (
+          <div className='md:w-3/5 flex justify-center'>
+          <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-lg">
+            <h1 className="text-lg tracking-wide text-center text-gray-900">
+              Are you sure you want to RSVP for <span className="font-bold">{item?.name}</span>?
+            </h1>
+            <div className="flex justify-center text-sm space-x-4">
+              <button 
+                className="px-6 cursor-pointer py-2 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-all"
+                onClick={() => onRSVP(user?.userId || '', item.id)}
+                disabled={loading}
+              >
+                {loading ? 'Registering...' : 'Yes, I will attend!'}
+              </button>
+              <button 
+                className="px-6 cursor-pointer py-2 bg-red-500 text-white font-medium rounded-full hover:bg-red-700 transition-all"
+                onClick={onClose}
+                disabled={loading}
+              >
+                Nevermind
+              </button>
+            </div>
+          </div>
+        </div>
+        )
+        : (
           <div className='bg-white px-5 py-5 w-full md:w-3/5 md:rounded relative max-h-full m-auto overflow-y-auto lg:overflow-hidden custom-scrollbar'>
             <button onClick={onClose} className="absolute bg-white px-2 top-3 right-5 text-gray-700 transition-transform duration-300 hover:scale-110 focus:outline-none m-auto">
               <i className="fa-solid fa-x text-lg"></i>
@@ -435,7 +465,7 @@ const handleCheckboxChange = () => {
                           Add to Google Calendar
                         </a>
                       </div>
-                    ) : (
+                    ) : isVip ? (
                       <div className='self-end p-2 md:p-0'>
                         <button
                           onClick={() => openRSVPModal(selectedItem.name)}
@@ -444,8 +474,20 @@ const handleCheckboxChange = () => {
                           RSVP
                         </button>
                       </div>
-                    )
-                  ) : <a className='self-end text-xs'>Registration Will be Open Soon!</a>
+                    ) : !isVip && user?.userId ? (
+                    <a className='self-end text-xs'>VIP registration only (for now)</a>
+                  ) : (
+                    <div className='space-x-1 self-end'>
+                    <a className='self-end text-xs'>VIP registration only (for now)</a>
+                    <button
+                    onClick={() => openRSVPModal(selectedItem.name)}
+                    className={`text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-1 px-4 md:py-2 md:px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
+                  >
+                    RSVP
+                  </button>
+                  </div>
+                  )
+                ) : <a className='self-end text-xs'>Registration Will be Open Soon!</a>
                 }
 
 
