@@ -313,8 +313,9 @@ export async function eventRSVP(userId: string, eventId: string): Promise<void> 
             throw new Error("Event not found.");
         }
 
+        // WCS Dinner
         const dinnerRsvps = await getEventRsvps('66ec8fe9adb24a0b510d97e9')
-
+        console.log(dinnerRsvps.length)
         if (dinnerRsvps.length >= 44) {
             throw new Error(`Couldn't RSVP to event. Event is full :(`);
         }
@@ -533,6 +534,47 @@ export async function getEventRsvps(eventId: string): Promise<{ firstName: strin
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(`Error fetching event RSVPs: ${error.message}`);
+    } else {
+      throw new Error('An unknown error occurred while fetching event RSVPs');
+    }
+  }
+}
+
+export async function getAllEventRsvps(): Promise<
+  { eventName: string; rsvps: { firstName: string; lastName: string; plan: string }[] }[]
+> {
+  try {
+    // Connect to the database
+    await connectToDB();
+
+    // Fetch all event IDs
+    const events = await Event.find();
+
+    // Initialize an array to store RSVPs for each event
+    const allRsvps = [];
+
+    for (const event of events) {
+      // Fetch RSVPs for the current event
+      const users = await User.find({ myEvents: event._id })
+        .select('firstName lastName plan') // Select necessary fields
+        .lean(); // Return plain JavaScript objects
+
+      // Add the event and its RSVPs to the result array
+      allRsvps.push({
+        eventName: event.name,
+        rsvps: users.map(user => ({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          plan: user.plan,
+        })),
+      });
+    }
+
+    // Return the consolidated data
+    return allRsvps;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Error fetching RSVPs for all events: ${error.message}`);
     } else {
       throw new Error('An unknown error occurred while fetching event RSVPs');
     }
