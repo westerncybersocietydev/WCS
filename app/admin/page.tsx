@@ -19,7 +19,6 @@ interface EventRsvp {
 export default function AdminDashboard() {
   const [inputPassword, setInputPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [allUsers, setAllUsers] = useState<Rsvp[]>([]);
   const [events, setEvents] = useState<EventRsvp[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<string>("All Events");
   const [filteredRsvps, setFilteredRsvps] = useState<Rsvp[]>([]);

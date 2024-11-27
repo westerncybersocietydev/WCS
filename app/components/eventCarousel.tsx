@@ -1,6 +1,6 @@
 import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import { EventObject, getAllEvents } from '../lib/actions/event.action';
-import { checkVIP, eventRSVP } from '../lib/actions/user.action';
+import { eventRSVP } from '../lib/actions/user.action';
 import { useUser } from '../context/UserContext';
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from 'react-hot-toast';
@@ -32,7 +32,6 @@ const SearchParamsComponent: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [itemsToShow, setItemsToShow] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-  const [isVip, setIsVip] = useState(false);
   const [events, setEvents] = useState<EventObject[]>([]);
   const [isPaid, setIsPaid] = useState(false);
 
@@ -56,10 +55,7 @@ const SearchParamsComponent: React.FC = () => {
   const getProfileData = useCallback(async () => {
     try {
       setLoading(true);
-      if (user?.userId) {
-        const userPlan = await checkVIP(user?.userId)
-        setIsVip(userPlan)
-      }
+
       const eventData = await getAllEvents(user?.userId);
       const eventObj = eventData.find(event => event.name.toLowerCase() === eventRedirect?.toLowerCase());
       eventObj && openModal(eventObj);      
