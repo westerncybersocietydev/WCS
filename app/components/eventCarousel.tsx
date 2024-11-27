@@ -257,7 +257,7 @@ const handleCheckboxChange = () => {
           <div className='md:w-3/5 flex justify-center'>
           <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-lg">
             <h1 className="text-lg tracking-wide text-center text-gray-900">
-              Are you sure you want to RSVP for <span className="font-bold">{item?.name}</span>?
+              Are you sure you want to RSVP for <span className="font-bold">{item?.name}</span>? If you are not a VIP member, you will need to buy membership at the door.
             </h1>
             <div className="flex justify-center text-sm space-x-4">
               <button 
@@ -465,20 +465,8 @@ const handleCheckboxChange = () => {
                           Add to Google Calendar
                         </a>
                       </div>
-                    ) : isVip ? (
+                    ) : (
                       <div className='self-end p-2 md:p-0'>
-                        <button
-                          onClick={() => openRSVPModal(selectedItem.name)}
-                          className={`text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-1 px-4 md:py-2 md:px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
-                        >
-                          RSVP
-                        </button>
-                      </div>
-                    ) : !isVip && user?.userId ? (
-                    <a className='self-end text-xs'>VIP registration only (for now)</a>
-                  ) : (
-                    <div className='space-x-1 self-end'>
-                    <a className='self-end text-xs'>VIP registration only (for now)</a>
                     <button
                     onClick={() => openRSVPModal(selectedItem.name)}
                     className={`text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-1 px-4 md:py-2 md:px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
@@ -489,8 +477,6 @@ const handleCheckboxChange = () => {
                   )
                 ) : <a className='self-end text-xs'>Registration Will be Open Soon!</a>
                 }
-
-
               </div>
             </div>
           </div>

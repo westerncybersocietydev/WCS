@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { checkAdmin, getAllEventRsvps } from "../lib/actions/user.action";
+import { checkAdmin, getAllEventRsvps, getAllUsers } from "../lib/actions/user.action";
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
 
@@ -19,6 +19,7 @@ interface EventRsvp {
 export default function AdminDashboard() {
   const [inputPassword, setInputPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [allUsers, setAllUsers] = useState<Rsvp[]>([]);
   const [events, setEvents] = useState<EventRsvp[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<string>("All Events");
   const [filteredRsvps, setFilteredRsvps] = useState<Rsvp[]>([]);
@@ -34,13 +35,22 @@ export default function AdminDashboard() {
   useEffect(() => {
     // Filter RSVPs based on selected event
     if (selectedEvent === "All Events") {
-      const allRsvps = events.flatMap((event) => event.rsvps);
-      setFilteredRsvps(allRsvps);
+      fetchAllUsers();
     } else {
       const event = events.find((e) => e.eventName === selectedEvent);
       setFilteredRsvps(event ? event.rsvps : []);
     }
   }, [selectedEvent, events]);
+
+  const fetchAllUsers = async () => {
+    try {
+      const allEventData = await getAllUsers();
+      setFilteredRsvps(allEventData);
+      console.log(allEventData)
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }    
+  }
 
   const fetchEventRsvps = async () => {
     try {
@@ -116,7 +126,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* RSVP Table */}
-              <p className="mb-4 text-gray-500">Total RSVPs: <span className="font-bold">{filteredRsvps.length}</span></p>
+              <p className="mb-4 text-gray-500">User Count: <span className="font-bold">{filteredRsvps.length}</span></p>
               <table className="w-full table-auto bg-gray-50 rounded-lg shadow-sm">
                 <thead className="bg-gray-200">
                   <tr>
