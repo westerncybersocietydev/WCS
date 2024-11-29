@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { checkAdmin, getAllEventRsvps, getAllUsers } from "../lib/actions/user.action";
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
+import * as XLSX from "xlsx";
 
 interface Rsvp {
   firstName: string;
@@ -32,7 +33,6 @@ export default function AdminDashboard() {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    // Filter RSVPs based on selected event
     if (selectedEvent === "All Events") {
       fetchAllUsers();
     } else {
@@ -45,17 +45,15 @@ export default function AdminDashboard() {
     try {
       const allEventData = await getAllUsers();
       setFilteredRsvps(allEventData);
-      console.log(allEventData)
     } catch (error) {
       console.error("Error fetching data:", error);
-    }    
-  }
+    }
+  };
 
   const fetchEventRsvps = async () => {
     try {
       const allEventData = await getAllEventRsvps();
       setEvents(allEventData);
-      console.log(allEventData)
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -75,6 +73,28 @@ export default function AdminDashboard() {
       router.push("/");
     }
   };
+
+  const exportToExcel = (selectedEvent: string) => {
+    const worksheet = XLSX.utils.json_to_sheet(filteredRsvps);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "RSVPs");
+  
+    // Get the current date and time
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const day = String(now.getDate()).padStart(2, '0');
+    const hour = String(now.getHours()).padStart(2, '0');
+    const minute = String(now.getMinutes()).padStart(2, '0');
+  
+    // Format: YYYY-MM-DD-HH-MM
+    const dateTime = `${year}-${month}-${day}-${hour}-${minute}`;
+  
+    // Generate file name with date and time
+    const fileName = `${selectedEvent} RSVPs - ${dateTime}.xlsx`;
+  
+    XLSX.writeFile(workbook, fileName);
+  };  
 
   return (
     <div>
@@ -104,7 +124,6 @@ export default function AdminDashboard() {
             <div className="data-tab bg-white shadow-md rounded-lg p-6">
               <h3 className="text-xl font-semibold mb-4">Event RSVPs</h3>
 
-              {/* Dropdown for selecting events */}
               <div className="my-5 pt-5">
                 <label htmlFor="event-select" className="block font-medium mb-2">
                   Select Event:
@@ -124,8 +143,18 @@ export default function AdminDashboard() {
                 </select>
               </div>
 
-              {/* RSVP Table */}
-              <p className="mb-4 text-gray-500">User Count: <span className="font-bold">{filteredRsvps.length}</span></p>
+              {/* Export Button */}
+              <div className="flex justify-between items-center mt-4 pb-5">
+              <p className="text-gray-500">
+                User Count: <span className="font-bold">{filteredRsvps.length}</span>
+              </p>
+                <button
+                  onClick={() => exportToExcel(selectedEvent)}
+                  className="text-xs text-white bg-violet-500 hover:bg-violet-700 py-2 px-4 rounded-xl transition"
+                >
+                  Export to Excel
+                </button>
+              </div>
               <table className="w-full table-auto bg-gray-50 rounded-lg shadow-sm">
                 <thead className="bg-gray-200">
                   <tr>
@@ -144,6 +173,7 @@ export default function AdminDashboard() {
                   ))}
                 </tbody>
               </table>
+
             </div>
           </div>
         )}
