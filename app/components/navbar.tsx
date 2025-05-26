@@ -99,7 +99,6 @@ export default function Navbar() {
           <Link href="/" className="flex items-center justify">
             <Image
               src="/wcsLogo.png"
-              layout="fixed"
               width={100}
               height={50}
               alt="Website Logo"

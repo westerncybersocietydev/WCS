@@ -22,7 +22,7 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, d
           src={imageUrl} // This can remain as a dynamic URL
           alt={title} // This can remain as a dynamic title
           layout="fill" // Makes the image fill the container
-          objectFit="cover" // Ensures the image covers the container
+          style={{ objectFit: 'cover' }} // Ensures the image covers the container
         />
       </div>
     </div>
