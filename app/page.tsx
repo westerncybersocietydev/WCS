@@ -3,95 +3,13 @@ import { useRouter } from "next/navigation";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import { useCallback, useEffect, useState } from "react";
-import { FaInstagram, FaTiktok, FaLinkedin } from 'react-icons/fa';
 import React from "react";
 import { useUser } from "./context/UserContext";
 import { motion } from "framer-motion"
 import Image from 'next/image';
-
-interface FAQItem {
-  question: string;
-  answer: string;
-}
-
-const boxes = [
-  {
-    image: "/IBMN.png",
-    link: "/events?event=IBM%20NIGHT",
-    text: "An evening of innovation and technology exploration hosted by IBM, showcasing their latest advancements and opportunities.",
-  },
-  {
-    image: "/VIPD.png",
-    link: "/events",
-    text: "An exclusive networking event bringing together top industry leaders for insightful discussions over a gourmet meal.",
-  },
-  {
-    image: "/FD.png",
-    link: "/events",
-    text: "A day dedicated to learning from and connecting with industry professionals from Facebook, Amazon, Apple, Netflix, and Google.",
-  },
-  {
-    image: "/TTE4.png",
-    link: "/events",
-    text: "A dynamic tech showcase featuring cutting-edge innovations and startups from across Toronto's vibrant tech ecosystem.",
-  },
-];
-
-const socials = [
-  {
-    platform: 'Instagram',
-    name: 'westerncybersociety',
-    handle: '@westerncybersociety',
-    bio: 'Western Cyber Society (WCS)\nScience, Technology & Engineering\nLeading the future generation of AI, Cyber Security, and Web3.',
-    profileUrl: 'https://www.instagram.com/westerncybersociety/',
-    profileImage: '/wcsSocialLogo.png',
-    color: 'bg-gradient-to-br from-pink-500 to-orange-500',
-    Icon: FaInstagram
-  },
-  {
-    platform: 'TikTok',
-    name: 'westerncybersociety',
-    handle: '@westerncybersociety',
-    bio: 'Western Cyber Society\nShaping the future by leading advancements in Artificial Intelligence (AI), Cybersecurity, and Web3.',
-    profileUrl: 'https://www.tiktok.com/@westerncybersociety',
-    profileImage: '/wcsSocialLogo.png',
-    color: 'bg-gradient-to-br from-slate-900 to-neutral-700',
-    Icon: FaTiktok
-  },
-  {
-    platform: 'LinkedIn',
-    name: 'Western Cyber Society',
-    handle: '@westerncybersociety',
-    bio: 'Empowering the next generation of leaders in Artificial Intelligence (AI), Cyber Security, and Web3. #LaunchTheFuture',
-    profileUrl: 'https://www.linkedin.com/company/western-cyber-society?originalSubdomain=ca',
-    profileImage: '/wcsSocialLogo.png',
-    color: 'bg-gradient-to-br from-sky-900 to-blue-400',
-    Icon: FaLinkedin
-  },
-];
-
-const faqs: FAQItem[] = [
-  {
-    question: "Do I need to have a club membership to attend events?",
-    answer: "While most events are open to all attendees, membership offers discounts on event registrations and access to exclusive events held throughout the year."
-  },
-  {
-    question: "What kinds of resources does WCS provide for students?",
-    answer: "WCS equips students with in-demand skills in AI, Cyber Security, Mainframe, and Web3 through workshops and competitions, while facilitating networking events."
-  },
-  {
-    question: "When do SIP project applications open? How do I apply?",
-    answer: "We are excited to announce that project applications are now open! If you're interested in applying, please visit the SIP Projects page located under the About Us section."
-  },
-  {
-    question: "How can I stay updated on WCS events and announcements?",
-    answer: "To stay updated with WCS, create an account on our website to receive email notifications about upcoming events, and be sure to follow us to follow us on our social media for the latest updates!"
-  },
-  {
-    question: "Is prior experience with the required technology necessary for projects?",
-    answer: "No, you don't need prior experience. If selected, you’ll receive the time and resources to learn. What we value most is your enthusiasm and willingness to engage with the work."
-  }
-];
+import { boxes } from "./dataFiles/homePage/highlightEvents";
+import { socials } from "./dataFiles/homePage/socials";
+import { faqs } from "./dataFiles/homePage/faqs";
 
 const formatBio = (bio: string) => {
   // Split bio by newline characters and map each line to a <span>
