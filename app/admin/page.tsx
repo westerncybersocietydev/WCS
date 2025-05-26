@@ -99,7 +99,7 @@ export default function AdminDashboard() {
   return (
     <div>
       <Navbar />
-      <div className="admin-dashboard bg-gray-100 min-h-screen p-8 text-black">
+      <div className="admin-dashboard mt-40 md:mt-16 bg-gray-100 min-h-screen p-8 text-black">
         {!isAuthenticated ? (
           <div className="login-container flex justify-center items-center min-h-screen">
             <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
@@ -155,8 +155,9 @@ export default function AdminDashboard() {
                   Export to Excel
                 </button>
               </div>
+              <div className="max-h-96 overflow-y-auto rounded-lg">
               <table className="w-full table-auto bg-gray-50 rounded-lg shadow-sm">
-                <thead className="bg-gray-200">
+                <thead className="bg-gray-200 text-left">
                   <tr>
                     <th className="px-4 py-2">First Name</th>
                     <th className="px-4 py-2">Last Name</th>
@@ -173,7 +174,7 @@ export default function AdminDashboard() {
                   ))}
                 </tbody>
               </table>
-
+            </div>
             </div>
           </div>
         )}

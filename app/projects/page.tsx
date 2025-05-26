@@ -49,13 +49,9 @@ const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ title, director, d
   </div>
 ));
 
-
-
 ProjectCard.displayName = 'ProjectCard';
 
-
 export default function Projects() {
-
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showArchived, setShowArchived] = React.useState(false);
