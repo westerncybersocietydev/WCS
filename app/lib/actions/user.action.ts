@@ -388,6 +388,9 @@ export async function getMyEvents(userId: string): Promise<EventObject[]> {
     try {
       await connectToDB();
       const users = await User.find();
+
+      // const user = await User.findById("66f9cbe235620658f2aa3472");
+      // const users = user ? [user] : [];      
   
       if (users.length === 0) {
         throw new Error("No users found.");
@@ -398,50 +401,50 @@ export async function getMyEvents(userId: string): Promise<EventObject[]> {
         const emailDetails = {
           from: "info@westerncybersociety.ca",
           to: user.preferredEmail.trim() === '' ? user.uwoEmail : user.preferredEmail,
-          subject: 'Join Us for the IBM Workshop!',
+          subject: 'Join Us for the WCS VIP Dinner!',
           message: `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Join Us for the IBM Workshop!</title>
-            </head>
-            <body style="margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f5f5f7;">
-                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're Invited: WCS VIP Dinner</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f5f5f7;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
                     <tr>
-                        <td align="center">
-                            <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
-                                <tr>
-                                    <td style="padding: 20px 0; line-height: 1.7; font-size: 18px;">
-                                        <p>Hi <span style="color: #a723b0; font-weight: 600;">${user.firstName}</span>,</p>
-                                        <p style="margin-bottom: 1em;">We are excited to invite you to our IBM Workshop featuring special guest <strong>Donald J. Clarke</strong>, a senior zSystems technical specialist from IBM Technology!</p>
-                                        <p style="margin-bottom: 2em;">Join us today, October 23, 2024, at 6:30 PM in Spencer Engineering Building (SEB) 2202 for an engaging session where you can enhance your skills and explore innovative technologies in the industry.</p>
+                        <td style="padding: 20px 0; line-height: 1.7; font-size: 18px;">
+                            <p>Hi <span style="color: #a723b0; font-weight: 600;">${user.firstName}</span>,</p>
+                            <p style="margin-bottom: 1em;">We are thrilled to invite you to the <span style="color: #a723b0; font-weight: 600;">WCS VIP Dinner</span>! This is your chance to connect with like-minded individuals and esteemed guests in an exclusive setting.</p>
+                            <p style="margin-bottom: 2em;">Join us today, November 29, 2024, at 5:00 PM at The Keg Steakhouse + Bar for an evening of great food, engaging conversations, and networking opportunities. <strong>Limited spots remaining</strong>—don't miss out!</p>
 
-                                        <div style="display: flex; justify-content: center; align-items: center;">
-                                            <a href="http://westerncybersociety.ca/events" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 10px 40px; border-radius: 50px; font-weight: 500; font-size: 18px; letter-spacing: 0.1em;">RSVP Now!</a>
-                                        </div>
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <a href="https://www.westerncybersociety.ca/events?event=VIP%20DINNER" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 10px 40px; border-radius: 50px; font-weight: 500; font-size: 18px; letter-spacing: 0.1em;">RSVP Now!</a>
+                            </div>
 
-                                        <p style="margin-top: 2em; margin-bottom: 1em;">We can’t wait to see you there and help you take your skills to the next level!</p>
-                                        <p style="margin-bottom: -1em;">Keep innovating,</p>
-                                        <p style="margin-bottom: 1em;">Western Cyber Society Team</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="center" style="margin-top: 40px;">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="center" style="margin-top: 60px; font-size: 12px; color: #86868b; border-top: 1px solid #e0e0e2; padding-top: 20px;">
-                                        <p>&copy; 2024 Western Cyber Society. All rights reserved.</p>
-                                    </td>
-                                </tr>
-                            </table>
+                            <p style="margin-top: 2em; margin-bottom: 1em;">We can’t wait to see you there and share an unforgettable experience!</p>
+                            <p style="margin-bottom: -1em;">Keep innovating,</p>
+                            <p style="margin-bottom: 1em;">Western Cyber Society Team</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="margin-top: 40px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="margin-top: 60px; font-size: 12px; color: #86868b; border-top: 1px solid #e0e0e2; padding-top: 20px;">
+                            <p>&copy; 2024 Western Cyber Society. All rights reserved.</p>
                         </td>
                     </tr>
                 </table>
-            </body>
-            </html>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
           `,
         };
   
