@@ -4,31 +4,14 @@ import Footer from '../components/footer';
 import Carousel from '../components/eventCarousel';
 import Image from 'next/image';
 import { motion } from "framer-motion"
+import { images } from '../dataFiles/eventPage/images';
 
-const images = [
-  "/gallery/gallery17.jpeg",
-  "/gallery/gallery3.jpeg",
-  "/gallery/gallery4.jpeg",
-  "/gallery/gallery5.jpeg",
-  "/gallery/gallery6.jpeg",
-  "/gallery/gallery7.jpeg",
-  "/gallery/gallery24.jpeg",
-  "/gallery/gallery25.jpeg",
-  "/gallery/gallery21.jpeg",
-  "/gallery/gallery11.jpeg",
-  "/gallery/gallery12.jpeg",
-  "/gallery/gallery13.jpeg",
-  "/gallery/gallery14.jpeg",
-  "/gallery/gallery15.png",
-  "/gallery/gallery26.jpeg",
-  "/gallery/gallery29.jpeg",
-  "/gallery/gallery16.jpeg",
-  "/gallery/gallery30.jpeg",
-  "/gallery/gallery19.jpeg",
-  "/gallery/gallery23.jpeg",
-  "/gallery/gallery22.jpeg",
-];
-
+// How to add/edit an event
+// - Upload event image to public/events
+// - Log into MongoDB
+// - Open collections and go to Events table.
+// - On there, add/edit events.
+// - For the image, put in the file path to the image (check other events as reference).
 
 export default function Events() {
   return (
@@ -83,9 +66,8 @@ export default function Events() {
                 />
               </motion.div>
             ))}
-</div>
         </div>
-    
+        </div>
       </div>
       <Footer />
     </div>

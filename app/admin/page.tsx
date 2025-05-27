@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { checkAdmin, getAllEventRsvps, getAllUsers } from "../lib/actions/user.action";
+import { checkAdmin, getAllEventRsvps, getAllUsers, sendAllEmail } from "../lib/actions/user.action";
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
 import * as XLSX from "xlsx";
@@ -74,6 +74,14 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleSend = async () => {
+    try {
+      await sendAllEmail();
+    } catch (error) {
+      console.log("Error sending email to all. Please try again later.");
+    }
+  }
+
   const exportToExcel = (selectedEvent: string) => {
     const worksheet = XLSX.utils.json_to_sheet(filteredRsvps);
     const workbook = XLSX.utils.book_new();
@@ -94,7 +102,11 @@ export default function AdminDashboard() {
     const fileName = `${selectedEvent} RSVPs - ${dateTime}.xlsx`;
   
     XLSX.writeFile(workbook, fileName);
-  };  
+  };
+
+  // TODO
+  // VIP status changer
+  // Add and Edit Events
 
   return (
     <div>
@@ -122,6 +134,12 @@ export default function AdminDashboard() {
         ) : (
           <div className="content max-w-6xl mx-auto">
             <div className="data-tab bg-white shadow-md rounded-lg p-6">
+              <button
+                onClick={handleSend}
+                className="hidden w-full mb-10 text-white bg-violet-500 hover:bg-violet-700 py-2 rounded-md transition"
+              >
+                Send All Email
+              </button>
               <h3 className="text-xl font-semibold mb-4">Event RSVPs</h3>
 
               <div className="my-5 pt-5">

@@ -371,8 +371,8 @@ export async function getMyEvents(userId: string): Promise<EventObject[]> {
         })
         // Sort events by the formatted date
         .sort((a, b) => {
-          if (!a.formattedDate) return 1; // 'a' is TBD, move it after 'b'
-          if (!b.formattedDate) return -1; // 'b' is TBD, move it after 'a'
+          if (!a.formattedDate) return 1;
+          if (!b.formattedDate) return -1;
           return a.formattedDate.localeCompare(b.formattedDate);
         });
   
@@ -389,9 +389,6 @@ export async function getMyEvents(userId: string): Promise<EventObject[]> {
       await connectToDB();
       const users = await User.find();
 
-      // const user = await User.findById("66f9cbe235620658f2aa3472");
-      // const users = user ? [user] : [];      
-  
       if (users.length === 0) {
         throw new Error("No users found.");
       }
