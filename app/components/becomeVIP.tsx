@@ -49,9 +49,9 @@ const BecomeVIP: React.FC<BecomeVIPProps> = ({ isOpen, onClose, onComplete }) =>
         <Image
           src="/vipWCS.png"
           alt="VIP"
-          layout="fill" // Use fill layout to cover the div
+          layout="fill"
           className="object-cover"
-          priority // Optional: Use priority if this is a key image
+          priority 
         />
     </div>
         <div className="absolute inset-0 flex items-center justify-center">

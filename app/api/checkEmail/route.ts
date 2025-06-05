@@ -2,11 +2,11 @@ import User from '@/app/lib/models/user.model';
 import { connectToDB } from '@/app/lib/mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 
-// Define the handler function for the GET request
 const handler = async (req: NextRequest): Promise<NextResponse> => {
     try {
         await connectToDB();
         const { uwoEmail } = await req.json();
+
         // Check if user with this email already exists
         const existingUser = await User.findOne({ uwoEmail });
 
@@ -22,5 +22,4 @@ const handler = async (req: NextRequest): Promise<NextResponse> => {
     }
 };
 
-// Export the handler for the GET method
 export const POST = handler;

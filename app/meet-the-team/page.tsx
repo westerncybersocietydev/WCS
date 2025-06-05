@@ -15,9 +15,9 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
   
   return (
     <motion.div
-    initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-    whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-    transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+    initial={{ y: 100, opacity: 0 }} 
+    whileInView={{ y: 0, opacity: 1 }} 
+    transition={{ type: "tween", duration: 0.5 }} 
     viewport={{ margin: "-50px", once: true }}
       className="relative cursor-pointer overflow-hidden rounded-sm h-[45rem] md:h-[30rem] 2xl:h-[40rem] w-full transition-transform duration-300 ease-in-out hover:scale-110 group"
       onMouseEnter={() => setIsHovered(true)}
@@ -27,9 +27,9 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
         <Image
           src={member.image}
           alt={member.name}
-          layout="fill" // Use fill layout to cover the div
+          layout="fill" 
           className="object-cover shadow-xl transition-all duration-500"
-          priority // Optional: Use priority if this is a key image
+          priority 
         />
       </div>
       <div className="absolute z-40 w-4/5 md:w-11/12 bottom-10 right-2 p-4 bg-gradient-to-r from-zinc-100 to-zinc-100 text-black rounded-sm shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] transition-all duration-200 ease-in-out h-20 group-hover:h-28">
@@ -86,7 +86,6 @@ export default function MeetTheTeam() {
     <div>
       <Navbar />
 
-      {/* Full-width background image with text */}
       <section
           className="mt-40 md:mt-16 relative w-full h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/projectBg.jpg')" }}

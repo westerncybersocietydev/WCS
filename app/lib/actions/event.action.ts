@@ -5,10 +5,9 @@ import { connectToDB } from "../mongoose";
 import { ObjectId } from "mongoose";
 
 function formatDateToLocalISOString(dateStr: string, timeStr: string): string {
-  // Check if the date or time is "TBD"
   if (dateStr === "TBD" || timeStr === "TBD") {
     console.warn(`Date or time is TBD. Date: ${dateStr}, Time: ${timeStr}`);
-    return ''; // Return an empty string or handle it as needed
+    return '';
   }
 
   // Split the date string (e.g., 'Friday, November 18, 2024') into its components
@@ -114,9 +113,8 @@ export async function getAllEvents(userId: string | undefined): Promise<EventObj
       })      
       // Sort events by the formatted date
       .sort((a, b) => {
-        // Handle "TBD" cases: If either formattedDate is empty, treat it as greater (should appear last)
-        if (!a.formattedDate) return 1; // 'a' is TBD, move it after 'b'
-        if (!b.formattedDate) return -1; // 'b' is TBD, move it after 'a'
+        if (!a.formattedDate) return 1;
+        if (!b.formattedDate) return -1;
       
         // Otherwise, compare the two dates
         return a.formattedDate.localeCompare(b.formattedDate);
@@ -124,7 +122,7 @@ export async function getAllEvents(userId: string | undefined): Promise<EventObj
     return sortedEvents;
   } catch (error) {
     if (error instanceof Error) {
-      console.error("Error fetching all events:", error.message); // Log the error
+      console.error("Error fetching all events:", error.message);
       throw new Error(`Error fetching all events: ${error.message}`);
     } else {
       throw new Error('An unknown error occurred while fetching events');
@@ -142,8 +140,8 @@ export async function getEventRsvpCounts(): Promise<{ eventName: string; rsvpCou
 
     // Iterate over each event to count RSVPs
     for (const event of events) {
-      const rsvpCount = await User.countDocuments({ myEvents: event._id }); // Count users who RSVP'd for this event
-      eventRsvpCounts.push({ eventName: event.name, rsvpCount }); // Add to the result array
+      const rsvpCount = await User.countDocuments({ myEvents: event._id });
+      eventRsvpCounts.push({ eventName: event.name, rsvpCount });
     }
 
     return eventRsvpCounts; // Return the array of event names and RSVP counts

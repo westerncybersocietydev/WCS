@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState, useRef, useEffect } from 'react';
-import { useUser } from '../context/UserContext'; // Adjust the path as 
+import { useUser } from '../context/UserContext'; 
 import { getProfile, updatePlan } from '../lib/actions/user.action';
 import BecomeVIP from './becomeVIP';
 import toast from 'react-hot-toast';
@@ -55,7 +55,7 @@ export default function Navbar() {
 
   const handleLogout = useCallback(() => {
     document.cookie = 'authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; secure; samesite=strict';
-    fetchUser(); // Fetch user after logout to update state
+    fetchUser();
     router.push('/sign-in');
   }, [fetchUser, router]);
 
@@ -70,7 +70,7 @@ export default function Navbar() {
   const handleMouseLeave = () => {
     leaveTimeoutRef.current = setTimeout(() => {
       setAboutUsExpanded(false);
-    }, 300); // Adjust delay as needed
+    }, 300);
   };
 
   const handlePlanSubmit = async () => {
@@ -152,10 +152,10 @@ export default function Navbar() {
               >
               <div className="relative w-9 h-9 mt-1 overflow-hidden rounded-full" style={{ flexShrink: 0 }}>
                 <Image
-                  src={profileData?.avatar || Avatar[0]} // Ensure this path is correct
+                  src={profileData?.avatar || Avatar[0]}
                   alt="Profile"
-                  layout="fill" // Makes the image fill the container
-                  objectFit="cover" // Ensures the image covers the container
+                  layout="fill"
+                  objectFit="cover"
                 />
               </div>
               </button>
@@ -164,10 +164,10 @@ export default function Navbar() {
               <div className="flex items-center justify-center space-x-3 p-2 mt-2">
               <div className="relative w-16 h-16 overflow-hidden rounded-full" style={{ flexShrink: 0 }}>
                 <Image
-                    src={profileData?.avatar as string} // Ensure this path is correct
+                    src={profileData?.avatar as string}
                     alt="Profile"
-                    layout="fill" // Makes the image fill the container
-                    objectFit="cover" // Ensures the image covers the container
+                    layout="fill" 
+                    objectFit="cover"
                   />
                 </div>
                 <div className="flex flex-col justify-center">

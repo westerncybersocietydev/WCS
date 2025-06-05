@@ -12,7 +12,6 @@ import { socials } from "./dataFiles/homePage/socials";
 import { faqs } from "./dataFiles/homePage/faqs";
 
 const formatBio = (bio: string) => {
-  // Split bio by newline characters and map each line to a <span>
   return bio.split('\n').map((line, index) => (
     <React.Fragment key={index}>
       <span className="text-sm text-white">{line}</span>
@@ -26,8 +25,8 @@ export default function Home() {
   const { user } = useUser();
 
   const fullText = "Welcome to Western Cyber Society";
-  const animatedPart = fullText.slice(-5);  // The last 10 characters
-  const staticPart = fullText.slice(0, -5); // The first part (static)
+  const animatedPart = fullText.slice(-5);
+  const staticPart = fullText.slice(0, -5);
 
   const [loopNum, setLoopNum] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -136,43 +135,43 @@ export default function Home() {
       initial={ { opacity: 0, } }
       whileInView={ { opacity: 1 } }
       viewport={ { margin: '-100px', once: true } }   
- className="text-black text-sm xl:text-lg 2xl:text-xl text-center">
-   Participate in our distinguished events, designed to foster innovation, facilitate collaboration, and connect you with industry leaders
-  </motion.h2>
-  <div className="flex flex-wrap gap-4 justify-center items-center md:space-x-2 px-5 py-10">
-  {boxes.map((box, index) => (
-  <motion.div
-  initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-  whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-  transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
-  viewport={{ margin: "-50px", once: true }}
-    key={index}
-    className="relative bg-black cursor-pointer w-48 h-64 md:w-1/5 md:h-[30vw] overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
-  >
-    <div 
-    className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:blur-lg group-hover:opacity-90" style={{ backgroundImage: `url(${box.image})` }} />
-    <Image
-      src={box.image}
-      alt={`Image ${index + 1}`}
-      layout="fill" // You can also use "fill" or "fixed" based on your layout needs
-      className="w-full h-full object-cover transition-all duration-700 group-hover:translate-x-full group-hover:translate-y-full group-hover:blur-xl group-hover:scale-150"
-    />
-    <div 
-    onClick={() => router.push(box.link)}
-    className="absolute text-xs md:text-sm xl:text-lg inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
-      <div className="p-5">
-        <p>{box.text}</p>
+      className="text-black text-sm xl:text-lg 2xl:text-xl text-center">
+        Participate in our distinguished events, designed to foster innovation, facilitate collaboration, and connect you with industry leaders
+        </motion.h2>
+        <div className="flex flex-wrap gap-4 justify-center items-center md:space-x-2 px-5 py-10">
+        {boxes.map((box, index) => (
+        <motion.div
+        initial={{ y: 100, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        transition={{ type: "tween", duration: 0.5 }}
+        viewport={{ margin: "-50px", once: true }}
+          key={index}
+          className="relative bg-black cursor-pointer w-48 h-64 md:w-1/5 md:h-[30vw] overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
+        >
+          <div 
+          className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:blur-lg group-hover:opacity-90" style={{ backgroundImage: `url(${box.image})` }} />
+          <Image
+            src={box.image}
+            alt={`Image ${index + 1}`}
+            layout="fill"
+            className="w-full h-full object-cover transition-all duration-700 group-hover:translate-x-full group-hover:translate-y-full group-hover:blur-xl group-hover:scale-150"
+          />
+          <div 
+          onClick={() => router.push(box.link)}
+          className="absolute text-xs md:text-sm xl:text-lg inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
+            <div className="p-5">
+              <p>{box.text}</p>
+            </div>
+          </div>
+          <span className="absolute bottom-[-30px] right-4 text-white text-xs font-semibold transition-all duration-700 ease-in-out group-hover:bottom-4">
+            View Details <i className="fa-solid fa-arrow-right"></i>
+          </span>
+        </motion.div>
+      ))}
+
+
+        </div>
       </div>
-    </div>
-    <span className="absolute bottom-[-30px] right-4 text-white text-xs font-semibold transition-all duration-700 ease-in-out group-hover:bottom-4">
-      View Details <i className="fa-solid fa-arrow-right"></i>
-    </span>
-  </motion.div>
-))}
-
-
-  </div>
-</div>
         
         <div className="mb-10">
         <motion.h2
@@ -188,9 +187,9 @@ export default function Home() {
     <div className="flex flex-col md:flex-row justify-center items-center gap-4 px-5 md:space-x-4">
       {socials.map((social, index) => (
         <motion.div
-        initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-        whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-        transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+        initial={{ y: 100, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        transition={{ type: "tween", duration: 0.5 }}
         viewport={{ margin: "-50px", once: true }}
         key={index} className={`relative w-5/6 md:w-1/3 h-60 overflow-hidden group ${social.color} social-hover shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)] shadow-gray-500 rounded`}>
   <a
@@ -203,8 +202,8 @@ export default function Home() {
       <Image
         src={social.profileImage}
         alt={`${social.platform} logo`}
-        width={64} // 16 * 4 for 16px with 4x scaling
-        height={64} // 16 * 4 for 16px with 4x scaling
+        width={64}
+        height={64}
         className="w-16 h-16 rounded-full border-2 border-white"
       />
       <div className="ml-4 text-white flex flex-col">
@@ -234,9 +233,9 @@ export default function Home() {
       viewport={ { margin: '-100px', once: true } }    
   className="text-2xl md:text-4xl 2xl:text-5xl font-bold text-black pt-10 text-center mb-5">Frequently Asked Questions</motion.h2>
   <motion.div 
-        initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-        whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-        transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+        initial={{ y: 100, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        transition={{ type: "tween", duration: 0.5 }}
         viewport={{ margin: "-50px", once: true }}
   className="flex flex-wrap justify-center items-center w-full">
     {faqs.map((faq, index) => (

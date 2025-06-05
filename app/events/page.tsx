@@ -20,7 +20,7 @@ export default function Events() {
     <div>
       <Navbar />
       <div className='text-black'>
-        {/* Full-width background image with text */}
+
         <section
           className="mt-40 md:mt-16 relative w-full h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/projectBg.jpg')" }}
@@ -48,9 +48,9 @@ export default function Events() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
             {images.map((src, index) => (
               <motion.div
-              initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-              whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-              transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+              initial={{ y: 100, opacity: 0 }} 
+              whileInView={{ y: 0, opacity: 1 }} 
+              transition={{ type: "tween", duration: 0.5 }} 
               viewport={{ margin: "-50px", once: true }}
                 key={index}
                 className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
@@ -59,7 +59,7 @@ export default function Events() {
                   src={src}
                   alt={`image-${index}`}
                   layout="responsive"
-                  width={1000} // Keep the width and height the same for responsiveness
+                  width={1000} 
                   height={1000}
                   objectFit="cover"
                   className="w-full h-full"

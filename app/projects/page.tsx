@@ -103,9 +103,9 @@ export default function Projects() {
 
         <section className="mt-10">
         <motion.div 
-        initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-        whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-        transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+        initial={{ y: 100, opacity: 0 }} 
+        whileInView={{ y: 0, opacity: 1 }} 
+        transition={{ type: "tween", duration: 0.5 }} 
         viewport={{ margin: "-50px", once: true }}
         className="flex flex-col md:flex-row justify-between mx-5">
         <div className="flex items-center">
@@ -158,9 +158,9 @@ export default function Projects() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {groupedProjects[category].map((project, index) => (
                     <motion.div
-                    initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-                    whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-                    transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+                    initial={{ y: 100, opacity: 0 }} 
+                    whileInView={{ y: 0, opacity: 1 }} 
+                    transition={{ type: "tween", duration: 0.5 }} 
                     viewport={{ margin: "-50px", once: true }}
                       key={index}
                       className="white bg-gradient-to-r from-violet-500 to-purple-500 shadow-md rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 ease-in-out"
@@ -187,9 +187,9 @@ export default function Projects() {
       </main>
 
       <motion.div 
-      initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-      whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-      transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+      initial={{ y: 100, opacity: 0 }} 
+      whileInView={{ y: 0, opacity: 1 }} 
+      transition={{ type: "tween", duration: 0.5 }} 
       viewport={{ margin: "-50px", once: true }}
           className='mt-10 flex flex-col md:flex-row bg-violet-600 w-full'>
       {/* Left half: Text */}
@@ -218,10 +218,10 @@ export default function Projects() {
   <div className='w-full md:w-1/2'>
     <div className="relative w-full h-[35vw] md:h-[26vw] overflow-hidden">
       <Image
-        src="/projectInterested.jpeg" // Ensure this path is correct
+        src="/projectInterested.jpeg"
         alt="Project Image"
-        layout="fill" // Makes the image fill the container
-        objectFit="cover" // Ensures the image covers the container
+        layout="fill"
+        objectFit="cover"
       />
     </div>
   </div>

@@ -38,7 +38,7 @@ function SearchParamsComponent() {
     program: '',
     preferredEmail: '',
     password: '',
-    confirmPassword: '', // New field
+    confirmPassword: '',
   });
 
   const onClose = () => {
@@ -57,7 +57,7 @@ function SearchParamsComponent() {
   }, [formData]);
   
   const handleNext = useCallback(async () => {
-    setLoading(true); // Start loading
+    setLoading(true);
     if (!isFormComplete()) {
       toast.error('Please fill in all required fields.');
       setLoading(false);
@@ -92,10 +92,10 @@ function SearchParamsComponent() {
   
     window.scrollTo({
       top: 0,
-      behavior: 'smooth' // Optional: smooth scroll
+      behavior: 'smooth'
     });
     setStep(prevStep => prevStep + 1);
-    setLoading(false); // Stop loading
+    setLoading(false);
   }, [step, formData.uwoEmail, isFormComplete]);  
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
@@ -105,7 +105,7 @@ function SearchParamsComponent() {
       return;
     }
   
-    setLoading(true); // Start loading
+    setLoading(true);
 
     try {
 

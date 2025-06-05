@@ -1,4 +1,3 @@
-// app/components/PathMetadata.tsx
 "use client";
 
 import { useEffect } from "react";

@@ -12,7 +12,6 @@ export default function Overview() {
     <div>
       <Navbar />
 
-      {/* Full-width background image with text */}
       <section
           className="mt-40 md:mt-16 relative w-full h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/projectBg.jpg')" }}
@@ -27,21 +26,20 @@ export default function Overview() {
           </div>
         </section>
 
-      {/* Mission, Vision, Focus Statements */}
         <motion.div 
-          initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-          whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-          transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+          initial={{ y: 100, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ type: "tween", duration: 0.5 }}
           viewport={{ margin: "-50px", once: true }}
         className='flex flex-col w-full h-full'>
             <div className='flex flex-col md:flex-row gap-4 m-8 md:space-x-10'>
 
               <div className="relative bg-black rounded-xl md:w-1/2 h-[90vw] md:h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] overflow-hidden">
                 <Image
-                  src="/mission.jpeg" // Ensure this path is correct
+                  src="/mission.jpeg"
                   alt="Our Mission"
-                  layout="fill" // Makes the image fill the container
-                  objectFit="cover" // This ensures the image covers the container
+                  layout="fill"
+                  objectFit="cover"
                 />
               </div>
 
@@ -57,9 +55,9 @@ export default function Overview() {
         </motion.div>
 
         <motion.div 
-        initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-        whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-        transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+        initial={{ y: 100, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        transition={{ type: "tween", duration: 0.5 }}
         viewport={{ margin: "-50px", once: true }}
         className='flex flex-col w-full h-full'>
             <div className='flex flex-col md:flex-row gap-4 m-8 md:space-x-10'>
@@ -74,10 +72,10 @@ export default function Overview() {
 
               <div className='relative bg-black rounded-xl md:w-1/2 h-[90vw] md:h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
               <Image
-                  src="/vision.jpeg" // Ensure this path is correct
+                  src="/vision.jpeg"
                   alt="Our Vision"
-                  layout="fill" // Makes the image fill the container
-                  objectFit="cover" // This ensures the image covers the container
+                  layout="fill" 
+                  objectFit="cover"
                 />
             </div>
             
@@ -85,18 +83,18 @@ export default function Overview() {
         </motion.div>
 
         <motion.div 
-          initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-          whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-          transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+          initial={{ y: 100, opacity: 0 }} 
+          whileInView={{ y: 0, opacity: 1 }} 
+          transition={{ type: "tween", duration: 0.5 }}
           viewport={{ margin: "-50px", once: true }}
         className='flex flex-col w-full h-full'>
             <div className='flex flex-col md:flex-row gap-4 m-8 md:space-x-10'>
             <div className='relative bg-black rounded-xl md:w-1/2 h-[90vw] md:h-[56vw] shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
               <Image
-                  src="/focus.jpeg" // Ensure this path is correct
+                  src="/focus.jpeg"
                   alt="Our Focus"
-                  layout="fill" // Makes the image fill the container
-                  objectFit="cover" // This ensures the image covers the container
+                  layout="fill" 
+                  objectFit="cover" 
                 />
             </div>
               <div className='flex flex-col mx-auto text-center md:text-left justify-center bg-violet-950 rounded-xl p-16 md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]'>
@@ -120,18 +118,18 @@ export default function Overview() {
             Our Focus Areas
         </motion.h1>
         <motion.div 
-          initial={{ y: 100, opacity: 0 }} // Start from right (x: 100) and invisible
-          whileInView={{ y: 0, opacity: 1 }} // Slide to its original position (x: 0) and become visible
-          transition={{ type: "tween", duration: 0.5 }} // You can adjust the transition properties
+          initial={{ y: 100, opacity: 0 }} 
+          whileInView={{ y: 0, opacity: 1 }} 
+          transition={{ type: "tween", duration: 0.5 }}
           viewport={{ margin: "-50px", once: true }}
         className='flex flex-col md:flex-row gap-2 md:gap-0 md:space-x-1 w-full text-center'>
             <div className='flex flex-col items-center rounded-xl p-5 w-full'>
                 <div className="relative w-32 h-32 rounded-full overflow-hidden">
                   <Image
-                    src="/ai.jpg" // Ensure this path is correct
+                    src="/ai.jpg"
                     alt="Artificial Intelligence"
-                    layout="fill" // Makes the image fill the container
-                    objectFit="cover" // This ensures the image covers the container
+                    layout="fill" 
+                    objectFit="cover" 
                   />
                 </div>
                 <h2 className="mt-6 text-2xl font-extrabold text-white">AI</h2>
@@ -143,10 +141,10 @@ export default function Overview() {
             <div className='flex flex-col items-center rounded-xl p-5 w-full '>
                 <div className="relative w-32 h-32 rounded-full overflow-hidden">
                   <Image
-                    src="/cs.jpg" // Ensure this path is correct
+                    src="/cs.jpg"
                     alt="Cybersecurity"
-                    layout="fill" // Makes the image fill the container
-                    objectFit="cover" // This ensures the image covers the container
+                    layout="fill" 
+                    objectFit="cover" 
                   />
                 </div>
                 <h2 className="mt-6 text-2xl font-extrabold text-white">Cybersecurity</h2>
@@ -158,10 +156,10 @@ export default function Overview() {
             <div className='flex flex-col items-center rounded-xl p-5 w-full '>
                 <div className="relative w-32 h-32 rounded-full overflow-hidden">
                   <Image
-                    src="/web3.jpg" // Ensure this path is correct
+                    src="/web3.jpg"
                     alt="WEB3"
-                    layout="fill" // Makes the image fill the container
-                    objectFit="cover" // This ensures the image covers the container
+                    layout="fill" 
+                    objectFit="cover" 
                   />
                 </div>
                 <h2 className="mt-6 text-2xl font-extrabold text-white">Web3</h2>
@@ -173,10 +171,10 @@ export default function Overview() {
             <div className='flex flex-col items-center rounded-xl p-5 w-full '>
                 <div className="relative w-32 h-32 rounded-full overflow-hidden">
                   <Image
-                    src="/mainframe.png" // Ensure this path is correct
+                    src="/mainframe.png"
                     alt="Mainframe"
-                    layout="fill" // Makes the image fill the container
-                    objectFit="cover" // This ensures the image covers the container
+                    layout="fill" 
+                    objectFit="cover" 
                   />
                 </div>
                 <h2 className="mt-6 text-2xl font-extrabold text-white">Mainframe</h2>

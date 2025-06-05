@@ -87,7 +87,6 @@ export default function AdminDashboard() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "RSVPs");
   
-    // Get the current date and time
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
@@ -95,10 +94,8 @@ export default function AdminDashboard() {
     const hour = String(now.getHours()).padStart(2, '0');
     const minute = String(now.getMinutes()).padStart(2, '0');
   
-    // Format: YYYY-MM-DD-HH-MM
     const dateTime = `${year}-${month}-${day}-${hour}-${minute}`;
   
-    // Generate file name with date and time
     const fileName = `${selectedEvent} RSVPs - ${dateTime}.xlsx`;
   
     XLSX.writeFile(workbook, fileName);
@@ -161,7 +158,6 @@ export default function AdminDashboard() {
                 </select>
               </div>
 
-              {/* Export Button */}
               <div className="flex justify-between items-center mt-4 pb-5">
               <p className="text-gray-500">
                 User Count: <span className="font-bold">{filteredRsvps.length}</span>

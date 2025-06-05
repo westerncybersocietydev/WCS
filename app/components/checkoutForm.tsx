@@ -12,7 +12,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planPrice, onPaymentSuccess
   const [clientSecret, setClientSecret] = useState('');
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null); // New state for error message
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const createPaymentIntent = async () => {
@@ -41,15 +41,14 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planPrice, onPaymentSuccess
       return;
     }
 
-    setLoading(true); // Set loading to true when the process starts
-    setErrorMessage(null); // Clear previous error message
+    setLoading(true);
+    setErrorMessage(null); 
 
     try {
-      // Call elements.submit() immediately
       const { error: submitError } = await elements.submit();
       if (submitError) {
         console.error(submitError);
-        setErrorMessage('Failed to submit payment details. Please try again.'); // Set error message
+        setErrorMessage('Failed to submit payment details. Please try again.');
         setPaymentSuccess(false);
         return;
       }
@@ -66,18 +65,18 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planPrice, onPaymentSuccess
 
       if (error) {
         console.error(error);
-        setErrorMessage('Payment failed. Please try again.'); // Set error message
+        setErrorMessage('Payment failed. Please try again.');
         setPaymentSuccess(false);
       } else {
         setPaymentSuccess(true);
-        await onPaymentSuccess(event); // Call the callback function
+        await onPaymentSuccess(event);
       }
     } catch (err) {
       console.error(err);
-      setErrorMessage('An unexpected error occurred. Please try again.'); // Set error message
+      setErrorMessage('An unexpected error occurred. Please try again.');
       setPaymentSuccess(false);
     } finally {
-      setLoading(false); // Set loading to false after the process ends
+      setLoading(false);
     }
   };
 
@@ -88,12 +87,12 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planPrice, onPaymentSuccess
         <button
           className='w-full mt-3 rounded-xl text-white font-bold bg-gradient-to-r from-violet-500 to-purple-500 border hover:bg-blue-800 hover:text-white text-xs md:text-normal py-1 md:py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg'
           type='submit'
-          disabled={!stripe || !elements || !clientSecret || loading} // Disable button while loading
+          disabled={!stripe || !elements || !clientSecret || loading}
         >
           {loading ? 'Processing...' : 'Pay'}
         </button>
         {errorMessage && (
-          <p className='mt-2 text-red-500'>{errorMessage}</p> // Display error message in red
+          <p className='mt-2 text-red-500'>{errorMessage}</p>
         )}
         {paymentSuccess && (
           <p className='mt-2 text-green-500 text-xs'>Payment successful! Thank you for your purchase.</p>

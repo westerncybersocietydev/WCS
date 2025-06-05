@@ -63,10 +63,10 @@ export default function Contact() {
         email: '',
         message: '',
       });
-      setCharCount(0);  // Reset character count
-      setError(null);    // Clear error message
+      setCharCount(0);
+      setError(null);
       
-      router.push('/');  // Redirect to homepage or another page
+      router.push('/');
     } catch (error) {
       console.error('Error submitting form:', error);
       toast.error("An unexpected error occurred. Please try again.");

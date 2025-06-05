@@ -76,12 +76,10 @@ export default function MyEvents() {
   const googleUrl = (event: EventObject) => {
     const startDateTime = formatDateTimeForGoogle(event.date, event.time);
     
-    // Assuming the event lasts 1 hour (adjust as needed)
     const startTime = new Date(`${event.date} ${event.time}`);
     const endTime = new Date(startTime);
     endTime.setHours(startTime.getHours() + 1);
   
-    // Formatting end time similarly
     const endDateTime = formatDateTimeForGoogle(endTime.toDateString(), endTime.toTimeString().split(' ')[0]);
   
     return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.name)}&dates=${startDateTime}/${endDateTime}&location=${encodeURIComponent(event.location)}&details=${encodeURIComponent(event.description)}`;
@@ -101,8 +99,8 @@ const formatDateTimeForOutlook = (dateStr: string, timeStr: string) => {
 
     // Set end time by adding the event duration (in hours)
     const endDate = new Date(startDate);
-    endDate.setHours(startDate.getHours() + 1); // Add duration to the start date
-    const enddt = endDate.toISOString(); // YYYY-MM-DDTHH:MM:SS
+    endDate.setHours(startDate.getHours() + 1);
+    const enddt = endDate.toISOString(); 
 
     return { startdt, enddt };
   } catch (error) {
@@ -112,7 +110,7 @@ const formatDateTimeForOutlook = (dateStr: string, timeStr: string) => {
 };
 
 const outlookUrl = (event : EventObject) => {
-  const { startdt, enddt } = formatDateTimeForOutlook(event.date, event.time); // Assuming event is 2 hours long
+  const { startdt, enddt } = formatDateTimeForOutlook(event.date, event.time);
   return `https://outlook.live.com/calendar/action/compose?subject=${encodeURIComponent(event.name)}&startdt=${startdt}&enddt=${enddt}&location=${encodeURIComponent(event.location)}&body=${encodeURIComponent(event.description)}`;
 };
 
@@ -145,10 +143,10 @@ const isEventPassed = (eventDate: string) => {
               <div className="relative h-[70vw] md:h-[40vw] 3xl:h-[30vw] mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
               <div className={`relative w-full h-2/5 md:h-2/4 overflow-hidden rounded-t-xl ${isEventPassed(item.date) ? "filter grayscale" : ""}`}>
                 <Image
-                    src={item.image} // Ensure this path is correct
-                    alt={item.name} // Ensure this is the correct alt text
-                    layout="fill" // Makes the image fill the container
-                    objectFit="cover" // Ensures the image covers the container
+                    src={item.image} 
+                    alt={item.name} 
+                    layout="fill" 
+                    objectFit="cover" 
                   />
                 </div>
                 <div className="h-3/5 md:h-2/4 bg-white rounded-b-xl p-4">
@@ -181,10 +179,10 @@ const isEventPassed = (eventDate: string) => {
             <div className="md:w-1/3 h-1/3 md:h-full w-full">
             <div className="relative w-full h-full overflow-hidden">
               <Image
-                  src={selectedItem.image} // Ensure this path is correct
-                  alt={selectedItem.name} // Ensure this is the correct alt text
-                  layout="fill" // Makes the image fill the container
-                  objectFit="cover" // Ensures the image covers the container
+                  src={selectedItem.image} 
+                  alt={selectedItem.name} 
+                  layout="fill" 
+                  objectFit="cover" 
                 />
               </div>
             </div>

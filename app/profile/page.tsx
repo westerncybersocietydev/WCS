@@ -99,7 +99,7 @@ export default function Profile() {
   const handleBasicSubmit = async () => {
     if (!profileData || !user?.userId) return;
 
-    setLoading(true); // Start loading
+    setLoading(true);
     if (!isFormComplete()) {
       toast.error('Please fill in all required fields.');
       setLoading(false);
@@ -142,7 +142,6 @@ export default function Profile() {
             return;
         }
 
-        // Call the updatePassword function with the old and new passwords
         await updatePassword(
             user.userId,
             oldPassword,
@@ -202,9 +201,9 @@ export default function Profile() {
                 <Image
                   src={imgSrc}
                   alt={`Profile ${index + 1}`}
-                  layout="fill" // Use fill layout to cover the div
+                  layout="fill"
                   className="rounded object-cover"
-                  priority // Optional: Use priority if this is a key image
+                  priority
                 />
               </div>
             ))}
@@ -253,7 +252,7 @@ export default function Profile() {
               onChange={handleInputChange}
               className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
               required
-              rows={3} // Adjust the number of rows to control the height of the textarea
+              rows={3}
             />
           </div>
 
@@ -474,11 +473,11 @@ export default function Profile() {
           <div className="flex flex-col items-center translate-x-6 translate-y-5">
           <div className="relative w-36 h-36 mb-4">
             <Image
-              src={profileData?.avatar || '/default-avatar.png'} // Use a default image if avatar is not available
+              src={profileData?.avatar || '/default-avatar.png'}
               alt="Profile"
-              layout="fill" // Use fill layout to cover the div
+              layout="fill"
               className="rounded-full object-cover"
-              priority // Optional: Use priority if this is a key image
+              priority
             />
             </div>
             <h1 className="text-center text-black font-bold" style={{ fontFamily: 'Panton' }}>{firstName} {lastName}</h1>
