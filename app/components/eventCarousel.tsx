@@ -1,18 +1,15 @@
-import React, { Suspense, useCallback, useEffect, useState } from 'react';
-import { EventObject, getAllEvents } from '../lib/actions/event.action';
-import { eventRSVP } from '../lib/actions/user.action';
-import { useUser } from '../context/UserContext';
+import React, { Suspense, useCallback, useEffect, useState } from "react";
+import { EventObject, getAllEvents } from "../lib/actions/event.action";
+import { eventRSVP } from "../lib/actions/user.action";
+import { useUser } from "../context/UserContext";
 import { useRouter, useSearchParams } from "next/navigation";
-import toast from 'react-hot-toast';
-import { motion } from "framer-motion"
-import Image from 'next/image';
+import toast from "react-hot-toast";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
-const activeEvents = [
-  "VIP DINNER"
-]
+const activeEvents = ["VIP DINNER"];
 
 export default function Carousel() {
-  
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <SearchParamsComponent />
@@ -23,7 +20,7 @@ export default function Carousel() {
 const SearchParamsComponent: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const eventRedirect = searchParams.get('event');
+  const eventRedirect = searchParams.get("event");
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState<EventObject | null>(null);
@@ -45,10 +42,10 @@ const SearchParamsComponent: React.FC = () => {
 
   useEffect(() => {
     updateItemsToShow();
-    window.addEventListener('resize', updateItemsToShow);
+    window.addEventListener("resize", updateItemsToShow);
 
     return () => {
-      window.removeEventListener('resize', updateItemsToShow);
+      window.removeEventListener("resize", updateItemsToShow);
     };
   }, []);
 
@@ -57,22 +54,23 @@ const SearchParamsComponent: React.FC = () => {
       setLoading(true);
 
       const eventData = await getAllEvents(user?.userId);
-      const eventObj = eventData.find(event => event.name.toLowerCase() === eventRedirect?.toLowerCase());
-      eventObj && openModal(eventObj);      
+      const eventObj = eventData.find(
+        (event) => event.name.toLowerCase() === eventRedirect?.toLowerCase()
+      );
+      eventObj && openModal(eventObj);
       setEvents(eventData);
       setTotalItems(eventData.length);
-
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
   }, [user?.userId]);
-  
+
   useEffect(() => {
     getProfileData();
   }, [getProfileData]);
-  
+
   useEffect(() => {
     if (selectedItem?.isRsvp) {
       getProfileData();
@@ -80,19 +78,23 @@ const SearchParamsComponent: React.FC = () => {
   }, [selectedItem?.isRsvp]);
 
   const goToNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % (totalItems - itemsToShow + 1));
+    setCurrentIndex(
+      (prevIndex) => (prevIndex + 1) % (totalItems - itemsToShow + 1)
+    );
   };
 
   const goToPrev = () => {
-    setCurrentIndex((prevIndex) => 
-      (prevIndex - 1 + (totalItems - itemsToShow + 1)) % (totalItems - itemsToShow + 1)
+    setCurrentIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + (totalItems - itemsToShow + 1)) %
+        (totalItems - itemsToShow + 1)
     );
   };
 
   const openModal = (item: EventObject) => {
     const newParams = new URLSearchParams(searchParams.toString());
-    newParams.delete('event');
-    
+    newParams.delete("event");
+
     router.replace(`?${newParams.toString()}`, { scroll: false });
     setSelectedItem(item);
   };
@@ -103,7 +105,9 @@ const SearchParamsComponent: React.FC = () => {
 
   const openRSVPModal = (eventName: string) => {
     if (!user?.userId) {
-      router.push(`/sign-up?event=${encodeURIComponent("/events?event=" + eventName)}`);
+      router.push(
+        `/sign-up?event=${encodeURIComponent("/events?event=" + eventName)}`
+      );
       return;
     }
     setRSVPModalOpen(true);
@@ -118,34 +122,34 @@ const SearchParamsComponent: React.FC = () => {
       router.push("/sign-up");
       return;
     }
-  
+
     setLoading(true);
     try {
       await eventRSVP(userId, eventId);
-      toast.success("You have successfully RSVP'd");  
+      toast.success("You have successfully RSVP'd");
       await getProfileData();
-      closeRSVPModal()
-      closeModal()
+      closeRSVPModal();
+      closeModal();
     } catch (error) {
       console.error("Error RSVPing for event:", error);
     } finally {
       setLoading(false);
     }
-  };  
+  };
 
   // Utility function to convert 12-hour time format (e.g., 7:00PM) to 24-hour format
   const convertTo24HourFormat = (timeStr: string) => {
-    const [time, modifier] = timeStr.split(' ');
-    const [hours, minutes] = time.split(':').map(Number);
+    const [time, modifier] = timeStr.split(" ");
+    const [hours, minutes] = time.split(":").map(Number);
     let updatedhours = hours;
 
-    if (modifier === 'PM' && hours !== 12) {
+    if (modifier === "PM" && hours !== 12) {
       updatedhours += 12;
-    } else if (modifier === 'AM' && hours === 12) {
+    } else if (modifier === "AM" && hours === 12) {
       updatedhours = 0;
     }
 
-    return `${updatedhours}:${minutes.toString().padStart(2, '0')}`;
+    return `${updatedhours}:${minutes.toString().padStart(2, "0")}`;
   };
 
   // Utility functions to format date and time for Google Calendar links
@@ -153,137 +157,169 @@ const SearchParamsComponent: React.FC = () => {
     try {
       const [, month, day, year] = dateStr.split(" ");
       const fullDateStr = `${month} ${day}, ${year} ${timeStr}`;
-      
+
       // Create a new Date object in the user's local time zone
       const date = new Date(fullDateStr);
-  
+
       // Format it as YYYYMMDDTHHmmss without time zone (local time)
       const yearPart = date.getFullYear();
-      const monthPart = String(date.getMonth() + 1).padStart(2, '0');
-      const dayPart = String(date.getDate()).padStart(2, '0');
-      const hoursPart = String(date.getHours()).padStart(2, '0');
-      const minutesPart = String(date.getMinutes()).padStart(2, '0');
-      const secondsPart = String(date.getSeconds()).padStart(2, '0');
-  
+      const monthPart = String(date.getMonth() + 1).padStart(2, "0");
+      const dayPart = String(date.getDate()).padStart(2, "0");
+      const hoursPart = String(date.getHours()).padStart(2, "0");
+      const minutesPart = String(date.getMinutes()).padStart(2, "0");
+      const secondsPart = String(date.getSeconds()).padStart(2, "0");
+
       return `${yearPart}${monthPart}${dayPart}T${hoursPart}${minutesPart}${secondsPart}`;
     } catch (error) {
       console.error("Invalid Google Calendar Date/Time:", error);
-      return '';
+      return "";
     }
   };
-  
+
   const googleUrl = (event: EventObject) => {
     const startDateTime = formatDateTimeForGoogle(event.date, event.time);
-    
+
     const startTime = new Date(`${event.date} ${event.time}`);
     const endTime = new Date(startTime);
     endTime.setHours(startTime.getHours() + 1);
-  
-    const endDateTime = formatDateTimeForGoogle(endTime.toDateString(), endTime.toTimeString().split(' ')[0]);
-  
-    return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.name)}&dates=${startDateTime}/${endDateTime}&location=${encodeURIComponent(event.location)}&details=${encodeURIComponent(event.description)}`;
+
+    const endDateTime = formatDateTimeForGoogle(
+      endTime.toDateString(),
+      endTime.toTimeString().split(" ")[0]
+    );
+
+    return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+      event.name
+    )}&dates=${startDateTime}/${endDateTime}&location=${encodeURIComponent(
+      event.location
+    )}&details=${encodeURIComponent(event.description)}`;
   };
-  
 
-// Function to convert date and time to ISO format for Outlook
-const formatDateTimeForOutlook = (dateStr: string, timeStr: string) => {
-  try {
-    const [, month, day, year] = dateStr.split(" ");
-    const time24Hour = convertTo24HourFormat(timeStr);
-    const fullDateStr = `${month} ${day}, ${year} ${time24Hour}`;
-    const startDate = new Date(fullDateStr);
+  // Function to convert date and time to ISO format for Outlook
+  const formatDateTimeForOutlook = (dateStr: string, timeStr: string) => {
+    try {
+      const [, month, day, year] = dateStr.split(" ");
+      const time24Hour = convertTo24HourFormat(timeStr);
+      const fullDateStr = `${month} ${day}, ${year} ${time24Hour}`;
+      const startDate = new Date(fullDateStr);
 
-    // Format start time for Outlook
-    const startdt = startDate.toISOString();
+      // Format start time for Outlook
+      const startdt = startDate.toISOString();
 
-    // Set end time by adding the event duration (in hours)
-    const endDate = new Date(startDate);
-    endDate.setHours(startDate.getHours() + 1);
-    const enddt = endDate.toISOString();
+      // Set end time by adding the event duration (in hours)
+      const endDate = new Date(startDate);
+      endDate.setHours(startDate.getHours() + 1);
+      const enddt = endDate.toISOString();
 
-    return { startdt, enddt };
-  } catch (error) {
-    console.error("Invalid Outlook Calendar Date/Time:", error);
-    return { startdt: '', enddt: '' };
-  }
-};
+      return { startdt, enddt };
+    } catch (error) {
+      console.error("Invalid Outlook Calendar Date/Time:", error);
+      return { startdt: "", enddt: "" };
+    }
+  };
 
-const outlookUrl = (event : EventObject) => {
-  const { startdt, enddt } = formatDateTimeForOutlook(event.date, event.time);
-  return `https://outlook.live.com/calendar/action/compose?subject=${encodeURIComponent(event.name)}&startdt=${startdt}&enddt=${enddt}&location=${encodeURIComponent(event.location)}&body=${encodeURIComponent(event.description)}`;
-};
+  const outlookUrl = (event: EventObject) => {
+    const { startdt, enddt } = formatDateTimeForOutlook(event.date, event.time);
+    return `https://outlook.live.com/calendar/action/compose?subject=${encodeURIComponent(
+      event.name
+    )}&startdt=${startdt}&enddt=${enddt}&location=${encodeURIComponent(
+      event.location
+    )}&body=${encodeURIComponent(event.description)}`;
+  };
 
-const handleCheckboxChange = () => {
-  setIsPaid(!isPaid);
-};
+  const handleCheckboxChange = () => {
+    setIsPaid(!isPaid);
+  };
 
   // RSVP Modal Component
-  const RSVPModal: React.FC<{ onClose: () => void; onRSVP: (userId: string, eventId: string) => void; item: EventObject | null; }> = ({ onClose, onRSVP, item }) => (
+  const RSVPModal: React.FC<{
+    onClose: () => void;
+    onRSVP: (userId: string, eventId: string) => void;
+    item: EventObject | null;
+  }> = ({ onClose, onRSVP, item }) => (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 transition-opacity z-50">
       <div className="relative w-full h-full px-2 py-1 flex items-center justify-center">
         {item?.price === "Free" || item?.price === "Free for VIP Members" ? (
-        <div className='md:w-3/5 flex justify-center'>
-          <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-lg">
-            <h1 className="text-lg tracking-wide text-center text-gray-900">
-              Are you sure you want to RSVP for <span className="font-bold">{item?.name}</span>? If you are not a VIP member, you will be required to pay an admission fee.
-            </h1>
-            <div className="flex justify-center text-sm space-x-4">
-              <button 
-                className="px-6 cursor-pointer py-2 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-all"
-                onClick={() => onRSVP(user?.userId || '', item.id)}
-                disabled={loading}
-              >
-                {loading ? 'Registering...' : 'Yes, I will attend!'}
-              </button>
-              <button 
-                className="px-6 cursor-pointer py-2 bg-red-500 text-white font-medium rounded-full hover:bg-red-700 transition-all"
-                onClick={onClose}
-                disabled={loading}
-              >
-                Nevermind
-              </button>
+          <div className="md:w-3/5 flex justify-center">
+            <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-lg">
+              <h1 className="text-lg tracking-wide text-center text-gray-900">
+                Are you sure you want to RSVP for{" "}
+                <span className="font-bold">{item?.name}</span>? If you are not
+                a VIP member, you will be required to pay an admission fee.
+              </h1>
+              <div className="flex justify-center text-sm space-x-4">
+                <button
+                  className="px-6 cursor-pointer py-2 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-all"
+                  onClick={() => onRSVP(user?.userId || "", item.id)}
+                  disabled={loading}
+                >
+                  {loading ? "Registering..." : "Yes, I will attend!"}
+                </button>
+                <button
+                  className="px-6 cursor-pointer py-2 bg-red-500 text-white font-medium rounded-full hover:bg-red-700 transition-all"
+                  onClick={onClose}
+                  disabled={loading}
+                >
+                  Nevermind
+                </button>
+              </div>
             </div>
           </div>
-        </div>
         ) : item?.price === "Free RSVP for VIP Members" ? (
-          <div className='md:w-3/5 flex justify-center'>
-          <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-lg">
-            <h1 className="text-lg tracking-wide text-center text-gray-900">
-              Are you sure you want to RSVP for <span className="font-bold">{item?.name}</span>? If you are not a VIP member, you will need to buy membership at the door.
-            </h1>
-            <div className="flex justify-center text-sm space-x-4">
-              <button 
-                className="px-6 cursor-pointer py-2 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-all"
-                onClick={() => onRSVP(user?.userId || '', item.id)}
-                disabled={loading}
-              >
-                {loading ? 'Registering...' : 'Yes, I will attend!'}
-              </button>
-              <button 
-                className="px-6 cursor-pointer py-2 bg-red-500 text-white font-medium rounded-full hover:bg-red-700 transition-all"
-                onClick={onClose}
-                disabled={loading}
-              >
-                Nevermind
-              </button>
+          <div className="md:w-3/5 flex justify-center">
+            <div className="flex flex-col p-6 bg-white w-10/12 space-y-4 p-5 shadow rounded-lg">
+              <h1 className="text-lg tracking-wide text-center text-gray-900">
+                Are you sure you want to RSVP for{" "}
+                <span className="font-bold">{item?.name}</span>? If you are not
+                a VIP member, you will need to buy membership at the door.
+              </h1>
+              <div className="flex justify-center text-sm space-x-4">
+                <button
+                  className="px-6 cursor-pointer py-2 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-all"
+                  onClick={() => onRSVP(user?.userId || "", item.id)}
+                  disabled={loading}
+                >
+                  {loading ? "Registering..." : "Yes, I will attend!"}
+                </button>
+                <button
+                  className="px-6 cursor-pointer py-2 bg-red-500 text-white font-medium rounded-full hover:bg-red-700 transition-all"
+                  onClick={onClose}
+                  disabled={loading}
+                >
+                  Nevermind
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        )
-        : (
-          <div className='bg-white px-5 py-5 w-full md:w-3/5 md:rounded relative max-h-full m-auto overflow-y-auto lg:overflow-hidden custom-scrollbar'>
-            <button onClick={onClose} className="absolute bg-white px-2 top-3 right-5 text-gray-700 transition-transform duration-300 hover:scale-110 focus:outline-none m-auto">
+        ) : (
+          <div className="bg-white px-5 py-5 w-full md:w-3/5 md:rounded relative max-h-full m-auto overflow-y-auto lg:overflow-hidden custom-scrollbar">
+            <button
+              onClick={onClose}
+              className="absolute bg-white px-2 top-3 right-5 text-gray-700 transition-transform duration-300 hover:scale-110 focus:outline-none m-auto"
+            >
               <i className="fa-solid fa-x text-lg"></i>
             </button>
-            <h1 className="text-sm md:text-3xl tracking-wide font-bold text-center text-gray-800 mb-5">RSVP for {item?.name}</h1>
-
+            <h1 className="text-sm md:text-3xl tracking-wide font-bold text-center text-gray-800 mb-5">
+              RSVP for {item?.name}
+            </h1>
 
             <div className="flex flex-col h-full space-y-4 px-4 md:px-12">
               <div className="flex items-center">
                 <h1 className="text-4xl font-bold mr-4">1</h1>
                 <p className="text-xs md:text-sm ml-12">
-                  Send an e-transfer with <strong>Your Full Name | Number of Tickets You Are Purchasing in the Transfer Description</strong> to the following email: <a href="mailto:unsalalp10@gmail.com" className="text-blue-500 hover:underline">unsalalp10@gmail.com</a>.
-                  ($15 / ticket)
+                  Send an e-transfer with{" "}
+                  <strong>
+                    Your Full Name | Number of Tickets You Are Purchasing in the
+                    Transfer Description
+                  </strong>{" "}
+                  to the following email:{" "}
+                  <a
+                    href="mailto:unsalalp10@gmail.com"
+                    className="text-blue-500 hover:underline"
+                  >
+                    unsalalp10@gmail.com
+                  </a>
+                  . ($15 / ticket)
                 </p>
               </div>
               <div className="flex items-center">
@@ -295,39 +331,49 @@ const handleCheckboxChange = () => {
               <div className="flex items-center">
                 <h1 className="text-4xl font-bold mr-4">3</h1>
                 <p className="text-xs md:text-sm ml-12 ">
-                  Await a confirmation email to confirm the successful e-transfer and completion of registration.
+                  Await a confirmation email to confirm the successful
+                  e-transfer and completion of registration.
                 </p>
               </div>
               <div className="flex items-center">
                 <h1 className="text-4xl font-bold mr-4">4</h1>
                 <p className="text-xs md:text-sm ml-12">
-                  You’re all set! Pick up your ticket on November 10 or 11 between 10:00 am and 3:00 pm.
+                  You’re all set! Pick up your ticket on November 10 or 11
+                  between 10:00 am and 3:00 pm.
                 </p>
               </div>
 
               <div>
-                <label className='mt-5' style={{ display: 'flex', alignItems: 'center' }}>
+                <label
+                  className="mt-5"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
                   <input
                     type="checkbox"
                     checked={isPaid}
                     onChange={handleCheckboxChange}
                   />
-                  <span className='ml-5 cursor-pointer' style={{ fontSize: '12px' }}>
-                    I confirm that I have completed the e-transfer as outlined above, including providing accurate details. I understand that my registration is not finalized until the transfer is verified and that I am responsible for ensuring the correct amount is sent.
+                  <span
+                    className="ml-5 cursor-pointer"
+                    style={{ fontSize: "12px" }}
+                  >
+                    I confirm that I have completed the e-transfer as outlined
+                    above, including providing accurate details. I understand
+                    that my registration is not finalized until the transfer is
+                    verified and that I am responsible for ensuring the correct
+                    amount is sent.
                   </span>
                 </label>
 
                 <button
-                  className='w-full cursor-pointer mt-3 rounded-xl text-white font-bold bg-gradient-to-r from-violet-500 to-purple-500 border hover:bg-blue-800 hover:text-white text-xs md:text-sm py-2 md:py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg'
-                  onClick={() => onRSVP(user?.userId || '', item?.id || '')}
+                  className="w-full cursor-pointer mt-3 rounded-xl text-white font-bold bg-gradient-to-r from-violet-500 to-purple-500 border hover:bg-blue-800 hover:text-white text-xs md:text-sm py-2 md:py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+                  onClick={() => onRSVP(user?.userId || "", item?.id || "")}
                   disabled={loading}
                 >
-                  {loading ? 'Processing...' : 'Complete Event Registration'}
-              </button>
+                  {loading ? "Processing..." : "Complete Event Registration"}
+                </button>
               </div>
-
             </div>
-
           </div>
         )}
       </div>
@@ -337,11 +383,14 @@ const handleCheckboxChange = () => {
   return (
     <div className="mx-auto w-full flex flex-col">
       <div className="flex px-5 mt-10 mb-5 items-start">
-        <motion.h2 
-      initial={ { opacity: 0, } }
-      whileInView={ { opacity: 1 } }
-      viewport={ { margin: '-100px', once: true } } 
-        className="text-4xl font-bold text-gray-800 mb-5">Upcoming Events</motion.h2>
+        <motion.h2
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ margin: "-100px", once: true }}
+          className="text-4xl font-bold text-gray-800 mb-5"
+        >
+          Upcoming Events
+        </motion.h2>
         <div className="flex space-x-4 ml-5 md:ml-auto">
           <button
             onClick={goToPrev}
@@ -364,7 +413,9 @@ const handleCheckboxChange = () => {
         <div className="relative overflow-hidden flex-grow">
           <div
             className="flex transition-transform duration-700 ease-in-out items-center"
-            style={{ transform: `translateX(-${(currentIndex * 100) / itemsToShow}%)` }}
+            style={{
+              transform: `translateX(-${(currentIndex * 100) / itemsToShow}%)`,
+            }}
           >
             {events.map((item, index) => (
               <div
@@ -373,27 +424,39 @@ const handleCheckboxChange = () => {
                 onClick={() => openModal(item)}
               >
                 <div className="relative h-[70vw] md:h-[60vw] lg:h-[50vw] xl:h-[40vw] mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
-                <div className={`relative w-full h-2/5 md:h-2/4 overflow-hidden rounded-t-xl`}>
+                  <div
+                    className={`relative w-full h-2/5 md:h-2/4 overflow-hidden rounded-t-xl`}
+                  >
                     <Image
                       loading="lazy"
-                      src={item.image} 
-                      alt={item.name} 
-                      layout="fill" 
-                      objectFit="cover" 
+                      src={item.image}
+                      alt={item.name}
+                      layout="fill"
+                      objectFit="cover"
                     />
                   </div>
                   <div className="h-3/5 md:h-2/4 p-5 bg-white rounded-b-xl">
-                    <h2 className="text-lg md:text-xl 2xl:text-2xl text-gray-800 font-bold mb-1">{item.name}</h2>
-                    <p className="text-sm md:text-base 2xl:text-lg text-gray-600 font-semibold mb-1">{item.date}</p>
-                    <p className="text-sm md:text-base 2xl:text-lg text-gray-600 mb-1">{item.location}</p>
+                    <h2 className="text-lg md:text-xl 2xl:text-2xl text-gray-800 font-bold mb-1">
+                      {item.name}
+                    </h2>
+                    <p className="text-sm md:text-base 2xl:text-lg text-gray-600 font-semibold mb-1">
+                      {item.date}
+                    </p>
+                    <p className="text-sm md:text-base 2xl:text-lg text-gray-600 mb-1">
+                      {item.location}
+                    </p>
                     <p className="text-sm md:text-base 2xl:text-lg text-gray-800">
-                      {item.description.length > 150 ? item.description.substring(0, 150) + '...' : item.description}
+                      {item.description.length > 150
+                        ? item.description.substring(0, 150) + "..."
+                        : item.description}
                     </p>
                   </div>
 
                   {/* View Details overlay on hover */}
                   <div className="absolute bottom-[-30px] right-4 font-semibold transition-all duration-700 ease-in-out group-hover:bottom-2">
-                    <span className='text-sm text-gray-800 font-semibold'>View Details <i className="fa-solid fa-arrow-right"></i></span>
+                    <span className="text-sm text-gray-800 font-semibold">
+                      View Details <i className="fa-solid fa-arrow-right"></i>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -407,68 +470,96 @@ const handleCheckboxChange = () => {
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out">
           <div className="relative rounded-lg w-5/6 h-full md:h-2/3 py-2 m-auto flex">
             {/* Close Button */}
-            <button onClick={closeModal} className="absolute top-3 right-2 p-2 text-white md:text-black transition-all duration-500 hover:scale-110">
+            <button
+              onClick={closeModal}
+              className="absolute top-3 right-2 p-2 text-white md:text-black transition-all duration-500 hover:scale-110"
+            >
               <i className="fa-solid fa-x text-xl"></i>
             </button>
             <div className="flex flex-col md:flex-row bg-white w-full sm:rounded-lg shadow-lg overflow-y-auto custom-scrollbar">
               {/* Left Side: Image */}
               <div className="h-1/2 w-full md:w-1/3 md:h-full">
-              <div className="relative w-full h-full overflow-hidden">
-                <Image
-                  src={selectedItem.image} 
-                  alt={selectedItem.name}
-                  layout="fill" 
-                  objectFit="cover" 
-                />
+                <div className="relative w-full h-full overflow-hidden">
+                  <Image
+                    src={selectedItem.image}
+                    alt={selectedItem.name}
+                    layout="fill"
+                    objectFit="cover"
+                  />
                 </div>
               </div>
               {/* Right Side: Content */}
               <div className="md:w-2/3 h-2/3 md:h-full p-2 md:p-5 w-full flex flex-col justify-between">
-                <div className='px-2 text-gray-800'>
-                  <h2 className="text-md md:text-4xl 2xl:text-6xl font-bold mb-2">{selectedItem.name}</h2>
-                  {selectedItem.isRsvp && <p className="text-gray-600 ml-2 mb-2 text-xs tracking-wide">Already RSVP&apos;d</p>}
-                  <p className="font-semibold ml-2 text-xs md:text-base 2xl:text-2xl mb-1"><i className="fa-solid fa-calendar-days"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.date} at {selectedItem.time}</span></p>
-                  <p className="font-semibold ml-2 text-xs md:text-base 2xl:text-2xl mb-1"><i className="fa-solid fa-location-dot"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.location}</span></p>
-                  <p className="font-semibold ml-2 text-xs md:text-base 2xl:text-2xl mb-3"><i className="fa-solid fa-tag"></i><span className='ml-2 font-normal text-gray-700'>{selectedItem.price}</span></p>
-                  <p className="hidden md:block font-normal text-gray-700 ml-2 text-xs  md:text-base 2xl:text-2xl mb-2 leading-relaxed">{selectedItem.description}</p>
+                <div className="px-2 text-gray-800">
+                  <h2 className="text-md md:text-4xl 2xl:text-6xl font-bold mb-2">
+                    {selectedItem.name}
+                  </h2>
+                  {selectedItem.isRsvp && (
+                    <p className="text-gray-600 ml-2 mb-2 text-xs tracking-wide">
+                      Already RSVP&apos;d
+                    </p>
+                  )}
+                  <p className="font-semibold ml-2 text-xs md:text-base 2xl:text-2xl mb-1">
+                    <i className="fa-solid fa-calendar-days"></i>
+                    <span className="ml-2 font-normal text-gray-700">
+                      {selectedItem.date} at {selectedItem.time}
+                    </span>
+                  </p>
+                  <p className="font-semibold ml-2 text-xs md:text-base 2xl:text-2xl mb-1">
+                    <i className="fa-solid fa-location-dot"></i>
+                    <span className="ml-2 font-normal text-gray-700">
+                      {selectedItem.location}
+                    </span>
+                  </p>
+                  <p className="font-semibold ml-2 text-xs md:text-base 2xl:text-2xl mb-3">
+                    <i className="fa-solid fa-tag"></i>
+                    <span className="ml-2 font-normal text-gray-700">
+                      {selectedItem.price}
+                    </span>
+                  </p>
+                  <p className="hidden md:block font-normal text-gray-700 ml-2 text-xs  md:text-base 2xl:text-2xl mb-2 leading-relaxed">
+                    {selectedItem.description}
+                  </p>
                 </div>
 
-                {
-                  activeEvents.includes(selectedItem.name) ? (
-                    selectedItem.isRsvp ? (
-                      <div className="flex flex-col md:flex-row items-center text-center justify-end gap-2 md:gap-0 md:space-x-4 mr-5">
-                        {/* Add to Outlook Calendar Button */}
-                        <a
-                          href={outlookUrl(selectedItem)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-700 hover:to-blue-800 hover:scale-105"
-                        >
-                          Add to Outlook Calendar
-                        </a>
+                {activeEvents.includes(selectedItem.name) ? (
+                  selectedItem.isRsvp ? (
+                    <div className="flex flex-col md:flex-row items-center text-center justify-end gap-2 md:gap-0 md:space-x-4 mr-5">
+                      {/* Add to Outlook Calendar Button */}
+                      <a
+                        href={outlookUrl(selectedItem)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-700 hover:to-blue-800 hover:scale-105"
+                      >
+                        Add to Outlook Calendar
+                      </a>
 
-                        {/* Add to Google Calendar Button */}
-                        <a
-                          href={googleUrl(selectedItem)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-rose-400 to-red-500 hover:from-rose-600 hover:to-red-700 hover:scale-105"
-                        >
-                          Add to Google Calendar
-                        </a>
-                      </div>
-                    ) : (
-                      <div className='self-end p-2 md:p-0'>
-                    <button
-                    onClick={() => openRSVPModal(selectedItem.name)}
-                    className={`text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-1 px-4 md:py-2 md:px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
-                  >
-                    RSVP
-                  </button>
-                  </div>
+                      {/* Add to Google Calendar Button */}
+                      <a
+                        href={googleUrl(selectedItem)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-rose-400 to-red-500 hover:from-rose-600 hover:to-red-700 hover:scale-105"
+                      >
+                        Add to Google Calendar
+                      </a>
+                    </div>
+                  ) : (
+                    <div className="self-end p-2 md:p-0">
+                      <button
+                        onClick={() => openRSVPModal(selectedItem.name)}
+                        className={`text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-1 px-4 md:py-2 md:px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
+                      >
+                        RSVP
+                      </button>
+                    </div>
                   )
-                ) : <a className='self-end text-xs'>Registration Will be Open Soon!</a>
-                }
+                ) : (
+                  <a className="self-end text-xs">
+                    Registration Will be Open Soon!
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -479,7 +570,9 @@ const handleCheckboxChange = () => {
       {isRSVPModalOpen && selectedItem && (
         <RSVPModal
           onClose={closeRSVPModal}
-          onRSVP={(userId: string, eventId: string) => handleRSVP(userId, eventId)}
+          onRSVP={(userId: string, eventId: string) =>
+            handleRSVP(userId, eventId)
+          }
           item={selectedItem}
         />
       )}
