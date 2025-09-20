@@ -39,7 +39,7 @@
     "react-swiper": "^0.1.5",
     "react-toastify": "^10.0.5",
     "slick-carousel": "^1.8.1",
-    "stripe": "^16.10.0",
+    "stripe": "^16.12.0",
     "styled-components": "^6.1.13",
     "swiper": "^11.1.14",
     "xlsx": "^0.18.5"

@@ -1,4 +1,4 @@
-import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
+// import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useEffect, useState } from 'react';
 
 interface CheckoutFormProps {
@@ -7,14 +7,23 @@ interface CheckoutFormProps {
 }
 
 const CheckoutForm: React.FC<CheckoutFormProps> = ({ planPrice, onPaymentSuccess }) => {
-  const stripe = useStripe();
-  const elements = useElements();
+  // DEV MODE - Skip Stripe integration for development
+  const DEV_MODE = true;
+  
+  // const stripe = useStripe();
+  // const elements = useElements();
   const [clientSecret, setClientSecret] = useState('');
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
+    if (DEV_MODE) {
+      console.log("🚀 DEV MODE: Skipping Stripe payment intent creation");
+      setClientSecret("dev_mode_secret");
+      return;
+    }
+    
     const createPaymentIntent = async () => {
       const res = await fetch("/api/create-intent", {
         method: "POST",
@@ -37,6 +46,18 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planPrice, onPaymentSuccess
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    
+    if (DEV_MODE) {
+      console.log("🚀 DEV MODE: Simulating successful payment");
+      setLoading(true);
+      setTimeout(() => {
+        setPaymentSuccess(true);
+        setLoading(false);
+        onPaymentSuccess(event);
+      }, 1000);
+      return;
+    }
+    
     if (!elements || !stripe) {
       return;
     }
@@ -83,11 +104,18 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ planPrice, onPaymentSuccess
   return (
     <div className='flex justify-center w-full overflow-y-auto custom-scrollbar'>
       <form onSubmit={handleSubmit} className='w-full p-3 px-1'>
-        <PaymentElement />
+        {DEV_MODE ? (
+          <div className="p-4 bg-gray-100 rounded-lg mb-4">
+            <p className="text-sm text-gray-600">🚀 DEV MODE: Payment form simulation</p>
+            <p className="text-xs text-gray-500 mt-1">Amount: ${planPrice}</p>
+          </div>
+        ) : (
+          <PaymentElement />
+        )}
         <button
           className='w-full mt-3 rounded-xl text-white font-bold bg-gradient-to-r from-violet-500 to-purple-500 border hover:bg-blue-800 hover:text-white text-xs md:text-normal py-1 md:py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg'
           type='submit'
-          disabled={!stripe || !elements || !clientSecret || loading}
+          disabled={!DEV_MODE && (!stripe || !elements || !clientSecret) || loading}
         >
           {loading ? 'Processing...' : 'Pay'}
         </button>
