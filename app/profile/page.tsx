@@ -1,14 +1,19 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import { useUser } from "../context/UserContext";
-import { getProfile, updateBasic, updatePassword, updatePlan } from "../lib/actions/user.action";
+import {
+  getProfile,
+  updateBasic,
+  updatePassword,
+  updatePlan,
+} from "../lib/actions/user.action";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-import { toast } from 'react-hot-toast';
-import BecomeVIP from "../components/becomeVIP";
-import Avatar from '../dataFiles/avatars';
+import { toast } from "react-hot-toast";
+import Avatar from "../dataFiles/avatars";
 import { Basic, VIP } from "../dataFiles/perks";
-import Image from 'next/image';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface ProfileData {
   firstName: string;
@@ -24,15 +29,15 @@ interface ProfileData {
 
 export default function Profile() {
   const { user, updateUser, fetchUser } = useUser();
+  const router = useRouter();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('basic');
+  const [selectedTab, setSelectedTab] = useState("basic");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const getProfileData = useCallback(async () => {
     if (!user?.userId) {
@@ -43,10 +48,10 @@ export default function Profile() {
     try {
       const profile = await getProfile(user.userId);
       setProfileData(profile);
-      setFirstName(profile?.firstName)
-      setLastName(profile?.lastName)
+      setFirstName(profile?.firstName);
+      setLastName(profile?.lastName);
       fetchUser();
-     } catch (error) {
+    } catch (error) {
       toast.error("Couldn't retrieve profile data. Please try again.");
     }
   }, [user?.userId]);
@@ -59,7 +64,8 @@ export default function Profile() {
     const { name, value } = e.target;
 
     if (name === "oldPassword") {
-      setOldPassword(value);} 
+      setOldPassword(value);
+    }
     if (name === "newPassword") {
       setNewPassword(value);
     }
@@ -68,7 +74,11 @@ export default function Profile() {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target;
 
     setProfileData((prev) => {
@@ -84,7 +94,7 @@ export default function Profile() {
   const handleAvatarChange = (avatar: string) => {
     setProfileData((prev) => {
       if (!prev) return prev;
-  
+
       return {
         ...prev,
         avatar: avatar,
@@ -93,7 +103,10 @@ export default function Profile() {
   };
 
   const isFormComplete = useCallback(() => {
-    return profileData && Object.values(profileData).every((value) => value.trim() !== "");
+    return (
+      profileData &&
+      Object.values(profileData).every((value) => value.trim() !== "")
+    );
   }, [profileData]);
 
   const handleBasicSubmit = async () => {
@@ -101,29 +114,29 @@ export default function Profile() {
 
     setLoading(true);
     if (!isFormComplete()) {
-      toast.error('Please fill in all required fields.');
+      toast.error("Please fill in all required fields.");
       setLoading(false);
       return;
     }
 
     try {
-        await updateBasic(
-            user.userId,
-            profileData?.firstName,
-            profileData?.lastName,
-            profileData?.uwoEmail,
-            profileData?.preferredEmail || "",
-            profileData?.currentYear,
-            profileData?.program,
-            profileData?.description,
-            profileData?.avatar
-            );
-        
-        toast.success("User information updated successfully.")
-        setFirstName(profileData?.firstName)
-        setLastName(profileData?.lastName)
+      await updateBasic(
+        user.userId,
+        profileData?.firstName,
+        profileData?.lastName,
+        profileData?.uwoEmail,
+        profileData?.preferredEmail || "",
+        profileData?.currentYear,
+        profileData?.program,
+        profileData?.description,
+        profileData?.avatar
+      );
 
-        updateUser(user, profileData);
+      toast.success("User information updated successfully.");
+      setFirstName(profileData?.firstName);
+      setLastName(profileData?.lastName);
+
+      updateUser(user, profileData);
     } catch (error) {
       toast.error("Failed to update basic information. Please try again.");
     } finally {
@@ -137,43 +150,34 @@ export default function Profile() {
     setLoading(true);
 
     try {
-        if (newPassword !== confirmNewPassword) {
-            toast.error("Password does not match.");
-            return;
-        }
+      if (newPassword !== confirmNewPassword) {
+        toast.error("Password does not match.");
+        return;
+      }
 
-        await updatePassword(
-            user.userId,
-            oldPassword,
-            newPassword
-        );
+      await updatePassword(user.userId, oldPassword, newPassword);
 
-        toast.success("Password successfully changed.")
+      toast.success("Password successfully changed.");
 
-        setOldPassword("");
-        setNewPassword("");
-        setConfirmNewPassword("");
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmNewPassword("");
     } catch (error) {
-        toast.error("Old Password Incorrect. Please try again.");
+      toast.error("Old Password Incorrect. Please try again.");
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-};
-
-  const onClose = () => {
-    setIsModalOpen(false);
   };
 
   const handlePlanSubmit = async () => {
     if (!user?.userId) return;
-  
+
     setLoading(true);
-  
+
     try {
       await updatePlan(user.userId, "VIP");
       await getProfileData();
-      onClose();
-      toast.success("Congratulations! You are now a VIP!")
+      toast.success("Congratulations! You are now a VIP!");
     } catch (error) {
       toast.error("Failed to update the plan. Please try again.");
     } finally {
@@ -181,167 +185,227 @@ export default function Profile() {
     }
   };
 
+  const handleUpgradeToVIP = () => {
+    // Navigate to membership page instead of direct checkout
+    router.push("/membership");
+  };
+
   const renderTab = () => {
     switch (selectedTab) {
-      case 'basic':
+      case "basic":
         return (
           <form className="space-y-4 w-full bg-white rounded-lg shadow-md p-9">
-          {/* Form fields */}
-          <div className="space-y-2">
-          <label htmlFor="avatar" className="text-gray-600 font-bold text-sm">Avatar <span className='font-normal'>(required)</span></label>
-            <div className="flex space-x-2">
-            {Avatar.map((imgSrc, index) => (
-              <div 
-                key={index}
-                className={`relative w-12 h-12 mb-4 cursor-pointer ${
-                  profileData?.avatar === imgSrc ? 'border-2 border-violet-500' : ''
-                }`}
-                onClick={() => handleAvatarChange(imgSrc)}
+            {/* Form fields */}
+            <div className="space-y-2">
+              <label
+                htmlFor="avatar"
+                className="text-gray-600 font-bold text-sm"
               >
-                <Image
-                  src={imgSrc}
-                  alt={`Profile ${index + 1}`}
-                  layout="fill"
-                  className="rounded object-cover"
-                  priority
+                Avatar <span className="font-normal">(required)</span>
+              </label>
+              <div className="flex space-x-2">
+                {Avatar.map((imgSrc, index) => (
+                  <div
+                    key={index}
+                    className={`relative w-12 h-12 mb-4 cursor-pointer ${
+                      profileData?.avatar === imgSrc
+                        ? "border-2 border-violet-500"
+                        : ""
+                    }`}
+                    onClick={() => handleAvatarChange(imgSrc)}
+                  >
+                    <Image
+                      src={imgSrc}
+                      alt={`Profile ${index + 1}`}
+                      fill
+                      className="rounded object-cover"
+                      priority
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex space-x-4">
+              {/* First Name */}
+              <div className="flex flex-col space-y-1 w-1/2 text-black">
+                <label
+                  htmlFor="firstName"
+                  className="text-gray-600 font-bold text-sm"
+                >
+                  First Name <span className="font-normal">(required)</span>
+                </label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  value={profileData?.firstName || ""}
+                  onChange={handleInputChange}
+                  className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                  required
                 />
               </div>
-            ))}
-            </div>
-          </div>
 
-          <div className="flex space-x-4">
-            {/* First Name */}
-            <div className="flex flex-col space-y-1 w-1/2 text-black">
-            <label htmlFor="firstName" className="text-gray-600 font-bold text-sm">First Name <span className='font-normal'>(required)</span></label>
+              {/* Last Name */}
+              <div className="flex flex-col space-y-1 w-1/2 text-black">
+                <label
+                  htmlFor="lastName"
+                  className="text-gray-600 font-bold text-sm"
+                >
+                  Last Name <span className="font-normal">(required)</span>
+                </label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  value={profileData?.lastName || ""}
+                  onChange={handleInputChange}
+                  className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* About me */}
+            <div className="flex flex-col space-y-1 text-black">
+              <label
+                htmlFor="description"
+                className="text-gray-600 font-bold text-sm"
+              >
+                About Me <span className="font-normal">(required)</span>
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                value={profileData?.description || ""}
+                onChange={handleInputChange}
+                className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                required
+                rows={3}
+              />
+            </div>
+
+            {/* UWO Email */}
+            <div className="flex flex-col space-y-1 text-black">
+              <label
+                htmlFor="uwoEmail"
+                className="text-gray-600 font-bold text-sm"
+              >
+                UWO Email <span className="font-normal">(required)</span>
+              </label>
               <input
-                type="text"
-                id="firstName"
-                name="firstName"
-                value={profileData?.firstName || ""}
+                type="email"
+                id="uwoEmail"
+                name="uwoEmail"
+                value={profileData?.uwoEmail || ""}
                 onChange={handleInputChange}
                 className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                 required
               />
             </div>
 
-            {/* Last Name */}
-            <div className="flex flex-col space-y-1 w-1/2 text-black">
-            <label htmlFor="lastName" className="text-gray-600 font-bold text-sm">Last Name <span className='font-normal'>(required)</span></label>
+            {/* Preferred Email */}
+            <div className="flex flex-col space-y-1 text-black">
+              <label
+                htmlFor="preferredEmail"
+                className="text-gray-600 font-bold text-sm"
+              >
+                Personal Email <span className="font-normal">(required)</span>
+              </label>
+              <input
+                type="email"
+                id="preferredEmail"
+                name="preferredEmail"
+                value={profileData?.preferredEmail || ""}
+                onChange={handleInputChange}
+                className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+              />
+              <label className="text-gray-500 text-xs">
+                Provide a personal email address to have receive WCS
+                communications
+              </label>
+            </div>
+
+            {/* Current Year */}
+            <div className="flex flex-col space-y-1 text-black">
+              <label
+                htmlFor="currentYear"
+                className="text-gray-700 font-semibold text-sm"
+              >
+                Current Year{" "}
+                <span className="font-normal text-gray-500">(required)</span>
+              </label>
+              <select
+                id="currentYear"
+                name="currentYear"
+                value={profileData?.currentYear || ""}
+                onChange={handleInputChange}
+                className="bg-white border border-gray-300 rounded-lg px-3 py-3 text-black text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition duration-200 ease-in-out shadow-sm"
+                required
+              >
+                <option value="" disabled>
+                  Select Year
+                </option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+                <option value="5">5th Year or higher</option>
+                <option value="6">HBA 1</option>
+                <option value="7">HBA 2</option>
+              </select>
+            </div>
+
+            {/* Program */}
+            <div className="flex flex-col space-y-1 text-black">
+              <label
+                htmlFor="program"
+                className="text-gray-600 font-bold text-sm"
+              >
+                Program <span className="font-normal">(required)</span>
+              </label>
               <input
                 type="text"
-                id="lastName"
-                name="lastName"
-                value={profileData?.lastName || ""}
+                id="program"
+                name="program"
+                value={profileData?.program || ""}
                 onChange={handleInputChange}
                 className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                 required
               />
+              <label className="text-gray-500 text-xs">
+                Provide your full program and any additional majors/minors you
+                are pursuing
+              </label>
             </div>
-          </div>
 
-          {/* About me */}
-          <div className="flex flex-col space-y-1 text-black">
-            <label htmlFor="description" className="text-gray-600 font-bold text-sm">
-              About Me <span className='font-normal'>(required)</span>
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={profileData?.description || ""}
-              onChange={handleInputChange}
-              className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-              required
-              rows={3}
-            />
-          </div>
-
-          {/* UWO Email */}
-          <div className="flex flex-col space-y-1 text-black">
-          <label htmlFor="uwoEmail" className="text-gray-600 font-bold text-sm">UWO Email <span className='font-normal'>(required)</span></label>
-            <input
-              type="email"
-              id="uwoEmail"
-              name="uwoEmail"
-              value={profileData?.uwoEmail || ""}
-              onChange={handleInputChange}
-              className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-              required
-            />
-          </div>
-
-          {/* Preferred Email */}
-          <div className="flex flex-col space-y-1 text-black">
-          <label htmlFor="preferredEmail" className="text-gray-600 font-bold text-sm">Personal Email <span className='font-normal'>(required)</span></label>
-            <input
-              type="email"
-              id="preferredEmail"
-              name="preferredEmail"
-              value={profileData?.preferredEmail || ""}
-              onChange={handleInputChange}
-              className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-            />
-            <label className="text-gray-500 text-xs">Provide a personal email address to have receive WCS communications</label>
-          </div>
-
-          {/* Current Year */}
-          <div className="flex flex-col space-y-1 text-black">
-          <label htmlFor="currentYear" className="text-gray-700 font-semibold text-sm">Current Year <span className='font-normal text-gray-500'>(required)</span></label>
-            <select
-              id="currentYear"
-              name="currentYear"
-              value={profileData?.currentYear || ""}
-              onChange={handleInputChange}
-              className="bg-white border border-gray-300 rounded-lg px-3 py-3 text-black text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition duration-200 ease-in-out shadow-sm"
-              required
-            >
-              <option value="" disabled>Select Year</option>
-              <option value="1">1st Year</option>
-              <option value="2">2nd Year</option>
-              <option value="3">3rd Year</option>
-              <option value="4">4th Year</option>
-              <option value="5">5th Year or higher</option>
-              <option value="6">HBA 1</option>
-              <option value="7">HBA 2</option>
-            </select>
-          </div>
-
-          {/* Program */}
-          <div className="flex flex-col space-y-1 text-black">
-          <label htmlFor="program" className="text-gray-600 font-bold text-sm">Program <span className='font-normal'>(required)</span></label>
-            <input
-              type="text"
-              id="program"
-              name="program"
-              value={profileData?.program || ""}
-              onChange={handleInputChange}
-              className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-              required
-            />
-          <label className="text-gray-500 text-xs">Provide your full program and any additional majors/minors you are pursuing</label>
-          </div>
-
-          <button
-            type="button"
-            disabled={loading}
-            onClick={handleBasicSubmit}
-            className="mt-6 w-full tracking-widest rounded-full font-semibold text-white
+            <button
+              type="button"
+              disabled={loading}
+              onClick={handleBasicSubmit}
+              className="mt-6 w-full tracking-widest rounded-full font-semibold text-white
             border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
             px-14 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
-          >
-            {loading ? "Saving..." : "Update Information"}
-          </button>
-        </form>
+            >
+              {loading ? "Saving..." : "Update Information"}
+            </button>
+          </form>
         );
-      case 'password':
+      case "password":
         return (
           <form className="space-y-4 bg-white rounded-lg w-full shadow-md p-9">
-          {/* Form fields */}
-          <div className="flex flex-col space-y-4">
+            {/* Form fields */}
+            <div className="flex flex-col space-y-4">
               {/* Current Password */}
               <div className="flex flex-col space-y-1">
-              <label htmlFor="oldPassword" className="text-gray-600 font-bold text-sm">Current Password <span className='font-normal'>(required)</span></label>
-              <input
+                <label
+                  htmlFor="oldPassword"
+                  className="text-gray-600 font-bold text-sm"
+                >
+                  Current Password{" "}
+                  <span className="font-normal">(required)</span>
+                </label>
+                <input
                   type="password"
                   id="oldPassword"
                   name="oldPassword"
@@ -349,13 +413,18 @@ export default function Profile() {
                   onChange={handlePassword}
                   className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                   required
-              />
+                />
               </div>
 
               {/* New Password */}
               <div className="flex flex-col space-y-1">
-              <label htmlFor="newPassword" className="text-gray-600 font-bold text-sm">New Password <span className='font-normal'>(required)</span></label>
-              <input
+                <label
+                  htmlFor="newPassword"
+                  className="text-gray-600 font-bold text-sm"
+                >
+                  New Password <span className="font-normal">(required)</span>
+                </label>
+                <input
                   type="password"
                   id="newPassword"
                   name="newPassword"
@@ -363,13 +432,19 @@ export default function Profile() {
                   onChange={handlePassword}
                   className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                   required
-              />
+                />
               </div>
 
               {/* Confirm New Password */}
               <div className="flex flex-col space-y-1">
-              <label htmlFor="confirmNewPassword" className="text-gray-600 font-bold text-sm">Confirm New Password <span className='font-normal'>(required)</span></label>
-              <input
+                <label
+                  htmlFor="confirmNewPassword"
+                  className="text-gray-600 font-bold text-sm"
+                >
+                  Confirm New Password{" "}
+                  <span className="font-normal">(required)</span>
+                </label>
+                <input
                   type="password"
                   id="confirmNewPassword"
                   name="confirmNewPassword"
@@ -377,145 +452,183 @@ export default function Profile() {
                   onChange={handlePassword}
                   className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                   required
-              />
+                />
               </div>
 
-            <button
-              type="button"
-              disabled={loading}
-              onClick={handlePasswordSubmit}
-              className="mt-6 w-full tracking-widest rounded-full font-semibold text-white
+              <button
+                type="button"
+                disabled={loading}
+                onClick={handlePasswordSubmit}
+                className="mt-6 w-full tracking-widest rounded-full font-semibold text-white
             border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
             px-14 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
-            >
-              {loading ? "Saving..." : "Update Password"}
-            </button>
-          </div>
-        </form>
-        );
-      case 'plan':
-        case 'plan':
-          return (
-            <div className="relative space-y-2 bg-white rounded-lg w-full shadow-md p-9">
-              <div>
-                <p className="text-gray-400" style={{ fontSize: '11px' }}>Current Plan</p>
-                <h1 className="text-black font-bold text-2xl">{profileData?.plan}</h1>
-                {profileData?.plan === 'Basic' ? (
-                  <>
-                    <p className="mt-3 mb-3 text-gray-700 text-xs w-[24vw]">
-                      The Basic Plan is ideal for students beginning their journey.
-                    </p>
-                    <ul>
-                      {Basic.map((benefit, index) => (
-                        <li key={index} className="mt-1 flex font-semibold text-xs items-center text-gray-500 text-md">
-                          <i className="fa-solid fa-circle-check text-green-500 font-bold mr-2"></i>
-                          {benefit}
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                ) : profileData?.plan === 'VIP' ? (
-                  <>
-                    <p className="mt-3 mb-3 text-gray-700 text-xs">
-                      The VIP Plan is ideal for students who want to go places in their career journey and make an impact.
-                    </p>
-                    <ul>
-                    {Basic.map((benefit, index) => (
-                        <li key={index} className="mt-1 flex font-semibold text-xs items-center text-gray-500 text-md">
-                        <i className="fa-solid fa-circle-check text-green-500 font-bold mr-2"></i>
-                        {benefit}
-                      </li>
-                      ))}
-                      {VIP.map((benefit, index) => (
-                        <li key={index} className="mt-1 flex font-semibold text-xs items-center text-gray-500 text-md">
-                        <i className="fa-solid fa-circle-check text-green-500 font-bold mr-2"></i>
-                        {benefit}
-                      </li>
-                      ))}
-                    </ul>
-                  </>
-                ) : null}
-              </div>
-        
-              {profileData?.plan === 'Basic' && (
-                <button
-                  className="absolute top-10 right-5 rounded text-white
-                  border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
-                  px-6 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
-                  style={{ fontSize: '10px' }}
-                  onClick={() => window.open("https://estore.eng.uwo.ca/", "_blank")}
-                >
-                  <i className="fa-solid fa-rocket"></i> UPGRADE PLAN
-                </button>
-              )}
+              >
+                {loading ? "Saving..." : "Update Password"}
+              </button>
             </div>
-          );
-        default:
+          </form>
+        );
+      case "plan":
+      case "plan":
+        return (
+          <div className="relative space-y-2 bg-white rounded-lg w-full shadow-md p-9">
+            <div>
+              <p className="text-gray-400" style={{ fontSize: "11px" }}>
+                Current Plan
+              </p>
+              <h1 className="text-black font-bold text-2xl">
+                {profileData?.plan}
+              </h1>
+              {profileData?.plan === "Basic" ? (
+                <>
+                  <p className="mt-3 mb-3 text-gray-700 text-xs w-[24vw]">
+                    The Basic Plan is ideal for students beginning their
+                    journey.
+                  </p>
+                  <ul>
+                    {Basic.map((benefit, index) => (
+                      <li
+                        key={index}
+                        className="mt-1 flex font-semibold text-xs items-center text-gray-500 text-md"
+                      >
+                        <i className="fa-solid fa-circle-check text-green-500 font-bold mr-2"></i>
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : profileData?.plan === "VIP" ? (
+                <>
+                  <p className="mt-3 mb-3 text-gray-700 text-xs">
+                    The VIP Plan is ideal for students who want to go places in
+                    their career journey and make an impact.
+                  </p>
+                  <ul>
+                    {Basic.map((benefit, index) => (
+                      <li
+                        key={index}
+                        className="mt-1 flex font-semibold text-xs items-center text-gray-500 text-md"
+                      >
+                        <i className="fa-solid fa-circle-check text-green-500 font-bold mr-2"></i>
+                        {benefit}
+                      </li>
+                    ))}
+                    {VIP.map((benefit, index) => (
+                      <li
+                        key={index}
+                        className="mt-1 flex font-semibold text-xs items-center text-gray-500 text-md"
+                      >
+                        <i className="fa-solid fa-circle-check text-green-500 font-bold mr-2"></i>
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : null}
+            </div>
+
+            {profileData?.plan === "Basic" && (
+              <button
+                className="absolute top-10 right-5 rounded text-white
+                 border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
+                 px-6 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg text-sm"
+                onClick={handleUpgradeToVIP}
+              >
+                <i className="fa-solid fa-rocket"></i> BECOME A VIP
+              </button>
+            )}
+          </div>
+        );
+      default:
         return null;
     }
-  };  
+  };
 
   const handleTabClick = (tab: string) => {
     setSelectedTab(tab);
-    renderTab()
+    renderTab();
   };
-  
+
   return (
     <>
       <main>
-    <div>
-      <Navbar />
-      <div className="mt-16 flex flex-col min-h-screen">
-        <div className="flex w-full">
-
-          <div className="w-full"> 
-          <div className="absolute hidden md:block flex flex-col">
-          <div className="flex flex-col items-center translate-x-6 translate-y-5">
-          <div className="relative w-36 h-36 mb-4">
-            <Image
-              src={profileData?.avatar || '/default-avatar.png'}
-              alt="Profile"
-              layout="fill"
-              className="rounded-full object-cover"
-              priority
-            />
+        <div>
+          <Navbar />
+          <div className="mt-16 flex flex-col min-h-screen">
+            <div className="flex w-full">
+              <div className="w-full">
+                <div className="absolute hidden md:block flex flex-col">
+                  <div className="flex flex-col items-center translate-x-6 translate-y-5">
+                    <div className="relative w-36 h-36 mb-4">
+                      <Image
+                        src={profileData?.avatar || "/default-avatar.png"}
+                        alt="Profile"
+                        fill
+                        className="rounded-full object-cover"
+                        priority
+                      />
+                    </div>
+                    <h1
+                      className="text-center text-black font-bold"
+                      style={{ fontFamily: "Panton" }}
+                    >
+                      {firstName} {lastName}
+                    </h1>
+                    <p className="mt-1 w-[20vw] text-gray-500 font-semibold text-center text-xs">
+                      {profileData?.description}
+                    </p>
+                    <p
+                      className={`mt-3 py-1 px-2 text-white rounded text-xs ${
+                        profileData?.plan === "VIP"
+                          ? "bg-violet-500"
+                          : "bg-gray-500"
+                      }`}
+                    >
+                      {profileData?.plan}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-center items-center text-sm font-bold border-b pt-10 border-gray-300">
+                  <button
+                    className={`px-4 py-2 focus:outline-none ${
+                      selectedTab === "basic"
+                        ? "border-b-2 border-violet-500 text-violet-500"
+                        : "text-gray-500"
+                    }`}
+                    onClick={() => handleTabClick("basic")}
+                  >
+                    Edit Your Profile
+                  </button>
+                  <button
+                    className={`px-4 py-2 focus:outline-none ${
+                      selectedTab === "password"
+                        ? "border-b-2 border-violet-500 text-violet-500"
+                        : "text-gray-500"
+                    }`}
+                    onClick={() => handleTabClick("password")}
+                  >
+                    Change Your Password
+                  </button>
+                  <button
+                    className={`px-4 py-2 focus:outline-none ${
+                      selectedTab === "plan"
+                        ? "border-b-2 border-violet-500 text-violet-500"
+                        : "text-gray-500"
+                    }`}
+                    onClick={() => handleTabClick("plan")}
+                  >
+                    Plan
+                  </button>
+                </div>
+                <div className="p-3 flex items-center w-full md:w-1/2 mx-auto justify-center">
+                  {renderTab()}
+                </div>
+              </div>
             </div>
-            <h1 className="text-center text-black font-bold" style={{ fontFamily: 'Panton' }}>{firstName} {lastName}</h1>
-            <p className="mt-1 w-[20vw] text-gray-500 font-semibold text-center text-xs">{profileData?.description}</p>
-            <p className={`mt-3 py-1 px-2 text-white rounded text-xs ${profileData?.plan === "VIP" ? "bg-violet-500" : "bg-gray-500"}`}>
-            {profileData?.plan}
-          </p>
           </div>
+          <Footer />
         </div>
-          <div className="flex justify-center items-center text-sm font-bold border-b pt-10 border-gray-300">
-            <button
-              className={`px-4 py-2 focus:outline-none ${selectedTab === 'basic' ? 'border-b-2 border-violet-500 text-violet-500' : 'text-gray-500'}`}
-              onClick={() => handleTabClick('basic')}
-            >
-              Edit Your Profile
-            </button>
-            <button
-              className={`px-4 py-2 focus:outline-none ${selectedTab === 'password' ? 'border-b-2 border-violet-500 text-violet-500' : 'text-gray-500'}`}
-              onClick={() => handleTabClick('password')}
-            >
-              Change Your Password
-            </button>
-            <button
-              className={`px-4 py-2 focus:outline-none ${selectedTab === 'plan' ? 'border-b-2 border-violet-500 text-violet-500' : 'text-gray-500'}`}
-              onClick={() => handleTabClick('plan')}
-            >
-              Plan
-            </button>
-          </div>
-          <div className="p-3 flex items-center w-full md:w-1/2 mx-auto justify-center">{renderTab()}</div>
-        </div>
-          </div>
-      </div>
-      <Footer />
-      {/* Modal */}
-      <BecomeVIP isOpen={isModalOpen} onClose={onClose} onComplete={handlePlanSubmit} />
-    </div>
-    </main>
+      </main>
     </>
   );
 }

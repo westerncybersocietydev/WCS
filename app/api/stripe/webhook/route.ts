@@ -21,22 +21,36 @@ export async function POST(req: Request) {
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
+
       // Useful fields:
       const email = session.customer_email;
       const amount = session.amount_total; // in cents
       const currency = session.currency;
       const sessionId = session.id;
 
-      // TODO: replace this with DB/Google Sheets call / Zapier webhook
       console.log("Checkout session completed:", {
         sessionId,
         email,
         amount,
         currency,
+        metadata: session.metadata,
       });
 
-      // Example: call internal API / database here to create member record
-      // await db.members.create({ email, amount, stripeSessionId: sessionId });
+      // Handle different types of purchases
+      if (session.metadata?.type === "upgrade" && session.metadata?.userId) {
+        // This is handled by the upgrade webhook
+        console.log("Upgrade purchase detected - handled by upgrade webhook");
+      } else {
+        // This is a new membership purchase
+        console.log("New membership purchase completed:", {
+          email,
+          sessionId,
+          amount: amount / 100, // Convert cents to dollars
+        });
+
+        // You can add additional logic here for new memberships
+        // For example, sending welcome emails, updating external systems, etc.
+      }
     }
 
     return new NextResponse("ok", { status: 200 });

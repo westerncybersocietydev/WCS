@@ -218,46 +218,38 @@ function SearchParamsComponent() {
       setIsModalOpen(false);
       setVipLoading(true);
 
-      // DEV MODE - Skip user creation in development
-      const DEV_MODE = true; // Set to false for production
-      if (DEV_MODE) {
-        console.log(
-          "🚀 DEV MODE: Skipping user creation for VIP plan - going directly to Stripe"
-        );
-        try {
-          // Go directly to Stripe Checkout
-          const res = await fetch("/api/checkout/membership", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: formData.uwoEmail }),
-          });
-
-          const data = await res.json();
-          if (data?.url) {
-            // Redirect to Stripe Checkout
-            window.location.href = data.url;
-          } else {
-            console.error("No session URL:", data);
-            toast.error("Unable to start checkout. Please try again.");
-            setVipLoading(false);
-          }
-        } catch (err) {
-          console.error("Checkout error:", err);
-          toast.error("An error occurred starting checkout.");
-          setVipLoading(false);
-        }
-        return;
-      }
+      // Production mode - real user creation required
 
       try {
-        // Create user first
-        await handleSubmit(e);
+        // Create user with Basic plan first
+        await createUser(
+          formData.firstName,
+          formData.lastName,
+          formData.uwoEmail,
+          formData.preferredEmail,
+          formData.currentYear,
+          formData.program,
+          "Basic", // Start with Basic plan
+          formData.password
+        );
 
-        // Then redirect to Stripe Checkout
-        const res = await fetch("/api/checkout/membership", {
+        // Log in the user
+        const token = await loginUser(formData.uwoEmail, formData.password);
+        document.cookie = `authToken=${token}; path=/; secure; samesite=strict`;
+        await fetchUser();
+
+        // Get the user ID from the token
+        const decoded = JSON.parse(atob(token.split(".")[1]));
+        const userId = decoded.userId;
+
+        // Then redirect to Stripe Checkout for VIP upgrade
+        const res = await fetch("/api/upgrade/membership", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: formData.uwoEmail }),
+          body: JSON.stringify({
+            email: formData.uwoEmail,
+            userId: userId,
+          }),
         });
 
         const data = await res.json();
@@ -285,15 +277,7 @@ function SearchParamsComponent() {
       setIsModalOpen(false);
       setBasicLoading(true);
 
-      // DEV MODE - Skip actual user creation in development
-      const DEV_MODE = true; // Set to false for production
-      if (DEV_MODE) {
-        console.log("🚀 DEV MODE: Skipping user creation for Basic plan");
-        toast.success("Registration Completed Successfully (DEV MODE).");
-        setStep(3);
-        setBasicLoading(false);
-        return;
-      }
+      // Production mode - real user creation required
 
       // Call form submission for Basic plan
       await handleSubmit(e);
@@ -630,7 +614,7 @@ function SearchParamsComponent() {
                       <span className="text-2xl font-bold text-purple-600">
                         $15
                       </span>
-                      <span className="text-gray-500 ml-2">/year</span>
+                      <span className="text-gray-500 ml-2"></span>
                     </div>
                     <button
                       className="mt-4 w-full tracking-widest rounded-full font-semibold text-white

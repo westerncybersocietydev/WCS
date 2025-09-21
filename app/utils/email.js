@@ -6,12 +6,9 @@ const mailgunClient = mailgun({
 });
 
 export async function sendEmail({ to, from, subject, message }) {
-  // DEV MODE - Skip email sending in development
-  if (process.env.NODE_ENV === "development" || !process.env.MAILGUN_API_KEY) {
-    console.log("🚀 DEV MODE: Skipping email sending");
-    console.log("Email would be sent to:", to);
-    console.log("Subject:", subject);
-    return { success: true };
+  // Production mode - email sending required
+  if (!process.env.MAILGUN_API_KEY) {
+    throw new Error("MAILGUN_API_KEY is not configured");
   }
 
   const emailData = {

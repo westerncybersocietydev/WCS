@@ -43,8 +43,7 @@ export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
 
-  // 🚀 DEV BYPASS - Set to true for development testing (no login required)
-  // Set to false when ready for production
+  // Production mode - authentication required
   const DEV_MODE = false;
 
   const fetchUser = async () => {

@@ -10,8 +10,10 @@ export function middleware(request: NextRequest) {
   const publicRoutes = [
     "/api/checkEmail",
     "/api/checkout/membership",
+    "/api/upgrade/membership",
     "/api/create-intent",
     "/api/createCheckout",
+    "/api/webhooks/upgrade",
   ];
   if (
     publicRoutes.some((route) => request.nextUrl.pathname.startsWith(route))
@@ -26,11 +28,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  // Skip JWT verification in development if JWT_SECRET is not set
-  if (process.env.NODE_ENV === "development" && !JWT_SECRET) {
-    console.log("🚀 DEV MODE: Skipping JWT verification");
-    return NextResponse.next();
-  }
+  // Production mode - JWT verification always required
 
   try {
     // Verify the JWT token

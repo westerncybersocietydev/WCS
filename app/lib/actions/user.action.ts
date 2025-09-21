@@ -156,24 +156,7 @@ export async function getNameAndUserId(uwoEmail: string): Promise<MinData> {
 
 export async function getProfile(userId: string): Promise<ProfileData> {
   try {
-    // DEV MODE - Return mock data in development
-    if (
-      process.env.NODE_ENV === "development" &&
-      userId === "507f1f77bcf86cd799439011"
-    ) {
-      console.log("🚀 DEV MODE: Returning mock profile data");
-      return {
-        firstName: "Dev",
-        lastName: "User",
-        uwoEmail: "dev@uwo.ca",
-        preferredEmail: "dev@example.com",
-        currentYear: "4th Year",
-        program: "Computer Science",
-        plan: "VIP",
-        description: "Development user",
-        avatar: "/defaultPfp.png",
-      };
-    }
+    // Production mode - real database lookup required
 
     await connectToDB();
 
@@ -639,5 +622,28 @@ export async function getAllEventRsvps(): Promise<
     } else {
       throw new Error("An unknown error occurred while fetching event RSVPs");
     }
+  }
+}
+
+export async function upgradeToVIP(userId: string): Promise<void> {
+  try {
+    await connectToDB();
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found.");
+    }
+
+    // Update the user's plan to VIP
+    user.plan = "VIP";
+    await user.save();
+
+    console.log(`User ${userId} upgraded to VIP successfully`);
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    throw new Error(`Failed to upgrade user to VIP: ${errorMessage}`);
   }
 }

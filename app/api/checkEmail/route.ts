@@ -7,13 +7,7 @@ const handler = async (req: NextRequest): Promise<NextResponse> => {
     await connectToDB();
     const { uwoEmail } = await req.json();
 
-    // DEV MODE - Always skip email validation in development for testing
-    if (process.env.NODE_ENV === "development") {
-      console.log(
-        "🚀 DEV MODE: Bypassing email validation - allowing all signups"
-      );
-      return NextResponse.json(false, { status: 200 });
-    }
+    // Production mode - real email validation required
 
     // Check if user with this email already exists
     const existingUser = await User.findOne({ uwoEmail });
@@ -26,11 +20,7 @@ const handler = async (req: NextRequest): Promise<NextResponse> => {
     return NextResponse.json(true, { status: 200 });
   } catch (error) {
     console.error("Error fetching user data:", error);
-    // In development mode, return false instead of error to allow signup to continue
-    if (process.env.NODE_ENV === "development") {
-      console.log("🚀 DEV MODE: Database error - allowing signup to continue");
-      return NextResponse.json(false, { status: 200 });
-    }
+    // Production mode - return proper error
     return NextResponse.json(
       { error: `Failed to fetch user data: ${error}` },
       { status: 500 }
