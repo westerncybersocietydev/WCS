@@ -17,7 +17,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
@@ -33,7 +33,7 @@ body {
 }
 
 .circle-text::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   border: 2px solid transparent;
@@ -48,15 +48,15 @@ body {
 }
 
 @font-face {
-  font-family: 'Logirent';
-  src: url('./fonts/Logirent.otf') format('opentype');
+  font-family: "Logirent";
+  src: url("./fonts/Logirent.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Panton';
-  src: url('./fonts/panton.black-caps.otf') format('opentype');
+  font-family: "Panton";
+  src: url("./fonts/panton.black-caps.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
@@ -112,11 +112,21 @@ body {
 }
 
 @keyframes borderCycle {
-  0% { border-image-source: linear-gradient(45deg, red, yellow); }
-  25% { border-image-source: linear-gradient(45deg, green, blue); }
-  50% { border-image-source: linear-gradient(45deg, blue, pink); }
-  75% { border-image-source: linear-gradient(45deg, pink, green); }
-  100% { border-image-source: linear-gradient(45deg, red, yellow); }
+  0% {
+    border-image-source: linear-gradient(45deg, red, yellow);
+  }
+  25% {
+    border-image-source: linear-gradient(45deg, green, blue);
+  }
+  50% {
+    border-image-source: linear-gradient(45deg, blue, pink);
+  }
+  75% {
+    border-image-source: linear-gradient(45deg, pink, green);
+  }
+  100% {
+    border-image-source: linear-gradient(45deg, red, yellow);
+  }
 }
 
 .switch {
@@ -140,7 +150,7 @@ body {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 34px;
 }
 
@@ -153,11 +163,11 @@ body {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  transition: .4s;
+  transition: 0.4s;
 }
 
 .switchInput:checked + .switchLabel {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 .switchInput:checked + .switchLabel:before {
