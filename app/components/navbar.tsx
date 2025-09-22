@@ -4,8 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useState, useRef, useEffect } from "react";
 import { useUser } from "../context/UserContext";
-import { getProfile, updatePlan } from "../lib/actions/user.action";
-import toast from "react-hot-toast";
+import { getProfile } from "../lib/actions/user.action";
 import Avatar from "../dataFiles/avatars";
 
 interface ProfileData {

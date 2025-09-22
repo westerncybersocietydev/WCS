@@ -32,7 +32,21 @@ export default function Home() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [text, setText] = useState("");
   const [delta, setDelta] = useState<number>(300 - Math.random() * 100);
+  const [isClient, setIsClient] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
   const period: number = 3000;
+
+  // Ensure we're on the client side
+  useEffect(() => {
+    setIsClient(true);
+
+    // Check if fonts are loaded
+    if (typeof window !== "undefined") {
+      document.fonts.ready.then(() => {
+        setFontsLoaded(true);
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const ticker = setInterval(() => {
@@ -82,6 +96,32 @@ export default function Home() {
     console.log("User state changed:", user);
   }, [user]);
 
+  // Show loading state until client-side hydration and fonts are ready
+  if (!isClient || !fontsLoaded) {
+    return (
+      <>
+        <main>
+          <div>
+            <Navbar />
+            <div className="relative">
+              <div className="flex flex-col items-center justify-center mb-10">
+                <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl text-2xl md:text-5xl lg:text-6xl xl:text-8xl font-sans opacity-0">
+                  {staticPart}
+                  <span className="wrap">{text}</span>
+                </h1>
+                <h2 className="mt-3 text-sm md:text-md max-w-2xl md:max-w-xl lg:max-w-xl xl:max-w-4xl text-gray-700 text-center tracking-wide text-sm opacity-0">
+                  Recognized as the leading tech club at Western University, we
+                  prioritize maximizing value and delivering exceptional returns
+                  on investment for our members.
+                </h2>
+              </div>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
+
   return (
     <>
       <main>
@@ -89,7 +129,7 @@ export default function Home() {
           <Navbar />
           <div className="relative">
             <div className="flex flex-col items-center justify-center  mb-10">
-              <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl text-2xl md:text-5xl lg:text-6xl xl:text-8xl">
+              <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl text-2xl md:text-5xl lg:text-6xl xl:text-8xl font-sans">
                 {staticPart}
                 <span className="wrap">{text}</span>
               </h1>

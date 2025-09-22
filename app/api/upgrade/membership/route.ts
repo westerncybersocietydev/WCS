@@ -10,7 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json().catch(() => ({} as any));
+    const body = await req.json().catch(() => ({} as Record<string, unknown>));
     const { userId } = body as { userId?: string };
 
     // Validate input
@@ -69,10 +69,15 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Create Upgrade Session error:", err);
     return NextResponse.json(
-      { error: err.message || "Unable to create upgrade session" },
+      {
+        error:
+          err instanceof Error
+            ? err.message
+            : "Unable to create upgrade session",
+      },
       { status: 500 }
     );
   }

@@ -18,7 +18,71 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-display: swap; /* Improves font loading performance */
 }
+
+/* Prevent FOUC by setting fallback font sizes */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-display: swap;
+}
+
+/* Ensure consistent font loading */
+.font-sans {
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-display: swap;
+}
+
+/* Prevent FOUC by setting consistent font metrics */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure text doesn't shift when fonts load */
+.text-2xl,
+.text-3xl,
+.text-4xl,
+.text-5xl,
+.text-6xl,
+.text-7xl,
+.text-8xl {
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-display: swap;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent FOUC with consistent font metrics */
+.font-sans {
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-display: swap;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Font loading optimizations - let Tailwind handle sizing */
 
 @layer utilities {
   .text-balance {
@@ -49,14 +113,14 @@ body {
 
 @font-face {
   font-family: "Logirent";
-  src: url("./fonts/Logirent.otf") format("opentype");
+  src: url("/fonts/Logirent.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Panton";
-  src: url("./fonts/panton.black-caps.otf") format("opentype");
+  src: url("/fonts/panton.black-caps.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }

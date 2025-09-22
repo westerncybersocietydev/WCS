@@ -11,12 +11,12 @@ import PathMetadata from "@/app/components/PathMetadata";
 import { useState } from "react";
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "/fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "/fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
@@ -127,6 +127,20 @@ export default function RootLayout({
             href="/fonts/GeistMonoVF.woff"
             as="font"
             type="font/woff"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="/fonts/Logirent.otf"
+            as="font"
+            type="font/otf"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="/fonts/panton.black-caps.otf"
+            as="font"
+            type="font/otf"
             crossOrigin="anonymous"
           />
           <title>{title}</title>

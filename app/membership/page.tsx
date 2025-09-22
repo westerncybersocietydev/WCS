@@ -57,7 +57,7 @@ export default function MembershipPage() {
   };
 
   const handleBasicUpgrade = () => {
-    toast.info("You already have a Basic membership!");
+    toast("You already have a Basic membership!");
   };
 
   return (

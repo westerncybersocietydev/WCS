@@ -1,8 +1,8 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 
-export default function SuccessPage() {
+function SuccessPageContent() {
   const searchParams = useSearchParams();
   const isUpgrade = searchParams.get("upgrade") === "true";
   const userId = searchParams.get("userId");
@@ -27,7 +27,7 @@ export default function SuccessPage() {
       <p className="mb-2">Next steps:</p>
       <ul className="list-disc ml-6">
         <li>Join the Discord (link)</li>
-        <li>We'll update the roster shortly</li>
+        <li>We&apos;ll update the roster shortly</li>
         {isUpgrade && (
           <li>
             Your VIP benefits are now active for the 2024-2025 academic year!
@@ -35,5 +35,13 @@ export default function SuccessPage() {
         )}
       </ul>
     </main>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SuccessPageContent />
+    </Suspense>
   );
 }

@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json().catch(() => ({} as any));
+    const body = await req.json().catch(() => ({} as Record<string, unknown>));
     const { email } = body as { email?: string };
 
     // Production mode - Stripe must be properly configured
@@ -33,10 +33,12 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Create Checkout Session error:", err);
     return NextResponse.json(
-      { error: err.message || "Unable to create session" },
+      {
+        error: err instanceof Error ? err.message : "Unable to create session",
+      },
       { status: 500 }
     );
   }

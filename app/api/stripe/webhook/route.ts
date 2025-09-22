@@ -45,7 +45,7 @@ export async function POST(req: Request) {
         console.log("New membership purchase completed:", {
           email,
           sessionId,
-          amount: amount / 100, // Convert cents to dollars
+          amount: amount ? amount / 100 : 0, // Convert cents to dollars
         });
 
         // You can add additional logic here for new memberships
@@ -54,8 +54,11 @@ export async function POST(req: Request) {
     }
 
     return new NextResponse("ok", { status: 200 });
-  } catch (err: any) {
-    console.error("Webhook signature verification failed:", err.message);
-    return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
+  } catch (err: unknown) {
+    console.error("Webhook signature verification failed:", err);
+    return new NextResponse(
+      `Webhook Error: ${err instanceof Error ? err.message : "Unknown error"}`,
+      { status: 400 }
+    );
   }
 }

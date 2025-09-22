@@ -6,8 +6,6 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 
 interface User {
   userId?: string;
@@ -39,7 +37,7 @@ interface UserProviderProps {
 }
 
 export function UserProvider({ children }: UserProviderProps) {
-  const router = useRouter();
+  // const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
 

@@ -35,15 +35,13 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "localhost",
-        port: "3000",
+        protocol: "https",
+        hostname: "www.westerncybersociety.ca",
         pathname: "/**",
       },
       {
-        protocol: "http",
-        hostname: "localhost",
-        port: "3001",
+        protocol: "https",
+        hostname: "westerncybersociety.ca",
         pathname: "/**",
       },
     ],

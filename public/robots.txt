@@ -1,0 +1,24 @@
+# *
+User-agent: *
+Allow: /
+
+# Googlebot
+User-agent: Googlebot
+Allow: /
+
+# *
+User-agent: *
+Disallow: /sign-in
+Disallow: /sign-up
+Disallow: /myevents
+Disallow: /profile
+Disallow: /contact
+Disallow: /admin
+Disallow: /resetpassword
+
+# Host
+Host: https://www.westerncybersociety.ca
+
+# Sitemaps
+Sitemap: https://www.westerncybersociety.ca/sitemap.xml
+Sitemap: https://www.westerncybersociety.ca/sitemap-0.xml

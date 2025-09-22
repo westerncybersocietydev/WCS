@@ -12,7 +12,16 @@ export async function GET() {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
     // Basic validation
-    const config = {
+    const config: {
+      stripeSecretKey: string;
+      stripePublishableKey: string;
+      stripePriceId: string;
+      webhookSecret: string;
+      siteUrl: string;
+      stripeConnection?: string;
+      balance?: string;
+      stripeError?: string;
+    } = {
       stripeSecretKey: stripeSecretKey ? "✅ Set" : "❌ Missing",
       stripePublishableKey: stripePublishableKey ? "✅ Set" : "❌ Missing",
       stripePriceId: stripePriceId ? "✅ Set" : "❌ Missing",

@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useCallback, useEffect, useState } from "react";
+import React, { Suspense, useCallback, useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { createUser, loginUser } from "../lib/actions/user.action";
@@ -29,7 +29,6 @@ function SearchParamsComponent() {
   const [step, setStep] = useState(1);
   const { fetchUser } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formEvent, setFormEvent] = useState<React.FormEvent | null>(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -323,16 +322,16 @@ function SearchParamsComponent() {
     [handleSubmit]
   );
 
-  useEffect(() => {
-    const submitForm = async () => {
-      if (selectedPlan && formEvent) {
-        await handleSubmit(formEvent);
-        setVipLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const submitForm = async () => {
+  //     if (selectedPlan && formEvent) {
+  //       await handleSubmit(formEvent);
+  //       setVipLoading(false);
+  //     }
+  //   };
 
-    submitForm();
-  }, [selectedPlan, formEvent, handleSubmit]);
+  //   submitForm();
+  // }, [selectedPlan, formEvent, handleSubmit]);
 
   const handleBack = useCallback(() => {
     if (step > 1) {

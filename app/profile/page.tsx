@@ -5,7 +5,7 @@ import {
   getProfile,
   updateBasic,
   updatePassword,
-  updatePlan,
+  // updatePlan,
 } from "../lib/actions/user.action";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
@@ -164,22 +164,6 @@ export default function Profile() {
       setConfirmNewPassword("");
     } catch (error) {
       toast.error("Old Password Incorrect. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handlePlanSubmit = async () => {
-    if (!user?.userId) return;
-
-    setLoading(true);
-
-    try {
-      await updatePlan(user.userId, "VIP");
-      await getProfileData();
-      toast.success("Congratulations! You are now a VIP!");
-    } catch (error) {
-      toast.error("Failed to update the plan. Please try again.");
     } finally {
       setLoading(false);
     }

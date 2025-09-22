@@ -1,6 +1,5 @@
 "use server";
 import mongoose from "mongoose";
-import { NextResponse } from "next/server";
 
 let isConnected = false;
 
