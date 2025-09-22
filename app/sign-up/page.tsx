@@ -208,7 +208,18 @@ function SearchParamsComponent() {
 
         await emailResponse.json();
       } catch (error) {
-        toast.error("Error sending email.");
+        console.error("Registration error:", error);
+        // Check if it's a user already exists error
+        if (
+          error instanceof Error &&
+          error.message.includes("already exists")
+        ) {
+          toast.error(
+            "An account with this email already exists. Please sign in instead."
+          );
+        } else {
+          toast.error("Error during registration. Please try again.");
+        }
         setStep(3);
       } finally {
         setLoading(false);
@@ -279,9 +290,19 @@ function SearchParamsComponent() {
           setVipLoading(false);
         }
       } catch (err) {
-        console.error("Checkout error:", err);
-        toast.error("An error occurred starting checkout.");
+        console.error("VIP registration error:", err);
+        // Check if it's a user already exists error
+        if (err instanceof Error && err.message.includes("already exists")) {
+          toast.error(
+            "An account with this email already exists. Please sign in instead."
+          );
+        } else {
+          toast.error(
+            "An error occurred during registration. Please try again."
+          );
+        }
         setVipLoading(false);
+        return; // Stop execution here
       }
     },
     [handleSubmit, formData.uwoEmail]
