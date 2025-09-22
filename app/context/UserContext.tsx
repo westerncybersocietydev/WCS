@@ -71,14 +71,24 @@ export function UserProvider({ children }: UserProviderProps) {
         headers: { "Content-Type": "application/json" },
       });
 
-      const data = await response.json();
-
       if (response.status === 401) {
         // No valid token - user is not logged in
         console.log("No valid token - user not logged in");
         setUser(null);
         setProfileData(null);
-      } else if (response.status === 200) {
+        return;
+      }
+
+      if (!response.ok) {
+        console.error("Error fetching user token:", response.status);
+        setUser(null);
+        setProfileData(null);
+        return;
+      }
+
+      const data = await response.json();
+
+      if (response.status === 200) {
         setUser(data.userId ? { userId: data.userId } : null);
         // Optionally set profile data if available
         if (data.profileData) {

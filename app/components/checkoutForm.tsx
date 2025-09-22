@@ -21,18 +21,36 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
 
   useEffect(() => {
     const createPaymentIntent = async () => {
-      const res = await fetch("/api/create-intent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          amount: planPrice,
-        }),
-      });
+      try {
+        const res = await fetch("/api/create-intent", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: planPrice,
+          }),
+        });
 
-      const data = await res.json();
-      setClientSecret(data.clientSecret);
+        // Check if the response is successful
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}));
+          console.error("Payment intent creation error:", errorData);
+          setErrorMessage("Failed to create payment intent. Please try again.");
+          return;
+        }
+
+        const data = await res.json();
+        if (data.clientSecret) {
+          setClientSecret(data.clientSecret);
+        } else {
+          console.error("No client secret received:", data);
+          setErrorMessage("Failed to create payment intent. Please try again.");
+        }
+      } catch (error) {
+        console.error("Payment intent creation error:", error);
+        setErrorMessage("Failed to create payment intent. Please try again.");
+      }
     };
 
     if (planPrice > 0) {

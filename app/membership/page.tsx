@@ -27,10 +27,18 @@ export default function MembershipPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: "dev@example.com", // In dev mode, we'll use a mock email
           userId: user.userId,
         }),
       });
+
+      // Check if the response is successful
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        console.error("Upgrade API error:", errorData);
+        toast.error("Unable to start upgrade checkout. Please try again.");
+        setLoading(false);
+        return;
+      }
 
       const data = await res.json();
       if (data?.url) {

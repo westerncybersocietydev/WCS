@@ -78,8 +78,16 @@ function SearchParamsComponent() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ uwoEmail: formData.uwoEmail }),
         });
+
+        // Check if the response is successful
+        if (!response.ok) {
+          toast.error("Error checking email. Please try again.");
+          setLoading(false);
+          return;
+        }
+
         const result = await response.json();
-        if (result) {
+        if (result === true) {
           toast.error(
             "UWO email is taken. Please use a different uwo email or login."
           );
@@ -251,6 +259,15 @@ function SearchParamsComponent() {
             userId: userId,
           }),
         });
+
+        // Check if the response is successful
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}));
+          console.error("VIP upgrade API error:", errorData);
+          toast.error("Unable to start checkout. Please try again.");
+          setVipLoading(false);
+          return;
+        }
 
         const data = await res.json();
         if (data?.url) {

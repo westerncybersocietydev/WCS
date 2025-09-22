@@ -158,10 +158,20 @@ export async function getProfile(userId: string): Promise<ProfileData> {
   try {
     // Production mode - real database lookup required
 
+    // Validate userId input
+    if (!userId || typeof userId !== "string" || userId.trim() === "") {
+      throw new Error("Valid user ID is required.");
+    }
+
+    // Validate MongoDB ObjectId format
+    if (!/^[0-9a-fA-F]{24}$/.test(userId.trim())) {
+      throw new Error("Invalid user ID format.");
+    }
+
     await connectToDB();
 
     // Find the user by ID
-    const user = await User.findById(userId);
+    const user = await User.findById(userId.trim());
 
     if (!user) {
       throw new Error("User not found.");
@@ -197,10 +207,25 @@ export async function updateBasic(
   avatar: string
 ): Promise<void> {
   try {
+    // Validate userId input
+    if (!userId || typeof userId !== "string" || userId.trim() === "") {
+      throw new Error("Valid user ID is required.");
+    }
+
+    // Validate MongoDB ObjectId format
+    if (!/^[0-9a-fA-F]{24}$/.test(userId.trim())) {
+      throw new Error("Invalid user ID format.");
+    }
+
+    // Validate required fields
+    if (!firstName || !lastName || !uwoEmail || !currentYear || !program) {
+      throw new Error("All required fields must be provided.");
+    }
+
     await connectToDB();
 
     // Find the user by ID
-    const user = await User.findById(userId);
+    const user = await User.findById(userId.trim());
 
     if (!user) {
       throw new Error("User not found.");
@@ -553,11 +578,21 @@ export async function getEventRsvps(
   eventId: string
 ): Promise<{ firstName: string; lastName: string; plan: string }[]> {
   try {
+    // Validate eventId input
+    if (!eventId || typeof eventId !== "string" || eventId.trim() === "") {
+      throw new Error("Valid event ID is required.");
+    }
+
+    // Validate MongoDB ObjectId format
+    if (!/^[0-9a-fA-F]{24}$/.test(eventId.trim())) {
+      throw new Error("Invalid event ID format.");
+    }
+
     // Connect to the database
     await connectToDB();
 
     // Find users who have RSVP'd for the given event
-    const users = await User.find({ myEvents: eventId })
+    const users = await User.find({ myEvents: eventId.trim() })
       .select("firstName lastName plan") // Select only the necessary fields
       .lean(); // Return plain JavaScript objects for better performance
 
