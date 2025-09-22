@@ -19,7 +19,7 @@ const formatBio = (bio: string) => {
     </React.Fragment>
   ));
 };
-
+ 
 export default function Home() {
   const router = useRouter();
   const { user } = useUser();
