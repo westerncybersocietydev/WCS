@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Testing migration (delete this comment if you see it)
 import { useRouter } from "next/navigation";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
