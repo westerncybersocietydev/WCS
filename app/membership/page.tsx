@@ -22,7 +22,7 @@ export default function MembershipPage() {
     setLoading(true);
 
     try {
-      // Call the upgrade API to create Stripe checkout session
+      // Call the upgrade API to create PayPal checkout session
       const res = await fetch("/api/upgrade/membership", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -42,10 +42,10 @@ export default function MembershipPage() {
 
       const data = await res.json();
       if (data?.url) {
-        // Redirect to Stripe Checkout
+        // Redirect to PayPal Checkout
         window.location.href = data.url;
       } else {
-        console.error("No session URL:", data);
+        console.error("No approval URL:", data);
         toast.error("Unable to start upgrade checkout. Please try again.");
         setLoading(false);
       }

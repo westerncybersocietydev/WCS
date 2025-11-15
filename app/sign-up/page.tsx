@@ -80,7 +80,11 @@ function SearchParamsComponent() {
 
         // Check if the response is successful
         if (!response.ok) {
-          toast.error("Error checking email. Please try again.");
+          const errorData = await response.json().catch(() => ({}));
+          const errorMessage =
+            errorData?.error || "Error checking email. Please try again.";
+          console.error("Email check error:", errorData);
+          toast.error(errorMessage);
           setLoading(false);
           return;
         }
@@ -94,7 +98,10 @@ function SearchParamsComponent() {
           return;
         }
       } catch (error) {
-        toast.error("Error checking email.");
+        console.error("Network error checking email:", error);
+        toast.error(
+          "Network error. Please check your connection and try again."
+        );
         setLoading(false);
         return;
       }
@@ -260,7 +267,7 @@ function SearchParamsComponent() {
         const decoded = JSON.parse(atob(token.split(".")[1]));
         const userId = decoded.userId;
 
-        // Then redirect to Stripe Checkout for VIP upgrade
+        // Then redirect to PayPal Checkout for VIP upgrade
         const res = await fetch("/api/upgrade/membership", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -281,10 +288,10 @@ function SearchParamsComponent() {
 
         const data = await res.json();
         if (data?.url) {
-          // Redirect to Stripe Checkout
+          // Redirect to PayPal Checkout
           window.location.href = data.url;
         } else {
-          console.error("No session URL:", data);
+          console.error("No approval URL:", data);
           toast.error("Unable to start checkout. Please try again.");
           setVipLoading(false);
         }
