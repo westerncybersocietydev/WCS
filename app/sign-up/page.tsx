@@ -173,17 +173,24 @@ function SearchParamsComponent() {
               `,
     };
 
-    const emailResponse = await fetch("/api/sendEmail", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ emailDetails }),
-    });
+    try {
+      const emailResponse = await fetch("/api/sendEmail", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ emailDetails }),
+      });
 
-    if (!emailResponse.ok) {
-      throw new Error("Failed to send welcome email.");
+      if (!emailResponse.ok) {
+        throw new Error("Failed to send welcome email.");
+      }
+
+      await emailResponse.json();
+    } catch (error) {
+      console.error("Welcome email error:", error);
+      toast.error(
+        "Registration complete, but we couldn't send the welcome email."
+      );
     }
-
-    await emailResponse.json();
   }, [formData.firstName, formData.preferredEmail, formData.uwoEmail]);
 
   const handleSubmit = useCallback(
