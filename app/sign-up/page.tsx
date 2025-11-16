@@ -115,6 +115,77 @@ function SearchParamsComponent() {
     setLoading(false);
   }, [step, formData.uwoEmail, isFormComplete]);
 
+  const sendWelcomeEmail = useCallback(async () => {
+    const recipientEmail =
+      formData.preferredEmail.trim() === ""
+        ? formData.uwoEmail
+        : formData.preferredEmail;
+
+    const emailDetails = {
+      from: "info@westerncybersociety.ca",
+      to: recipientEmail,
+      subject: "Welcome to Western Cyber Society",
+      message: `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Welcome to Western Cyber Society</title>
+      </head>
+      <body style="margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f5f5f7;">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                  <td align="center">
+                      <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
+                          <tr>
+                              <td align="center" style="padding-bottom: 30px;">
+                                  <h1 style="color: #1d1d1f; font-size: 32px; font-weight: 600; margin: 0;">Welcome to Western Cyber Society</h1>
+                                  <p style="font-size: 18px; color: #6e6e73; margin: 10px 0 0;">Your Journey into Innovation Begins Here</p>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td style="padding: 20px 0; line-height: 1.7; font-size: 18px;">
+                                  <p>Hi <span style="color: #a723b0; font-weight: 600;">${formData.firstName}</span>,</p>
+                                  <p style="margin-bottom: 1em;">Welcome to the <span style="color: #a723b0; font-weight: 600;">Western Cyber Society</span>! You are now part of an exclusive community that is dedicated to pushing the boundaries of technology and innovation.</p>
+                                  <p style="margin-bottom: 1em;">Prepare to explore new horizons, collaborate with like-minded peers, and gain access to resources that will help you shape the future of tech.</p>
+                                  <p>We're excited to have you on board, but remember, the choices you make today help shape the future you want tomorrow.</p>
+                                <p style="margin-bottom: -1em;">Keep innovating,</p>
+                              <p style="margin-bottom: 1em;">Western Cybern Society Team</p>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td align="center" style="margin-top: 40px;">
+                                  <a href="http://westerncybersociety.ca" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: 600; font-size: 18px; letter-spacing: 0.1em; margin-bottom: 2em;" >Explore Your Dashboard</a>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td align="center" style="margin-top: 60px; font-size: 12px; color: #86868b; border-top: 1px solid #e0e0e2; padding-top: 20px;">
+                                  <p>&copy; 2024 Western Cyber Society. All rights reserved.</p>
+                              </td>
+                          </tr>
+                      </table>
+                  </td>
+              </tr>
+          </table>
+      </body>
+      </html>
+              `,
+    };
+
+    const emailResponse = await fetch("/api/sendEmail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ emailDetails }),
+    });
+
+    if (!emailResponse.ok) {
+      throw new Error("Failed to send welcome email.");
+    }
+
+    await emailResponse.json();
+  }, [formData.firstName, formData.preferredEmail, formData.uwoEmail]);
+
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
@@ -146,73 +217,7 @@ function SearchParamsComponent() {
 
         toast.success("Registration Completed Successfully.");
         setStep(3);
-
-        const emailDetails = {
-          from: "info@westerncybersociety.ca",
-          to:
-            formData.preferredEmail.trim() === ""
-              ? formData.uwoEmail
-              : formData.preferredEmail,
-          subject: "Welcome to Western Cyber Society",
-          message: `
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Welcome to Western Cyber Society</title>
-          </head>
-          <body style="margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f5f5f7;">
-              <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                  <tr>
-                      <td align="center">
-                          <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
-                              <tr>
-                                  <td align="center" style="padding-bottom: 30px;">
-                                      <h1 style="color: #1d1d1f; font-size: 32px; font-weight: 600; margin: 0;">Welcome to Western Cyber Society</h1>
-                                      <p style="font-size: 18px; color: #6e6e73; margin: 10px 0 0;">Your Journey into Innovation Begins Here</p>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="padding: 20px 0; line-height: 1.7; font-size: 18px;">
-                                      <p>Hi <span style="color: #a723b0; font-weight: 600;">${formData.firstName}</span>,</p>
-                                      <p style="margin-bottom: 1em;">Welcome to the <span style="color: #a723b0; font-weight: 600;">Western Cyber Society</span>! You are now part of an exclusive community that is dedicated to pushing the boundaries of technology and innovation.</p>
-                                      <p style="margin-bottom: 1em;">Prepare to explore new horizons, collaborate with like-minded peers, and gain access to resources that will help you shape the future of tech.</p>
-                                      <p>We're excited to have you on board, but remember, the choices you make today help shape the future you want tomorrow.</p>
-                                    <p style="margin-bottom: -1em;">Keep innovating,</p>
-                                  <p style="margin-bottom: 1em;">Western Cybern Society Team</p>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td align="center" style="margin-top: 40px;">
-                                      <a href="http://westerncybersociety.ca" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: 600; font-size: 18px; letter-spacing: 0.1em; margin-bottom: 2em;" >Explore Your Dashboard</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td align="center" style="margin-top: 60px; font-size: 12px; color: #86868b; border-top: 1px solid #e0e0e2; padding-top: 20px;">
-                                      <p>&copy; 2024 Western Cyber Society. All rights reserved.</p>
-                                  </td>
-                              </tr>
-                          </table>
-                      </td>
-                  </tr>
-              </table>
-          </body>
-          </html>
-                  `,
-        };
-
-        const emailResponse = await fetch("/api/sendEmail", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ emailDetails }),
-        });
-
-        if (!emailResponse.ok) {
-          throw new Error("Failed to send welcome email.");
-        }
-
-        await emailResponse.json();
+        await sendWelcomeEmail();
       } catch (error) {
         console.error("Registration error:", error);
         // Check if it's a user already exists error
@@ -233,7 +238,7 @@ function SearchParamsComponent() {
         setVipLoading(false);
       }
     },
-    [formData, selectedPlan]
+    [formData, selectedPlan, sendWelcomeEmail]
   );
 
   const handleVIP = useCallback(
@@ -317,16 +322,51 @@ function SearchParamsComponent() {
   const handleBasic = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
-      setSelectedPlan("Basic");
       setIsModalOpen(false);
       setBasicLoading(true);
 
       // Production mode - real user creation required
+      try {
+        // Create user with Basic plan
+        await createUser(
+          formData.firstName,
+          formData.lastName,
+          formData.uwoEmail,
+          formData.preferredEmail,
+          formData.currentYear,
+          formData.program,
+          "Basic",
+          formData.password
+        );
 
-      // Call form submission for Basic plan
-      await handleSubmit(e);
+        // Log in the user
+        const token = await loginUser(formData.uwoEmail, formData.password);
+        document.cookie = `authToken=${token}; path=/; secure; samesite=strict`;
+        await fetchUser();
+
+        toast.success("Registration Completed Successfully.");
+        setStep(3);
+
+        await sendWelcomeEmail();
+      } catch (error) {
+        console.error("Basic registration error:", error);
+        // Check if it's a user already exists error
+        if (
+          error instanceof Error &&
+          error.message.includes("already exists")
+        ) {
+          toast.error(
+            "An account with this email already exists. Please sign in instead."
+          );
+        } else {
+          toast.error("Error during registration. Please try again.");
+        }
+        setStep(3);
+      } finally {
+        setBasicLoading(false);
+      }
     },
-    [handleSubmit]
+    [formData, fetchUser]
   );
 
   // useEffect(() => {
