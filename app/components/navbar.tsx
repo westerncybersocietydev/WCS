@@ -69,8 +69,8 @@ export default function Navbar() {
   return (
     <div className="flex">
       <div
-        className="fixed top-0 left-0 w-full py-3 z-50"
-        style={{ backgroundColor: aboutUsExpanded ? "black" : "#fdf7ff" }}
+        className="fixed top-0 left-0 w-full py-3 z-50 transition-colors duration-300"
+        style={{ backgroundColor: "#fdf7ff" }}
       >
         <div className="container mx-auto px-5 flex flex-col md:flex-row justify-normal md:justify-between items-center">
           {/* Logo */}
@@ -84,9 +84,7 @@ export default function Navbar() {
                 className="transition-transform duration-300"
               />
               <span
-                className={`ml-2 text-xl hidden md:block transition-opacity duration-300 ${
-                  aboutUsExpanded ? "text-white" : "text-black"
-                }`}
+                className="ml-2 text-xl hidden md:block text-black transition-opacity duration-300"
                 style={{ fontFamily: "Logirent" }}
               >
                 | western cyber society
@@ -102,36 +100,32 @@ export default function Navbar() {
               onMouseLeave={handleMouseLeave}
             >
               <button
-                className="relative w-full text-sm md:text-lg focus:outline-none before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-white before:transition-all before:duration-500 hover:before:w-full"
+                className="relative w-full text-sm md:text-lg text-black focus:outline-none before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-violet-500 before:transition-all before:duration-500 hover:before:w-full"
                 aria-label="About Us"
-                style={{ color: aboutUsExpanded ? "#ededed" : "black" }}
               >
                 <strong>
-                  ABOUT US <i className="fa-solid fa-chevron-down"></i>
+                  ABOUT US <i className={`fa-solid fa-chevron-down transition-transform duration-300 ${aboutUsExpanded ? 'rotate-180' : ''}`}></i>
                 </strong>
               </button>
             </div>
             <a
               href="/sponsorships"
-              className="relative text-gray-600 text-sm md:text-lg hover:text-blue-600 hover:text-xl transition-all duration-200 before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-black before:transition-all before:duration-500 hover:before:w-full"
+              className="relative text-black text-sm md:text-lg hover:text-violet-600 hover:text-xl transition-all duration-200 before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-violet-500 before:transition-all before:duration-500 hover:before:w-full"
               aria-label="Sponsorships"
-              style={{ color: aboutUsExpanded ? "white" : "black" }}
             >
               <strong>SPONSORSHIPS</strong>
             </a>
             <a
               href="/ibm"
-              className="relative text-gray-600 text-sm md:text-lg hover:text-blue-600 hover:text-2xl transition-all duration-200 before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-black before:transition-all before:duration-500 hover:before:w-full"
+              className="relative text-black text-sm md:text-lg hover:text-violet-600 hover:text-2xl transition-all duration-200 before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-violet-500 before:transition-all before:duration-500 hover:before:w-full"
               aria-label="IBM"
-              style={{ color: aboutUsExpanded ? "white" : "black" }}
             >
               <strong>IBM</strong>
             </a>
             {user ? (
               <div className="relative inline-block group hover:text-xl transition-all duration-200">
                 <button
-                  className="relative text-black hover:text-blue-600 text-lg hover:scale-110 transition-all duration-500"
-                  style={{ color: aboutUsExpanded ? "#ededed" : "black" }}
+                  className="relative text-black hover:text-violet-600 text-lg hover:scale-110 transition-all duration-500"
                 >
                   <div
                     className="relative w-9 h-9 mt-1 overflow-hidden rounded-full"
@@ -201,19 +195,7 @@ export default function Navbar() {
               </div>
             ) : (
               <button
-                className={`tracking-widest rounded-full font-semibold
-            border-2 font-bold ${
-              aboutUsExpanded
-                ? "bg-white text-black"
-                : "bg-gradient-to-r from-violet-500 to-purple-500 text-white"
-            }
-            hover:scale-105 
-            ${
-              aboutUsExpanded
-                ? ""
-                : "hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800"
-            } 
-            px-4 md:px-10 text-sm md:text-lg py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
+                className="tracking-widest rounded-full font-semibold border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800 px-4 md:px-10 text-sm md:text-lg py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
                 onClick={() => router.push("/sign-up")}
               >
                 Register
@@ -222,26 +204,18 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Full-width white box */}
+        {/* Full-width dropdown box */}
         {aboutUsExpanded && (
           <div
             ref={aboutUsRef}
-            className={`absolute top-13 left-0 w-full shadow-lg z-30 transition-transform duration-500 ${
-              aboutUsExpanded ? "fadeInUp" : "fadeOut"
-            }`}
-            style={{ backgroundColor: "#ededed" }}
+            className="absolute left-0 w-full shadow-lg z-30 slideDown overflow-hidden"
+            style={{ backgroundColor: "#fdf7ff", top: "100%", borderTop: "3px solid #8b5cf6" }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            {/* Black bar at the top */}
-            <div className="h-3 w-full bg-black"></div>
             <div className="w-full flex flex-col p-0 m-0">
               {/* About Us content */}
-              <div
-                className={`transition-transform mx-5 duration-500 ${
-                  aboutUsExpanded ? "fadeInUp" : "fadeOut"
-                }`}
-              >
+              <div className="mx-5">
                 <p className="text-gray-800 text-2xl mb-2 mt-5">
                   <strong>ABOUT US</strong>
                 </p>
@@ -282,11 +256,7 @@ export default function Navbar() {
                     key={index}
                     className="flex-1 mb-5 flex flex-col justify-between"
                   >
-                    <div
-                      className={`transition-transform duration-500 ${
-                        aboutUsExpanded ? "fadeInUp" : "fadeOut"
-                      }`}
-                    >
+                    <div>
                       <h2 className="text-lg text-gray-700 mb-2">
                         <strong>{title}</strong>
                       </h2>
