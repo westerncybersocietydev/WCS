@@ -181,12 +181,20 @@ function SearchParamsComponent() {
       });
 
       if (!emailResponse.ok) {
-        throw new Error("Failed to send welcome email.");
+        const errorData = await emailResponse.json().catch(() => ({}));
+        console.error("Email API error:", errorData);
+        // Don't throw - just log and show user-friendly message
+        toast.error(
+          "Registration complete, but we couldn't send the welcome email."
+        );
+        return;
       }
 
       await emailResponse.json();
+      console.log("Welcome email sent successfully");
     } catch (error) {
       console.error("Welcome email error:", error);
+      // Don't throw - registration was successful
       toast.error(
         "Registration complete, but we couldn't send the welcome email."
       );

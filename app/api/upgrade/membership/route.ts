@@ -74,7 +74,7 @@ export async function POST(req: Request) {
     // return NextResponse.json({ url: session.url });
 
     // PAYPAL IMPLEMENTATION - Create PayPal order
-    const amount = 15.0; // VIP membership price in CAD
+    const amount = 0.01; // VIP membership price in CAD
     const baseSiteUrl =
       process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
     const returnUrl = `${baseSiteUrl}/membership/success?upgrade=true&userId=${userId}`;
