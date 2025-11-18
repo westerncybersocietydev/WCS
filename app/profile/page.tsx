@@ -54,7 +54,7 @@ export default function Profile() {
     } catch (error) {
       toast.error("Couldn't retrieve profile data. Please try again.");
     }
-  }, [user?.userId]);
+  }, [user?.userId, fetchUser]);
 
   useEffect(() => {
     getProfileData();
