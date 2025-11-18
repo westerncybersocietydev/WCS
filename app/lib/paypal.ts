@@ -79,7 +79,9 @@ export async function createPayPalOrder(
 
   // Build return URL with metadata if provided
   let finalReturnUrl = returnUrl || `${baseSiteUrl}/membership/success`;
-  if (metadata?.userId && metadata?.type === "upgrade") {
+  // Only append query parameters if returnUrl was not provided (using default)
+  // and we have metadata to add
+  if (!returnUrl && metadata?.userId && metadata?.type === "upgrade") {
     finalReturnUrl += `?upgrade=true&userId=${metadata.userId}`;
   }
 

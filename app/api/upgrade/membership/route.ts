@@ -69,12 +69,12 @@ export async function POST(req: Request) {
     //     product: "wcs_membership_upgrade_2025_26",
     //     userId: userId,
     //     type: "upgrade",
-    //   },
+    //   }
     // });
     // return NextResponse.json({ url: session.url });
 
     // PAYPAL IMPLEMENTATION - Create PayPal order
-    const amount = 0.01; // VIP membership price in CAD
+    const amount = 15; // VIP membership price in CAD
     const baseSiteUrl =
       process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
     const returnUrl = `${baseSiteUrl}/membership/success?upgrade=true&userId=${userId}`;

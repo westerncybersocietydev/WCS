@@ -54,7 +54,6 @@ export async function POST(req: NextRequest) {
 
     // Handle order completed event (alternative)
     if (eventType === "CHECKOUT.ORDER.COMPLETED") {
-      const orderId = resource?.id;
       const purchaseUnits = resource?.purchase_units;
 
       if (purchaseUnits && purchaseUnits.length > 0) {

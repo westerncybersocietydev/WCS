@@ -113,7 +113,7 @@ function SearchParamsComponent() {
     });
     setStep((prevStep) => prevStep + 1);
     setLoading(false);
-  }, [step, formData.uwoEmail, isFormComplete]);
+  }, [step, formData.uwoEmail, formData.password, formData.confirmPassword, isFormComplete]);
 
   const sendWelcomeEmail = useCallback(async () => {
     const recipientEmail =
@@ -201,60 +201,60 @@ function SearchParamsComponent() {
     }
   }, [formData.firstName, formData.preferredEmail, formData.uwoEmail]);
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      if (!isFormComplete()) {
-        toast.error("Please fill in all required fields.");
-        return;
-      }
+  // handleSubmit is not currently used - kept for potential future use
+  // const handleSubmit = useCallback(
+  //   async (e: React.FormEvent) => {
+  //     e.preventDefault();
+  //     if (!isFormComplete()) {
+  //       toast.error("Please fill in all required fields.");
+  //       return;
+  //     }
 
-      setLoading(true);
+  //     setLoading(true);
 
-      try {
-        if (selectedPlan) {
-          await createUser(
-            formData.firstName,
-            formData.lastName,
-            formData.uwoEmail,
-            formData.preferredEmail,
-            formData.currentYear,
-            formData.program,
-            selectedPlan,
-            formData.password
-          );
-        }
+  //     try {
+  //       if (selectedPlan) {
+  //         await createUser(
+  //           formData.firstName,
+  //           formData.lastName,
+  //           formData.uwoEmail,
+  //           formData.preferredEmail,
+  //           formData.currentYear,
+  //           formData.program,
+  //           selectedPlan,
+  //           formData.password
+  //         );
+  //       }
 
-        const token = await loginUser(formData.uwoEmail, formData.password);
-        document.cookie = `authToken=${token}; path=/; secure; samesite=strict`; // Setting cookie on the client side
+  //       const token = await loginUser(formData.uwoEmail, formData.password);
+  //       document.cookie = `authToken=${token}; path=/; secure; samesite=strict`;
 
-        await fetchUser();
+  //       await fetchUser();
 
-        toast.success("Registration Completed Successfully.");
-        setStep(3);
-        await sendWelcomeEmail();
-      } catch (error) {
-        console.error("Registration error:", error);
-        // Check if it's a user already exists error
-        if (
-          error instanceof Error &&
-          error.message.includes("already exists")
-        ) {
-          toast.error(
-            "An account with this email already exists. Please sign in instead."
-          );
-        } else {
-          toast.error("Error during registration. Please try again.");
-        }
-        setStep(3);
-      } finally {
-        setLoading(false);
-        setBasicLoading(false);
-        setVipLoading(false);
-      }
-    },
-    [formData, selectedPlan, sendWelcomeEmail]
-  );
+  //       toast.success("Registration Completed Successfully.");
+  //       setStep(3);
+  //       await sendWelcomeEmail();
+  //     } catch (error) {
+  //       console.error("Registration error:", error);
+  //       if (
+  //         error instanceof Error &&
+  //         error.message.includes("already exists")
+  //       ) {
+  //         toast.error(
+  //           "An account with this email already exists. Please sign in instead."
+  //         );
+  //       } else {
+  //         toast.error("Error during registration. Please try again.");
+  //       }
+  //       setStep(3);
+  //     } finally {
+  //       setLoading(false);
+  //       setBasicLoading(false);
+  //       setVipLoading(false);
+  //     }
+  //   },
+  //   [formData, selectedPlan, sendWelcomeEmail, isFormComplete, fetchUser]
+  // );
 
   const handleVIP = useCallback(
     async (e: React.FormEvent) => {
@@ -331,7 +331,7 @@ function SearchParamsComponent() {
         return; // Stop execution here
       }
     },
-    [handleSubmit, formData.uwoEmail]
+    [formData.firstName, formData.lastName, formData.uwoEmail, formData.preferredEmail, formData.currentYear, formData.program, formData.password, fetchUser]
   );
 
   const handleBasic = useCallback(
@@ -381,7 +381,7 @@ function SearchParamsComponent() {
         setBasicLoading(false);
       }
     },
-    [formData, fetchUser]
+    [formData.firstName, formData.lastName, formData.uwoEmail, formData.preferredEmail, formData.currentYear, formData.program, formData.password, fetchUser, sendWelcomeEmail]
   );
 
   // useEffect(() => {

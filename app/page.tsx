@@ -28,7 +28,6 @@ export default function Home() {
   const animatedPart = fullText.slice(-5);
   const staticPart = fullText.slice(0, -5);
 
-  const [loopNum, setLoopNum] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [text, setText] = useState("");
   const [delta, setDelta] = useState<number>(300 - Math.random() * 100);
@@ -48,17 +47,7 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    const ticker = setInterval(() => {
-      tick();
-    }, delta);
-
-    return () => {
-      clearInterval(ticker);
-    };
-  }, [text]);
-
-  const tick = () => {
+  const tick = useCallback(() => {
     const updatedText = isDeleting
       ? animatedPart.substring(0, text.length - 1)
       : animatedPart.substring(0, text.length + 1);
@@ -74,10 +63,19 @@ export default function Home() {
       setDelta(period);
     } else if (isDeleting && updatedText === "") {
       setIsDeleting(false);
-      setLoopNum(loopNum + 1);
       setDelta(500);
     }
-  };
+  }, [isDeleting, text, animatedPart]);
+
+  useEffect(() => {
+    const ticker = setInterval(() => {
+      tick();
+    }, delta);
+
+    return () => {
+      clearInterval(ticker);
+    };
+  }, [text, delta, tick]);
 
   const getProfileData = useCallback(async () => {
     if (!user?.userId) {
@@ -85,7 +83,7 @@ export default function Home() {
       return;
     }
     console.log("User logged in:", user);
-  }, [user?.userId]);
+  }, [user]);
 
   useEffect(() => {
     getProfileData();

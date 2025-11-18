@@ -8,7 +8,7 @@ import { useUser } from "../context/UserContext";
 import Image from "next/image";
 
 export default function MyEvents() {
-  const { user, fetchUser } = useUser();
+  const { user } = useUser();
   const [rsvpEvents, setRsvpEvents] = useState<EventObject[]>([]);
   const [selectedItem, setSelectedItem] = useState<EventObject | null>(null);
 
@@ -20,7 +20,7 @@ export default function MyEvents() {
 
     const eventResponse = await getMyEvents(user?.userId);
     setRsvpEvents(eventResponse);
-  }, [user?.userId, fetchUser]);
+  }, [user?.userId]);
 
   const openModal = (item: EventObject) => {
     setSelectedItem(item);

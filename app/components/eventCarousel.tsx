@@ -49,6 +49,14 @@ const SearchParamsComponent: React.FC = () => {
     };
   }, []);
 
+  const openModal = useCallback((item: EventObject) => {
+    const newParams = new URLSearchParams(searchParams.toString());
+    newParams.delete("event");
+
+    router.replace(`?${newParams.toString()}`, { scroll: false });
+    setSelectedItem(item);
+  }, [searchParams, router]);
+
   const getProfileData = useCallback(async () => {
     try {
       setLoading(true);
@@ -65,7 +73,7 @@ const SearchParamsComponent: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [user?.userId]);
+  }, [user?.userId, eventRedirect, openModal]);
 
   useEffect(() => {
     getProfileData();
@@ -75,7 +83,7 @@ const SearchParamsComponent: React.FC = () => {
     if (selectedItem?.isRsvp) {
       getProfileData();
     }
-  }, [selectedItem?.isRsvp]);
+  }, [selectedItem?.isRsvp, getProfileData]);
 
   const goToNext = () => {
     setCurrentIndex(
@@ -89,14 +97,6 @@ const SearchParamsComponent: React.FC = () => {
         (prevIndex - 1 + (totalItems - itemsToShow + 1)) %
         (totalItems - itemsToShow + 1)
     );
-  };
-
-  const openModal = (item: EventObject) => {
-    const newParams = new URLSearchParams(searchParams.toString());
-    newParams.delete("event");
-
-    router.replace(`?${newParams.toString()}`, { scroll: false });
-    setSelectedItem(item);
   };
 
   const closeModal = () => {

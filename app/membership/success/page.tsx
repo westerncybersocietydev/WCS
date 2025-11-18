@@ -10,7 +10,6 @@ function SuccessPageContent() {
   const isUpgrade = searchParams.get("upgrade") === "true";
   const userId = searchParams.get("userId");
   const token = searchParams.get("token"); // PayPal token
-  const PayerID = searchParams.get("PayerID"); // PayPal PayerID
   const [capturing, setCapturing] = useState(false);
   const [captured, setCaptured] = useState(false);
   const [upgraded, setUpgraded] = useState(false);
