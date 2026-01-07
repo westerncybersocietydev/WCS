@@ -14,6 +14,9 @@ export function middleware(request: NextRequest) {
     "/api/create-intent",
     "/api/createCheckout",
     "/api/webhooks/upgrade",
+    "/api/paypal/webhook",
+    "/api/events", // Allow event lookup (read-only, not sensitive)
+    "/api/events/details", // Allow event details lookup (read-only)
   ];
   if (
     publicRoutes.some((route) => request.nextUrl.pathname.startsWith(route))

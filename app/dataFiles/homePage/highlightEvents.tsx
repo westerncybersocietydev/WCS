@@ -1,7 +1,7 @@
 export const boxes = [
   {
     image: "/events/IBMN.png",
-    link: "/events?event=IBM%20NIGHT",
+    link: "/ibm-night",
     text: "An evening of innovation and technology exploration hosted by IBM, showcasing their latest advancements and opportunities.",
   },
   {

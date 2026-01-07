@@ -5,6 +5,7 @@ import Carousel from "../components/eventCarousel";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { images } from "../dataFiles/eventPage/images";
+import { useRouter } from "next/navigation";
 
 // How to add/edit an event
 // - Upload event image to public/events
@@ -14,6 +15,8 @@ import { images } from "../dataFiles/eventPage/images";
 // - For the image, put in the file path to the image (check other events as reference).
 
 export default function Events() {
+  const router = useRouter();
+
   return (
     <>
       <main>
@@ -39,6 +42,53 @@ export default function Events() {
                 </div>
               </div>
             </section>
+
+            {/* Featured IBM Night Card */}
+            <div className="mx-10 mb-10 mt-10">
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ margin: "-100px", once: true }}
+                className="mb-8"
+              >
+                <h2 className="text-4xl font-bold text-gray-800 mb-5">
+                  Featured Event
+                </h2>
+                <motion.div
+                  initial={{ y: 100, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{ type: "tween", duration: 0.5 }}
+                  viewport={{ margin: "-50px", once: true }}
+                  onClick={() => router.push("/ibm-night")}
+                  className="relative bg-black cursor-pointer w-full h-64 md:h-[30vw] overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
+                >
+                  <div
+                    className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:blur-lg group-hover:opacity-90"
+                    style={{ backgroundImage: 'url("/IBMN.png")' }}
+                  />
+                  <Image
+                    src="/IBMN.png"
+                    alt="IBM Night"
+                    fill
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:translate-x-full group-hover:translate-y-full group-hover:blur-xl group-hover:scale-150"
+                  />
+                  <div
+                    className="absolute text-xs md:text-sm xl:text-lg inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20"
+                  >
+                    <div className="p-5">
+                      <p>
+                        An evening of innovation and technology exploration
+                        hosted by IBM, showcasing their latest advancements and
+                        opportunities.
+                      </p>
+                    </div>
+                  </div>
+                  <span className="absolute bottom-[-30px] right-4 text-white text-xs font-semibold transition-all duration-700 ease-in-out group-hover:bottom-4">
+                    View Details <i className="fa-solid fa-arrow-right"></i>
+                  </span>
+                </motion.div>
+              </motion.div>
+            </div>
 
             <div className="flex justify-center mx-auto">
               <Carousel />
