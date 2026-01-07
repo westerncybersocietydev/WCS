@@ -109,19 +109,40 @@ export default function IBMTicketPage() {
 
   // Check if user is logged in and redirect VIP members to RSVP form
   useEffect(() => {
-    if (!user?.userId) {
-      toast.error("Please log in to purchase a ticket");
-      router.push(
-        `/sign-in?redirect=${encodeURIComponent("/ibm-night/ticket")}`
-      );
-      return;
-    }
+    const checkVIPAndRedirect = async () => {
+      if (!user?.userId) {
+        toast.error("Please log in to purchase a ticket");
+        router.push(
+          `/sign-in?redirect=${encodeURIComponent("/ibm-night/ticket")}`
+        );
+        return;
+      }
 
-    // If user is VIP, redirect to RSVP form instead
-    if (profileData?.plan === "VIP") {
-      toast("VIP members use the RSVP form", { icon: "ℹ️" });
-      router.push("/ibm-night/rsvp");
-    }
+      // If profileData is already loaded, check it
+      if (profileData?.plan === "VIP") {
+        toast("VIP members use the RSVP form", { icon: "ℹ️" });
+        router.push("/ibm-night/rsvp");
+        return;
+      }
+
+      // If profileData is null, check VIP status via API
+      if (profileData === null && user?.userId) {
+        try {
+          const response = await fetch("/api/check-vip");
+          if (response.ok) {
+            const data = await response.json();
+            if (data.isVIP) {
+              toast("VIP members use the RSVP form", { icon: "ℹ️" });
+              router.push("/ibm-night/rsvp");
+            }
+          }
+        } catch (error) {
+          console.error("Error checking VIP status:", error);
+        }
+      }
+    };
+
+    checkVIPAndRedirect();
   }, [user, profileData, router]);
 
   // Render PayPal button when ready (only for non-VIP members)
@@ -157,6 +178,16 @@ export default function IBMTicketPage() {
           const data = await response.json();
 
           if (data.error) {
+            // If user already has a ticket, redirect to confirmation
+            if (data.alreadyHasTicket && data.ticketNumber) {
+              setTicketCreated(true);
+              setTicketNumber(data.ticketNumber);
+              toast.error("You already have a ticket for this event");
+              router.push(
+                `/ibm-night/ticket/confirm?ticketNumber=${data.ticketNumber}&eventId=${eventId}`
+              );
+              throw new Error("Already has ticket");
+            }
             toast.error(data.error);
             throw new Error(data.error);
           }

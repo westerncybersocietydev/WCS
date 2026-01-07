@@ -68,8 +68,14 @@ export async function POST(req: NextRequest) {
     // Check if user already has a ticket
     const alreadyHasTicket = await hasTicket(userId, eventId);
     if (alreadyHasTicket) {
+      const { getUserTicket } = await import("@/app/lib/actions/ticket.action");
+      const existingTicket = await getUserTicket(userId, eventId);
       return NextResponse.json(
-        { error: "You already have a ticket for this event" },
+        {
+          error: "You already have a ticket for this event",
+          ticketNumber: existingTicket?.ticketNumber,
+          alreadyHasTicket: true,
+        },
         { status: 400 }
       );
     }

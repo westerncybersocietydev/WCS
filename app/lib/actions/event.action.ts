@@ -7,14 +7,14 @@ import { ObjectId } from "mongoose";
 function formatDateToLocalISOString(dateStr: string, timeStr: string): string {
   if (dateStr === "TBD" || timeStr === "TBD") {
     console.warn(`Date or time is TBD. Date: ${dateStr}, Time: ${timeStr}`);
-    return '';
+    return "";
   }
 
   // Split the date string (e.g., 'Friday, November 18, 2024') into its components
   const [, month, day, year] = dateStr.split(" ");
 
   // Create a full date string that JavaScript's Date object can parse (e.g., 'November 18, 2024 10:30')
-  const fullDateStr = `${month} ${day.replace(',', '')}, ${year} ${timeStr}`;
+  const fullDateStr = `${month} ${day.replace(",", "")}, ${year} ${timeStr}`;
 
   // Create a new Date object in the user's local time zone
   const date = new Date(fullDateStr);
@@ -22,7 +22,7 @@ function formatDateToLocalISOString(dateStr: string, timeStr: string): string {
   // Ensure the date is valid
   if (isNaN(date.getTime())) {
     console.error("Invalid date:", fullDateStr);
-    return '';
+    return "";
   }
 
   // Return the date in ISO 8601 format (e.g., '2024-11-18T10:30:00.000Z')
@@ -30,37 +30,63 @@ function formatDateToLocalISOString(dateStr: string, timeStr: string): string {
 }
 
 export interface EventObject {
-    id: string;
-    name: string;
-    date: string;
-    time: string;
-    location: string;
-    price: string;
-    description: string;
-    image: string;
-    isRsvp?: boolean;
-  }
+  id: string;
+  name: string;
+  date: string;
+  time: string;
+  location: string;
+  price: string;
+  description: string;
+  image: string;
+  isRsvp?: boolean;
+}
 
-export async function newEvent(name: string, date: string, time: string, location: string, price: string, description: string, image: string): Promise<void> {
+export async function newEvent(
+  name: string,
+  date: string,
+  time: string,
+  location: string,
+  price: string,
+  description: string,
+  image: string
+): Promise<void> {
   try {
     await connectToDB();
 
-    if (!name || !date || !time || !location || !price || !description || !image) {
-      throw new Error('All fields are required.');
+    if (
+      !name ||
+      !date ||
+      !time ||
+      !location ||
+      !price ||
+      !description ||
+      !image
+    ) {
+      throw new Error("All fields are required.");
     }
 
-    const newEvent = new Event({ name, date, time, location, price, description, image });
+    const newEvent = new Event({
+      name,
+      date,
+      time,
+      location,
+      price,
+      description,
+      image,
+    });
     await newEvent.save();
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(`Error adding event: ${error.message}`);
     } else {
-      throw new Error('An unknown error occurred');
+      throw new Error("An unknown error occurred");
     }
   }
 }
 
-export async function getAllEvents(userId: string | undefined): Promise<EventObject[]> {
+export async function getAllEvents(
+  userId: string | undefined
+): Promise<EventObject[]> {
   try {
     await connectToDB();
     const events = await Event.find();
@@ -72,13 +98,18 @@ export async function getAllEvents(userId: string | undefined): Promise<EventObj
         throw new Error("User not found.");
       }
       // Ensure myEvents are converted to strings
-      rsvpEventIds = new Set((user.myEvents || []).map((eventId: ObjectId) => eventId.toString()));
+      rsvpEventIds = new Set(
+        (user.myEvents || []).map((eventId: ObjectId) => eventId.toString())
+      );
     }
 
     const sortedEvents = events
       .map((event) => {
         const eventObject = event.toObject();
-        const formattedDate = formatDateToLocalISOString(eventObject.date, eventObject.time);
+        const formattedDate = formatDateToLocalISOString(
+          eventObject.date,
+          eventObject.time
+        );
 
         return {
           id: eventObject._id.toString(),
@@ -90,32 +121,34 @@ export async function getAllEvents(userId: string | undefined): Promise<EventObj
           description: eventObject.description,
           image: eventObject.image,
           isRsvp: userId ? rsvpEventIds.has(eventObject._id.toString()) : false,
-          formattedDate: formattedDate
+          formattedDate: formattedDate,
         };
       })
       // Filter out events with dates in the past
       .filter((event) => {
-        const eventDate = event.formattedDate ? new Date(event.formattedDate) : null;
-      
+        const eventDate = event.formattedDate
+          ? new Date(event.formattedDate)
+          : null;
+
         // Get the current date without time (midnight)
         const today = new Date();
         today.setHours(0, 0, 0, 0); // Set the time to midnight
-      
+
         // Create a date representing one day before today
         const yesterday = new Date(today);
         yesterday.setDate(today.getDate() - 1);
-      
+
         // If eventDate is null (i.e., "TBD"), include the event.
         // Otherwise, check if the event date is today or from yesterday onward.
         const includeEvent = !eventDate || eventDate >= yesterday;
-        
+
         return includeEvent;
-      })      
+      })
       // Sort events by the formatted date
       .sort((a, b) => {
         if (!a.formattedDate) return 1;
         if (!b.formattedDate) return -1;
-      
+
         // Otherwise, compare the two dates
         return a.formattedDate.localeCompare(b.formattedDate);
       });
@@ -125,12 +158,14 @@ export async function getAllEvents(userId: string | undefined): Promise<EventObj
       console.error("Error fetching all events:", error.message);
       throw new Error(`Error fetching all events: ${error.message}`);
     } else {
-      throw new Error('An unknown error occurred while fetching events');
+      throw new Error("An unknown error occurred while fetching events");
     }
   }
 }
 
-export async function getEventRsvpCounts(): Promise<{ eventName: string; rsvpCount: number }[]> {
+export async function getEventRsvpCounts(): Promise<
+  { eventName: string; rsvpCount: number }[]
+> {
   try {
     await connectToDB();
     const events = await Event.find();
@@ -149,7 +184,9 @@ export async function getEventRsvpCounts(): Promise<{ eventName: string; rsvpCou
     if (error instanceof Error) {
       throw new Error(`Error fetching event RSVP counts: ${error.message}`);
     } else {
-      throw new Error('An unknown error occurred while fetching event RSVP counts');
+      throw new Error(
+        "An unknown error occurred while fetching event RSVP counts"
+      );
     }
   }
 }

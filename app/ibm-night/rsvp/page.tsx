@@ -17,6 +17,8 @@ export default function IBMRsvpPage() {
   const [eventDate, setEventDate] = useState("");
   const [eventTime, setEventTime] = useState("");
   const [eventLocation, setEventLocation] = useState("");
+  const [hasExistingTicket, setHasExistingTicket] = useState(false);
+  const [existingTicketNumber, setExistingTicketNumber] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -72,6 +74,28 @@ export default function IBMRsvpPage() {
     }
   }, [user, profileData, router]);
 
+  // Check if user already has a ticket for this event
+  useEffect(() => {
+    const checkExistingTicket = async () => {
+      if (!user?.userId || !eventId) return;
+
+      try {
+        const response = await fetch(`/api/tickets/details?eventId=${eventId}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.ticket) {
+            setHasExistingTicket(true);
+            setExistingTicketNumber(data.ticket.ticketNumber);
+          }
+        }
+      } catch (error) {
+        console.error("Error checking for existing ticket:", error);
+      }
+    };
+
+    checkExistingTicket();
+  }, [user?.userId, eventId]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -102,6 +126,15 @@ export default function IBMRsvpPage() {
       if (data.error) {
         toast.error(data.error);
         setLoading(false);
+        
+        // If user already has a ticket, redirect to confirmation page
+        if (data.alreadyHasTicket && data.ticketNumber && eventId) {
+          setTimeout(() => {
+            router.push(
+              `/ibm-night/ticket/confirm?ticketNumber=${data.ticketNumber}&eventId=${eventId}`
+            );
+          }, 2000);
+        }
         return;
       }
 
@@ -175,16 +208,40 @@ export default function IBMRsvpPage() {
                   RSVP Form
                 </h2>
 
-                {profileData?.plan !== "VIP" && (
-                  <div className="mb-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                    <p className="text-yellow-800">
-                      <i className="fa-solid fa-exclamation-triangle mr-2"></i>
-                      This form is for VIP members only. Basic members should purchase a ticket.
-                    </p>
+                {hasExistingTicket && existingTicketNumber ? (
+                  <div className="mb-6 p-6 bg-blue-50 rounded-lg border-2 border-blue-500">
+                    <div className="text-center">
+                      <i className="fa-solid fa-ticket-alt text-blue-500 text-4xl mb-4"></i>
+                      <h3 className="text-xl font-bold text-blue-800 mb-2">
+                        You Already Have a Ticket!
+                      </h3>
+                      <p className="text-gray-700 mb-4">
+                        Your ticket number: <strong className="text-lg">{existingTicketNumber}</strong>
+                      </p>
+                      <button
+                        onClick={() =>
+                          router.push(
+                            `/ibm-night/ticket/confirm?ticketNumber=${existingTicketNumber}&eventId=${eventId}`
+                          )
+                        }
+                        className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                      >
+                        View Ticket Details
+                      </button>
+                    </div>
                   </div>
-                )}
+                ) : (
+                  <>
+                    {profileData?.plan !== "VIP" && (
+                      <div className="mb-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                        <p className="text-yellow-800">
+                          <i className="fa-solid fa-exclamation-triangle mr-2"></i>
+                          This form is for VIP members only. Basic members should purchase a ticket.
+                        </p>
+                      </div>
+                    )}
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                   {/* First Name */}
                   <div>
                     <label
@@ -312,6 +369,8 @@ export default function IBMRsvpPage() {
                     </button>
                   </div>
                 </form>
+                  </>
+                )}
               </div>
             </motion.div>
           </div>

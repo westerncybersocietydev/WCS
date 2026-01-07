@@ -9,6 +9,8 @@ import {
   createFreeTicket,
   sendTicketConfirmationEmail,
   generateGoogleCalendarLink,
+  hasTicket,
+  getUserTicket,
 } from "@/app/lib/actions/ticket.action";
 
 const JWT_SECRET = process.env.JWT_SECRET || "";
@@ -87,6 +89,20 @@ export async function POST(req: NextRequest) {
     const event = await Event.findById(eventId);
     if (!event) {
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
+    }
+
+    // Check if user already has a ticket for this event
+    const alreadyHasTicket = await hasTicket(userId, eventId);
+    if (alreadyHasTicket) {
+      const existingTicket = await getUserTicket(userId, eventId);
+      return NextResponse.json(
+        {
+          error: "You already have a ticket for this event",
+          ticketNumber: existingTicket?.ticketNumber,
+          alreadyHasTicket: true,
+        },
+        { status: 400 }
+      );
     }
 
     // Only create ticket if attending
