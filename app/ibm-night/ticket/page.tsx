@@ -5,12 +5,38 @@ import { useUser } from "@/app/context/UserContext";
 import Navbar from "@/app/components/navbar";
 import Footer from "@/app/components/footer";
 import toast from "react-hot-toast";
-import Image from "next/image";
 import { motion } from "framer-motion";
+
+interface PayPalButtonActions {
+  close: () => void;
+  render: (container: HTMLElement) => void;
+}
+
+interface PayPalOrderData {
+  orderID: string;
+}
+
+interface PayPalError {
+  message?: string;
+  [key: string]: unknown;
+}
 
 declare global {
   interface Window {
-    paypal?: any;
+    paypal?: {
+      Buttons: (options: {
+        createOrder: () => Promise<string>;
+        onApprove: (data: PayPalOrderData) => Promise<void>;
+        onError: (err: PayPalError) => void;
+        onCancel: () => void;
+        style?: {
+          layout: string;
+          color: string;
+          shape: string;
+          label: string;
+        };
+      }) => PayPalButtonActions;
+    };
   }
 }
 
@@ -21,11 +47,10 @@ export default function IBMTicketPage() {
   const [paypalReady, setPaypalReady] = useState(false);
   const [eventId, setEventId] = useState<string | null>(null);
   const [eventName, setEventName] = useState("IBM Night");
-  const [isMember, setIsMember] = useState<boolean | null>(null);
   const [ticketCreated, setTicketCreated] = useState(false);
   const [ticketNumber, setTicketNumber] = useState<string | null>(null);
   const paypalButtonContainerRef = useRef<HTMLDivElement>(null);
-  const paypalButtonsRef = useRef<any>(null);
+  const paypalButtonsRef = useRef<PayPalButtonActions | null>(null);
 
   // Load PayPal JS SDK
   useEffect(() => {
@@ -36,17 +61,26 @@ export default function IBMTicketPage() {
       return;
     }
 
-    // Check if script already exists
+    // Check if script already exists and has correct parameters
     const existingScript = document.querySelector(
       `script[src*="paypal.com/sdk/js"]`
-    );
+    ) as HTMLScriptElement | null;
     if (existingScript) {
-      setPaypalReady(true);
-      return;
+      // Check if script has the required components parameter
+      if (
+        existingScript.src.includes("components=buttons") &&
+        existingScript.src.includes("enable-funding=card")
+      ) {
+        setPaypalReady(true);
+        return;
+      } else {
+        // Remove old script and reload with correct parameters
+        existingScript.remove();
+      }
     }
 
     const script = document.createElement("script");
-    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=CAD`;
+    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=CAD&components=buttons&enable-funding=card`;
     script.async = true;
     script.onload = () => {
       console.log("PayPal SDK loaded successfully");
@@ -193,7 +227,6 @@ export default function IBMTicketPage() {
 
           // If member, ticket was created for free
           if (data.member) {
-            setIsMember(true);
             setTicketCreated(true);
             setTicketNumber(data.ticketNumber);
             toast.success("Free ticket created! You're a VIP member.");
@@ -201,7 +234,6 @@ export default function IBMTicketPage() {
           }
 
           // If not a member, return PayPal order ID
-          setIsMember(false);
           return data.orderID;
         } catch (error) {
           console.error("Error creating order:", error);
@@ -217,7 +249,7 @@ export default function IBMTicketPage() {
           setLoading(false);
         }
       },
-      onApprove: async (data: any) => {
+      onApprove: async (data: PayPalOrderData) => {
         try {
           setLoading(true);
           const response = await fetch("/api/tickets/capture-order", {
@@ -249,7 +281,7 @@ export default function IBMTicketPage() {
           setLoading(false);
         }
       },
-      onError: (err: any) => {
+      onError: (err: PayPalError) => {
         console.error("PayPal error:", err);
         toast.error("Payment error occurred");
         setLoading(false);

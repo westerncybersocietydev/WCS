@@ -1,10 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
 import Navbar from "@/app/components/navbar";
 import Footer from "@/app/components/footer";
-import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function TicketConfirmPage() {
@@ -16,10 +15,63 @@ export default function TicketConfirmPage() {
   const [eventDate, setEventDate] = useState("");
   const [eventTime, setEventTime] = useState("");
   const [eventLocation, setEventLocation] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
   const [amountPaid, setAmountPaid] = useState<number | null>(null);
   const [googleCalendarLink, setGoogleCalendarLink] = useState<string>("");
   const [loading, setLoading] = useState(true);
+
+  const fetchTicketDetails = useCallback(
+    async (userId: string, eventId: string) => {
+      try {
+        // Fetch ticket details
+        const ticketResponse = await fetch(
+          `/api/tickets/details?userId=${userId}&eventId=${eventId}`
+        );
+        if (ticketResponse.ok) {
+          const ticketData = await ticketResponse.json();
+          if (ticketData.ticket) {
+            setAmountPaid(ticketData.ticket.amountPaid);
+          }
+        }
+
+        // Fetch event details
+        const eventResponse = await fetch(`/api/events/details?id=${eventId}`);
+        if (eventResponse.ok) {
+          const eventData = await eventResponse.json();
+          setEventName(eventData.name || "IBM Night");
+          setEventDate(eventData.date || "");
+          setEventTime(eventData.time || "");
+          setEventLocation(eventData.location || "");
+
+          // Generate Google Calendar link
+          if (eventData.date && eventData.time && eventData.location) {
+            const startDateTime = formatDateTimeForGoogle(
+              eventData.date,
+              eventData.time
+            );
+            const startTime = new Date(`${eventData.date} ${eventData.time}`);
+            const endTime = new Date(startTime);
+            endTime.setHours(startTime.getHours() + 1);
+            const endDateTime = formatDateTimeForGoogle(
+              endTime.toDateString(),
+              endTime.toTimeString().split(" ")[0]
+            );
+
+            const calendarLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+              eventData.name
+            )}&dates=${startDateTime}/${endDateTime}&location=${encodeURIComponent(
+              eventData.location
+            )}&details=${encodeURIComponent(eventData.description)}`;
+            setGoogleCalendarLink(calendarLink);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching ticket details:", error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     const ticketNum = searchParams.get("ticketNumber");
@@ -38,59 +90,7 @@ export default function TicketConfirmPage() {
     } else {
       setLoading(false);
     }
-  }, [searchParams, user, router]);
-
-  const fetchTicketDetails = async (userId: string, eventId: string) => {
-    try {
-      // Fetch ticket details
-      const ticketResponse = await fetch(
-        `/api/tickets/details?userId=${userId}&eventId=${eventId}`
-      );
-      if (ticketResponse.ok) {
-        const ticketData = await ticketResponse.json();
-        if (ticketData.ticket) {
-          setAmountPaid(ticketData.ticket.amountPaid);
-        }
-      }
-
-      // Fetch event details
-      const eventResponse = await fetch(`/api/events/details?id=${eventId}`);
-      if (eventResponse.ok) {
-        const eventData = await eventResponse.json();
-        setEventName(eventData.name || "IBM Night");
-        setEventDate(eventData.date || "");
-        setEventTime(eventData.time || "");
-        setEventLocation(eventData.location || "");
-        setEventDescription(eventData.description || "");
-
-        // Generate Google Calendar link
-        if (eventData.date && eventData.time && eventData.location) {
-          const startDateTime = formatDateTimeForGoogle(
-            eventData.date,
-            eventData.time
-          );
-          const startTime = new Date(`${eventData.date} ${eventData.time}`);
-          const endTime = new Date(startTime);
-          endTime.setHours(startTime.getHours() + 1);
-          const endDateTime = formatDateTimeForGoogle(
-            endTime.toDateString(),
-            endTime.toTimeString().split(" ")[0]
-          );
-
-          const calendarLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-            eventData.name
-          )}&dates=${startDateTime}/${endDateTime}&location=${encodeURIComponent(
-            eventData.location
-          )}&details=${encodeURIComponent(eventData.description)}`;
-          setGoogleCalendarLink(calendarLink);
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching ticket details:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [searchParams, user, router, fetchTicketDetails]);
 
   // Utility function to format date and time for Google Calendar
   const formatDateTimeForGoogle = (dateStr: string, timeStr: string) => {
@@ -221,7 +221,9 @@ export default function TicketConfirmPage() {
                         <span className="text-gray-600">Amount Paid:</span>
                         <span className="font-semibold">
                           {amountPaid === 0 ? (
-                            <span className="text-green-600">Free (VIP Member)</span>
+                            <span className="text-green-600">
+                              Free (VIP Member)
+                            </span>
                           ) : (
                             `$${amountPaid.toFixed(2)} CAD`
                           )}
@@ -275,13 +277,11 @@ export default function TicketConfirmPage() {
                       • Save your ticket number:{" "}
                       <strong className="font-mono">{ticketNumber}</strong>
                     </li>
+                    <li>• You&apos;ll receive a confirmation email shortly</li>
                     <li>
-                      • You&apos;ll receive a confirmation email shortly
+                      • Bring your ticket number to the event for check-in
                     </li>
-                    <li>• Bring your ticket number to the event for check-in</li>
-                    <li>
-                      • Check your email for event details and location
-                    </li>
+                    <li>• Check your email for event details and location</li>
                   </ul>
                 </div>
 
@@ -309,4 +309,3 @@ export default function TicketConfirmPage() {
     </>
   );
 }
-
