@@ -42,6 +42,8 @@ export default function IBMTicketPage() {
   // Load PayPal JS SDK
   useEffect(() => {
     const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
+    const paypalMode = process.env.NEXT_PUBLIC_PAYPAL_MODE || "sandbox";
+    
     if (!clientId) {
       console.error("PayPal client ID not configured");
       toast.error("Payment system not configured. Please contact support.");
@@ -57,16 +59,26 @@ export default function IBMTicketPage() {
       return;
     }
 
+    // Use sandbox endpoint for sandbox mode, production for live mode
+    const paypalBaseUrl = paypalMode === "live" 
+      ? "https://www.paypal.com" 
+      : "https://www.sandbox.paypal.com";
+
     const script = document.createElement("script");
-    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=CAD`;
+    script.src = `${paypalBaseUrl}/sdk/js?client-id=${clientId}&currency=CAD`;
     script.async = true;
     script.onload = () => {
-      console.log("PayPal SDK loaded successfully");
+      console.log("PayPal SDK loaded successfully", { mode: paypalMode, baseUrl: paypalBaseUrl });
+      if (!window.paypal) {
+        console.error("PayPal SDK loaded but window.paypal is undefined");
+        toast.error("Payment system initialization failed. Please refresh the page.");
+        return;
+      }
       setPaypalReady(true);
     };
-    script.onerror = () => {
-      console.error("Failed to load PayPal SDK");
-      toast.error("Failed to load payment system");
+    script.onerror = (error) => {
+      console.error("Failed to load PayPal SDK", { error, mode: paypalMode, baseUrl: paypalBaseUrl, clientId });
+      toast.error("Failed to load payment system. Please check your internet connection.");
     };
     document.body.appendChild(script);
 
@@ -187,6 +199,10 @@ export default function IBMTicketPage() {
           });
 
           const data = await response.json();
+
+          if (!response.ok || data.error) {
+            console.error("Create order error:", { status: response.status, data });
+          }
 
           if (data.error) {
             // If user already has a ticket, redirect to confirmation

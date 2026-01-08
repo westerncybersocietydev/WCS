@@ -136,9 +136,15 @@ export async function POST(req: NextRequest) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("PayPal order creation error:", errorText);
+      console.error("PayPal order creation error:", {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorText,
+        mode: process.env.PAYPAL_MODE,
+        baseUrl,
+      });
       return NextResponse.json(
-        { error: "Failed to create payment order" },
+        { error: "Failed to create payment order. Please try again." },
         { status: 500 }
       );
     }
