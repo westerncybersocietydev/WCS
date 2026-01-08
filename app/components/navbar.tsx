@@ -104,7 +104,12 @@ export default function Navbar() {
                 aria-label="About Us"
               >
                 <strong>
-                  ABOUT US <i className={`fa-solid fa-chevron-down transition-transform duration-300 ${aboutUsExpanded ? 'rotate-180' : ''}`}></i>
+                  ABOUT US{" "}
+                  <i
+                    className={`fa-solid fa-chevron-down transition-transform duration-300 ${
+                      aboutUsExpanded ? "rotate-180" : ""
+                    }`}
+                  ></i>
                 </strong>
               </button>
             </div>
@@ -122,11 +127,16 @@ export default function Navbar() {
             >
               <strong>IBM</strong>
             </a>
+            <a
+              href="/ibm-night"
+              className="relative text-black text-sm md:text-lg hover:text-violet-600 hover:text-xl transition-all duration-200 before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-violet-500 before:transition-all before:duration-500 hover:before:w-full"
+              aria-label="IBM Night Tickets"
+            >
+              <strong>IBM NIGHT TICKETS</strong>
+            </a>
             {user ? (
               <div className="relative inline-block group hover:text-xl transition-all duration-200">
-                <button
-                  className="relative text-black hover:text-violet-600 text-lg hover:scale-110 transition-all duration-500"
-                >
+                <button className="relative text-black hover:text-violet-600 text-lg hover:scale-110 transition-all duration-500">
                   <div
                     className="relative w-9 h-9 mt-1 overflow-hidden rounded-full"
                     style={{ flexShrink: 0 }}
@@ -209,7 +219,11 @@ export default function Navbar() {
           <div
             ref={aboutUsRef}
             className="absolute left-0 w-full shadow-lg z-30 slideDown overflow-hidden"
-            style={{ backgroundColor: "#fdf7ff", top: "100%", borderTop: "3px solid #8b5cf6" }}
+            style={{
+              backgroundColor: "#fdf7ff",
+              top: "100%",
+              borderTop: "3px solid #8b5cf6",
+            }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >

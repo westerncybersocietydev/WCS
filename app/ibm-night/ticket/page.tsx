@@ -120,7 +120,6 @@ export default function IBMTicketPage() {
 
       // If profileData is already loaded, check it
       if (profileData?.plan === "VIP") {
-        toast("VIP members use the RSVP form", { icon: "ℹ️" });
         router.push("/ibm-night/rsvp");
         return;
       }
@@ -132,8 +131,8 @@ export default function IBMTicketPage() {
           if (response.ok) {
             const data = await response.json();
             if (data.isVIP) {
-              toast("VIP members use the RSVP form", { icon: "ℹ️" });
               router.push("/ibm-night/rsvp");
+              return;
             }
           }
         } catch (error) {

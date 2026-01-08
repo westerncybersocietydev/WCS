@@ -11,16 +11,36 @@ export default function IBMNight() {
   const router = useRouter();
   const { user, profileData } = useUser();
 
-  const handleGetTicket = () => {
+  const handleGetTicket = async () => {
     if (!user?.userId) {
       router.push(`/sign-in?redirect=${encodeURIComponent("/ibm-night/ticket")}`);
-    } else if (profileData?.plan === "VIP") {
-      // VIP members go to RSVP form
-      router.push("/ibm-night/rsvp");
-    } else {
-      // Basic members go to payment page
-      router.push("/ibm-night/ticket");
+      return;
     }
+
+    // Check if profileData is loaded and shows VIP
+    if (profileData?.plan === "VIP") {
+      router.push("/ibm-night/rsvp");
+      return;
+    }
+
+    // If profileData is not loaded yet, check VIP status via API
+    if (profileData === null && user?.userId) {
+      try {
+        const response = await fetch("/api/check-vip");
+        if (response.ok) {
+          const data = await response.json();
+          if (data.isVIP) {
+            router.push("/ibm-night/rsvp");
+            return;
+          }
+        }
+      } catch (error) {
+        console.error("Error checking VIP status:", error);
+      }
+    }
+
+    // Default: Basic members go to payment page
+    router.push("/ibm-night/ticket");
   };
 
   return (

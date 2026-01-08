@@ -38,6 +38,12 @@ ADMIN_PASSWORD=your_admin_password
 MAILGUN_API_KEY=your_mailgun_api_key
 MAILGUN_DOMAIN=your_mailgun_domain
 
+# PayPal Configuration (for ticket payments)
+PAYPAL_CLIENT_ID=your_paypal_client_id
+PAYPAL_CLIENT_SECRET=your_paypal_client_secret
+PAYPAL_MODE=sandbox  # Use "sandbox" for testing, "live" for production
+NEXT_PUBLIC_PAYPAL_CLIENT_ID=your_paypal_client_id  # Same as PAYPAL_CLIENT_ID (exposed to browser)
+
 # Google Analytics
 NEXT_PUBLIC_MEASUREMENT_ID=G-XXXXXXXXXX
 ```
@@ -58,6 +64,10 @@ In your Vercel dashboard, set the following environment variables:
 - `ADMIN_PASSWORD` = `your_admin_password`
 - `MAILGUN_API_KEY` = `your_mailgun_api_key`
 - `MAILGUN_DOMAIN` = `your_mailgun_domain`
+- `PAYPAL_CLIENT_ID` = `your_paypal_client_id` (sandbox)
+- `PAYPAL_CLIENT_SECRET` = `your_paypal_client_secret` (sandbox)
+- `PAYPAL_MODE` = `sandbox`
+- `NEXT_PUBLIC_PAYPAL_CLIENT_ID` = `your_paypal_client_id` (sandbox)
 - `NEXT_PUBLIC_MEASUREMENT_ID` = `G-XXXXXXXXXX`
 
 ### Production Environment:
@@ -72,6 +82,10 @@ In your Vercel dashboard, set the following environment variables:
 - `ADMIN_PASSWORD` = `your_production_admin_password`
 - `MAILGUN_API_KEY` = `your_production_mailgun_api_key`
 - `MAILGUN_DOMAIN` = `your_production_mailgun_domain`
+- `PAYPAL_CLIENT_ID` = `your_live_paypal_client_id` (live)
+- `PAYPAL_CLIENT_SECRET` = `your_live_paypal_client_secret` (live)
+- `PAYPAL_MODE` = `live`
+- `NEXT_PUBLIC_PAYPAL_CLIENT_ID` = `your_live_paypal_client_id` (live)
 - `NEXT_PUBLIC_MEASUREMENT_ID` = `G-XXXXXXXXXX`
 
 ## Important Notes:

@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    return NextResponse.json({ ticket });
+    return NextResponse.json({ success: true, ticket });
   } catch (error) {
     console.error("Error fetching ticket details:", error);
     const errorMessage =
