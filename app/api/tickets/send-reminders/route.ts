@@ -3,7 +3,6 @@ import { NextRequest } from "next/server";
 import { connectToDB } from "@/app/lib/mongoose";
 import Ticket from "@/app/lib/models/ticket.model";
 import Event from "@/app/lib/models/event.model";
-import User from "@/app/lib/models/user.model";
 import {
   sendEventReminderEmail,
   generateGoogleCalendarLink,
@@ -57,7 +56,19 @@ export async function POST(req: NextRequest) {
     });
 
     // Send reminder emails
-    const emailPromises = tickets.map(async (ticket: any) => {
+    interface TicketWithUser {
+      userId: {
+        firstName: string;
+        lastName?: string;
+        _id: unknown;
+      };
+      userEmail: string;
+      ticketNumber: string;
+      reminderSent: boolean;
+      save: () => Promise<void>;
+    }
+
+    const emailPromises = tickets.map(async (ticket: TicketWithUser) => {
       try {
         const user = ticket.userId;
         if (!user) return;

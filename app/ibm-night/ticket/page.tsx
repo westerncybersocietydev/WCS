@@ -5,12 +5,25 @@ import { useUser } from "@/app/context/UserContext";
 import Navbar from "@/app/components/navbar";
 import Footer from "@/app/components/footer";
 import toast from "react-hot-toast";
-import Image from "next/image";
 import { motion } from "framer-motion";
+
+interface PayPalButtons {
+  render: (container: HTMLElement) => void;
+  close: () => void;
+}
+
+interface PayPalSDK {
+  Buttons: (options: {
+    createOrder: () => Promise<string>;
+    onApprove: (data: { orderID: string }) => Promise<void>;
+    onError: (err: Error) => void;
+    onCancel: () => void;
+  }) => PayPalButtons;
+}
 
 declare global {
   interface Window {
-    paypal?: any;
+    paypal?: PayPalSDK;
   }
 }
 
@@ -21,11 +34,10 @@ export default function IBMTicketPage() {
   const [paypalReady, setPaypalReady] = useState(false);
   const [eventId, setEventId] = useState<string | null>(null);
   const [eventName, setEventName] = useState("IBM Night");
-  const [isMember, setIsMember] = useState<boolean | null>(null);
   const [ticketCreated, setTicketCreated] = useState(false);
   const [ticketNumber, setTicketNumber] = useState<string | null>(null);
   const paypalButtonContainerRef = useRef<HTMLDivElement>(null);
-  const paypalButtonsRef = useRef<any>(null);
+  const paypalButtonsRef = useRef<PayPalButtons | null>(null);
 
   // Load PayPal JS SDK
   useEffect(() => {
@@ -193,7 +205,6 @@ export default function IBMTicketPage() {
 
           // If member, ticket was created for free
           if (data.member) {
-            setIsMember(true);
             setTicketCreated(true);
             setTicketNumber(data.ticketNumber);
             toast.success("Free ticket created! You're a VIP member.");
@@ -201,7 +212,6 @@ export default function IBMTicketPage() {
           }
 
           // If not a member, return PayPal order ID
-          setIsMember(false);
           return data.orderID;
         } catch (error) {
           console.error("Error creating order:", error);
@@ -217,7 +227,7 @@ export default function IBMTicketPage() {
           setLoading(false);
         }
       },
-      onApprove: async (data: any) => {
+      onApprove: async (data: { orderID: string }) => {
         try {
           setLoading(true);
           const response = await fetch("/api/tickets/capture-order", {
@@ -249,7 +259,7 @@ export default function IBMTicketPage() {
           setLoading(false);
         }
       },
-      onError: (err: any) => {
+      onError: (err: Error) => {
         console.error("PayPal error:", err);
         toast.error("Payment error occurred");
         setLoading(false);

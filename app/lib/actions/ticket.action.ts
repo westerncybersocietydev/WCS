@@ -4,7 +4,6 @@ import Ticket from "../models/ticket.model";
 import User from "../models/user.model";
 import Event from "../models/event.model";
 import { checkVIP } from "./user.action";
-// @ts-ignore - email.js is a JavaScript file
 import { sendEmail } from "../../utils/email";
 
 /**
@@ -198,14 +197,19 @@ export async function getUserTicket(
       paymentStatus: { $in: ["free", "completed"] },
     })
       .populate("eventId", "name date time location")
-      .lean();
+      .lean() as {
+      _id: unknown;
+      ticketNumber: string;
+      paymentStatus: string;
+      amountPaid: number;
+    } | null;
 
     if (!ticket) {
       return null;
     }
 
     return {
-      ticketId: ticket._id.toString(),
+      ticketId: String(ticket._id),
       ticketNumber: ticket.ticketNumber,
       paymentStatus: ticket.paymentStatus,
       amountPaid: ticket.amountPaid,
@@ -293,7 +297,7 @@ export async function generateGoogleCalendarLink({
 export async function sendTicketConfirmationEmail({
   to,
   firstName,
-  lastName,
+  lastName: _lastName,
   eventName,
   eventDate,
   eventTime,

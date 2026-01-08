@@ -1,13 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
 import Navbar from "@/app/components/navbar";
 import Footer from "@/app/components/footer";
-import Image from "next/image";
 import { motion } from "framer-motion";
 
-export default function TicketConfirmPage() {
+function TicketConfirmContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, profileData } = useUser();
@@ -16,31 +15,30 @@ export default function TicketConfirmPage() {
   const [eventDate, setEventDate] = useState("");
   const [eventTime, setEventTime] = useState("");
   const [eventLocation, setEventLocation] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
   const [amountPaid, setAmountPaid] = useState<number | null>(null);
   const [googleCalendarLink, setGoogleCalendarLink] = useState<string>("");
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const ticketNum = searchParams.get("ticketNumber");
-    const eventId = searchParams.get("eventId");
-
-    if (!ticketNum) {
-      router.push("/ibm-night");
-      return;
+  // Utility function to format date and time for Google Calendar
+  const formatDateTimeForGoogle = (dateStr: string, timeStr: string) => {
+    try {
+      const [, month, day, year] = dateStr.split(" ");
+      const fullDateStr = `${month} ${day}, ${year} ${timeStr}`;
+      const date = new Date(fullDateStr);
+      const yearPart = date.getFullYear();
+      const monthPart = String(date.getMonth() + 1).padStart(2, "0");
+      const dayPart = String(date.getDate()).padStart(2, "0");
+      const hoursPart = String(date.getHours()).padStart(2, "0");
+      const minutesPart = String(date.getMinutes()).padStart(2, "0");
+      const secondsPart = String(date.getSeconds()).padStart(2, "0");
+      return `${yearPart}${monthPart}${dayPart}T${hoursPart}${minutesPart}${secondsPart}`;
+    } catch (error) {
+      console.error("Invalid Google Calendar Date/Time:", error);
+      return "";
     }
+  };
 
-    setTicketNumber(ticketNum);
-
-    // Fetch ticket details if needed
-    if (user?.userId && eventId) {
-      fetchTicketDetails(user.userId, eventId);
-    } else {
-      setLoading(false);
-    }
-  }, [searchParams, user, router]);
-
-  const fetchTicketDetails = async (userId: string, eventId: string) => {
+  const fetchTicketDetails = useCallback(async (userId: string, eventId: string) => {
     try {
       // Fetch ticket details
       const ticketResponse = await fetch(
@@ -61,7 +59,6 @@ export default function TicketConfirmPage() {
         setEventDate(eventData.date || "");
         setEventTime(eventData.time || "");
         setEventLocation(eventData.location || "");
-        setEventDescription(eventData.description || "");
 
         // Generate Google Calendar link
         if (eventData.date && eventData.time && eventData.location) {
@@ -81,7 +78,7 @@ export default function TicketConfirmPage() {
             eventData.name
           )}&dates=${startDateTime}/${endDateTime}&location=${encodeURIComponent(
             eventData.location
-          )}&details=${encodeURIComponent(eventData.description)}`;
+          )}&details=${encodeURIComponent(eventData.description || "")}`;
           setGoogleCalendarLink(calendarLink);
         }
       }
@@ -90,26 +87,26 @@ export default function TicketConfirmPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Utility function to format date and time for Google Calendar
-  const formatDateTimeForGoogle = (dateStr: string, timeStr: string) => {
-    try {
-      const [, month, day, year] = dateStr.split(" ");
-      const fullDateStr = `${month} ${day}, ${year} ${timeStr}`;
-      const date = new Date(fullDateStr);
-      const yearPart = date.getFullYear();
-      const monthPart = String(date.getMonth() + 1).padStart(2, "0");
-      const dayPart = String(date.getDate()).padStart(2, "0");
-      const hoursPart = String(date.getHours()).padStart(2, "0");
-      const minutesPart = String(date.getMinutes()).padStart(2, "0");
-      const secondsPart = String(date.getSeconds()).padStart(2, "0");
-      return `${yearPart}${monthPart}${dayPart}T${hoursPart}${minutesPart}${secondsPart}`;
-    } catch (error) {
-      console.error("Invalid Google Calendar Date/Time:", error);
-      return "";
+  useEffect(() => {
+    const ticketNum = searchParams.get("ticketNumber");
+    const eventId = searchParams.get("eventId");
+
+    if (!ticketNum) {
+      router.push("/ibm-night");
+      return;
     }
-  };
+
+    setTicketNumber(ticketNum);
+
+    // Fetch ticket details if needed
+    if (user?.userId && eventId) {
+      fetchTicketDetails(user.userId, eventId);
+    } else {
+      setLoading(false);
+    }
+  }, [searchParams, user, router, fetchTicketDetails]);
 
   if (loading) {
     return (
@@ -310,3 +307,21 @@ export default function TicketConfirmPage() {
   );
 }
 
+export default function TicketConfirmPage() {
+  return (
+    <Suspense fallback={
+      <>
+        <Navbar />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+            <p className="mt-2 text-gray-600">Loading...</p>
+          </div>
+        </div>
+        <Footer />
+      </>
+    }>
+      <TicketConfirmContent />
+    </Suspense>
+  );
+}

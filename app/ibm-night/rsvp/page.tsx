@@ -5,7 +5,6 @@ import { useUser } from "@/app/context/UserContext";
 import Navbar from "@/app/components/navbar";
 import Footer from "@/app/components/footer";
 import toast from "react-hot-toast";
-import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function IBMRsvpPage() {
@@ -14,9 +13,6 @@ export default function IBMRsvpPage() {
   const [loading, setLoading] = useState(false);
   const [eventId, setEventId] = useState<string | null>(null);
   const [eventName, setEventName] = useState("IBM Night");
-  const [eventDate, setEventDate] = useState("");
-  const [eventTime, setEventTime] = useState("");
-  const [eventLocation, setEventLocation] = useState("");
   const [hasExistingTicket, setHasExistingTicket] = useState(false);
   const [existingTicketNumber, setExistingTicketNumber] = useState<string | null>(null);
 
@@ -45,14 +41,8 @@ export default function IBMRsvpPage() {
             setEventId(data.eventId);
             setEventName(data.name || "IBM Night");
             
-            // Fetch full event details
-            const eventResponse = await fetch(`/api/events/details?id=${data.eventId}`);
-            if (eventResponse.ok) {
-              const eventData = await eventResponse.json();
-              setEventDate(eventData.date || "");
-              setEventTime(eventData.time || "");
-              setEventLocation(eventData.location || "");
-            }
+            // Event details are fetched but not used in this component
+            // They are only needed for confirmation page redirect
           }
         }
       } catch (error) {
