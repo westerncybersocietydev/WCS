@@ -429,7 +429,7 @@ export default function Navbar() {
                   <strong>ABOUT US</strong>
                 </p>
                 <p className="text-gray-700 text-md ml-2 mb-5">
-                  We're dedicated to delivering innovative solutions and driving
+                  We&apos;re dedicated to delivering innovative solutions and driving
                   growth through strategic thinking and expert execution.
                 </p>
               </div>
