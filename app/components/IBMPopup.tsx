@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -10,6 +10,24 @@ interface IBMPopupProps {
 }
 
 const IBMPopup: React.FC<IBMPopupProps> = ({ isOpen, onClose }) => {
+    const [isTier2, setIsTier2] = useState(false);
+
+    useEffect(() => {
+        // Tier 2 starts at midnight on Jan 10, 2026 (Eastern Time)
+        const tier2StartDate = new Date("2026-01-10T00:00:00-05:00");
+
+        const checkTier = () => {
+            const now = new Date();
+            setIsTier2(now >= tier2StartDate);
+        };
+
+        checkTier();
+
+        // Check every minute in case the component stays open past midnight
+        const interval = setInterval(checkTier, 60000);
+        return () => clearInterval(interval);
+    }, []);
+
     if (!isOpen) return null;
 
     const highlights = [
@@ -18,6 +36,9 @@ const IBMPopup: React.FC<IBMPopupProps> = ({ isOpen, onClose }) => {
         "Career insights and internship opportunities",
         "Hands-on tech demonstrations",
     ];
+
+    const ticketLabel = isTier2 ? "TIER 2 Tickets Out" : "Early Bird Tickets";
+    const ticketPrice = isTier2 ? "$5" : "$2";
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
@@ -59,7 +80,7 @@ const IBMPopup: React.FC<IBMPopupProps> = ({ isOpen, onClose }) => {
                             IBM Night is Here!
                         </h2>
                         <p className="text-violet-600 font-bold text-xl mb-4">
-                            Early Bird Tickets — Only $5
+                            {ticketLabel} — Only {ticketPrice}
                         </p>
 
                         {/* What to Expect */}
