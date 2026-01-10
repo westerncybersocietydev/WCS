@@ -93,7 +93,15 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Basic members need to pay $2
+    // Basic members need to pay - price depends on tier
+    // Early Bird: $2 before Jan 10, 2026 midnight EST
+    // Tier 2: $5 on or after Jan 10, 2026 midnight EST
+    const tier2StartDate = new Date("2026-01-10T00:00:00-05:00");
+    const now = new Date();
+    const isTier2 = now >= tier2StartDate;
+    const ticketPrice = isTier2 ? "5.00" : "2.00";
+    const tierLabel = isTier2 ? "Tier 2" : "Early Bird";
+
     // Create PayPal order
     const accessToken = await getPayPalAccessToken();
     const baseUrl =
@@ -110,9 +118,9 @@ export async function POST(req: NextRequest) {
         {
           amount: {
             currency_code: "CAD",
-            value: "2.00",
+            value: ticketPrice,
           },
-          description: `WCS ${event.name} - Non-member ticket`,
+          description: `WCS ${event.name} - ${tierLabel} ticket`,
           custom_id: userId,
         },
       ],

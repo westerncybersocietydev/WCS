@@ -38,12 +38,25 @@ export default function IBMTicketPage() {
   const [ticketNumber, setTicketNumber] = useState<string | null>(null);
   const paypalButtonContainerRef = useRef<HTMLDivElement>(null);
   const paypalButtonsRef = useRef<PayPalButtons | null>(null);
+  const [isTier2, setIsTier2] = useState(false);
+
+  // Check if we're past early bird deadline (midnight Jan 10, 2026)
+  useEffect(() => {
+    const tier2StartDate = new Date("2026-01-10T00:00:00-05:00");
+    const checkTier = () => {
+      const now = new Date();
+      setIsTier2(now >= tier2StartDate);
+    };
+    checkTier();
+    const interval = setInterval(checkTier, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Load PayPal JS SDK
   useEffect(() => {
     const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
     const paypalMode = process.env.NEXT_PUBLIC_PAYPAL_MODE || "sandbox";
-    
+
     if (!clientId) {
       console.error("PayPal client ID not configured");
       toast.error("Payment system not configured. Please contact support.");
@@ -60,8 +73,8 @@ export default function IBMTicketPage() {
     }
 
     // Use sandbox endpoint for sandbox mode, production for live mode
-    const paypalBaseUrl = paypalMode === "live" 
-      ? "https://www.paypal.com" 
+    const paypalBaseUrl = paypalMode === "live"
+      ? "https://www.paypal.com"
       : "https://www.sandbox.paypal.com";
 
     const script = document.createElement("script");
@@ -353,7 +366,9 @@ export default function IBMTicketPage() {
                 <p className="text-sm md:text-lg md:text-xl leading-relaxed">
                   {profileData?.plan === "VIP"
                     ? "VIP members get free tickets!"
-                    : "Non-members: $2 CAD"}
+                    : isTier2
+                      ? "TIER 2 Tickets — $5.00"
+                      : "Early Bird Tickets — $2.00 (Get them now!)"}
                 </p>
               </div>
             </div>
@@ -424,8 +439,9 @@ export default function IBMTicketPage() {
                       <div className="mb-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
                         <p className="text-yellow-800">
                           <i className="fa-solid fa-info-circle mr-2"></i>
-                          Non-members: $2 CAD per ticket. VIP members get free
-                          tickets.
+                          {isTier2
+                            ? "TIER 2 Tickets: $5.00. VIP members get free tickets."
+                            : "Early Bird Pricing: $2.00! Get your tickets now. VIP members get free tickets."}
                         </p>
                       </div>
                     )}
