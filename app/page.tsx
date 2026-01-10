@@ -130,12 +130,12 @@ export default function Home() {
           <Navbar />
           <IBMPopup isOpen={showPromo} onClose={() => setShowPromo(false)} />
           <div className="relative">
-            <div className="flex flex-col items-center justify-center  mb-10">
-              <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl text-2xl md:text-5xl lg:text-6xl xl:text-8xl font-sans">
+            <div className="flex flex-col items-center justify-center mb-10">
+              <h1 className="mt-24 md:mt-16 pt-8 md:pt-16 text-black text-center tracking-widest font-bold w-full max-w-[280px] sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl text-lg sm:text-2xl md:text-5xl lg:text-6xl xl:text-8xl font-sans px-2 break-words">
                 {staticPart}
                 <span className="wrap">{text}</span>
               </h1>
-              <h2 className="mt-3 text-sm md:text-md max-w-2xl md:max-w-xl lg:max-w-xl xl:max-w-4xl text-gray-700 text-center tracking-wide text-sm">
+              <h2 className="mt-3 text-xs sm:text-sm md:text-md max-w-xs sm:max-w-md md:max-w-xl lg:max-w-xl xl:max-w-4xl text-gray-700 text-center tracking-wide px-4">
                 Recognized as the leading tech club at Western University, we
                 prioritize maximizing value and delivering exceptional returns
                 on investment for our members.
@@ -220,7 +220,7 @@ export default function Home() {
                   transition={{ type: "tween", duration: 0.5 }}
                   viewport={{ margin: "-50px", once: true }}
                   key={index}
-                  className="relative bg-black cursor-pointer w-48 h-64 md:w-1/5 md:h-[30vw] overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
+                  className="relative bg-black cursor-pointer w-40 h-52 sm:w-48 sm:h-64 md:w-1/4 lg:w-1/5 md:h-[30vw] overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
                 >
                   <div
                     className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:blur-lg group-hover:opacity-90"
@@ -274,7 +274,7 @@ export default function Home() {
                   transition={{ type: "tween", duration: 0.5 }}
                   viewport={{ margin: "-50px", once: true }}
                   key={index}
-                  className={`relative w-5/6 md:w-1/3 h-60 overflow-hidden group ${social.color} social-hover shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)] shadow-gray-500 rounded`}
+                  className={`relative w-full sm:w-5/6 md:w-1/3 h-60 overflow-hidden group ${social.color} social-hover shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)] shadow-gray-500 rounded`}
                 >
                   <a
                     href={social.profileUrl}
@@ -335,7 +335,7 @@ export default function Home() {
               {faqs.map((faq, index) => (
                 <div
                   key={index}
-                  className="flex flex-col transition-all duration-500 hover:scale-105 cursor-pointer justify-center items-center w-5/6 md:w-1/4 md:min-h-[18vw] p-5 m-3 border-b-2 border-gray-300 bg-white rounded-lg shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)]"
+                  className="flex flex-col transition-all duration-500 hover:scale-105 cursor-pointer justify-center items-center w-full sm:w-5/6 md:w-1/4 md:min-h-[18vw] p-4 sm:p-5 m-2 sm:m-3 border-b-2 border-gray-300 bg-white rounded-lg shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)]"
                 >
                   <h2 className="text-md md:text-lg 2xl:text-xl font-extrabold text-black text-center mb-2">
                     {faq.question}

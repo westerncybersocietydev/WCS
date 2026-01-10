@@ -24,7 +24,7 @@ export default function Events() {
           <Navbar />
           <div className="text-black">
             <section
-              className="mt-40 md:mt-16 relative w-full h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
+              className="mt-20 md:mt-16 relative w-full h-[70vw] sm:h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
               style={{ backgroundImage: "url('/projectBg.jpg')" }}
             >
               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">

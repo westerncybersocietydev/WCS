@@ -407,10 +407,10 @@ function SearchParamsComponent() {
         <div>
           <Navbar />
           <div className="mt-16 flex flex-col text-black items-center justify-center min-h-screen p-4">
-            <div className="w-full">
+            <div className="w-full flex justify-start px-4 md:px-0">
               {step === 2 && (
                 <button
-                  className="mb-4 ml-80 cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-125"
+                  className="mb-4 cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-125"
                   onClick={() => handleBack()}
                 >
                   <i className="fa-solid fa-arrow-left"></i>
@@ -640,13 +640,14 @@ function SearchParamsComponent() {
               )}
 
               {step === 2 && (
-                <div className="flex w-full justify-center space-x-8 mx-32">
-                  <div className="w-2/5 bg-white rounded-lg p-8 shadow-lg border-2 border-gray-200">
+                <div className="flex flex-col md:flex-row w-full justify-center gap-6 md:gap-8 px-4 md:px-8 lg:px-32">
+                  {/* Basic Plan Card */}
+                  <div className="w-full md:w-1/2 lg:w-2/5 bg-white rounded-lg p-6 md:p-8 shadow-lg border-2 border-gray-200 order-2 md:order-1">
                     <p className="text-gray-400" style={{ fontSize: "13px" }}>
                       Plan
                     </p>
-                    <h1 className="text-black font-bold text-3xl">Basic</h1>
-                    <p className="mt-3 mb-8 text-gray-700 text-sm">
+                    <h1 className="text-black font-bold text-2xl md:text-3xl">Basic</h1>
+                    <p className="mt-3 mb-6 md:mb-8 text-gray-700 text-sm">
                       The Basic Plan is ideal for students beginning their
                       journey.
                     </p>
@@ -669,25 +670,27 @@ function SearchParamsComponent() {
                       </li>
                     ))}
                     <button
-                      className="mt-10 w-full tracking-widest rounded-full font-semibold text-white
+                      className="mt-8 md:mt-10 w-full tracking-widest rounded-full font-semibold text-white
             border-2 font-bold bg-gradient-to-r from-purple-500 to-violet-500 hover:scale-105 hover:bg-gradient-to-r hover:from-purple-700 hover:to-violet-800
-             py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+             py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg text-sm md:text-base"
                       onClick={handleBasic}
                     >
                       {basicLoading ? "Creating Account..." : "Continue"}
                     </button>
                   </div>
-                  <div className="w-2/5 bg-white rounded-lg p-8 shadow-lg border-2 border-purple-500 relative">
+
+                  {/* VIP Plan Card */}
+                  <div className="w-full md:w-1/2 lg:w-2/5 bg-white rounded-lg p-6 md:p-8 shadow-lg border-2 border-purple-500 relative order-1 md:order-2">
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <span className="bg-gradient-to-r from-purple-500 to-violet-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                      <span className="bg-gradient-to-r from-purple-500 to-violet-500 text-white px-4 py-1 rounded-full text-xs md:text-sm font-semibold">
                         RECOMMENDED
                       </span>
                     </div>
-                    <p className="text-gray-400" style={{ fontSize: "13px" }}>
+                    <p className="text-gray-400 mt-2 md:mt-0" style={{ fontSize: "13px" }}>
                       Plan
                     </p>
-                    <h1 className="text-black font-bold text-3xl">VIP</h1>
-                    <p className="mt-3 mb-8 text-gray-700 text-sm">
+                    <h1 className="text-black font-bold text-2xl md:text-3xl">VIP</h1>
+                    <p className="mt-3 mb-6 md:mb-8 text-gray-700 text-sm">
                       Unlock exclusive benefits and premium features with our
                       VIP membership.
                     </p>
@@ -709,16 +712,16 @@ function SearchParamsComponent() {
                         {benefit}
                       </li>
                     ))}
-                    <div className="mt-6 mb-4">
+                    <div className="mt-4 md:mt-6 mb-4">
                       <span className="text-2xl font-bold text-purple-600">
                         $15
                       </span>
                       <span className="text-gray-500 ml-2"></span>
                     </div>
                     <button
-                      className="mt-4 w-full tracking-widest rounded-full font-semibold text-white
+                      className="mt-2 md:mt-4 w-full tracking-widest rounded-full font-semibold text-white
             border-2 font-bold bg-gradient-to-r from-purple-500 to-violet-500 hover:scale-105 hover:bg-gradient-to-r hover:from-purple-700 hover:to-violet-800
-             py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+             py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg text-sm md:text-base"
                       onClick={handleVIP}
                     >
                       {vipLoading ? (
@@ -735,8 +738,8 @@ function SearchParamsComponent() {
               )}
 
               {step === 3 && (
-                <div className="text-center space-y-2 px-20">
-                  <h3 className="text-3xl font-semibold text-gray-800">
+                <div className="text-center space-y-2 px-4 md:px-20">
+                  <h3 className="text-2xl md:text-3xl font-semibold text-gray-800">
                     Congratulations!
                   </h3>
                   <h3 className="text-xl font-semibold text-gray-800">
