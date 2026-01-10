@@ -10,6 +10,7 @@ import Image from "next/image";
 import { boxes } from "./dataFiles/homePage/highlightEvents";
 import { socials } from "./dataFiles/homePage/socials";
 import { faqs } from "./dataFiles/homePage/faqs";
+import IBMPopup from "./components/IBMPopup";
 
 const formatBio = (bio: string) => {
   return bio.split("\n").map((line, index) => (
@@ -19,7 +20,7 @@ const formatBio = (bio: string) => {
     </React.Fragment>
   ));
 };
- 
+
 export default function Home() {
   const router = useRouter();
   const { user } = useUser();
@@ -33,11 +34,13 @@ export default function Home() {
   const [delta, setDelta] = useState<number>(300 - Math.random() * 100);
   const [isClient, setIsClient] = useState(false);
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [showPromo, setShowPromo] = useState(false);
   const period: number = 3000;
 
   // Ensure we're on the client side
   useEffect(() => {
     setIsClient(true);
+    setShowPromo(true);
 
     // Check if fonts are loaded
     if (typeof window !== "undefined") {
@@ -125,6 +128,7 @@ export default function Home() {
       <main>
         <div>
           <Navbar />
+          <IBMPopup isOpen={showPromo} onClose={() => setShowPromo(false)} />
           <div className="relative">
             <div className="flex flex-col items-center justify-center  mb-10">
               <h1 className="mt-16 pt-16 text-black text-center tracking-widest font-bold max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl text-2xl md:text-5xl lg:text-6xl xl:text-8xl font-sans">
