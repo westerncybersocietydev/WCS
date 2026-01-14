@@ -10,7 +10,7 @@ import Image from "next/image";
 import { boxes } from "./dataFiles/homePage/highlightEvents";
 import { socials } from "./dataFiles/homePage/socials";
 import { faqs } from "./dataFiles/homePage/faqs";
-import IBMPopup from "./components/IBMPopup";
+import ReminderPopup from "./components/ReminderPopup";
 
 const formatBio = (bio: string) => {
   return bio.split("\n").map((line, index) => (
@@ -128,7 +128,7 @@ export default function Home() {
       <main>
         <div>
           <Navbar />
-          <IBMPopup isOpen={showPromo} onClose={() => setShowPromo(false)} />
+          <ReminderPopup isOpen={showPromo} onClose={() => setShowPromo(false)} />
           <div className="relative">
             <div className="flex flex-col items-center justify-center mb-10">
               <h1 className="mt-24 md:mt-16 pt-8 md:pt-16 text-black text-center tracking-widest font-bold w-full max-w-[280px] sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl text-lg sm:text-2xl md:text-5xl lg:text-6xl xl:text-8xl font-sans px-2 break-words">

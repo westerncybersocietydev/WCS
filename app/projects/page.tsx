@@ -144,14 +144,14 @@ export default function Projects() {
                     Student Innovation Projects
                   </h1>
                 </div>
-                <div className="mt-5 md:mt-0 flex justify-center items-center gap-4 md:gap-0 flex-col md:flex-row md:space-x-4">
+                <div className="mt-5 md:mt-0 flex justify-center items-center gap-4 md:gap-0 flex-col md:flex-row md:space-x-4 w-full md:w-auto">
                   <div className="relative flex items-center">
                     <input
                       type="text"
                       placeholder="Project name..."
                       value={searchTerm}
                       onChange={handleSearchChange}
-                      className="border w-full md:w-[30vw] border-gray-500 text-black rounded-full text-sm shadow-sm h-full p-2 pr-10 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                      className="border w-full md:w-[30vw] border-gray-500 text-black rounded-full text-sm shadow-sm h-10 p-2 pr-10 hover:shadow-lg hover:border-blue-400 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                     />
                     <i className="fa-solid fa-magnifying-glass absolute right-4 text-gray-400"></i>
                   </div>
@@ -159,7 +159,7 @@ export default function Projects() {
                   <select
                     value={selectedCategory}
                     onChange={handleCategoryChange}
-                    className="border border-gray-500 rounded-full h-full p-2 w-[16vw] shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:shadow-md hover:border-blue-400 hover:bg-white text-gray-700"
+                    className="border border-gray-500 rounded-full h-10 p-2 w-full md:w-[16vw] shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:shadow-md hover:border-blue-400 hover:bg-white text-gray-700"
                   >
                     <option value="All">All</option>
                     <option value="Cybersecurity">Cybersecurity</option>
@@ -234,15 +234,15 @@ export default function Projects() {
           >
             {/* Left half: Text */}
             <div
-              className="w-full md:w-1/2 flex flex-col py-5 text-black justify-center items-center md:items-start"
+              className="w-full md:w-1/2 flex flex-col py-10 md:py-5 text-black justify-center items-center md:items-start px-6 md:px-10 text-center md:text-left"
               style={{
                 backgroundImage: "url('/landing2.png')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
             >
-              <h1 className="ml-10 text-5xl font-extrabold mt-5">Intrigued?</h1>
-              <p className="ml-10 text-lg mt-5">
+              <h1 className="text-3xl md:text-5xl font-extrabold mt-5">Intrigued?</h1>
+              <p className="text-sm md:text-lg mt-5">
                 If you&apos;re interested in any of our projects, please apply
                 using the link below. For any inquiries, feel free to reach out
                 to us via our
@@ -256,7 +256,7 @@ export default function Projects() {
                 onClick={() =>
                   window.open("https://forms.gle/dwpx4Y5u2T3tAupK9", "_blank")
                 }
-                className="ml-10 w-3/5 md:w-1/4 mt-5 tracking-widest rounded-full font-semibold
+                className="w-3/5 md:w-1/4 mt-5 tracking-widest rounded-full font-semibold
             border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 text-white 
             hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800 
             px-5 py-2 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
