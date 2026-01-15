@@ -1,44 +1,37 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-interface IBMPopupProps {
+interface ReminderPopupProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-const IBMPopup: React.FC<IBMPopupProps> = ({ isOpen, onClose }) => {
-    const [isTier2, setIsTier2] = useState(false);
+const ReminderPopup: React.FC<ReminderPopupProps> = ({ isOpen, onClose }) => {
+    // VISIBILITY FLAG
+    // Set this to false to disable the popup globally
+    const SHOW_POPUP = false;
 
-    useEffect(() => {
-        // Tier 2 starts at midnight on Jan 10, 2026 (Eastern Time)
-        const tier2StartDate = new Date("2026-01-10T00:00:00-05:00");
+    // INFO CONFIGURATION
+    // Change these values to update the popup content easily
+    const EVENT_INFO = {
+        title: "Recruit Ready",
+        subtitle: "Prep for Success",
+        priceOrLabel: "Workshop Series",
+        imagePath: "/projectBg.jpg", // Change to appropriate image
+        link: "/recruit-ready",
+        ctaText: "LEARN MORE",
+        highlights: [
+            "Resume & Cover Letter Workshops",
+            "Mock Interviews with Feedback",
+            "Networking Strategies",
+            "Industry Expert Insights",
+        ]
+    };
 
-        const checkTier = () => {
-            const now = new Date();
-            setIsTier2(now >= tier2StartDate);
-        };
-
-        checkTier();
-
-        // Check every minute in case the component stays open past midnight
-        const interval = setInterval(checkTier, 60000);
-        return () => clearInterval(interval);
-    }, []);
-
-    if (!isOpen) return null;
-
-    const highlights = [
-        "Interactive presentations on IBM's latest technologies",
-        "Networking with IBM professionals and students",
-        "Career insights and internship opportunities",
-        "Hands-on tech demonstrations",
-    ];
-
-    const ticketLabel = isTier2 ? "TIER 2 Tickets Out" : "Early Bird Tickets";
-    const ticketPrice = isTier2 ? "$5" : "$2";
+    if (!isOpen || !SHOW_POPUP) return null;
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
@@ -61,8 +54,8 @@ const IBMPopup: React.FC<IBMPopupProps> = ({ isOpen, onClose }) => {
                 {/* Image Section */}
                 <div className="relative w-full h-48 md:h-56">
                     <Image
-                        src="/IBMN.png"
-                        alt="IBM Night Event"
+                        src={EVENT_INFO.imagePath}
+                        alt="Event Reminder"
                         fill
                         className="object-cover"
                         priority
@@ -77,10 +70,10 @@ const IBMPopup: React.FC<IBMPopupProps> = ({ isOpen, onClose }) => {
 
                     <div className="relative z-10">
                         <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-1">
-                            IBM Night is Here!
+                            {EVENT_INFO.title}
                         </h2>
                         <p className="text-violet-600 font-bold text-xl mb-4">
-                            {ticketLabel} — Only {ticketPrice}
+                            {EVENT_INFO.subtitle} — {EVENT_INFO.priceOrLabel}
                         </p>
 
                         {/* What to Expect */}
@@ -89,7 +82,7 @@ const IBMPopup: React.FC<IBMPopupProps> = ({ isOpen, onClose }) => {
                                 What to Expect
                             </h3>
                             <ul className="space-y-2">
-                                {highlights.map((item, index) => (
+                                {EVENT_INFO.highlights.map((item, index) => (
                                     <li key={index} className="flex items-start text-gray-700 text-sm">
                                         <i className="fa-solid fa-check-circle text-violet-500 mr-2 mt-0.5 flex-shrink-0"></i>
                                         <span>{item}</span>
@@ -100,10 +93,10 @@ const IBMPopup: React.FC<IBMPopupProps> = ({ isOpen, onClose }) => {
 
                         {/* CTA Button */}
                         <Link
-                            href="/ibm-night/ticket"
+                            href={EVENT_INFO.link}
                             className="block w-full bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
                         >
-                            GET TICKETS NOW
+                            {EVENT_INFO.ctaText}
                         </Link>
 
                         {/* Dismiss Link */}
@@ -120,4 +113,4 @@ const IBMPopup: React.FC<IBMPopupProps> = ({ isOpen, onClose }) => {
     );
 };
 
-export default IBMPopup;
+export default ReminderPopup;

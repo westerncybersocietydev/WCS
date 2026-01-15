@@ -191,11 +191,10 @@ export default function Profile() {
                 {Avatar.map((imgSrc, index) => (
                   <div
                     key={index}
-                    className={`relative w-12 h-12 mb-4 cursor-pointer ${
-                      profileData?.avatar === imgSrc
-                        ? "border-2 border-violet-500"
-                        : ""
-                    }`}
+                    className={`relative w-12 h-12 mb-4 cursor-pointer ${profileData?.avatar === imgSrc
+                      ? "border-2 border-violet-500"
+                      : ""
+                      }`}
                     onClick={() => handleAvatarChange(imgSrc)}
                   >
                     <Image
@@ -455,7 +454,7 @@ export default function Profile() {
       case "plan":
       case "plan":
         return (
-          <div className="relative space-y-2 bg-white rounded-lg w-full shadow-md p-9">
+          <div className="relative space-y-2 bg-white rounded-lg w-full shadow-md p-6 md:p-9">
             <div>
               <p className="text-gray-400" style={{ fontSize: "11px" }}>
                 Current Plan
@@ -465,7 +464,7 @@ export default function Profile() {
               </h1>
               {profileData?.plan === "Basic" ? (
                 <>
-                  <p className="mt-3 mb-3 text-gray-700 text-xs w-[24vw]">
+                  <p className="mt-3 mb-3 text-gray-700 text-xs md:max-w-[24vw]">
                     The Basic Plan is ideal for students beginning their
                     journey.
                   </p>
@@ -513,7 +512,7 @@ export default function Profile() {
 
             {profileData?.plan === "Basic" && (
               <button
-                className="absolute top-10 right-5 rounded text-white
+                className="mt-4 md:mt-0 md:absolute md:top-10 md:right-5 w-full md:w-auto rounded text-white
                  border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
                  px-6 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg text-sm"
                 onClick={handleUpgradeToVIP}
@@ -538,7 +537,7 @@ export default function Profile() {
       <main>
         <div>
           <Navbar />
-          <div className="mt-16 flex flex-col min-h-screen">
+          <div className="mt-20 md:mt-16 flex flex-col min-h-screen">
             <div className="flex w-full">
               <div className="w-full">
                 <div className="absolute hidden md:block flex flex-col">
@@ -562,49 +561,45 @@ export default function Profile() {
                       {profileData?.description}
                     </p>
                     <p
-                      className={`mt-3 py-1 px-2 text-white rounded text-xs ${
-                        profileData?.plan === "VIP"
-                          ? "bg-violet-500"
-                          : "bg-gray-500"
-                      }`}
+                      className={`mt-3 py-1 px-2 text-white rounded text-xs ${profileData?.plan === "VIP"
+                        ? "bg-violet-500"
+                        : "bg-gray-500"
+                        }`}
                     >
                       {profileData?.plan}
                     </p>
                   </div>
                 </div>
-                <div className="flex justify-center items-center text-sm font-bold border-b pt-10 border-gray-300">
+                <div className="flex flex-wrap justify-center items-center text-xs md:text-sm font-bold border-b pt-4 md:pt-10 border-gray-300 gap-1 md:gap-0">
                   <button
-                    className={`px-4 py-2 focus:outline-none ${
-                      selectedTab === "basic"
-                        ? "border-b-2 border-violet-500 text-violet-500"
-                        : "text-gray-500"
-                    }`}
+                    className={`px-4 py-2 focus:outline-none ${selectedTab === "basic"
+                      ? "border-b-2 border-violet-500 text-violet-500"
+                      : "text-gray-500"
+                      }`}
                     onClick={() => handleTabClick("basic")}
                   >
                     Edit Your Profile
                   </button>
                   <button
-                    className={`px-4 py-2 focus:outline-none ${
-                      selectedTab === "password"
-                        ? "border-b-2 border-violet-500 text-violet-500"
-                        : "text-gray-500"
-                    }`}
+                    className={`px-4 py-2 focus:outline-none ${selectedTab === "password"
+                      ? "border-b-2 border-violet-500 text-violet-500"
+                      : "text-gray-500"
+                      }`}
                     onClick={() => handleTabClick("password")}
                   >
                     Change Your Password
                   </button>
                   <button
-                    className={`px-4 py-2 focus:outline-none ${
-                      selectedTab === "plan"
-                        ? "border-b-2 border-violet-500 text-violet-500"
-                        : "text-gray-500"
-                    }`}
+                    className={`px-4 py-2 focus:outline-none ${selectedTab === "plan"
+                      ? "border-b-2 border-violet-500 text-violet-500"
+                      : "text-gray-500"
+                      }`}
                     onClick={() => handleTabClick("plan")}
                   >
                     Plan
                   </button>
                 </div>
-                <div className="p-3 flex items-center w-full md:w-1/2 mx-auto justify-center">
+                <div className="p-3 flex items-center w-full px-4 md:w-1/2 mx-auto justify-center">
                   {renderTab()}
                 </div>
               </div>

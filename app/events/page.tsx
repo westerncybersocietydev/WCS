@@ -24,7 +24,7 @@ export default function Events() {
           <Navbar />
           <div className="text-black">
             <section
-              className="mt-40 md:mt-16 relative w-full h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
+              className="mt-20 md:mt-16 relative w-full h-[70vw] sm:h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
               style={{ backgroundImage: "url('/projectBg.jpg')" }}
             >
               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -59,16 +59,16 @@ export default function Events() {
                   whileInView={{ y: 0, opacity: 1 }}
                   transition={{ type: "tween", duration: 0.5 }}
                   viewport={{ margin: "-50px", once: true }}
-                  onClick={() => router.push("/ibm-night")}
+                  onClick={() => router.push("/recruit-ready")}
                   className="relative bg-black cursor-pointer w-full h-64 md:h-[30vw] overflow-hidden transition-transform duration-500 transform group hover:scale-105 shadow-[0_4px_10px_5px_rgba(0,0,0,0.75)]"
                 >
                   <div
                     className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:blur-lg group-hover:opacity-90"
-                    style={{ backgroundImage: 'url("/IBMN.png")' }}
+                    style={{ backgroundImage: 'url("/projectBg.jpg")' }}
                   />
                   <Image
-                    src="/IBMN.png"
-                    alt="IBM Night"
+                    src="/projectBg.jpg"
+                    alt="Recruit Ready"
                     fill
                     className="w-full h-full object-cover transition-all duration-700 group-hover:translate-x-full group-hover:translate-y-full group-hover:blur-xl group-hover:scale-150"
                   />
@@ -77,9 +77,8 @@ export default function Events() {
                   >
                     <div className="p-5">
                       <p>
-                        An evening of innovation and technology exploration
-                        hosted by IBM, showcasing their latest advancements and
-                        opportunities.
+                        Get ready for recruitment season with our comprehensive workshop series
+                        designed to prepare you for interviews and networking.
                       </p>
                     </div>
                   </div>
