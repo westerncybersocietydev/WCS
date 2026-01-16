@@ -167,6 +167,13 @@ export default function Navbar() {
             >
               <strong>IBM</strong>
             </a>
+            <a
+              href="/recruit-ready"
+              className="relative text-black text-sm lg:text-lg hover:text-violet-600 hover:text-xl transition-all duration-200 before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-violet-500 before:transition-all before:duration-500 hover:before:w-full"
+              aria-label="Recruit Ready Tickets"
+            >
+              <strong>RECRUIT READY TICKETS</strong>
+            </a>
             {user ? (
               <div className="relative inline-block group hover:text-xl transition-all duration-200">
                 <button className="relative text-black hover:text-violet-600 text-lg hover:scale-110 transition-all duration-500">
@@ -347,6 +354,12 @@ export default function Navbar() {
                 className="py-3 text-left text-gray-800 font-semibold border-b border-gray-200 hover:text-violet-600"
               >
                 IBM
+              </button>
+              <button
+                onClick={() => handleMobileNavClick("/recruit-ready")}
+                className="py-3 text-left text-gray-800 font-semibold border-b border-gray-200 hover:text-violet-600"
+              >
+                RECRUIT READY TICKETS
               </button>
 
               {user && (

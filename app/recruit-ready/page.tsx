@@ -44,6 +44,7 @@ export default function RecruitReady() {
     // Default: Basic members go to payment page
     router.push("/recruit-ready/ticket");
   };
+
   return (
     <>
       <main>
@@ -112,11 +113,15 @@ export default function RecruitReady() {
                       </li>
                       <li className="flex items-start">
                         <i className="fa-solid fa-check-circle text-violet-600 mr-3 mt-1"></i>
-                        <span>Mock Interviews with feedback</span>
+                        <span>Interview Tips with feedback</span>
                       </li>
                       <li className="flex items-start">
                         <i className="fa-solid fa-check-circle text-violet-600 mr-3 mt-1"></i>
-                        <span>Networking strategies and tips</span>
+                        <span>Professional Headshots</span>
+                      </li>
+                      <li className="flex items-start">
+                        <i className="fa-solid fa-check-circle text-violet-600 mr-3 mt-1"></i>
+                        <span>Networking and Coffee Chat Tips</span>
                       </li>
                     </ul>
                   </div>

@@ -83,24 +83,59 @@ export async function POST(req: NextRequest) {
     // Check if user is VIP
     const isVIP = await checkVIP(userId);
 
-    if (isVIP) {
-      // VIP members get free tickets
-      const ticket = await createFreeTicket(userId, eventId);
-      return NextResponse.json({
-        member: true,
-        ticketId: ticket.ticketId,
-        ticketNumber: ticket.ticketNumber,
-      });
-    }
+    // Determine pricing based on event
+    const eventNameUpper = event.name.toUpperCase();
+    const isRecruitReady = eventNameUpper.includes("RECRUIT READY");
+    const isIBMNight = eventNameUpper.includes("IBM NIGHT");
 
-    // Basic members need to pay - price depends on tier
-    // Early Bird: $2 before Jan 10, 2026 midnight EST
-    // Tier 2: $5 on or after Jan 10, 2026 midnight EST
-    const tier2StartDate = new Date("2026-01-10T00:00:00-05:00");
-    const now = new Date();
-    const isTier2 = now >= tier2StartDate;
-    const ticketPrice = isTier2 ? "5.00" : "2.00";
-    const tierLabel = isTier2 ? "Tier 2" : "Early Bird";
+    let ticketPrice: string;
+    let priceDescription: string;
+
+    if (isRecruitReady) {
+      // Recruit Ready pricing: VIP = free (use RSVP), Basic = $2
+      if (isVIP) {
+        // VIP members get free tickets for Recruit Ready - redirect to RSVP
+        const ticket = await createFreeTicket(userId, eventId);
+        return NextResponse.json({
+          member: true,
+          ticketId: ticket.ticketId,
+          ticketNumber: ticket.ticketNumber,
+        });
+      }
+      ticketPrice = "2.00";
+      priceDescription = "Non-member ticket";
+    } else if (isIBMNight) {
+      // IBM Night: VIP gets free, Basic pays based on tier
+      if (isVIP) {
+        // VIP members get free tickets for IBM Night
+        const ticket = await createFreeTicket(userId, eventId);
+        return NextResponse.json({
+          member: true,
+          ticketId: ticket.ticketId,
+          ticketNumber: ticket.ticketNumber,
+        });
+      }
+      // Basic members need to pay - price depends on tier
+      // Early Bird: $2 before Jan 10, 2026 midnight EST
+      // Tier 2: $5 on or after Jan 10, 2026 midnight EST
+      const tier2StartDate = new Date("2026-01-10T00:00:00-05:00");
+      const now = new Date();
+      const isTier2 = now >= tier2StartDate;
+      ticketPrice = isTier2 ? "5.00" : "2.00";
+      priceDescription = isTier2 ? "Tier 2 ticket" : "Early Bird ticket";
+    } else {
+      // Default pricing for other events
+      if (isVIP) {
+        const ticket = await createFreeTicket(userId, eventId);
+        return NextResponse.json({
+          member: true,
+          ticketId: ticket.ticketId,
+          ticketNumber: ticket.ticketNumber,
+        });
+      }
+      ticketPrice = "2.00";
+      priceDescription = "Non-member ticket";
+    }
 
     // Create PayPal order
     const accessToken = await getPayPalAccessToken();
@@ -120,7 +155,7 @@ export async function POST(req: NextRequest) {
             currency_code: "CAD",
             value: ticketPrice,
           },
-          description: `WCS ${event.name} - ${tierLabel} ticket`,
+          description: `WCS ${event.name} - ${priceDescription}`,
           custom_id: userId,
         },
       ],
@@ -128,8 +163,12 @@ export async function POST(req: NextRequest) {
         brand_name: "Western Cyber Society",
         landing_page: "NO_PREFERENCE",
         user_action: "PAY_NOW",
-        return_url: `${baseSiteUrl}/ibm-night/ticket/confirm?eventId=${eventId}`,
-        cancel_url: `${baseSiteUrl}/ibm-night?canceled=1`,
+        return_url: isRecruitReady
+          ? `${baseSiteUrl}/recruit-ready/ticket/confirm?eventId=${eventId}`
+          : `${baseSiteUrl}/ibm-night/ticket/confirm?eventId=${eventId}`,
+        cancel_url: isRecruitReady
+          ? `${baseSiteUrl}/recruit-ready?canceled=1`
+          : `${baseSiteUrl}/ibm-night?canceled=1`,
       },
     };
 

@@ -72,14 +72,9 @@ export default function Events() {
                     fill
                     className="w-full h-full object-cover transition-all duration-700 group-hover:translate-x-full group-hover:translate-y-full group-hover:blur-xl group-hover:scale-150"
                   />
-                  <div
-                    className="absolute text-xs md:text-sm xl:text-lg inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20"
-                  >
+                  <div className="absolute text-xs md:text-sm xl:text-lg inset-0 flex items-center justify-center text-left text-white opacity-0 translate-x-32 transition-all delay-150 duration-300 group-hover:opacity-100 group-hover:translate-x-0 z-20">
                     <div className="p-5">
-                      <p>
-                        Get ready for recruitment season with our comprehensive workshop series
-                        designed to prepare you for interviews and networking.
-                      </p>
+                      <p>Recruit Ready - Get Your Tickets Now!</p>
                     </div>
                   </div>
                   <span className="absolute bottom-[-30px] right-4 text-white text-xs font-semibold transition-all duration-700 ease-in-out group-hover:bottom-4">
