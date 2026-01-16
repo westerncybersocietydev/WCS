@@ -93,7 +93,7 @@ function TicketConfirmContent() {
             
             // Parse start time from range
             let startTimeStr = eventData.time;
-            let endTimeStr: string;
+            let endTimeStr: string | undefined;
             if (eventData.time.includes(" - ")) {
               [startTimeStr, endTimeStr] = eventData.time.split(" - ");
             } else {
