@@ -237,12 +237,29 @@ export async function generateGoogleCalendarLink({
   description: string;
 }): Promise<string> {
   try {
-    // Parse date (e.g., "Friday, November 18, 2024")
-    const [, month, day, year] = date.split(" ");
-    const dayNum = day.replace(",", "");
+    // Parse date (e.g., "Monday, January 19th, 2026" or "Friday, November 18, 2024")
+    const parts = date.split(" ");
+    const month = parts[1];
+    const dayStr = parts[2].replace(",", "").replace(/st|nd|rd|th/g, ""); // Remove ordinal suffixes
+    const year = parts[3];
+    const dayNum = parseInt(dayStr);
     
-    // Parse time (e.g., "7:00 PM")
-    const [timePart, modifier] = time.split(" ");
+    // Parse time - handle ranges like "3:30 PM - 6:30 PM"
+    let timePart: string;
+    let modifier: string;
+    let endTimePart: string | undefined;
+    let endModifier: string | undefined;
+    
+    if (time.includes(" - ")) {
+      // Range format: "3:30 PM - 6:30 PM"
+      const [startTime, endTime] = time.split(" - ");
+      [timePart, modifier] = startTime.trim().split(" ");
+      [endTimePart, endModifier] = endTime.trim().split(" ");
+    } else {
+      // Single time format: "7:00 PM"
+      [timePart, modifier] = time.split(" ");
+    }
+    
     const [hours, minutes] = timePart.split(":").map(Number);
     let hour24 = hours;
     if (modifier === "PM" && hours !== 12) hour24 += 12;
@@ -257,14 +274,31 @@ export async function generateGoogleCalendarLink({
     const startDate = new Date(
       parseInt(year),
       monthNum - 1,
-      parseInt(dayNum),
+      dayNum,
       hour24,
       minutes || 0
     );
     
-    // End date (1 hour later)
-    const endDate = new Date(startDate);
-    endDate.setHours(endDate.getHours() + 1);
+    // Calculate end date
+    let endDate: Date;
+    if (endTimePart && endModifier) {
+      // Use the provided end time
+      const [endHours, endMinutes] = endTimePart.split(":").map(Number);
+      let endHour24 = endHours;
+      if (endModifier === "PM" && endHours !== 12) endHour24 += 12;
+      if (endModifier === "AM" && endHours === 12) endHour24 = 0;
+      endDate = new Date(
+        parseInt(year),
+        monthNum - 1,
+        dayNum,
+        endHour24,
+        endMinutes || 0
+      );
+    } else {
+      // Default: 1 hour later
+      endDate = new Date(startDate);
+      endDate.setHours(endDate.getHours() + 1);
+    }
 
     // Format for Google Calendar (YYYYMMDDTHHmmss)
     const formatDate = (d: Date) => {
