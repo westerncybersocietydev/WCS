@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
     let priceDescription: string;
 
     if (isRecruitReady) {
-      // Recruit Ready pricing: VIP = free (use RSVP), Basic = $2
+      // Recruit Ready pricing: VIP = free (use RSVP), Basic = $5
       if (isVIP) {
         // VIP members get free tickets for Recruit Ready - redirect to RSVP
         const ticket = await createFreeTicket(userId, eventId);
@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
           ticketNumber: ticket.ticketNumber,
         });
       }
-      ticketPrice = "2.00";
+      ticketPrice = "5.00";
       priceDescription = "Non-member ticket";
     } else if (isIBMNight) {
       // IBM Night: VIP gets free, Basic pays based on tier

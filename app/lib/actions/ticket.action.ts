@@ -339,6 +339,7 @@ export async function sendTicketConfirmationEmail({
   ticketNumber,
   isVIP,
   googleCalendarLink,
+  amountPaid,
 }: {
   to: string;
   firstName: string;
@@ -350,6 +351,7 @@ export async function sendTicketConfirmationEmail({
   ticketNumber: string;
   isVIP: boolean;
   googleCalendarLink?: string;
+  amountPaid?: number;
 }): Promise<void> {
   const emailDetails = {
     from: "info@westerncybersociety.ca",
@@ -385,7 +387,7 @@ export async function sendTicketConfirmationEmail({
                                       <p style="margin: 10px 0;"><strong>Date:</strong> ${eventDate}</p>
                                       <p style="margin: 10px 0;"><strong>Time:</strong> ${eventTime}</p>
                                       <p style="margin: 10px 0;"><strong>Location:</strong> ${eventLocation}</p>
-                                      ${isVIP ? '<p style="margin: 10px 0; color: #10b981;"><strong>Membership:</strong> VIP (Free Ticket)</p>' : '<p style="margin: 10px 0;"><strong>Amount Paid:</strong> $2.00 CAD</p>'}
+                                      ${isVIP ? '<p style="margin: 10px 0; color: #10b981;"><strong>Membership:</strong> VIP (Free Ticket)</p>' : `<p style="margin: 10px 0;"><strong>Amount Paid:</strong> $${amountPaid !== undefined ? amountPaid.toFixed(2) : '2.00'} CAD</p>`}
                                   </div>
 
                                   ${googleCalendarLink ? `

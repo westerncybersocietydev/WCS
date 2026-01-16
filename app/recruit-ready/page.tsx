@@ -143,7 +143,7 @@ export default function RecruitReady() {
                     )}
                     {profileData?.plan === "Basic" && (
                       <p className="mt-3 text-gray-600">
-                        Non-members: $2 CAD per ticket
+                        Non-members: $5 CAD per ticket
                       </p>
                     )}
                     {!profileData && user?.userId && (

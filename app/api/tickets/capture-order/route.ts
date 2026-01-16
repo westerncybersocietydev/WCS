@@ -115,6 +115,7 @@ export async function POST(req: NextRequest) {
         eventLocation: event.location,
         ticketNumber: ticket.ticketNumber,
         isVIP: false,
+        amountPaid: amountPaid,
         googleCalendarLink: await generateGoogleCalendarLink({
           name: event.name,
           date: event.date,

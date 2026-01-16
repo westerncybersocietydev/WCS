@@ -400,7 +400,7 @@ export default function RecruitReadyTicketPage() {
                 <p className="text-sm md:text-lg md:text-xl leading-relaxed">
                   {profileData?.plan === "VIP"
                     ? "VIP members get free tickets!"
-                    : "Non-member Tickets — $2.00 CAD"}
+                    : "Non-member Tickets — $5.00 CAD"}
                 </p>
               </div>
             </div>
@@ -441,7 +441,7 @@ export default function RecruitReadyTicketPage() {
                     <p className="text-gray-700 mt-2">
                       <strong>Ticket Price:</strong>{" "}
                       <span className="font-semibold text-violet-600">
-                        $2.00 CAD
+                        $5.00 CAD
                       </span>
                       <span className="text-sm text-gray-500 ml-2">(VIP members get free tickets)</span>
                     </p>
@@ -469,7 +469,7 @@ export default function RecruitReadyTicketPage() {
                     <div className="mb-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
                       <p className="text-yellow-800">
                         <i className="fa-solid fa-info-circle mr-2"></i>
-                        Non-member Tickets: $2.00 CAD. VIP members get free tickets.
+                        Non-member Tickets: $5.00 CAD. VIP members get free tickets.
                       </p>
                     </div>
 
