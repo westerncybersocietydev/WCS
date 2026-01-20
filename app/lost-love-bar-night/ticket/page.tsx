@@ -421,38 +421,63 @@ export default function LostLoveTicketPage() {
                     <div className="mb-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
                       <p className="text-yellow-800">
                         <i className="fa-solid fa-info-circle mr-2"></i>
-                        VIP Members: {ticketPrice} CAD. Non-Members: $8.00 CAD. Skip the line - straight inside!
+                        {profileData?.plan === "VIP" 
+                          ? `VIP Members: ${ticketPrice} CAD. Non-Members: $8.00 CAD. Skip the line - straight inside!`
+                          : `Non-Members: ${ticketPrice} CAD. VIP Members: $5.00 CAD. Skip the line - straight inside!`}
                       </p>
                     </div>
 
-                    {loading && (
-                      <div className="text-center mb-6">
-                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-                        <p className="mt-2 text-gray-600">Processing...</p>
-                      </div>
+                    {/* VIP Members use integrated PayPal */}
+                    {profileData?.plan === "VIP" && (
+                      <>
+                        {loading && (
+                          <div className="text-center mb-6">
+                            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                            <p className="mt-2 text-gray-600">Processing...</p>
+                          </div>
+                        )}
+
+                        {!paypalReady && !loading && (
+                          <div className="text-center mb-6 p-4 bg-gray-100 rounded-lg">
+                            <p className="text-gray-600">
+                              <i className="fa-solid fa-spinner fa-spin mr-2"></i>
+                              Loading payment system...
+                            </p>
+                          </div>
+                        )}
+
+                        <div className="mt-6">
+                          <div
+                            ref={paypalButtonContainerRef}
+                            id="paypal-button-container"
+                            className="min-h-[50px]"
+                          />
+                          {!paypalReady && (
+                            <p className="text-sm text-gray-500 text-center mt-2">
+                              PayPal payment button will appear here
+                            </p>
+                          )}
+                        </div>
+                      </>
                     )}
 
-                    {!paypalReady && !loading && (
-                      <div className="text-center mb-6 p-4 bg-gray-100 rounded-lg">
-                        <p className="text-gray-600">
-                          <i className="fa-solid fa-spinner fa-spin mr-2"></i>
-                          Loading payment system...
+                    {/* Basic/Non-Members use external PayPal link */}
+                    {profileData?.plan !== "VIP" && (
+                      <div className="mt-6 text-center">
+                        <a
+                          href="https://www.paypal.com/ncp/payment/LBJNKBUM3MWFA"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block w-full max-w-md bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
+                        >
+                          <i className="fa-brands fa-paypal mr-2"></i>
+                          Pay with PayPal - $8.00 CAD
+                        </a>
+                        <p className="mt-3 text-sm text-gray-600">
+                          You will be redirected to PayPal to complete your payment
                         </p>
                       </div>
                     )}
-
-                    <div className="mt-6">
-                      <div
-                        ref={paypalButtonContainerRef}
-                        id="paypal-button-container"
-                        className="min-h-[50px]"
-                      />
-                      {!paypalReady && (
-                        <p className="text-sm text-gray-500 text-center mt-2">
-                          PayPal payment button will appear here
-                        </p>
-                      )}
-                    </div>
                   </>
                 )}
               </div>
