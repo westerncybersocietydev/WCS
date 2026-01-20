@@ -313,7 +313,7 @@ export default function LostLoveTicketPage() {
     if (paypalButtonContainerRef.current) {
       buttons.render(paypalButtonContainerRef.current);
     }
-  }, [paypalReady, eventId, user?.userId, profileData?.plan, profileChecked, router]);
+  }, [paypalReady, eventId, user?.userId, profileData, profileChecked, router]);
 
   // Redirect to confirmation if ticket already created
   useEffect(() => {
