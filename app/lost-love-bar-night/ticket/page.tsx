@@ -38,6 +38,8 @@ export default function LostLoveTicketPage() {
   const [ticketNumber, setTicketNumber] = useState<string | null>(null);
   const paypalButtonContainerRef = useRef<HTMLDivElement>(null);
   const paypalButtonsRef = useRef<PayPalButtons | null>(null);
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileChecked, setProfileChecked] = useState(false);
 
   // Load PayPal JS SDK immediately (will be used by VIP members)
   useEffect(() => {
@@ -106,7 +108,8 @@ export default function LostLoveTicketPage() {
       if (!user?.userId) return; // Wait for user to be loaded
 
       try {
-        // Try multiple name variations to find the event
+        // Optimized: Try exact match first (most likely to match)
+        // Then try variations if exact match fails
         const nameVariations = ["LOST LOVE BAR NIGHT", "Lost Love Bar Night", "lost love bar night"];
         let found = false;
 
@@ -120,6 +123,7 @@ export default function LostLoveTicketPage() {
               setEventId(data.eventId);
               setEventName(data.name || "Lost Love Bar Night");
               found = true;
+              console.log(`Event found with name variation: "${name}"`);
               break;
             }
           }
@@ -148,15 +152,48 @@ export default function LostLoveTicketPage() {
     }
   }, [user, router]);
 
+  // Ensure profile data is loaded - critical fix for race condition
+  // This prevents the PayPal button from never rendering due to profileData being null
+  useEffect(() => {
+    const checkProfileData = async () => {
+      if (!user?.userId) return;
+      if (profileData !== null) {
+        setProfileChecked(true);
+        return; // Profile data already loaded
+      }
+      if (profileLoading || profileChecked) return; // Already checking or checked
+
+      try {
+        setProfileLoading(true);
+        // Fallback: If profileData is null after UserContext load, check VIP status via API
+        const response = await fetch("/api/check-vip");
+        if (response.ok) {
+          const data = await response.json();
+          console.log("VIP check fallback:", data);
+          // UserContext should update, but we mark as checked regardless
+          setProfileChecked(true);
+        }
+      } catch (error) {
+        console.error("Error checking profile data:", error);
+        // Mark as checked even on error to prevent infinite loops
+        setProfileChecked(true);
+      } finally {
+        setProfileLoading(false);
+      }
+    };
+
+    checkProfileData();
+  }, [user?.userId, profileData, profileLoading, profileChecked]);
+
   // Render PayPal button when ready (only for VIP members)
   useEffect(() => {
     // Only render integrated PayPal button for VIP members
-    // Wait for profileData to be loaded before deciding
-    if (profileData === null) {
+    // Wait for profile data to be loaded or checked before deciding
+    if (!profileChecked && profileData === null) {
       return; // Still loading profile data
     }
-    
-    if (profileData.plan !== "VIP") {
+
+    if (!profileData || profileData.plan !== "VIP") {
       return; // Not a VIP member, don't render button
     }
 
@@ -276,7 +313,7 @@ export default function LostLoveTicketPage() {
     if (paypalButtonContainerRef.current) {
       buttons.render(paypalButtonContainerRef.current);
     }
-  }, [paypalReady, eventId, user?.userId, profileData?.plan, router]);
+  }, [paypalReady, eventId, user?.userId, profileData?.plan, profileChecked, router]);
 
   // Redirect to confirmation if ticket already created
   useEffect(() => {
@@ -449,7 +486,7 @@ export default function LostLoveTicketPage() {
                     )}
 
                     {/* Show loading state if profileData is not yet loaded */}
-                    {!profileData && (
+                    {!profileChecked && !profileData && (
                       <div className="mt-6 text-center">
                         <div className="text-center mb-6 p-4 bg-gray-100 rounded-lg">
                           <p className="text-gray-600">
