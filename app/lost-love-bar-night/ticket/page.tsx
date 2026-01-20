@@ -189,8 +189,13 @@ export default function LostLoveTicketPage() {
     }
   }, [user, router]);
 
-  // Render PayPal button when ready
+  // Render PayPal button when ready (only for VIP members)
   useEffect(() => {
+    // Only render integrated PayPal button for VIP members
+    if (profileData?.plan !== "VIP") {
+      return;
+    }
+
     if (!paypalReady || !window.paypal || !eventId || !user?.userId) {
       return;
     }
@@ -307,7 +312,7 @@ export default function LostLoveTicketPage() {
     if (paypalButtonContainerRef.current) {
       buttons.render(paypalButtonContainerRef.current);
     }
-  }, [paypalReady, eventId, user?.userId, router]);
+  }, [paypalReady, eventId, user?.userId, profileData?.plan, router]);
 
   // Redirect to confirmation if ticket already created
   useEffect(() => {
