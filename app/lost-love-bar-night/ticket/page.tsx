@@ -39,8 +39,13 @@ export default function LostLoveTicketPage() {
   const paypalButtonContainerRef = useRef<HTMLDivElement>(null);
   const paypalButtonsRef = useRef<PayPalButtons | null>(null);
 
-  // Load PayPal JS SDK
+  // Load PayPal JS SDK (only for VIP members who need integrated payment)
   useEffect(() => {
+    // Only load PayPal SDK if user is VIP (or if we don't know yet, load it to be safe)
+    if (profileData !== null && profileData.plan !== "VIP") {
+      return; // Not a VIP member, don't load PayPal SDK
+    }
+
     const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
     const paypalMode = process.env.NEXT_PUBLIC_PAYPAL_MODE || "sandbox";
 
@@ -71,7 +76,7 @@ export default function LostLoveTicketPage() {
           if (window.paypal) {
             setPaypalReady(true);
           }
-        }, 1000);
+        }, 300);
       }
       return;
     }
@@ -92,23 +97,20 @@ export default function LostLoveTicketPage() {
     script.onload = () => {
       console.log("PayPal SDK script loaded successfully", { mode: paypalMode, baseUrl: paypalBaseUrl });
       
-      // Wait a bit for window.paypal to be available
-      const checkPayPal = setInterval(() => {
-        if (window.paypal) {
-          console.log("window.paypal is now available");
-          clearInterval(checkPayPal);
-          setPaypalReady(true);
-        }
-      }, 100);
-
-      // Timeout after 5 seconds
-      setTimeout(() => {
-        clearInterval(checkPayPal);
-        if (!window.paypal) {
-          console.error("PayPal SDK loaded but window.paypal is undefined after 5 seconds");
-          toast.error("Payment system initialization failed. Please refresh the page.");
-        }
-      }, 5000);
+      // Check immediately - PayPal SDK is usually available right away after onload
+      if (window.paypal) {
+        setPaypalReady(true);
+      } else {
+        // Fallback: check once more after a short delay if not immediately available
+        setTimeout(() => {
+          if (window.paypal) {
+            setPaypalReady(true);
+          } else {
+            console.error("PayPal SDK loaded but window.paypal is undefined");
+            toast.error("Payment system initialization failed. Please refresh the page.");
+          }
+        }, 500);
+      }
     };
     
     script.onerror = (error) => {
@@ -139,7 +141,7 @@ export default function LostLoveTicketPage() {
         scriptToRemove.remove();
       }
     };
-  }, []);
+  }, [profileData?.plan]);
 
   // Fetch event ID from MongoDB
   useEffect(() => {
@@ -192,8 +194,13 @@ export default function LostLoveTicketPage() {
   // Render PayPal button when ready (only for VIP members)
   useEffect(() => {
     // Only render integrated PayPal button for VIP members
-    if (profileData?.plan !== "VIP") {
-      return;
+    // Wait for profileData to be loaded before deciding
+    if (profileData === null) {
+      return; // Still loading profile data
+    }
+    
+    if (profileData.plan !== "VIP") {
+      return; // Not a VIP member, don't render button
     }
 
     if (!paypalReady || !window.paypal || !eventId || !user?.userId) {
