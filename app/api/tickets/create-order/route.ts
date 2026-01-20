@@ -53,14 +53,18 @@ export async function POST(req: NextRequest) {
 
     await connectToDB();
 
+    // Parallelize independent DB queries for better performance
+    const [user, event] = await Promise.all([
+      User.findById(userId),
+      Event.findById(eventId),
+    ]);
+
     // Verify user exists
-    const user = await User.findById(userId);
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     // Verify event exists
-    const event = await Event.findById(eventId);
     if (!event) {
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
     }
