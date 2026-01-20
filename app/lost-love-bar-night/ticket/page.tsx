@@ -433,7 +433,7 @@ export default function LostLoveTicketPage() {
                     </div>
 
                     {/* VIP Members use integrated PayPal */}
-                    {profileData?.plan === "VIP" && (
+                    {profileData && profileData.plan === "VIP" && (
                       <>
                         {loading && (
                           <div className="text-center mb-6">
@@ -467,7 +467,7 @@ export default function LostLoveTicketPage() {
                     )}
 
                     {/* Basic/Non-Members use external PayPal link */}
-                    {profileData?.plan !== "VIP" && (
+                    {profileData && profileData.plan !== "VIP" && (
                       <div className="mt-6 text-center">
                         <a
                           href="https://www.paypal.com/ncp/payment/LBJNKBUM3MWFA"
@@ -481,6 +481,18 @@ export default function LostLoveTicketPage() {
                         <p className="mt-3 text-sm text-gray-600">
                           You will be redirected to PayPal to complete your payment
                         </p>
+                      </div>
+                    )}
+
+                    {/* Show loading state if profileData is not yet loaded */}
+                    {!profileData && (
+                      <div className="mt-6 text-center">
+                        <div className="text-center mb-6 p-4 bg-gray-100 rounded-lg">
+                          <p className="text-gray-600">
+                            <i className="fa-solid fa-spinner fa-spin mr-2"></i>
+                            Loading membership information...
+                          </p>
+                        </div>
                       </div>
                     )}
                   </>
