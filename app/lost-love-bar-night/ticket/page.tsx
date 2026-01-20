@@ -39,13 +39,8 @@ export default function LostLoveTicketPage() {
   const paypalButtonContainerRef = useRef<HTMLDivElement>(null);
   const paypalButtonsRef = useRef<PayPalButtons | null>(null);
 
-  // Load PayPal JS SDK (only for VIP members who need integrated payment)
+  // Load PayPal JS SDK immediately (will be used by VIP members)
   useEffect(() => {
-    // Only load PayPal SDK if user is VIP (or if we don't know yet, load it to be safe)
-    if (profileData !== null && profileData.plan !== "VIP") {
-      return; // Not a VIP member, don't load PayPal SDK
-    }
-
     const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
     const paypalMode = process.env.NEXT_PUBLIC_PAYPAL_MODE || "sandbox";
 
@@ -55,28 +50,14 @@ export default function LostLoveTicketPage() {
       return;
     }
 
-    console.log("Loading PayPal SDK", { 
-      mode: paypalMode, 
-      hasClientId: !!clientId,
-      clientIdLength: clientId?.length 
-    });
-
     // Check if script already exists
     const existingScript = document.querySelector(
       `script[src*="paypal.com/sdk/js"]`
     );
     if (existingScript) {
-      console.log("PayPal script already exists, reusing");
       // Check if window.paypal is available
       if (window.paypal) {
         setPaypalReady(true);
-      } else {
-        // Wait a bit for script to load
-        setTimeout(() => {
-          if (window.paypal) {
-            setPaypalReady(true);
-          }
-        }, 300);
       }
       return;
     }
@@ -86,48 +67,24 @@ export default function LostLoveTicketPage() {
       ? "https://www.paypal.com"
       : "https://www.sandbox.paypal.com";
 
-    const scriptUrl = `${paypalBaseUrl}/sdk/js?client-id=${clientId}&currency=CAD`;
-    console.log("Creating PayPal script with URL:", scriptUrl.replace(clientId, "***"));
-
     const script = document.createElement("script");
-    script.src = scriptUrl;
+    script.src = `${paypalBaseUrl}/sdk/js?client-id=${clientId}&currency=CAD`;
     script.async = true;
     script.crossOrigin = "anonymous";
     
     script.onload = () => {
-      console.log("PayPal SDK script loaded successfully", { mode: paypalMode, baseUrl: paypalBaseUrl });
-      
-      // Check immediately - PayPal SDK is usually available right away after onload
+      console.log("PayPal SDK loaded successfully", { mode: paypalMode, baseUrl: paypalBaseUrl });
       if (window.paypal) {
         setPaypalReady(true);
       } else {
-        // Fallback: check once more after a short delay if not immediately available
-        setTimeout(() => {
-          if (window.paypal) {
-            setPaypalReady(true);
-          } else {
-            console.error("PayPal SDK loaded but window.paypal is undefined");
-            toast.error("Payment system initialization failed. Please refresh the page.");
-          }
-        }, 500);
+        console.error("PayPal SDK loaded but window.paypal is undefined");
+        toast.error("Payment system initialization failed. Please refresh the page.");
       }
     };
     
     script.onerror = (error) => {
-      console.error("Failed to load PayPal SDK script", { 
-        error, 
-        mode: paypalMode, 
-        baseUrl: paypalBaseUrl,
-        scriptUrl: scriptUrl.replace(clientId, "***"),
-        clientIdPrefix: clientId?.substring(0, 10) + "..."
-      });
-      
-      // Check what the actual error is
-      if (script.src.includes("sandbox")) {
-        toast.error("Failed to load PayPal SDK. Please check your sandbox client ID and environment variables.");
-      } else {
-        toast.error("Failed to load PayPal SDK. Please check your PayPal client ID and environment variables.");
-      }
+      console.error("Failed to load PayPal SDK", { error, mode: paypalMode, baseUrl: paypalBaseUrl });
+      toast.error("Failed to load payment system. Please check your internet connection.");
     };
     
     document.body.appendChild(script);
@@ -141,7 +98,7 @@ export default function LostLoveTicketPage() {
         scriptToRemove.remove();
       }
     };
-  }, [profileData?.plan]);
+  }, []);
 
   // Fetch event ID from MongoDB
   useEffect(() => {
