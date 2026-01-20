@@ -64,7 +64,7 @@ export default function LostLoveBarNight() {
                   </p>
 
                   {/* Event Image */}
-                  <div className="relative w-full h-[50vw] md:h-[40vw] lg:h-[30vw] rounded-lg overflow-hidden my-8">
+                  {/*<div className="relative w-full h-[50vw] md:h-[40vw] lg:h-[30vw] rounded-lg overflow-hidden my-8">
                     <Image
                       src="/projectBg.jpg"
                       alt="Lost Love Bar Night Event"
@@ -72,7 +72,7 @@ export default function LostLoveBarNight() {
                       className="object-cover"
                       priority
                     />
-                  </div>
+                  </div>*/}
 
                   {/* Event Details */}
                   <div className="mt-8">

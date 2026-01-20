@@ -73,7 +73,7 @@ export default function LostLoveTicketPage() {
     script.src = `${paypalBaseUrl}/sdk/js?client-id=${clientId}&currency=CAD`;
     script.async = true;
     script.crossOrigin = "anonymous";
-    
+
     script.onload = () => {
       console.log("PayPal SDK loaded successfully", { mode: paypalMode, baseUrl: paypalBaseUrl });
       if (window.paypal) {
@@ -83,12 +83,12 @@ export default function LostLoveTicketPage() {
         toast.error("Payment system initialization failed. Please refresh the page.");
       }
     };
-    
+
     script.onerror = (error) => {
       console.error("Failed to load PayPal SDK", { error, mode: paypalMode, baseUrl: paypalBaseUrl });
       toast.error("Failed to load payment system. Please check your internet connection.");
     };
-    
+
     document.body.appendChild(script);
 
     return () => {
@@ -424,14 +424,7 @@ export default function LostLoveTicketPage() {
                   </div>
                 ) : (
                   <>
-                    <div className="mb-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                      <p className="text-yellow-800">
-                        <i className="fa-solid fa-info-circle mr-2"></i>
-                        {profileData?.plan === "VIP" 
-                          ? `VIP Members: ${ticketPrice} CAD. Non-Members: $8.00 CAD. Skip the line - straight inside!`
-                          : `Non-Members: ${ticketPrice} CAD. VIP Members: $5.00 CAD. Skip the line - straight inside!`}
-                      </p>
-                    </div>
+
 
                     {/* VIP Members use integrated PayPal */}
                     {profileData && profileData.plan === "VIP" && (
