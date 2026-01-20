@@ -168,11 +168,11 @@ export default function Navbar() {
               <strong>IBM</strong>
             </a>
             <a
-              href="/recruit-ready"
+              href="/lost-love-bar-night"
               className="relative text-black text-sm lg:text-lg hover:text-violet-600 hover:text-xl transition-all duration-200 before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-violet-500 before:transition-all before:duration-500 hover:before:w-full"
-              aria-label="Recruit Ready Tickets"
+              aria-label="Lost Love Wristbands"
             >
-              <strong>RECRUIT READY TICKETS</strong>
+              <strong>GET YOUR LOST LOVE WRISTBANDS</strong>
             </a>
             {user ? (
               <div className="relative inline-block group hover:text-xl transition-all duration-200">
@@ -356,10 +356,10 @@ export default function Navbar() {
                 IBM
               </button>
               <button
-                onClick={() => handleMobileNavClick("/recruit-ready")}
+                onClick={() => handleMobileNavClick("/lost-love-bar-night")}
                 className="py-3 text-left text-gray-800 font-semibold border-b border-gray-200 hover:text-violet-600"
               >
-                RECRUIT READY TICKETS
+                GET YOUR LOST LOVE WRISTBANDS
               </button>
 
               {user && (

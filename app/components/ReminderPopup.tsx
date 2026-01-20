@@ -17,17 +17,17 @@ const ReminderPopup: React.FC<ReminderPopupProps> = ({ isOpen, onClose }) => {
   // INFO CONFIGURATION
   // Change these values to update the popup content easily
   const EVENT_INFO = {
-    title: "Recruit Ready",
-    subtitle: "Get Your Tickets Right Now",
-    priceOrLabel: "Workshop Series",
+    title: "Lost Love Bar Night",
+    subtitle: "Get Your Wristbands Right Now",
+    priceOrLabel: "Saturday, January 24, 2026 • 10:00 PM",
     imagePath: "/projectBg.jpg", // Change to appropriate image
-    link: "/recruit-ready",
-    ctaText: "GET YOUR RECRUIT READY TICKETS RIGHT NOW",
+    link: "/lost-love-bar-night",
+    ctaText: "GET YOUR LOST LOVE WRISTBANDS RIGHT NOW",
     highlights: [
-      "Resume & Cover Letter Workshops",
-      "Interview Tips with Feedback",
-      "Professional Headshots",
-      "Networking and Coffee Chat Tips",
+      "🔥 $5 for VIP Members, $8 for Non-Members",
+      "🚫⏳ Skip the line - straight inside",
+      "📍 Pickup at Weldon (date TBA)",
+      "🔞 19+ Event at Lost Love Social House",
     ],
   };
 

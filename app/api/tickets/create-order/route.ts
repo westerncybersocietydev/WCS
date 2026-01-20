@@ -87,11 +87,16 @@ export async function POST(req: NextRequest) {
     const eventNameUpper = event.name.toUpperCase();
     const isRecruitReady = eventNameUpper.includes("RECRUIT READY");
     const isIBMNight = eventNameUpper.includes("IBM NIGHT");
+    const isLostLove = eventNameUpper.includes("LOST LOVE");
 
     let ticketPrice: string;
     let priceDescription: string;
 
-    if (isRecruitReady) {
+    if (isLostLove) {
+      // Lost Love pricing: VIP = $5, Basic = $8
+      ticketPrice = isVIP ? "5.00" : "8.00";
+      priceDescription = isVIP ? "VIP member wristband" : "Non-member wristband";
+    } else if (isRecruitReady) {
       // Recruit Ready pricing: VIP = free (use RSVP), Basic = $5
       if (isVIP) {
         // VIP members get free tickets for Recruit Ready - redirect to RSVP
@@ -165,9 +170,13 @@ export async function POST(req: NextRequest) {
         user_action: "PAY_NOW",
         return_url: isRecruitReady
           ? `${baseSiteUrl}/recruit-ready/ticket/confirm?eventId=${eventId}`
+          : isLostLove
+          ? `${baseSiteUrl}/lost-love-bar-night/ticket/confirm?eventId=${eventId}`
           : `${baseSiteUrl}/ibm-night/ticket/confirm?eventId=${eventId}`,
         cancel_url: isRecruitReady
           ? `${baseSiteUrl}/recruit-ready?canceled=1`
+          : isLostLove
+          ? `${baseSiteUrl}/lost-love-bar-night?canceled=1`
           : `${baseSiteUrl}/ibm-night?canceled=1`,
       },
     };
