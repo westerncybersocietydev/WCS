@@ -436,7 +436,6 @@ export async function sendAllEmail(): Promise<void> {
       throw new Error("No users found.");
     }
 
-    // Prepare email sending promises
     const emailPromises = users.map(
       async (user: {
         preferredEmail: string;
@@ -449,42 +448,59 @@ export async function sendAllEmail(): Promise<void> {
             user.preferredEmail.trim() === ""
               ? user.uwoEmail
               : user.preferredEmail,
-          subject: "Join Us for the WCS VIP Dinner!",
+          subject: "Free Professional Headshots at CTS 📸",
           message: `
             <!DOCTYPE html>
             <html lang="en">
+
             <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>You're Invited: WCS VIP Dinner</title>
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <title>CTS Headshots</title>
             </head>
-            <body style="margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f5f5f7;">
-                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+
+            <body style="margin:0; padding:0; background-color:#f5f5f7; font-family: Arial, sans-serif;">
+                <table width="100%" cellpadding="0" cellspacing="0">
                     <tr>
                         <td align="center">
-                            <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
+                            <table width="600" cellpadding="0" cellspacing="0"
+                                style="background:#ffffff; padding:40px; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
                                 <tr>
-                                    <td style="padding: 20px 0; line-height: 1.7; font-size: 18px;">
-                                        <p>Hi <span style="color: #a723b0; font-weight: 600;">${user.firstName}</span>,</p>
-                                        <p style="margin-bottom: 1em;">We are thrilled to invite you to the <span style="color: #a723b0; font-weight: 600;">WCS VIP Dinner</span>! This is your chance to connect with like-minded individuals and esteemed guests in an exclusive setting.</p>
-                                        <p style="margin-bottom: 2em;">Join us today, November 29, 2024, at 5:00 PM at The Keg Steakhouse + Bar for an evening of great food, engaging conversations, and networking opportunities. <strong>Limited spots remaining</strong>—don't miss out!</p>
+                                    <td style="font-size:18px; line-height:1.7; color:#1d1d1f;">
+                                        <p>Dear <strong>${user.firstName}</strong>,</p>
 
-                                        <div style="display: flex; justify-content: center; align-items: center;">
-                                            <a href="https://www.westerncybersociety.ca/events?event=VIP%20DINNER" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; text-decoration: none; padding: 10px 40px; border-radius: 50px; font-weight: 500; font-size: 18px; letter-spacing: 0.1em;">RSVP Now!</a>
-                                        </div>
+                                        <p style="font-size:20px; font-weight:600;">
+                                            Enhance your professional presence with a complimentary headshot!
+                                        </p>
 
-                                        <p style="margin-top: 2em; margin-bottom: 1em;">We can’t wait to see you there and share an unforgettable experience!</p>
-                                        <p style="margin-bottom: -1em;">Keep innovating,</p>
-                                        <p style="margin-bottom: 1em;">Western Cyber Society Team</p>
+                                        <p>
+                                            Join us at CTS for a <strong>professional headshot session at no cost</strong>. 
+                                            
+                                            This is a great opportunity to refresh your LinkedIn profile or professional portfolio.
+                                        </p>
+
+                                        <p style="margin:24px 0;">
+                                            📍 <strong>ACEB 2448</strong><br />
+                                            🗓 <strong>January 22, 2026</strong><br />
+                                            ⏰ <strong>12:00 – 3:00 PM</strong>
+                                        </p>
+
+                                        <p>
+                                            Professional attire is recommended. Blazers and ties will be available if needed. We
+                                            look forward to seeing you.
+                                        </p>
+
+                                        <p style="margin-top:32px;">
+                                            See you there, <br />
+                                            Western Cyber Society
+                                        </p>
                                     </td>
                                 </tr>
+
                                 <tr>
-                                    <td align="center" style="margin-top: 40px;">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="center" style="margin-top: 60px; font-size: 12px; color: #86868b; border-top: 1px solid #e0e0e2; padding-top: 20px;">
-                                        <p>&copy; 2024 Western Cyber Society. All rights reserved.</p>
+                                    <td
+                                        style="font-size:12px; color:#86868b; text-align:center; padding-top:30px; border-top:1px solid #e0e0e2;">
+                                        © 2026 Western Cyber Society. All rights reserved.
                                     </td>
                                 </tr>
                             </table>
@@ -492,25 +508,25 @@ export async function sendAllEmail(): Promise<void> {
                     </tr>
                 </table>
             </body>
+
             </html>
           `,
         };
 
-        // Send email
         await sendEmail(emailDetails);
-        console.log("Email sent to: ", user.firstName);
+        console.log("Email sent to:", user.firstName);
       }
     );
 
-    // Wait for all emails to be sent
     await Promise.all(emailPromises);
-    console.log("All emails sent successfully!");
+    console.log("All CTS headshot emails sent successfully!");
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
     throw new Error(`Couldn't send emails: ${errorMessage}`);
   }
 }
+
 
 export async function getAllUsers(): Promise<
   {

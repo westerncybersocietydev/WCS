@@ -405,7 +405,7 @@ export async function sendTicketConfirmationEmail({
                           </tr>
                           <tr>
                               <td align="center" style="margin-top: 60px; font-size: 12px; color: #86868b; border-top: 1px solid #e0e0e2; padding-top: 20px;">
-                                  <p>&copy; 2024 Western Cyber Society. All rights reserved.</p>
+                                  <p>&copy; 2026 Western Cyber Society. All rights reserved.</p>
                               </td>
                           </tr>
                       </table>
@@ -493,7 +493,7 @@ export async function sendEventReminderEmail({
                           </tr>
                           <tr>
                               <td align="center" style="margin-top: 60px; font-size: 12px; color: #86868b; border-top: 1px solid #e0e0e2; padding-top: 20px;">
-                                  <p>&copy; 2024 Western Cyber Society. All rights reserved.</p>
+                                  <p>&copy; 2026 Western Cyber Society. All rights reserved.</p>
                               </td>
                           </tr>
                       </table>
