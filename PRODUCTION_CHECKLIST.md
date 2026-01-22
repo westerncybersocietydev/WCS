@@ -23,6 +23,10 @@
 - [ ] `JWT_SECRET` set to strong, unique value
 - [ ] `ADMIN_PASSWORD` set to strong password
 - [ ] `MAILGUN_API_KEY` and `MAILGUN_DOMAIN` configured
+- [ ] `PAYPAL_CLIENT_ID` set (sandbox for preview, live for production)
+- [ ] `PAYPAL_CLIENT_SECRET` set (sandbox for preview, live for production)
+- [ ] `PAYPAL_MODE` set (`sandbox` for preview, `live` for production)
+- [ ] `NEXT_PUBLIC_PAYPAL_CLIENT_ID` set (same as `PAYPAL_CLIENT_ID`)
 - [ ] `NEXT_PUBLIC_MEASUREMENT_ID` set for Google Analytics
 
 ### ✅ Stripe Configuration

@@ -19,7 +19,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
       whileInView={{ y: 0, opacity: 1 }}
       transition={{ type: "tween", duration: 0.5 }}
       viewport={{ margin: "-50px", once: true }}
-      className="relative cursor-pointer overflow-hidden rounded-sm h-[45rem] md:h-[30rem] 2xl:h-[40rem] w-full transition-transform duration-300 ease-in-out hover:scale-110 group"
+      className="relative cursor-pointer overflow-hidden rounded-sm h-[26rem] sm:h-[30rem] md:h-[30rem] 2xl:h-[40rem] w-full transition-transform duration-300 ease-in-out hover:scale-110 group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -84,7 +84,7 @@ export default function MeetTheTeam() {
           <Navbar />
 
           <section
-            className="mt-40 md:mt-16 relative w-full h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
+            className="mt-20 md:mt-16 relative w-full h-[70vw] sm:h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: "url('/projectBg.jpg')" }}
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">

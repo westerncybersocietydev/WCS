@@ -17,11 +17,28 @@ export interface PayPalAccessToken {
   expires_in: number;
 }
 
+// Token cache to avoid fetching new tokens for every request
+// PayPal tokens are valid for 9 hours, we cache for 8h55m (32100000ms) to be safe
+interface TokenCache {
+  token: string;
+  expiresAt: number;
+}
+
+let tokenCache: TokenCache | null = null;
+
 /**
  * Get PayPal access token for API authentication
  * Uses client ID and secret from environment variables
+ * Implements caching with 8h55m TTL to avoid unnecessary API calls
  */
 export async function getPayPalAccessToken(): Promise<string> {
+  // Check if we have a valid cached token
+  const now = Date.now();
+  if (tokenCache && tokenCache.expiresAt > now) {
+    console.log("Using cached PayPal token");
+    return tokenCache.token;
+  }
+
   const clientId = process.env.PAYPAL_CLIENT_ID;
   const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
   const baseUrl =
@@ -36,6 +53,7 @@ export async function getPayPalAccessToken(): Promise<string> {
   const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
 
   try {
+    console.log("Fetching new PayPal access token");
     const response = await fetch(`${baseUrl}/v1/oauth2/token`, {
       method: "POST",
       headers: {
@@ -51,6 +69,16 @@ export async function getPayPalAccessToken(): Promise<string> {
     }
 
     const data = (await response.json()) as PayPalAccessToken;
+
+    // Cache the token with 8h55m expiry (32100000ms)
+    // PayPal tokens are valid for 9 hours, we use 8h55m for safety margin
+    const expiresAt = now + 32100000;
+    tokenCache = {
+      token: data.access_token,
+      expiresAt,
+    };
+
+    console.log("Cached new PayPal token", { expiresAt: new Date(expiresAt).toISOString() });
     return data.access_token;
   } catch (error) {
     console.error("Error getting PayPal access token:", error);

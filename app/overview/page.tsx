@@ -13,7 +13,7 @@ export default function Overview() {
           <Navbar />
 
           <section
-            className="mt-40 md:mt-16 relative w-full h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
+            className="mt-20 md:mt-16 relative w-full h-[70vw] sm:h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: "url('/projectBg.jpg')" }}
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -48,14 +48,14 @@ export default function Overview() {
                 />
               </div>
 
-              <div className="flex flex-col mx-auto text-center md:text-left justify-center bg-violet-950 rounded-xl p-10 md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]">
-                <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">
+              <div className="flex flex-col mx-auto text-center md:text-left justify-center bg-violet-950 rounded-xl p-6 md:p-10 md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]">
+                <h2 className="text-3xl md:text-6xl lg:text-8xl font-extrabold text-white">
                   Our
                 </h2>
-                <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">
+                <h2 className="text-3xl md:text-6xl lg:text-8xl font-extrabold text-white">
                   Mission
                 </h2>
-                <p className="mt-6 text-md md:text-2xl font-semibold text-white">
+                <p className="mt-4 md:mt-6 text-sm md:text-2xl font-semibold text-white">
                   At the Western Cyber Society, our mission is to cultivate the
                   next generation of tech leaders by equipping them with the
                   knowledge and skills needed to solve real-world challenges and
@@ -73,14 +73,14 @@ export default function Overview() {
             className="flex flex-col w-full h-full"
           >
             <div className="flex flex-col md:flex-row gap-4 m-8 md:space-x-10">
-              <div className="flex flex-col mx-auto text-center md:text-left bg-violet-950 justify-center rounded-xl p-16 md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]">
-                <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">
+              <div className="flex flex-col mx-auto text-center md:text-left bg-violet-950 justify-center rounded-xl p-6 md:p-16 md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]">
+                <h2 className="text-3xl md:text-6xl lg:text-8xl font-extrabold text-white">
                   Our
                 </h2>
-                <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">
+                <h2 className="text-3xl md:text-6xl lg:text-8xl font-extrabold text-white">
                   Vision
                 </h2>
-                <p className="mt-6 text-md md:text-2xl font-semibold text-white">
+                <p className="mt-4 md:mt-6 text-sm md:text-2xl font-semibold text-white">
                   We envision a vibrant and inclusive community of innovators
                   and tech enthusiasts who are dedicated to advancing the fields
                   of cybersecurity, AI, and mainframe technology. Our goal is to
@@ -117,14 +117,14 @@ export default function Overview() {
                   objectFit="cover"
                 />
               </div>
-              <div className="flex flex-col mx-auto text-center md:text-left justify-center bg-violet-950 rounded-xl p-16 md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]">
-                <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">
+              <div className="flex flex-col mx-auto text-center md:text-left justify-center bg-violet-950 rounded-xl p-6 md:p-16 md:w-1/2 shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)]">
+                <h2 className="text-3xl md:text-6xl lg:text-8xl font-extrabold text-white">
                   Our
                 </h2>
-                <h2 className="text-4xl md:text-6xl lg:text-8xl font-extrabold text-white">
+                <h2 className="text-3xl md:text-6xl lg:text-8xl font-extrabold text-white">
                   Focus
                 </h2>
-                <p className="mt-6 text-md md:text-2xl font-semibold text-white">
+                <p className="mt-4 md:mt-6 text-sm md:text-2xl font-semibold text-white">
                   Our focus is on hands-on learning, industry partnerships, and
                   events like the Toronto Tech Expo, empowering students to
                   explore cutting-edge technologies, showcase their talents, and
@@ -149,9 +149,9 @@ export default function Overview() {
                 whileInView={{ y: 0, opacity: 1 }}
                 transition={{ type: "tween", duration: 0.5 }}
                 viewport={{ margin: "-50px", once: true }}
-                className="flex flex-col md:flex-row gap-2 md:gap-0 md:space-x-1 w-full text-center"
+                className="flex flex-col md:flex-row gap-8 md:gap-0 md:space-x-1 w-full text-center"
               >
-                <div className="flex flex-col items-center rounded-xl p-5 w-full">
+                <div className="flex flex-col items-center rounded-xl p-2 md:p-5 w-full">
                   <div className="relative w-32 h-32 rounded-full overflow-hidden">
                     <Image
                       src="/ai.jpg"

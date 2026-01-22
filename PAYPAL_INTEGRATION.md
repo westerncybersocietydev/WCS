@@ -49,6 +49,7 @@ Add the following environment variables to your `.env.local` (development) and p
 # PayPal Configuration
 PAYPAL_CLIENT_ID=your_sandbox_client_id_here
 PAYPAL_CLIENT_SECRET=your_sandbox_secret_here
+NEXT_PUBLIC_PAYPAL_CLIENT_ID=your_sandbox_client_id_here  # Same as PAYPAL_CLIENT_ID (exposed to browser)
 PAYPAL_MODE=sandbox  # Use "sandbox" for testing, "live" for production
 
 # Site URL (should already exist)

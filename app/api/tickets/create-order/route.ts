@@ -1,0 +1,228 @@
+import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import jwt from "jsonwebtoken";
+import { connectToDB } from "@/app/lib/mongoose";
+import User from "@/app/lib/models/user.model";
+import Event from "@/app/lib/models/event.model";
+import { checkVIP } from "@/app/lib/actions/user.action";
+import { createFreeTicket, hasTicket } from "@/app/lib/actions/ticket.action";
+import { getPayPalAccessToken } from "@/app/lib/paypal";
+
+const JWT_SECRET = process.env.JWT_SECRET || "";
+
+/**
+ * API route to create a ticket order
+ * - If user is VIP: creates free ticket immediately
+ * - If user is Basic: creates PayPal order for $2
+ */
+export async function POST(req: NextRequest) {
+  try {
+    // Get JWT token from cookie
+    const token = req.cookies.get("authToken")?.value;
+
+    if (!token) {
+      return NextResponse.json(
+        { error: "Authentication required. Please log in." },
+        { status: 401 }
+      );
+    }
+
+    // Verify JWT token
+    let decoded: { userId: string };
+    try {
+      decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
+    } catch (error) {
+      return NextResponse.json(
+        { error: "Invalid authentication token" },
+        { status: 401 }
+      );
+    }
+
+    const userId = decoded.userId;
+
+    // Parse request body
+    const body = await req.json().catch(() => ({}));
+    const { eventId } = body as { eventId?: string };
+
+    if (!eventId) {
+      return NextResponse.json(
+        { error: "Event ID is required" },
+        { status: 400 }
+      );
+    }
+
+    await connectToDB();
+
+    // Parallelize independent DB queries for better performance
+    const [user, event] = await Promise.all([
+      User.findById(userId),
+      Event.findById(eventId),
+    ]);
+
+    // Verify user exists
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Verify event exists
+    if (!event) {
+      return NextResponse.json({ error: "Event not found" }, { status: 404 });
+    }
+
+    // Check if user already has a ticket
+    const alreadyHasTicket = await hasTicket(userId, eventId);
+    if (alreadyHasTicket) {
+      const { getUserTicket } = await import("@/app/lib/actions/ticket.action");
+      const existingTicket = await getUserTicket(userId, eventId);
+      return NextResponse.json(
+        {
+          error: "You already have a ticket for this event",
+          ticketNumber: existingTicket?.ticketNumber,
+          alreadyHasTicket: true,
+        },
+        { status: 400 }
+      );
+    }
+
+    // Check if user is VIP
+    const isVIP = await checkVIP(userId);
+
+    // Determine pricing based on event
+    const eventNameUpper = event.name.toUpperCase();
+    const isRecruitReady = eventNameUpper.includes("RECRUIT READY");
+    const isIBMNight = eventNameUpper.includes("IBM NIGHT");
+    const isLostLove = eventNameUpper.includes("LOST LOVE");
+
+    let ticketPrice: string;
+    let priceDescription: string;
+
+    if (isLostLove) {
+      // Lost Love pricing: VIP = $5, Basic = $8
+      ticketPrice = isVIP ? "5.00" : "8.00";
+      priceDescription = isVIP ? "VIP member wristband" : "Non-member wristband";
+    } else if (isRecruitReady) {
+      // Recruit Ready pricing: VIP = free (use RSVP), Basic = $5
+      if (isVIP) {
+        // VIP members get free tickets for Recruit Ready - redirect to RSVP
+        const ticket = await createFreeTicket(userId, eventId);
+        return NextResponse.json({
+          member: true,
+          ticketId: ticket.ticketId,
+          ticketNumber: ticket.ticketNumber,
+        });
+      }
+      ticketPrice = "5.00";
+      priceDescription = "Non-member ticket";
+    } else if (isIBMNight) {
+      // IBM Night: VIP gets free, Basic pays based on tier
+      if (isVIP) {
+        // VIP members get free tickets for IBM Night
+        const ticket = await createFreeTicket(userId, eventId);
+        return NextResponse.json({
+          member: true,
+          ticketId: ticket.ticketId,
+          ticketNumber: ticket.ticketNumber,
+        });
+      }
+      // Basic members need to pay - price depends on tier
+      // Early Bird: $2 before Jan 10, 2026 midnight EST
+      // Tier 2: $5 on or after Jan 10, 2026 midnight EST
+      const tier2StartDate = new Date("2026-01-10T00:00:00-05:00");
+      const now = new Date();
+      const isTier2 = now >= tier2StartDate;
+      ticketPrice = isTier2 ? "5.00" : "2.00";
+      priceDescription = isTier2 ? "Tier 2 ticket" : "Early Bird ticket";
+    } else {
+      // Default pricing for other events
+      if (isVIP) {
+        const ticket = await createFreeTicket(userId, eventId);
+        return NextResponse.json({
+          member: true,
+          ticketId: ticket.ticketId,
+          ticketNumber: ticket.ticketNumber,
+        });
+      }
+      ticketPrice = "2.00";
+      priceDescription = "Non-member ticket";
+    }
+
+    // Create PayPal order
+    const accessToken = await getPayPalAccessToken();
+    const baseUrl =
+      process.env.PAYPAL_MODE === "live"
+        ? "https://api-m.paypal.com"
+        : "https://api-m.sandbox.paypal.com";
+
+    const baseSiteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+    const orderData = {
+      intent: "CAPTURE",
+      purchase_units: [
+        {
+          amount: {
+            currency_code: "CAD",
+            value: ticketPrice,
+          },
+          description: `WCS ${event.name} - ${priceDescription}`,
+          custom_id: userId,
+        },
+      ],
+      application_context: {
+        brand_name: "Western Cyber Society",
+        landing_page: "NO_PREFERENCE",
+        user_action: "PAY_NOW",
+        return_url: isRecruitReady
+          ? `${baseSiteUrl}/recruit-ready/ticket/confirm?eventId=${eventId}`
+          : isLostLove
+          ? `${baseSiteUrl}/lost-love-bar-night/ticket/confirm?eventId=${eventId}`
+          : `${baseSiteUrl}/ibm-night/ticket/confirm?eventId=${eventId}`,
+        cancel_url: isRecruitReady
+          ? `${baseSiteUrl}/recruit-ready?canceled=1`
+          : isLostLove
+          ? `${baseSiteUrl}/lost-love-bar-night?canceled=1`
+          : `${baseSiteUrl}/ibm-night?canceled=1`,
+      },
+    };
+
+    const response = await fetch(`${baseUrl}/v2/checkout/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(orderData),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("PayPal order creation error:", {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorText,
+        mode: process.env.PAYPAL_MODE,
+        baseUrl,
+      });
+      return NextResponse.json(
+        { error: "Failed to create payment order. Please try again." },
+        { status: 500 }
+      );
+    }
+
+    const orderData_response = await response.json();
+
+    return NextResponse.json({
+      member: false,
+      orderID: orderData_response.id,
+    });
+  } catch (error) {
+    console.error("Error in create-order:", error);
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json(
+      { error: `Server error: ${errorMessage}` },
+      { status: 500 }
+    );
+  }
+}
+
