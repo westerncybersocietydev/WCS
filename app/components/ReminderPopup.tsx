@@ -12,7 +12,7 @@ interface ReminderPopupProps {
 const ReminderPopup: React.FC<ReminderPopupProps> = ({ isOpen, onClose }) => {
   // VISIBILITY FLAG
   // Set this to false to disable the popup globally
-  const SHOW_POPUP = true;
+  const SHOW_POPUP = false;
 
   // INFO CONFIGURATION
   // Change these values to update the popup content easily
