@@ -55,7 +55,7 @@ const sponsorshipTiers = [
   },
   {
     name: "Gold Partner",
-    price: "$3,500",
+    price: "$3,000",
     headerColor: "from-yellow-500 to-amber-500",
     benefits: [
       "All Silver Partner benefits",
@@ -79,12 +79,17 @@ const sponsorshipTiers = [
 ];
 
 const sponsorLogos = [
-  { src: "/sponsor-logos/Google.webp", scale: 1 },
-  { src: "/sponsor-logos/bell.png", scale: 1 },
-  { src: "/sponsor-logos/cohere.png", scale: 1 },
-  { src: "/sponsor-logos/IBM.png", scale: 1 },
-  { src: "/sponsor-logos/amazon.png", scale: 0.75 }, 
-  { src: "/sponsor-logos/Meta.png", scale: 1.4 },   
+  { src: "/past-end/amazon.png", scale: 1 },
+  { src: "/past-end/bell.png", scale: 1 },
+  { src: "/past-end/cohere2.png", scale: 1 },
+  { src: "/past-end/ibm.png", scale: 1 },
+  { src: "/past-end/internetComputer.png", scale: 1 },
+  { src: "/past-end/ivey.png", scale: 1 },
+  { src: "/past-end/meta.png", scale: 1 },
+  { src: "/past-end/square.png", scale: 1 },
+  { src: "/past-end/tdBank.png", scale: 1 },
+  { src: "/past-end/westernEngineering.png", scale: 1 },
+  { src: "/past-end/westingHouse.png", scale: 1 },
 ];
 
 
@@ -452,13 +457,14 @@ export default function Sponsorships() {
                 </div>
                 <div className="relative z-10 flex flex-col items-center">
                   <h3 className="text-2xl font-bold mb-3">
-                  Interested in Sponsoring the Canadian Tech Summit?
+                    Let’s Work Together
                   </h3>
                   <p className="text-sm text-gray-200 mb-6 max-w-lg mx-auto">
-                  Join us in fostering tomorrow&apos;s tech talent. 
-                  Explore sponsorships, partnerships, or custom engagement
-                  opportunities that inspire innovation and empower 
-                  the next generation of technology leaders.
+                    Join us in fostering tomorrow’s tech talent.
+                    Connect with the Canadian Tech Summit to explore sponsorships, partnerships,
+                    or custom engagement opportunities that inspire innovation and empower
+                    the next generation of technology leaders.
+
                   </p>
                   <button
                     onClick={() => router.push("/contact?sponsor=true")}
@@ -551,14 +557,12 @@ export default function Sponsorships() {
               className="text-center mb-12"
             >
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-4">
-                Recognizing Our Sponsors & Partners
+                Past Endorsements
               </h2>
               <p className="text-gray-600 max-w-3xl mx-auto">
-                We&apos;re grateful to the organizations and individuals who
-                have supported Western Cyber Society and the Canadian Tech
-                Summit journey—from early expos to today&apos;s flagship summit.
-                Your partnership helps us build an inclusive, forward-looking
-                tech community.
+                These organizations have previously endorsed and supported events led by
+                Western Cyber Society and the Canadian Tech Summit. Their past involvement
+                helped shape our journey and build the foundation for today’s flagship summit.
               </p>
             </motion.div>
 
