@@ -11,25 +11,25 @@ const benefits = [
     title: "Emerging Talent Access",
     description:
       "Engage directly with skilled, motivated students from universities across Ontario in fields like cybersecurity, AI, Web3, and more.",
-    color: "from-violet-600 to-purple-600",
+    color: "from-indigo-600 to-purple-600",
   },
   {
     title: "Strategic Brand Visibility",
     description:
       "Showcase your organization across CTS and WCS campaigns, digital outreach, and event signage within a growing regional tech ecosystem.",
-    color: "from-purple-600 to-pink-500",
+    color: "from-purple-600 to-pink-600",
   },
   {
     title: "Shared Innovation Vision",
     description:
-      "Align your brand with a mission focused on innovation, education, and workforce development in Canada’s technology sector.",
-    color: "from-violet-600 to-purple-600",
+      "Align your brand with a mission focused on innovation, education, and workforce development in Canada's technology sector.",
+    color: "from-violet-600 to-indigo-600",
   },
   {
     title: "Proven Community Impact",
     description:
       "Partner with a student organization that consistently delivers technical workshops, competitions, and impactful community events.",
-    color: "from-purple-600 to-pink-500",
+    color: "from-fuchsia-600 to-purple-600",
   },
 ];
 
@@ -37,7 +37,7 @@ const sponsorshipTiers = [
   {
     name: "Community Partner",
     price: "Regular Admission",
-    headerColor: "from-sky-500 to-blue-500",
+    headerColor: "from-cyan-500 to-blue-600",
     benefits: [
       "Attend the summit and experience the Canadian Tech Summit firsthand",
       "Network with emerging tech talent and industry professionals",
@@ -46,7 +46,7 @@ const sponsorshipTiers = [
   {
     name: "Silver Partner",
     price: "$1,500",
-    headerColor: "from-gray-500 to-slate-600",
+    headerColor: "from-slate-400 to-slate-500",
     benefits: [
       "Recognition on the event website and select digital promotions",
       "Post-event access to student resume database",
@@ -56,7 +56,7 @@ const sponsorshipTiers = [
   {
     name: "Gold Partner",
     price: "$3,000",
-    headerColor: "from-yellow-500 to-amber-500",
+    headerColor: "from-amber-400 to-yellow-500",
     benefits: [
       "All Silver Partner benefits",
       "Dedicated booth to showcase your organization and engage directly with students",
@@ -67,13 +67,13 @@ const sponsorshipTiers = [
   {
     name: "Platinum Partner",
     price: "$5,000",
-    headerColor: "from-violet-600 to-purple-600",
+    headerColor: "from-purple-500 to-indigo-600",
     benefits: [
       "All Gold Partner benefits",
       "Priority brand placement across the venue and all digital channels",
       "Opportunity to name an award, project track, or event category",
-      "Keynote speaking opportunity to spotlight your organization’s vision",
-      '“Presented by” distinction for premier visibility',
+      "Keynote speaking opportunity to spotlight your organization's vision",
+      '"Presented by" distinction for premier visibility',
     ],
   },
 ];
@@ -104,9 +104,13 @@ const pastEvents = [
 
 export default function Sponsorships() {
   const router = useRouter();
-  
-  const [currentEventIndex, setCurrentEventIndex] = useState(0);
+
+  const [currentEventIndex, setCurrentEventIndex] = useState(pastEvents.length);
   const [itemsToShow, setItemsToShow] = useState(3);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Create extended array with clones for seamless infinite scroll
+  const extendedEvents = [...pastEvents, ...pastEvents, ...pastEvents];
 
   useEffect(() => {
     const updateItemsToShow = () => {
@@ -125,15 +129,30 @@ export default function Sponsorships() {
   }, []);
 
   const goToNextEvent = () => {
-    setCurrentEventIndex((prev) =>
-      prev + 1 >= pastEvents.length - itemsToShow + 1 ? 0 : prev + 1
-    );
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentEventIndex((prev) => prev + 1);
   };
 
   const goToPrevEvent = () => {
-    setCurrentEventIndex((prev) =>
-      prev - 1 < 0 ? pastEvents.length - itemsToShow : prev - 1
-    );
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentEventIndex((prev) => prev - 1);
+  };
+
+  const handleTransitionEnd = () => {
+    setIsTransitioning(false);
+
+    // Reset to middle section when reaching clones (without transition)
+    if (currentEventIndex >= pastEvents.length * 2) {
+      setTimeout(() => {
+        setCurrentEventIndex(pastEvents.length);
+      }, 0);
+    } else if (currentEventIndex < pastEvents.length) {
+      setTimeout(() => {
+        setCurrentEventIndex(pastEvents.length * 2 - 1);
+      }, 0);
+    }
   };
 
   return (
@@ -162,7 +181,7 @@ export default function Sponsorships() {
 
                 <button
                   onClick={() => router.push("/contact?sponsor=true")}
-                  className="relative z-20 bg-gradient-to-r from-pink-400 to-purple-500 text-white font-semibold px-8 py-3 rounded-full shadow-md hover:shadow-xl transition pointer-events-auto"
+                  className="relative z-20 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold px-10 py-4 rounded-full shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 pointer-events-auto"
                 >
                   Contact Us
                 </button>
@@ -236,12 +255,12 @@ export default function Sponsorships() {
               {benefits.map((benefit, index) => (
                 <div
                   key={index}
-                  className={`relative overflow-hidden rounded-3xl p-6 bg-gradient-to-br ${benefit.color} text-white shadow-lg hover:scale-105 transition-transform duration-300 text-center`}
+                  className="relative overflow-hidden rounded-2xl p-8 bg-white border-2 border-purple-200 shadow-md hover:shadow-xl hover:border-purple-400 transition-all duration-300"
                 >
-                  <div className="absolute inset-0 bg-black/20"></div>
-                  <div className="relative z-10 flex flex-col items-center">
-                    <h3 className="text-xl font-bold mb-3">{benefit.title}</h3>
-                    <p className="text-sm text-gray-100">
+                  <div className={`absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b ${benefit.color}`}></div>
+                  <div className="relative z-10 pl-4">
+                    <h3 className="text-xl font-bold mb-3 text-gray-900">{benefit.title}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">
                       {benefit.description}
                     </p>
                   </div>
@@ -279,21 +298,21 @@ export default function Sponsorships() {
               {sponsorshipTiers.map((tier, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-200 hover:shadow-2xl transition-shadow duration-300 flex flex-col"
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-gray-200 hover:shadow-2xl hover:border-purple-300 transition-all duration-300 flex flex-col"
                 >
                   <div
-                    className={`bg-gradient-to-r ${tier.headerColor} p-4 flex flex-col items-center justify-center`}
+                    className={`bg-gradient-to-r ${tier.headerColor} p-6 flex flex-col items-center justify-center`}
                   >
                     <h3 className="text-2xl font-bold text-white text-center">
                       {tier.name}
                     </h3>
-                    <p className="text-white/90 text-base mt-1">{tier.price}</p>
+                    <p className="text-white text-lg font-semibold mt-2">{tier.price}</p>
                   </div>
                   <div className="p-6 flex-grow">
                     <ul className="space-y-3">
                       {tier.benefits.map((benefit, i) => (
                         <li key={i} className="flex items-start">
-                          <span className="text-violet-500 mr-2">•</span>
+                          <span className="text-purple-600 mr-3 text-lg font-bold">✓</span>
                           <span className="text-gray-700 text-base">
                             {benefit}
                           </span>
@@ -313,26 +332,26 @@ export default function Sponsorships() {
               viewport={{ margin: "-50px", once: true }}
               className="mt-12 max-w-5xl mx-auto"
             >
-              <h3 className="text-2xl font-bold text-center mb-6">
+              <h3 className="text-2xl font-bold text-center mb-6 text-gray-900">
                 Sponsorship Benefits at a Glance
               </h3>
-              <div className="overflow-x-auto bg-white rounded-xl shadow-md border border-gray-200">
+              <div className="overflow-x-auto bg-white rounded-2xl shadow-lg border-2 border-gray-200">
                 <table className="min-w-full text-sm">
-                  <thead className="bg-gray-100">
+                  <thead className="bg-gradient-to-r from-purple-600 to-indigo-600">
                     <tr>
-                      <th className="px-4 py-3 text-left font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-left font-bold text-white">
                         Benefit
                       </th>
-                      <th className="px-4 py-3 text-center font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-center font-bold text-white">
                         Community
                       </th>
-                      <th className="px-4 py-3 text-center font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-center font-bold text-white">
                         Silver
                       </th>
-                      <th className="px-4 py-3 text-center font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-center font-bold text-white">
                         Gold
                       </th>
-                      <th className="px-4 py-3 text-center font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-center font-bold text-white">
                         Platinum
                       </th>
                     </tr>
@@ -417,17 +436,21 @@ export default function Sponsorships() {
                         platinum: true,
                       },
                     ].map((row, index) => (
-                      <tr key={index}>
-                        <td className="px-4 py-3 text-gray-700">
+                      <tr key={index} className="hover:bg-purple-50 transition-colors">
+                        <td className="px-6 py-4 text-gray-800 font-medium">
                           {row.label}
                         </td>
                         {["community", "silver", "gold", "platinum"].map(
                           (tierKey) => (
                             <td
                               key={tierKey}
-                              className="px-4 py-3 text-center"
+                              className="px-6 py-4 text-center"
                             >
-                              {(row[tierKey as keyof typeof row]) ? "✔️" : "—"}
+                              {(row[tierKey as keyof typeof row]) ? (
+                                <span className="text-green-600 text-lg font-bold">✓</span>
+                              ) : (
+                                <span className="text-gray-300">—</span>
+                              )}
                             </td>
                           )
                         )}
@@ -468,7 +491,7 @@ export default function Sponsorships() {
                   </p>
                   <button
                     onClick={() => router.push("/contact?sponsor=true")}
-                    className="tracking-widest rounded-full font-semibold text-purple-600 bg-white hover:bg-gray-100 px-8 py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
+                    className="tracking-widest rounded-full font-bold text-purple-700 bg-white hover:bg-purple-50 px-10 py-4 transition-all duration-300 ease-in-out shadow-lg hover:shadow-2xl hover:scale-105"
                   >
                     Sponsor Now
                   </button>
@@ -502,13 +525,14 @@ export default function Sponsorships() {
             >
               <div className="overflow-hidden">
                 <div
-                  className="flex transition-transform duration-500 ease-in-out"
+                  className="flex"
                   style={{
-                    transform: `translateX(-${currentEventIndex * (100 / itemsToShow)
-                      }%)`,
+                    transform: `translateX(-${currentEventIndex * (100 / itemsToShow)}%)`,
+                    transition: isTransitioning ? 'transform 500ms ease-in-out' : 'none',
                   }}
+                  onTransitionEnd={handleTransitionEnd}
                 >
-                  {pastEvents.map((event, index) => (
+                  {extendedEvents.map((event, index) => (
                     <div
                       key={index}
                       className="flex-shrink-0 px-2"
@@ -534,13 +558,13 @@ export default function Sponsorships() {
               {/* Navigation Arrows */}
               <button
                 onClick={goToPrevEvent}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-violet-600 hover:bg-violet-700 text-white w-10 h-10 rounded-full shadow-lg flex items-center justify-center transition-colors duration-300"
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110"
               >
                 <i className="fa-solid fa-chevron-left"></i>
               </button>
               <button
                 onClick={goToNextEvent}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-violet-600 hover:bg-violet-700 text-white w-10 h-10 rounded-full shadow-lg flex items-center justify-center transition-colors duration-300"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110"
               >
                 <i className="fa-solid fa-chevron-right"></i>
               </button>
