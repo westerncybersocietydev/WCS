@@ -427,7 +427,7 @@ export default function Sponsorships() {
                               key={tierKey}
                               className="px-4 py-3 text-center"
                             >
-                              {(row as any)[tierKey] ? "✔️" : "—"}
+                              {(row[tierKey as keyof typeof row]) ? "✔️" : "—"}
                             </td>
                           )
                         )}
