@@ -187,15 +187,18 @@ const HeroSection = () => {
                 Register Now
               </Link>
             )}
-            <a
-              href="#events"
+            <button
+              onClick={() => {
+                const el = document.querySelector("#events");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+              }}
               className="bg-white/80 backdrop-blur-md text-[#373a46] font-medium text-[15px] px-8 py-3.5 rounded-full border border-black/10 hover:bg-black/5 transition-colors shadow-sm"
               style={{
                 fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
               }}
             >
               Learn More
-            </a>
+            </button>
           </motion.div>
         </motion.div>
       </motion.div>

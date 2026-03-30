@@ -319,7 +319,7 @@ const LandingNavbar = () => {
             </div>
           ) : (
             <Link
-              href="/sign-up"
+              href="/sign-in"
               className="bg-gradient-to-br from-[#1a1a2e] via-[#4a4a6a] to-[#1a1a2e] text-white text-sm font-medium px-6 py-2.5 rounded-full transition-transform hover:scale-105 shadow-[inset_-4px_-6px_25px_0px_rgba(201,201,201,0.08),inset_4px_4px_10px_0px_rgba(29,29,29,0.24)]"
               style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
             >
