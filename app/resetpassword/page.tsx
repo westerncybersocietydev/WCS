@@ -1,6 +1,6 @@
 "use client";
 import React, { Suspense, useCallback, useState } from "react";
-import Navbar from "../components/navbar";
+import Navbar from "../components/LandingNavbar";
 import Footer from "../components/footer";
 import toast from "react-hot-toast";
 import { getNameAndUserId, resetPassword } from "../lib/actions/user.action";

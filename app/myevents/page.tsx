@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import Navbar from "../components/navbar";
+import Navbar from "../components/LandingNavbar";
 import Footer from "../components/footer";
 import { getMyEvents } from "../lib/actions/user.action";
 import { EventObject } from "../lib/actions/event.action";

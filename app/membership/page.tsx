@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Navbar from "../components/navbar";
+import Navbar from "../components/LandingNavbar";
 import Footer from "../components/footer";
 import { useUser } from "../context/UserContext";
 import { useRouter } from "next/navigation";

@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
-import Navbar from "@/app/components/navbar";
+import Navbar from "@/app/components/LandingNavbar";
 import Footer from "@/app/components/footer";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { checkAdmin, getAllEventRsvps, getAllUsers, sendAllEmail } from "../lib/actions/user.action";
 import Footer from "../components/footer";
-import Navbar from "../components/navbar";
+import Navbar from "../components/LandingNavbar";
 import * as XLSX from "xlsx";
 
 interface Rsvp {

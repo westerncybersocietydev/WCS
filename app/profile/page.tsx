@@ -7,7 +7,7 @@ import {
   updatePassword,
   // updatePlan,
 } from "../lib/actions/user.action";
-import Navbar from "../components/navbar";
+import Navbar from "../components/LandingNavbar";
 import Footer from "../components/footer";
 import { toast } from "react-hot-toast";
 import Avatar from "../dataFiles/avatars";

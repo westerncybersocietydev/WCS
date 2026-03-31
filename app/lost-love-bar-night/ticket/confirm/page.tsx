@@ -2,7 +2,7 @@
 import { useEffect, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
-import Navbar from "@/app/components/navbar";
+import Navbar from "@/app/components/LandingNavbar";
 import Footer from "@/app/components/footer";
 import { motion } from "framer-motion";
 

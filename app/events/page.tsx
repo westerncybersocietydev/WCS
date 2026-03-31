@@ -1,5 +1,5 @@
 "use client";
-import Navbar from "../components/navbar";
+import Navbar from "../components/LandingNavbar";
 import Footer from "../components/footer";
 import Carousel from "../components/eventCarousel";
 import Image from "next/image";

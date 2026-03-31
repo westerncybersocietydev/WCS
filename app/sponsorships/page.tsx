@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Footer from "../components/footer";
-import Navbar from "../components/navbar";
+import Navbar from "../components/LandingNavbar";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";

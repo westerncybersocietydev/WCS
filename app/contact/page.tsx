@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState, Suspense } from "react";
-import Navbar from "../components/navbar";
+import Navbar from "../components/LandingNavbar";
 import Footer from "../components/footer";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";

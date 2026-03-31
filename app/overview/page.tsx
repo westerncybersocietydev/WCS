@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Navbar from "../components/navbar";
+import Navbar from "../components/LandingNavbar";
 import Footer from "../components/footer";
 import { motion } from "framer-motion";
 import Image from "next/image";

@@ -21,6 +21,7 @@ interface ProfileData {
 }
 
 const NAV_LINKS = [
+  { name: "Home", link: "/" },
   { name: "Projects", link: "/projects" },
   { name: "Events", link: "/events" },
   { name: "Sponsorships", link: "/sponsorships" },
@@ -29,8 +30,6 @@ const NAV_LINKS = [
     dropdown: [
       { name: "Overview", link: "/overview" },
       { name: "Meet the Team", link: "/meet-the-team" },
-      { name: "Community", link: "#community" },
-      { name: "FAQ", link: "#faq" },
     ],
   },
 ];
@@ -43,6 +42,7 @@ const LandingNavbar = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileAboutUsExpanded, setMobileAboutUsExpanded] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
 
   // Fetch profile data
@@ -59,6 +59,13 @@ const LandingNavbar = () => {
   useEffect(() => {
     if (user) getProfileData();
   }, [user, getProfileData]);
+
+  // Scroll effect — tightens pill opacity/shadow as user scrolls
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleLogout = useCallback(() => {
     document.cookie =
@@ -106,9 +113,14 @@ const LandingNavbar = () => {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="fixed top-0 left-0 right-0 z-[100] pt-6 px-6 md:px-8 w-full pointer-events-none"
+      className="fixed top-0 left-0 right-0 z-[100] pt-5 px-4 md:px-8 w-full pointer-events-none"
     >
-      <div className="flex items-center justify-between px-3 py-2 bg-white/50 backdrop-blur-2xl rounded-full border border-black/5 shadow-sm max-w-6xl mx-auto pointer-events-auto">
+      <div
+        className={`flex items-center justify-between px-3 py-2 rounded-full border max-w-6xl mx-auto pointer-events-auto transition-all duration-300 ${scrolled
+            ? "bg-white/90 backdrop-blur-2xl shadow-md border-black/10"
+            : "bg-white/60 backdrop-blur-2xl shadow-sm border-black/5"
+          }`}
+      >
         {/* Logo */}
         <Link href="/" className="flex items-center pl-2">
           <img

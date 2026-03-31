@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useState, Suspense } from "react";
-import Navbar from "../components/navbar";
+import Navbar from "../components/LandingNavbar";
 import Footer from "../components/footer";
 import { loginUser } from "../lib/actions/user.action";
 import { useRouter, useSearchParams } from "next/navigation";

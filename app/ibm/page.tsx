@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Footer from "../components/footer";
-import Navbar from "../components/navbar";
+import Navbar from "../components/LandingNavbar";
 import Image from "next/image";
 
 export default function IBM() {
