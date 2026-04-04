@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { motion, Variants, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 
 const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -73,7 +74,7 @@ const SOCIALS_DATA = [
     name: "LinkedIn",
     handle: "Western Cyber Society",
     bio: "Empowering the next generation of leaders in Artificial Intelligence (AI), Cyber Security, and Web3. #LaunchTheFuture",
-    link: "https://linkedin.com/company/westerncybersociety",
+    link: "https://linkedin.com/company/western-cyber-society",
     icon: LinkedinIcon,
     hoverStyle:
       "hover:border-[#0A66C2] hover:shadow-[0_8px_40px_rgba(10,102,194,0.25)]",
@@ -117,7 +118,7 @@ const CommunitySection = () => {
   });
 
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
-  
+
   const textOpacity = useTransform(textProgress, [0, 1], [0, 1]);
   const textY = useTransform(textProgress, [0, 1], [40, 0]);
   const textFilter = useTransform(textProgress, [0, 1], ["blur(8px)", "blur(0px)"]);
@@ -140,7 +141,7 @@ const CommunitySection = () => {
           whileInView={{ scale: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           viewport={{ once: true, margin: "-100px" }}
-          src="/newlanding2.png"
+          src="/newlanding2.jpeg"
           className="w-full h-[130%] absolute -top-[15%] object-cover opacity-100"
           alt="Abstract background"
         />
@@ -196,9 +197,11 @@ const CommunitySection = () => {
                 {/* Header (PFP + Handle) */}
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center p-2.5 shadow-sm border border-black/5 shrink-0">
-                    <img
+                    <Image
                       src="/wcsLogo.png"
                       alt="WCS"
+                      width={56}
+                      height={56}
                       className="w-full h-full object-contain drop-shadow-sm"
                     />
                   </div>

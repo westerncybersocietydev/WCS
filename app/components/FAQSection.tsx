@@ -36,14 +36,6 @@ const FAQS_DATA = [
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.1 },
-  },
-};
-
 const itemVariants: Variants = {
   hidden: {
     opacity: 0,
@@ -95,7 +87,7 @@ const FAQSection = () => {
           whileInView={{ scale: 1 }}
           transition={{ duration: 1.5 }}
           viewport={{ once: true, margin: "-100px" }}
-          src="/newlanding3.png"
+          src="/newlanding3.jpeg"
           className="w-full h-[130%] absolute -top-[15%] object-cover opacity-100"
           alt="Abstract background"
         />

@@ -2,127 +2,120 @@
 import React, { useState } from "react";
 import Navbar from "../components/LandingNavbar";
 import Footer from "../components/footer";
+import PageHero from "../components/PageHero";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { TeamMember, teamData } from "../dataFiles/teamPage/members";
 
 type TeamCardProps = {
   member: TeamMember;
+  index: number;
 };
 
-const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
+const TeamCard: React.FC<TeamCardProps> = ({ member, index }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
-      initial={{ y: 100, opacity: 0 }}
-      whileInView={{ y: 0, opacity: 1 }}
-      transition={{ type: "tween", duration: 0.5 }}
-      viewport={{ margin: "-50px", once: true }}
-      className="relative cursor-pointer overflow-hidden rounded-sm h-[26rem] sm:h-[30rem] md:h-[30rem] 2xl:h-[40rem] w-full transition-transform duration-300 ease-in-out hover:scale-110 group"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: (index % 3) * 0.08 }}
+      viewport={{ once: true, margin: "-40px" }}
+      className="relative group bg-white rounded-2xl border border-black/[0.06] shadow-sm overflow-hidden hover:shadow-md transition-all duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative w-11/12 h-5/6">
+      {/* Photo */}
+      <div className="relative w-full aspect-[3/4] overflow-hidden">
         <Image
           src={member.image}
           alt={member.name}
           fill
-          className="object-cover shadow-xl transition-all duration-500"
-          priority
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          priority={index < 6}
         />
+        {/* Gradient overlay on hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a2e]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
-      <div className="absolute z-40 w-4/5 md:w-11/12 bottom-10 right-2 p-4 bg-gradient-to-r from-zinc-100 to-zinc-100 text-black rounded-sm shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] transition-all duration-200 ease-in-out h-20 group-hover:h-28">
-        <div className="font-semibold text-md md:text-xl lg:text-2xl">
-          {member.name}
-        </div>
-        <div className="text-xs md:text-sm lg:text-md">{member.title}</div>
 
-        {isHovered && (
-          <div className="mt-2 flex justify-between items-center">
-            <p className="text-xs">{member.program}</p>
-            <div className="flex text-black text-xl space-x-2">
+      {/* Info strip */}
+      <div className="p-4">
+        <h3
+          className="text-[15px] font-semibold text-[#1a1a2e]"
+          style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+        >
+          {member.name}
+        </h3>
+        <p
+          className="text-[13px] text-black/45 mt-0.5"
+          style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+        >
+          {member.title}
+        </p>
+
+        {/* Hover extras */}
+        <div
+          className={`overflow-hidden transition-all duration-300 ${
+            isHovered ? "max-h-20 mt-3 opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <p
+              className="text-[12px] text-black/40"
+              style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+            >
+              {member.program}
+            </p>
+            <div className="flex gap-3">
               <button
-                onClick={() => {
-                  window.open(`mailto:${member.email}`);
-                }}
-                className="transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800"
+                onClick={() => window.open(`mailto:${member.email}`)}
+                className="text-black/40 hover:text-[#1a1a2e] transition-colors"
+                aria-label="Email"
               >
-                <i className="fa-solid fa-envelope"></i>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
               </button>
               <button
                 onClick={() => window.open(member.linkedin || "", "_blank")}
-                className="transition-all duration-300 ease-in-out hover:scale-110 hover:text-gray-800"
+                className="text-black/40 hover:text-[#1a1a2e] transition-colors"
+                aria-label="LinkedIn"
               >
-                <i className="fa-brands fa-linkedin"></i>
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
               </button>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </motion.div>
   );
 };
 
-const Section: React.FC<{ members: TeamMember[] }> = ({ members }) => (
-  <section className="mb-8">
-    <div className="flex justify-center">
-      <div className="w-full mx-5 md:mx-20 grid grid-cols-1 md:grid-cols-3 gap-5">
-        {members.map((member, index) => (
-          <TeamCard key={index} member={member} />
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
 export default function MeetTheTeam() {
   return (
-    <>
-      <main>
-        <div>
-          <Navbar />
+    <main className="bg-white min-h-screen">
+      <Navbar />
 
-          <section
-            className="mt-20 md:mt-16 relative w-full h-[70vw] sm:h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/projectBg.jpg')" }}
-          >
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-              <div className="text-white text-center px-6 py-12 max-w-3xl mx-auto">
-                <h1 className="text-xl md:text-5xl md:text-6xl font-bold mb-6 leading-tight">
-                  Behind WCS
-                </h1>
-                <p className="text-sm md:text-lg md:text-xl leading-relaxed">
-                  Get to know the diverse group of talented individuals behind
-                  our organization, each bringing unique skills and
-                  perspectives. Together, we are committed to driving innovation
-                  and creating a supportive environment for all members.
-                </p>
-              </div>
-            </div>
-          </section>
+      <PageHero
+        eyebrow="The People Behind WCS"
+        title="Meet the Team"
+        description="Get to know the diverse group of talented individuals behind our organization, each bringing unique skills and perspectives to drive innovation."
+        backgroundImage="/gallery/gallery3.jpeg"
+      />
 
-          <div className="bg-gray-100 min-h-screen">
-            <div className="p-4 text-black">
-              <div className="text-center mt-14">
-                <motion.h1
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ margin: "-100px", once: true }}
-                  className="text-4xl text-center font-bold text-gray-800"
-                >
-                  <strong>The People Behind WCS</strong>
-                </motion.h1>
-                <motion.h2 className="mt-3 mb-14">
-                  WCS is proud to present our incredible 2024-2025 student team.
-                </motion.h2>
-              </div>
-              <Section members={teamData} />
-            </div>
-          </div>
-          <Footer />
+      {/* Team Grid */}
+      <section className="max-w-6xl mx-auto px-6 md:px-10 pt-8 pb-28">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {teamData.map((member, index) => (
+            <TeamCard key={index} member={member} index={index} />
+          ))}
         </div>
-      </main>
-    </>
+      </section>
+
+      <Footer />
+    </main>
   );
 }

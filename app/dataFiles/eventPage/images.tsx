@@ -12,7 +12,7 @@ export const images = [
   "/gallery/gallery12.jpeg",
   "/gallery/gallery13.jpeg",
   "/gallery/gallery14.jpeg",
-  "/gallery/gallery15.png",
+  "/gallery/gallery15.jpeg",
   "/gallery/gallery26.jpeg",
   "/gallery/gallery29.jpeg",
   "/gallery/gallery16.jpeg",

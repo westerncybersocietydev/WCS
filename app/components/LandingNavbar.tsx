@@ -123,9 +123,11 @@ const LandingNavbar = () => {
       >
         {/* Logo */}
         <Link href="/" className="flex items-center pl-2">
-          <img
+          <Image
             src="/wcsLogo.png"
             alt="Western Cyber Society Logo"
+            width={40}
+            height={40}
             className="h-8 md:h-10 w-auto drop-shadow-sm"
           />
         </Link>
@@ -332,7 +334,7 @@ const LandingNavbar = () => {
           ) : (
             <Link
               href="/sign-in"
-              className="bg-gradient-to-br from-[#1a1a2e] via-[#4a4a6a] to-[#1a1a2e] text-white text-sm font-medium px-6 py-2.5 rounded-full transition-transform hover:scale-105 shadow-[inset_-4px_-6px_25px_0px_rgba(201,201,201,0.08),inset_4px_4px_10px_0px_rgba(29,29,29,0.24)]"
+              className="bg-gradient-to-r from-[#7c3aed] to-[#c026d3] text-white text-sm font-medium px-6 py-2.5 rounded-full transition-all hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 shadow-sm"
               style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
             >
               Sign In
@@ -535,7 +537,7 @@ const LandingNavbar = () => {
                 </button>
                 <button
                   onClick={() => handleMobileNavClick("/sign-in")}
-                  className="w-full text-sm font-medium rounded-full border border-black/10 text-black/80 hover:bg-black/5 py-3 transition-all"
+                  className="w-full text-sm font-medium rounded-full bg-gradient-to-r from-[#7c3aed] to-[#c026d3] text-white py-3 transition-all hover:shadow-lg hover:shadow-purple-500/25"
                   style={{
                     fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
                   }}
