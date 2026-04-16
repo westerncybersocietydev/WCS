@@ -13,8 +13,8 @@ export default function Footer() {
               <Image
                 src="/wcsLogo.png"
                 alt="Western Cyber Society Logo"
-                width={28}
-                height={28}
+                width={112}
+                height={112}
                 className="h-7 w-auto brightness-0 invert"
               />
               <span
