@@ -20,7 +20,7 @@ const ReminderPopup: React.FC<ReminderPopupProps> = ({ isOpen, onClose }) => {
     title: "Lost Love Bar Night",
     subtitle: "Get Your Wristbands Right Now",
     priceOrLabel: "Saturday, January 24, 2026 • 10:00 PM",
-    imagePath: "/lostlovewcs.jpeg", // Change to appropriate image
+    imagePath: "/events/lostlovewcs.jpeg", // Change to appropriate image
     link: "/lost-love-bar-night",
     ctaText: "GET YOUR WRISTBANDS NOW!",
     highlights: [

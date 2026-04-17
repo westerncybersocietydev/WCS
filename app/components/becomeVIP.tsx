@@ -55,7 +55,7 @@ const BecomeVIP: React.FC<BecomeVIPProps> = ({
           {/* Set a fixed height */}
           <div className="relative w-full h-full">
             <Image
-              src="/vipWCS.png"
+              src="/events/vipWCS.png"
               alt="VIP"
               fill
               className="object-cover"

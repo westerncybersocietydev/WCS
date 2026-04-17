@@ -58,7 +58,7 @@ export function UserProvider({ children }: UserProviderProps) {
         program: "Computer Science",
         plan: "VIP",
         description: "Development test user",
-        avatar: "/defaultPfp.png",
+        avatar: "/avatars/defaultPfp.png",
       });
       return;
     }

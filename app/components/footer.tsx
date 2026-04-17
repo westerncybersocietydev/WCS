@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="w-full md:w-auto flex-1 min-w-[200px]">
             <div className="flex items-center mb-5">
               <Image
-                src="/wcsLogo.png"
+                src="/branding/wcsLogo.png"
                 alt="Western Cyber Society Logo"
                 width={112}
                 height={112}

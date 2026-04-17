@@ -26,7 +26,7 @@ const featuredEvents = [
     title: "Recruit Ready",
     subtitle: "Get Your Tickets Now!",
     route: "/recruit-ready",
-    bg: "/recruitready.png",
+    bg: "/events/recruitready.png",
   },
   {
     title: "Lost Love Bar Night",

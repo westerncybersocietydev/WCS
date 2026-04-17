@@ -87,7 +87,7 @@ const FAQSection = () => {
           whileInView={{ scale: 1 }}
           transition={{ duration: 1.5 }}
           viewport={{ once: true, margin: "-100px" }}
-          src="/newlanding3.jpeg"
+          src="/landing/newlanding3.jpeg"
           className="w-full h-[130%] absolute -top-[15%] object-cover opacity-100"
           alt="Abstract background"
         />

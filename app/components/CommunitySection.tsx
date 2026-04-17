@@ -141,7 +141,7 @@ const CommunitySection = () => {
           whileInView={{ scale: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           viewport={{ once: true, margin: "-100px" }}
-          src="/newlanding2.jpeg"
+          src="/landing/newlanding2.jpeg"
           className="w-full h-[130%] absolute -top-[15%] object-cover opacity-100"
           alt="Abstract background"
         />
@@ -198,7 +198,7 @@ const CommunitySection = () => {
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center p-2.5 shadow-sm border border-black/5 shrink-0">
                     <Image
-                      src="/wcsLogo.png"
+                      src="/branding/wcsLogo.png"
                       alt="WCS"
                       width={112}
                       height={112}

@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
           program: user.program,
           plan: user.plan || "Basic", // Default to Basic if not set
           description: user.description || "",
-          avatar: user.avatar || "/defaultPfp.png",
+          avatar: user.avatar || "/avatars/defaultPfp.png",
         },
       },
       { status: 200 }

@@ -356,7 +356,7 @@ export default function IBMTicketPage() {
           {/* Hero Section */}
           <section
             className="mt-20 md:mt-16 relative w-full h-[70vw] sm:h-[55vw] md:h-[30vw] bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/IBMN.png')" }}
+            style={{ backgroundImage: "url('/events/IBMN.png')" }}
           >
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
               <div className="text-white text-center px-6 py-12 max-w-3xl mx-auto">

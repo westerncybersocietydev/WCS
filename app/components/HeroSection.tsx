@@ -45,7 +45,7 @@ const HeroSection = () => {
           playsInline
           className="w-full h-[120%] object-cover"
           style={{ objectPosition: "center top" }}
-          src="/hero2.mp4"
+          src="/landing/hero2.mp4"
         />
       </motion.div>
 

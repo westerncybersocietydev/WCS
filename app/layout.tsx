@@ -11,12 +11,12 @@ import PathMetadata from "@/app/components/PathMetadata";
 import { useState } from "react";
 
 const geistSans = localFont({
-  src: "/fonts/GeistVF.woff",
+  src: "../public/fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "/fonts/GeistMonoVF.woff",
+  src: "../public/fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
@@ -154,7 +154,7 @@ export default function RootLayout({
           <meta property="og:description" content={description} />
           <meta
             property="og:image"
-            content="https://www.westerncybersociety.ca/_next/image?url=%2FwcsLogo.png&w=128&q=75"
+            content="https://www.westerncybersociety.ca/_next/image?url=%2Fbranding%2FwcsLogo.png&w=128&q=75"
           />
           <meta property="og:url" content={url} />
           <meta property="og:type" content="website" />
@@ -164,7 +164,7 @@ export default function RootLayout({
           <meta name="twitter:description" content={description} />
           <meta
             name="twitter:image"
-            content="https://www.westerncybersociety.ca/_next/image?url=%2FwcsLogo.png&w=128&q=75"
+            content="https://www.westerncybersociety.ca/_next/image?url=%2Fbranding%2FwcsLogo.png&w=128&q=75"
           />
 
           {/* JSON-LD for Organization */}
@@ -176,7 +176,7 @@ export default function RootLayout({
                 "@type": "Organization",
                 name: "Western Cyber Society",
                 url: "https://www.westerncybersociety.ca",
-                logo: "https://www.westerncybersociety.ca/_next/image?url=%2FwcsLogo.png&w=128&q=75",
+                logo: "https://www.westerncybersociety.ca/_next/image?url=%2Fbranding%2FwcsLogo.png&w=128&q=75",
                 description:
                   "Begin your innovation journey with WCS. Join our cyber society classes, engage in exciting tech events, and connect with like-minded individuals.",
                 sameAs: [

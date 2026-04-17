@@ -124,7 +124,7 @@ const LandingNavbar = () => {
         {/* Logo */}
         <Link href="/" className="flex items-center pl-2">
           <Image
-            src="/wcsLogo.png"
+            src="/branding/wcsLogo.png"
             alt="Western Cyber Society Logo"
             width={160}
             height={160}

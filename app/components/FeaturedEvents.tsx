@@ -9,28 +9,28 @@ const EVENT_DATA = [
     title: "IBM Night",
     description:
       "Connect with IBM professionals and explore exclusive opportunities.",
-    image: "/IBMN.png",
+    image: "/events/IBMN.png",
     link: "/events?event=IBMNight",
   },
   {
     title: "VIP Dinner",
     description:
       "An exclusive invite-only dinner for our top members and sponsors.",
-    image: "/VIPD.png",
+    image: "/events/VIPD.png",
     link: "/events?event=VIPDinner",
   },
   {
     title: "FAANG Day",
     description:
       "Networking day featuring engineers and recruiters from top tech companies.",
-    image: "/FD.png",
+    image: "/events/FD.png",
     link: "/events?event=FAANGDay",
   },
   {
     title: "Toronto Tech Expo",
     description:
       "Join us on a trip to the biggest technology conference in Toronto.",
-    image: "/TTE.png",
+    image: "/events/TTE.png",
     link: "/events?event=TorontoTechExpo",
   },
 ];
@@ -94,7 +94,7 @@ const FeaturedEvents = () => {
           whileInView={{ scale: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           viewport={{ once: true, margin: "-100px" }}
-          src="/newlanding1.jpeg"
+          src="/landing/newlanding1.jpeg"
           className="w-full h-[130%] absolute -top-[15%] object-cover opacity-100"
           alt="Abstract background"
         />
