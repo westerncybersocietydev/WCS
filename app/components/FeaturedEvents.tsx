@@ -39,18 +39,20 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.1 },
+    transition: { delayChildren: 0.1 },
   },
 };
 
 const itemVariants: Variants = {
   hidden: {
     opacity: 0,
-    filter: "blur(4px)",
+    y: 60,
+    filter: "blur(8px)",
     transition: { duration: 0.5, ease: "easeOut" },
   },
   visible: {
     opacity: 1,
+    y: 0,
     filter: "blur(0px)",
     transition: { duration: 0.8, ease: "easeOut" },
   },
@@ -144,42 +146,41 @@ const FeaturedEvents = () => {
               variants={itemVariants}
               className="relative group rounded-3xl overflow-hidden cursor-pointer h-[26rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_16px_40px_rgb(0,0,0,0.2)] bg-black transition-all duration-500"
             >
-              {/* Background Image that blurs on hover */}
+              {/* Background Image */}
               <Image
                 src={event.image}
                 alt={event.title}
                 fill
-                className="object-cover transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[1.08] group-hover:blur-md"
+                className="object-cover transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[1.05]"
               />
 
-              {/* Darkening overlay for text readability */}
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
+              {/* Hover Darkening & Blur Overlay */}
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 backdrop-blur-md transition-all duration-500 pointer-events-none z-10" />
 
-              {/* Content Overlay (Revealed on hover) */}
-              <div className="absolute inset-0 flex flex-col justify-center items-center p-8 opacity-0 group-hover:opacity-100 translate-y-6 group-hover:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] text-center text-white z-20">
+              {/* Centered Content Overlay (Hidden by Default) */}
+              <div className="absolute inset-0 flex flex-col justify-center items-center p-6 md:p-8 opacity-0 group-hover:opacity-100 translate-y-8 group-hover:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] text-center z-20 pointer-events-none group-hover:pointer-events-auto">
+                
+                <h3 
+                  className="text-2xl md:text-3xl font-bold text-white tracking-tight mb-4 drop-shadow-sm"
+                  style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                >
+                  {event.title}
+                </h3>
+                
                 <p
-                  className="text-[16px] md:text-[18px] opacity-95 leading-relaxed font-medium drop-shadow-lg"
-                  style={{
-                    fontFamily:
-                      "var(--font-geist-sans), 'Geist', sans-serif",
-                  }}
+                  className="text-[15px] md:text-[16px] text-white/90 leading-relaxed font-medium max-w-[90%] drop-shadow-sm"
+                  style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
                 >
                   {event.description}
                 </p>
 
-                <div className="absolute bottom-8">
+                <div className="absolute bottom-8 md:bottom-10">
                   <Link
                     href={event.link}
-                    className="inline-flex items-center text-white text-sm font-semibold transition-all group-hover:gap-3 gap-2 tracking-wide"
-                    style={{
-                      fontFamily:
-                        "var(--font-geist-sans), 'Geist', sans-serif",
-                    }}
+                    className="inline-flex items-center text-white text-[13px] font-bold uppercase tracking-widest transition-all hover:text-violet-300 hover:gap-4 gap-2 border-b-2 border-transparent hover:border-violet-300 pb-1"
+                    style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
                   >
-                    View Details{" "}
-                    <span className="transform transition-transform text-[16px]">
-                      →
-                    </span>
+                    View Details <span className="text-[16px] leading-none mb-[2px]">→</span>
                   </Link>
                 </div>
               </div>

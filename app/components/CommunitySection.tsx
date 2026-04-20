@@ -86,18 +86,20 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.1 },
+    transition: { delayChildren: 0.1 },
   },
 };
 
 const itemVariants: Variants = {
   hidden: {
     opacity: 0,
-    filter: "blur(4px)",
+    y: 60,
+    filter: "blur(8px)",
     transition: { duration: 0.5, ease: "easeOut" },
   },
   visible: {
     opacity: 1,
+    y: 0,
     filter: "blur(0px)",
     transition: { duration: 0.8, ease: "easeOut" },
   },

@@ -86,100 +86,110 @@ function SearchParamsComponent() {
   );
 
   return (
-    <main>
-      <div>
-        <Navbar />
-        <div className="mt-16 flex flex-col text-black items-center justify-center min-h-screen p-4">
-          <div className="bg-white rounded-lg shadow-md p-9 w-full max-w-lg shadow-[0_2px_5px_2px_rgba(0,0,0,0.75)] shadow-gray-300">
-            <h2 className="text-3xl mb-5 font-bold text-center text-gray-800">
-              SIGN IN
-            </h2>
-            <form onSubmit={handleSubmit}>
-              <div className="space-y-4">
-                {/* UWO Email */}
-                <div className="flex flex-col">
-                  <label
-                    htmlFor="uwoEmail"
-                    className="text-gray-600 font-bold text-sm"
-                  >
-                    Email <span className="font-normal">(required)</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="uwoEmail"
-                    name="uwoEmail"
-                    value={formData.uwoEmail}
-                    onChange={handleChange}
-                    className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-                    required
-                  />
-                </div>
+    <main className="relative min-h-screen bg-[#fafafa]">
+      <Navbar />
+      
 
-                {/* Password */}
-                <div className="flex flex-col">
-                  <label
-                    htmlFor="password"
-                    className="text-gray-600 font-bold text-sm"
-                  >
-                    Password <span className="font-normal">(required)</span>
-                  </label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-                    required
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="mt-6 w-full tracking-widest rounded-full font-semibold text-white
-                  border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
-                  py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
-              >
-                {loading ? "Signing in..." : "Sign In"}
-              </button>
-              <div>
-                <p className="mb-1 mt-5 text-center text-sm">
-                  Forgot your password?{" "}
-                  <a
-                    onClick={() =>
-                      router.push(
-                        `/resetpassword?event=${encodeURIComponent(
-                          redirect || ""
-                        )}`
-                      )
-                    }
-                    className="text-blue-500 cursor-pointer"
-                  >
-                    <u>Reset Your Password</u>
-                  </a>
-                </p>
-                <p className="mb-5 mt-1 text-center text-sm">
-                  Don&apos;t have an account yet?{" "}
-                  <a
-                    onClick={() =>
-                      router.push(
-                        `/sign-up?event=${encodeURIComponent(redirect || "")}`
-                      )
-                    }
-                    className="text-blue-500 cursor-pointer"
-                  >
-                    <u>Sign Up</u>
-                  </a>
-                </p>
-              </div>
-            </form>
 
-            {error && <p className="text-center text-red-500 mt-2">{error}</p>}
-          </div>
+      <div className="relative z-10 pt-28 pb-12 flex flex-col text-black items-center justify-center min-h-screen p-4">
+        <div className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 md:p-10 w-full max-w-lg border border-black/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+
+          <h2 className="text-3xl md:text-4xl mb-10 font-semibold text-center text-black/80 tracking-tight" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+            Welcome Back
+          </h2>
+          
+          <form onSubmit={handleSubmit}>
+            <div className="space-y-5">
+              {/* UWO Email */}
+              <div className="flex flex-col space-y-1.5">
+                <label
+                  htmlFor="uwoEmail"
+                  className="text-black/60 font-medium text-xs uppercase tracking-wider"
+                  style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                >
+                  Email <span className="font-normal lowercase tracking-normal text-black/40">(required)</span>
+                </label>
+                <input
+                  type="email"
+                  id="uwoEmail"
+                  name="uwoEmail"
+                  value={formData.uwoEmail}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-xl text-sm bg-black/5 border border-transparent focus:bg-white focus:border-black/10 focus:ring-4 focus:ring-black/5 outline-none transition-all duration-300 placeholder:text-black/30"
+                  placeholder="you@uwo.ca"
+                  required
+                />
+              </div>
+
+              {/* Password */}
+              <div className="flex flex-col space-y-1.5">
+                <label
+                  htmlFor="password"
+                  className="text-black/60 font-medium text-xs uppercase tracking-wider"
+                  style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                >
+                  Password <span className="font-normal lowercase tracking-normal text-black/40">(required)</span>
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-xl text-sm bg-black/5 border border-transparent focus:bg-white focus:border-black/10 focus:ring-4 focus:ring-black/5 outline-none transition-all duration-300 placeholder:text-black/30"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="mt-8 w-full py-3.5 rounded-full font-medium text-white text-[15px] transition-transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600 shadow-md"
+              style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+            >
+              {loading ? "Signing in..." : "Sign In"}
+            </button>
+
+            <div className="mt-8 space-y-3">
+              <p className="text-center text-sm text-black/60" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                Forgot your password?{" "}
+                <button
+                  type="button"
+                  onClick={() =>
+                    router.push(
+                      `/resetpassword?event=${encodeURIComponent(
+                        redirect || ""
+                      )}`
+                    )
+                  }
+                  className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
+                >
+                  Reset it
+                </button>
+              </p>
+              <p className="text-center text-sm text-black/60" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                Don&apos;t have an account yet?{" "}
+                <button
+                  type="button"
+                  onClick={() =>
+                    router.push(
+                      `/sign-up?event=${encodeURIComponent(redirect || "")}`
+                    )
+                  }
+                  className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
+                >
+                  Sign Up
+                </button>
+              </p>
+            </div>
+          </form>
+
+          {error && <p className="text-center text-red-500 text-sm mt-4 font-medium">{error}</p>}
         </div>
-        <Footer />
       </div>
+      <Footer />
     </main>
   );
 }

@@ -158,128 +158,137 @@ function SearchParamsComponent() {
   }, [step]);
 
   return (
-    <main>
-      <div>
-        <Navbar />
-        <div className="mt-16 flex flex-col items-center justify-center min-h-screen p-4">
-          <div className="w-full max-w-lg bg-white text-black rounded-lg shadow-md p-8">
+    <main className="relative min-h-screen bg-[#fafafa]">
+      <Navbar />
+
+
+
+      <div className="relative z-10 pt-28 pb-12 flex flex-col items-center justify-center min-h-screen p-4">
+        <div className="bg-white/80 backdrop-blur-xl text-black rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/5 p-8 md:p-10 w-full max-w-lg">
           { step === 2 && (
             <button
-              className='mb-4 cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-125'
+              className='mb-4 text-black/60 hover:text-black cursor-pointer transition-colors'
               onClick={() => handleBack()}
             >
-              <i className="fa-solid fa-arrow-left"></i>
+              <i className="fa-solid fa-arrow-left text-lg"></i>
             </button>
           ) }
-            <h2 className="text-3xl mb-5 font-bold text-center text-gray-800">Reset Your Password</h2>
 
-            {/* Step 1: Enter Email */}
-            {step === 1 && (
-              <form onSubmit={checkEmail} className="space-y-4">
-                <div>
-                  <label htmlFor="email" className="text-gray-600 font-bold text-sm">
-                    UWO Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="mt-6 w-full tracking-widest rounded-full font-semibold text-white
-                  border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
-                  py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
-                >
-                  {loading ? "Checking..." : "Reset Password"}
-                </button>
-                <p className="mb-5 mt-1 text-center text-sm">Remember your password? <a onClick={() => router.push(`/sign-in?event=${encodeURIComponent(redirect || "")}`)} className="text-blue-500 cursor-pointer"><u>Login</u></a></p>
-              </form>
-            )}
+          <h2 className="text-3xl md:text-4xl mb-10 font-semibold text-center text-black/80 tracking-tight" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>Reset Your Password</h2>
 
-            {/* Step 2: Verify Code */}
-            {step === 2 && (
-              <form onSubmit={verifyCode} className="space-y-4">
-                <div>
-                  <label htmlFor="code" className="text-gray-600 font-bold text-sm">
-                    Verification Code
-                  </label>
-                  <input
-                    type="text"
-                    id="code"
-                    value={userInputCode}
-                    onChange={(e) => setUserInputCode(e.target.value)}
-                    className="w-full shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full tracking-widest rounded-full font-semibold text-white
-                  border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
-                  py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
-                >
-                  {loading ? "Verifying..." : "Verify Code"}
-                </button>
-                <p className="text-center text-xs text-gray-500">This may take a few minutes. Please wait patiently and do not leave this page. If you do not see an email after a while, please check your junk folder or try again later.</p>
-                <p className="mb-5 text-center text-sm">Remember your password? <a onClick={() => router.push(`/sign-in?event=${encodeURIComponent(redirect || "")}`)} className="text-blue-500 cursor-pointer"><u>Login</u></a></p>
-              </form>
-            )}
+          {/* Step 1: Enter Email */}
+          {step === 1 && (
+            <form onSubmit={checkEmail} className="space-y-5">
+              <div className="flex flex-col space-y-1.5">
+                <label htmlFor="email" className="text-black/60 font-medium text-xs uppercase tracking-wider" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                  UWO Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl text-sm bg-black/5 border border-transparent focus:bg-white focus:border-black/10 focus:ring-4 focus:ring-black/5 outline-none transition-all duration-300 placeholder:text-black/30"
+                  placeholder="you@uwo.ca"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="mt-8 w-full py-3.5 rounded-full font-medium text-white text-[15px] transition-transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600 shadow-md"
+                style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+              >
+                {loading ? "Checking..." : "Reset Password"}
+              </button>
+              <p className="mt-6 text-center text-sm text-black/60" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                Remember your password? <button type="button" onClick={() => router.push(`/sign-in?event=${encodeURIComponent(redirect || "")}`)} className="text-purple-600 hover:text-purple-700 font-medium transition-colors">Login</button>
+              </p>
+            </form>
+          )}
 
-            {/* Step 3: Reset Password */}
-            {step === 3 && (
-              <form onSubmit={handlePasswordReset} className="space-y-4">
-                <div>
-                  <label htmlFor="newPassword" className="text-gray-600 font-bold text-sm">
-                    New Password
-                  </label>
-                  <input
-                    type="password"
-                    id="newPassword"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-                    required
-                  />
-                </div>
+          {/* Step 2: Verify Code */}
+          {step === 2 && (
+            <form onSubmit={verifyCode} className="space-y-5">
+              <div className="flex flex-col space-y-1.5">
+                <label htmlFor="code" className="text-black/60 font-medium text-xs uppercase tracking-wider" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                  Verification Code
+                </label>
+                <input
+                  type="text"
+                  id="code"
+                  value={userInputCode}
+                  onChange={(e) => setUserInputCode(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl text-sm bg-black/5 border border-transparent focus:bg-white focus:border-black/10 focus:ring-4 focus:ring-black/5 outline-none transition-all duration-300 placeholder:text-black/30"
+                  placeholder="Enter code"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="mt-8 w-full py-3.5 rounded-full font-medium text-white text-[15px] transition-transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600 shadow-md"
+                style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+              >
+                {loading ? "Verifying..." : "Verify Code"}
+              </button>
+              <p className="text-center text-xs text-black/40 mt-4">This may take a few minutes. Please wait patiently and do not leave this page. If you do not see an email after a while, please check your junk folder or try again later.</p>
+              <p className="mt-6 text-center text-sm text-black/60" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                Remember your password? <button type="button" onClick={() => router.push(`/sign-in?event=${encodeURIComponent(redirect || "")}`)} className="text-purple-600 hover:text-purple-700 font-medium transition-colors">Login</button>
+              </p>
+            </form>
+          )}
 
-                <div className="mb-4">
-                  <label htmlFor="confirmNewPassword" className="text-gray-600 font-bold text-sm">
-                    Confirm New Password
-                  </label>
-                  <input
-                    type="password"
-                    id="confirmNewPassword"
-                    value={confirmNewPassword}
-                    onChange={(e) => setConfirmNewPassword(e.target.value)}
-                    className="w-full shadow-[0_1px_2px_1px_rgba(0,0,0,0.75)] shadow-gray-300 rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-                    required
-                  />
-                </div>
+          {/* Step 3: Reset Password */}
+          {step === 3 && (
+            <form onSubmit={handlePasswordReset} className="space-y-5">
+              <div className="flex flex-col space-y-1.5">
+                <label htmlFor="newPassword" className="text-black/60 font-medium text-xs uppercase tracking-wider" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  id="newPassword"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl text-sm bg-black/5 border border-transparent focus:bg-white focus:border-black/10 focus:ring-4 focus:ring-black/5 outline-none transition-all duration-300 placeholder:text-black/30"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full tracking-widest rounded-full font-semibold text-white
-                  border-2 font-bold bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105 hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-800
-                  py-3 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg"
-                >
-                  {loading ? "Resetting..." : "Reset Password"}
-                </button>
-                <p className="mb-5 mt-1 text-center text-sm">Remember your password? <a onClick={() => router.push(`/sign-in?event=${encodeURIComponent(redirect || "")}`)} className="text-blue-500 cursor-pointer"><u>Login</u></a></p>
-              </form>
-            )}
-             {error && <p className="text-center text-red-500 mt-2">{error}</p>}
-          </div>
+              <div className="flex flex-col space-y-1.5">
+                <label htmlFor="confirmNewPassword" className="text-black/60 font-medium text-xs uppercase tracking-wider" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  id="confirmNewPassword"
+                  value={confirmNewPassword}
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl text-sm bg-black/5 border border-transparent focus:bg-white focus:border-black/10 focus:ring-4 focus:ring-black/5 outline-none transition-all duration-300 placeholder:text-black/30"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="mt-8 w-full py-3.5 rounded-full font-medium text-white text-[15px] transition-transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600 shadow-md"
+                style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+              >
+                {loading ? "Resetting..." : "Reset Password"}
+              </button>
+              <p className="mt-6 text-center text-sm text-black/60" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                Remember your password? <button type="button" onClick={() => router.push(`/sign-in?event=${encodeURIComponent(redirect || "")}`)} className="text-purple-600 hover:text-purple-700 font-medium transition-colors">Login</button>
+              </p>
+            </form>
+          )}
+           {error && <p className="text-center text-red-500 mt-4 font-medium text-sm">{error}</p>}
         </div>
-        <Footer />
       </div>
+      <Footer />
     </main>
   );
 }

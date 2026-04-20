@@ -15,7 +15,7 @@ const ReactLenis = dynamic(
 
 export default function Home() {
   return (
-    <ReactLenis root options={{ lerp: 0.1, duration: 1.2, smoothWheel: true }}>
+    <ReactLenis root options={{ lerp: 0.08, smoothWheel: true }}>
       <div className="min-h-screen bg-white">
         <LandingNavbar />
         <HeroSection />

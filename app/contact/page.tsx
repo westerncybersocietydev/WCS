@@ -95,24 +95,29 @@ function ContactForm() {
   };
 
   return (
-    <div className="mt-16 w-full flex justify-center">
+    <section className="relative w-full flex justify-center z-10 px-4 md:px-6">
       <form
         onSubmit={handleSubmit}
-        className="space-y-4 max-w-lg bg-white rounded-lg shadow-md p-9"
-      >
-        <h1 className="text-3xl mb-2 font-bold text-center text-gray-800">
-          Contact Us
-        </h1>
-        <p className="mb-6 text-gray-600 text-center">
-          Have a question or need assistance? Fill out the form below and
-          we’ll get back to you soon.
-        </p>
+          className="space-y-6 w-full max-w-xl bg-white/80 backdrop-blur-md rounded-[2rem] border border-black/5 shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-8 md:p-12 transition-all duration-300 hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)] hover:-translate-y-1"
+        >
+          <div className="text-center mb-8">
+            <h1 
+              className="text-4xl md:text-5xl font-medium bg-clip-text text-transparent bg-gradient-to-br from-[#1a1a2e] via-[#4a4a6a] to-[#1a1a2e] mb-4 tracking-[-0.04em]"
+              style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+            >
+              Contact Us
+            </h1>
+            <p className="text-[16px] text-[#373a46] opacity-80 max-w-[400px] mx-auto leading-relaxed">
+              Have a question or need assistance? Fill out the form below and
+              we&apos;ll get back to you soon.
+            </p>
+          </div>
 
         {/* TOPIC */}
-        <div className="flex flex-col space-y-1 text-black">
+        <div className="flex flex-col space-y-2 text-black">
           <label
             htmlFor="topic"
-            className="text-gray-700 font-semibold text-sm"
+            className="text-black/60 font-medium text-xs uppercase tracking-wider"
           >
             Topic
           </label>
@@ -121,7 +126,7 @@ function ContactForm() {
             name="topic"
             value={formData.topic}
             onChange={handleChange}
-            className="bg-white border border-gray-300 rounded-lg px-3 py-3 text-black text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition shadow-sm"
+            className="w-full px-4 py-3 rounded-xl text-[15px] bg-black/5 border border-transparent focus:bg-white focus:border-black/10 focus:ring-4 focus:ring-black/5 outline-none transition-all duration-300 appearance-none"
           >
             <option value="general">General</option>
             <option value="SIP projects">SIP Projects</option>
@@ -131,14 +136,14 @@ function ContactForm() {
         </div>
 
         {/* NAME FIELDS */}
-        <div className="flex space-x-4">
+        <div className="flex flex-col sm:flex-row gap-5">
           {/* First Name */}
-          <div className="flex flex-col space-y-1 w-1/2 text-black">
+          <div className="flex flex-col space-y-2 w-full sm:w-1/2 text-black">
             <label
               htmlFor="firstName"
-              className="text-gray-600 font-bold text-sm"
+              className="text-black/60 font-medium text-xs uppercase tracking-wider"
             >
-              First Name <span className="font-normal">(required)</span>
+              First Name <span className="text-black/40 font-normal ml-1">(required)</span>
             </label>
             <input
               type="text"
@@ -146,18 +151,18 @@ function ContactForm() {
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
-              className="shadow rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition"
+              className="w-full px-4 py-3 rounded-xl text-[15px] bg-black/5 border border-transparent focus:bg-white focus:border-black/10 focus:ring-4 focus:ring-black/5 outline-none transition-all duration-300 placeholder:text-black/30"
               required
             />
           </div>
 
           {/* Last Name */}
-          <div className="flex flex-col space-y-1 w-1/2 text-black">
+          <div className="flex flex-col space-y-2 w-full sm:w-1/2 text-black">
             <label
               htmlFor="lastName"
-              className="text-gray-600 font-bold text-sm"
+              className="text-black/60 font-medium text-xs uppercase tracking-wider"
             >
-              Last Name <span className="font-normal">(required)</span>
+              Last Name <span className="text-black/40 font-normal ml-1">(required)</span>
             </label>
             <input
               type="text"
@@ -165,19 +170,19 @@ function ContactForm() {
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
-              className="shadow rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition"
+              className="w-full px-4 py-3 rounded-xl text-[15px] bg-black/5 border border-transparent focus:bg-white focus:border-black/10 focus:ring-4 focus:ring-black/5 outline-none transition-all duration-300 placeholder:text-black/30"
               required
             />
           </div>
         </div>
 
         {/* EMAIL */}
-        <div className="flex flex-col space-y-1 text-black">
+        <div className="flex flex-col space-y-2 text-black">
           <label
             htmlFor="email"
-            className="text-gray-600 font-bold text-sm"
+            className="text-black/60 font-medium text-xs uppercase tracking-wider"
           >
-            Email <span className="font-normal">(required)</span>
+            Email <span className="text-black/40 font-normal ml-1">(required)</span>
           </label>
           <input
             type="email"
@@ -185,16 +190,16 @@ function ContactForm() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="shadow rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition"
+            className="w-full px-4 py-3 rounded-xl text-[15px] bg-black/5 border border-transparent focus:bg-white focus:border-black/10 focus:ring-4 focus:ring-black/5 outline-none transition-all duration-300 placeholder:text-black/30"
             required
           />
         </div>
 
         {/* MESSAGE */}
-        <div className="flex flex-col space-y-1 text-black">
+        <div className="flex flex-col space-y-2 text-black">
           <label
             htmlFor="message"
-            className="text-gray-600 font-bold text-sm"
+            className="text-black/60 font-medium text-xs uppercase tracking-wider"
           >
             Message
           </label>
@@ -206,9 +211,9 @@ function ContactForm() {
             maxLength={500}
             rows={5}
             required
-            className="shadow rounded pl-3 px-1 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition"
+            className="w-full px-4 py-3 rounded-xl text-[15px] bg-black/5 border border-transparent focus:bg-white focus:border-black/10 focus:ring-4 focus:ring-black/5 outline-none transition-all duration-300 placeholder:text-black/30 custom-scrollbar resize-y min-h-[120px]"
           ></textarea>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-[13px] text-black/40 font-medium mt-1 text-right">
             {500 - charCount} characters remaining
           </p>
         </div>
@@ -217,38 +222,40 @@ function ContactForm() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-6 w-full tracking-widest rounded-full font-semibold text-white
-          bg-gradient-to-r from-violet-500 to-purple-500 hover:scale-105
-          px-14 py-3 transition shadow-sm hover:shadow-lg"
+          className="mt-8 w-full py-3.5 rounded-full font-medium text-white text-[15px] transition-transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600 shadow-md"
         >
-          {loading ? "Sending..." : "Submit"}
+          {loading ? "Sending..." : "Submit Inquiry"}
         </button>
 
-        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+        {error && <p className="text-red-500 text-[14px] font-medium text-center mt-4">{error}</p>}
       </form>
-    </div>
+    </section>
   );
 }
 
 export default function Contact() {
   return (
     <>
-      <main>
-        <div>
-          <Navbar />
-          <Suspense fallback={
-            <div className="mt-16 w-full flex justify-center">
-              <div className="space-y-4 max-w-lg bg-white rounded-lg shadow-md p-9">
-                <h1 className="text-3xl mb-2 font-bold text-center text-gray-800">
-                  Contact Us
-                </h1>
-                <p className="mb-6 text-gray-600 text-center">Loading...</p>
-              </div>
-            </div>
-          }>
-            <ContactForm />
-          </Suspense>
-          <Footer />
+      <main className="relative min-h-screen bg-[#fafafa]">
+        <Navbar />
+        <div className="relative z-10 pt-28 flex flex-col min-h-screen">
+          <div className="pb-12">
+            <Suspense fallback={
+              <section className="relative w-full flex justify-center z-10 px-4 md:px-6">
+                <div className="space-y-6 w-full max-w-xl bg-white/80 backdrop-blur-md rounded-[2rem] border border-black/5 shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-8 md:p-12">
+                  <div className="text-center mb-8 animate-pulse">
+                    <div className="h-10 bg-gray-200 rounded-lg w-1/2 mx-auto mb-4"></div>
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
+                  </div>
+                </div>
+              </section>
+            }>
+              <ContactForm />
+            </Suspense>
+          </div>
+          <div className="mt-auto">
+            <Footer />
+          </div>
         </div>
       </main>
     </>
