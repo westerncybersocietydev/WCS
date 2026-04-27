@@ -43,9 +43,10 @@ const HeroSection = () => {
           loop
           muted
           playsInline
+          preload="auto"
           className="w-full h-[120%] object-cover"
-          style={{ objectPosition: "center top" }}
-          src="/landing/hero2.mp4"
+          style={{ objectPosition: "center top", backgroundColor: "white" }}
+          src="/landing/newhero.mp4"
         />
       </motion.div>
 
