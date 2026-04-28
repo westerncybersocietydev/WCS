@@ -382,187 +382,253 @@ const SearchParamsComponent: React.FC = () => {
 
   return (
     <div className="mx-auto w-full flex flex-col">
-      <div className="flex px-5 mt-10 mb-5 items-start">
-        <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ margin: "-100px", once: true }}
-          className="text-4xl font-bold text-gray-800 mb-5"
+      {/* Nav arrows */}
+      <div className="flex justify-end mb-6 gap-3">
+        <button
+          onClick={goToPrev}
+          className="w-10 h-10 flex items-center justify-center rounded-full border border-black/10 bg-white/80 backdrop-blur-sm text-[#1a1a2e] shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300"
+          aria-label="Previous"
         >
-          Upcoming Events
-        </motion.h2>
-        <div className="flex space-x-4 ml-5 md:ml-auto">
-          <button
-            onClick={goToPrev}
-            className="text-black border border-gray-400 px-4 py-2 rounded-full shadow-lg transition-transform transform hover:scale-110 hover:shadow-xl"
-            aria-label="Previous"
-          >
-            <i className="fa-solid fa-chevron-left"></i>
-          </button>
-          <button
-            onClick={goToNext}
-            className="text-black border border-gray-400 px-4 py-2 rounded-full shadow-lg transition-transform transform hover:scale-110 hover:shadow-xl"
-            aria-label="Next"
-          >
-            <i className="fa-solid fa-chevron-right"></i>
-          </button>
-        </div>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          onClick={goToNext}
+          className="w-10 h-10 flex items-center justify-center rounded-full border border-black/10 bg-white/80 backdrop-blur-sm text-[#1a1a2e] shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300"
+          aria-label="Next"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
       </div>
 
-      <div className="w-full h-full overflow-hidden flex items-center justify-center">
-        <div className="relative overflow-hidden flex-grow">
+      {/* Cards */}
+      <div className="w-full overflow-hidden">
+        <div className="relative overflow-hidden">
           <div
-            className="flex transition-transform duration-700 ease-in-out items-center"
-            style={{
-              transform: `translateX(-${(currentIndex * 100) / itemsToShow}%)`,
-            }}
+            className="flex transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+            style={{ transform: `translateX(-${(currentIndex * 100) / itemsToShow}%)` }}
           >
             {events.map((item, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="w-full md:w-1/3 flex-shrink-0 p-3 relative group cursor-pointer"
+                initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.6, delay: (index % 3) * 0.08, ease: "easeOut" }}
+                className="w-full md:w-1/3 flex-shrink-0 px-3"
                 onClick={() => openModal(item)}
               >
-                <div className="relative h-[70vw] md:h-[60vw] lg:h-[50vw] xl:h-[40vw] mb-10 overflow-hidden rounded-sm shadow-lg transition-transform transform group-hover:scale-105">
-                  <div
-                    className={`relative w-full h-2/5 md:h-2/4 overflow-hidden rounded-t-xl`}
-                  >
-                    <Image
-                      loading="lazy"
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="h-3/5 md:h-2/4 p-5 bg-white rounded-b-xl">
-                    <h2 className="text-lg md:text-xl 2xl:text-2xl text-gray-800 font-bold mb-1">
-                      {item.name}
-                    </h2>
-                    <p className="text-sm md:text-base 2xl:text-lg text-gray-600 font-semibold mb-1">
+                <div className="group relative rounded-3xl overflow-hidden cursor-pointer h-[26rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_16px_40px_rgb(0,0,0,0.18)] bg-black transition-all duration-500 border border-black/[0.06]">
+                  {/* Full-bleed image */}
+                  <Image
+                    loading="lazy"
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    className="object-cover transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[1.05]"
+                  />
+
+                  {/* Always-visible gradient + info at bottom */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a2e]/80 via-[#1a1a2e]/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <p
+                      className="text-white/55 text-[11px] font-medium uppercase tracking-widest mb-1"
+                      style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                    >
                       {item.date}
                     </p>
-                    <p className="text-sm md:text-base 2xl:text-lg text-gray-600 mb-1">
+                    <h3
+                      className="text-white text-[18px] font-semibold leading-tight mb-1"
+                      style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                    >
+                      {item.name}
+                    </h3>
+                    <p
+                      className="text-white/50 text-[13px]"
+                      style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                    >
                       {item.location}
-                    </p>
-                    <p className="text-sm md:text-base 2xl:text-lg text-gray-800">
-                      {item.description.length > 150
-                        ? item.description.substring(0, 150) + "..."
-                        : item.description}
                     </p>
                   </div>
 
-                  {/* View Details overlay on hover */}
-                  <div className="absolute bottom-[-30px] right-4 font-semibold transition-all duration-700 ease-in-out group-hover:bottom-2">
-                    <span className="text-sm text-gray-800 font-semibold">
-                      View Details <i className="fa-solid fa-arrow-right"></i>
+                  {/* Hover: blur + centred CTA */}
+                  <div className="absolute inset-0 bg-[#1a1a2e]/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 z-10 flex items-center justify-center">
+                    <span
+                      className="inline-flex items-center gap-2 text-white text-[13px] font-semibold uppercase tracking-widest border-b border-white/40 pb-0.5 group-hover:border-white transition-colors duration-300"
+                      style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                    >
+                      View Details
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
                     </span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Modal for Selected Item */}
+      {/* ── Event Detail Modal ────────────────────────────────── */}
       {selectedItem && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out">
-          <div className="relative rounded-lg w-5/6 h-full md:h-2/3 py-2 m-auto flex">
-            {/* Close Button */}
+        <div className="fixed inset-0 flex items-end sm:items-center justify-center z-50 p-4">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-[#1a1a2e]/60 backdrop-blur-md"
+            onClick={closeModal}
+          />
+
+          <motion.div
+            initial={{ opacity: 0, y: 40, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 40, scale: 0.97 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="relative w-full max-w-3xl max-h-[90vh] rounded-3xl overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.4)] flex flex-col sm:flex-row"
+          >
+            {/* Close */}
             <button
               onClick={closeModal}
-              className="absolute top-3 right-2 p-2 text-white md:text-black transition-all duration-500 hover:scale-110"
+              className="absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-colors"
+              aria-label="Close"
             >
-              <i className="fa-solid fa-x text-xl"></i>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </button>
-            <div className="flex flex-col md:flex-row bg-white w-full sm:rounded-lg shadow-lg overflow-y-auto custom-scrollbar">
-              {/* Left Side: Image */}
-              <div className="h-1/2 w-full md:w-1/3 md:h-full">
-                <div className="relative w-full h-full overflow-hidden">
-                  <Image
-                    src={selectedItem.image}
-                    alt={selectedItem.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-              {/* Right Side: Content */}
-              <div className="md:w-2/3 h-2/3 md:h-full p-2 md:p-5 w-full flex flex-col justify-between">
-                <div className="px-2 text-gray-800">
-                  <h2 className="text-md md:text-4xl 2xl:text-6xl font-bold mb-2">
-                    {selectedItem.name}
-                  </h2>
-                  {selectedItem.isRsvp && (
-                    <p className="text-gray-600 ml-2 mb-2 text-xs tracking-wide">
-                      Already RSVP&apos;d
-                    </p>
-                  )}
-                  <p className="font-semibold ml-2 text-xs md:text-base 2xl:text-2xl mb-1">
-                    <i className="fa-solid fa-calendar-days"></i>
-                    <span className="ml-2 font-normal text-gray-700">
+
+            {/* Left: Image */}
+            <div className="relative w-full sm:w-2/5 h-56 sm:h-auto flex-shrink-0">
+              <Image
+                src={selectedItem.image}
+                alt={selectedItem.name}
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a2e]/60 to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-[#1a1a2e]/10" />
+            </div>
+
+            {/* Right: Content */}
+            <div
+              className="flex flex-col justify-between bg-white p-7 overflow-y-auto custom-scrollbar flex-1"
+            >
+              <div>
+                {selectedItem.isRsvp && (
+                  <span
+                    className="inline-block mb-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100"
+                    style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                  >
+                    ✓ You&apos;re registered
+                  </span>
+                )}
+                <h2
+                  className="text-[22px] md:text-[28px] font-semibold tracking-tight text-[#1a1a2e] mb-5"
+                  style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                >
+                  {selectedItem.name}
+                </h2>
+
+                <div className="space-y-2.5 mb-5">
+                  {/* Date */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-[#f4f4f8] flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-[#4a4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <p
+                      className="text-[14px] text-black/70"
+                      style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                    >
                       {selectedItem.date} at {selectedItem.time}
-                    </span>
-                  </p>
-                  <p className="font-semibold ml-2 text-xs md:text-base 2xl:text-2xl mb-1">
-                    <i className="fa-solid fa-location-dot"></i>
-                    <span className="ml-2 font-normal text-gray-700">
+                    </p>
+                  </div>
+                  {/* Location */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-[#f4f4f8] flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-[#4a4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </div>
+                    <p
+                      className="text-[14px] text-black/70"
+                      style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                    >
                       {selectedItem.location}
-                    </span>
-                  </p>
-                  <p className="font-semibold ml-2 text-xs md:text-base 2xl:text-2xl mb-3">
-                    <i className="fa-solid fa-tag"></i>
-                    <span className="ml-2 font-normal text-gray-700">
+                    </p>
+                  </div>
+                  {/* Price */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-[#f4f4f8] flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-[#4a4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                      </svg>
+                    </div>
+                    <p
+                      className="text-[14px] text-black/70"
+                      style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                    >
                       {selectedItem.price}
-                    </span>
-                  </p>
-                  <p className="hidden md:block font-normal text-gray-700 ml-2 text-xs  md:text-base 2xl:text-2xl mb-2 leading-relaxed">
-                    {selectedItem.description}
-                  </p>
+                    </p>
+                  </div>
                 </div>
 
+                <p
+                  className="text-[14px] leading-[1.75] text-black/55"
+                  style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                >
+                  {selectedItem.description}
+                </p>
+              </div>
+
+              {/* Action buttons */}
+              <div className="mt-6">
                 {activeEvents.includes(selectedItem.name) ? (
                   selectedItem.isRsvp ? (
-                    <div className="flex flex-col md:flex-row items-center text-center justify-end gap-2 md:gap-0 md:space-x-4 mr-5">
-                      {/* Add to Outlook Calendar Button */}
+                    <div className="flex flex-col sm:flex-row gap-3">
                       <a
                         href={outlookUrl(selectedItem)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-700 hover:to-blue-800 hover:scale-105"
+                        className="flex-1 text-center text-[13px] font-medium text-white rounded-full py-2.5 px-5 bg-gradient-to-br from-[#1a1a2e] to-[#4a4a6a] hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
+                        style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
                       >
-                        Add to Outlook Calendar
+                        Add to Outlook
                       </a>
-
-                      {/* Add to Google Calendar Button */}
                       <a
                         href={googleUrl(selectedItem)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs z-40 text-white rounded-full py-2 px-4 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg bg-gradient-to-r from-rose-400 to-red-500 hover:from-rose-600 hover:to-red-700 hover:scale-105"
+                        className="flex-1 text-center text-[13px] font-medium text-[#1a1a2e] rounded-full py-2.5 px-5 border border-black/15 bg-white hover:bg-black/[0.03] hover:shadow-sm transition-all duration-300"
+                        style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
                       >
-                        Add to Google Calendar
+                        Add to Google
                       </a>
                     </div>
                   ) : (
-                    <div className="self-end p-2 md:p-0">
-                      <button
-                        onClick={() => openRSVPModal(selectedItem.name)}
-                        className={`text-xs z-40 text-white tracking-wide rounded-full bg-violet-500 hover:bg-violet-950 hover:text-white py-1 px-4 md:py-2 md:px-6 transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg`}
-                      >
-                        RSVP
-                      </button>
-                    </div>
+                    <button
+                      onClick={() => openRSVPModal(selectedItem.name)}
+                      className="w-full text-[14px] font-medium text-white rounded-full py-3 px-6 bg-gradient-to-br from-[#1a1a2e] via-[#4a4a6a] to-[#1a1a2e] hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
+                      style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                    >
+                      RSVP Now
+                    </button>
                   )
                 ) : (
-                  <a className="self-end text-xs">
-                    Registration Will be Open Soon!
-                  </a>
+                  <p
+                    className="text-center text-[13px] text-black/40 border border-dashed border-black/10 rounded-full py-3"
+                    style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                  >
+                    Registration opening soon
+                  </p>
                 )}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
 
