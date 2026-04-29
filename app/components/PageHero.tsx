@@ -68,8 +68,8 @@ export default function PageHero({
       <div
         className={`relative z-10 max-w-5xl mx-auto px-6 text-center ${
           hasImage
-            ? "pt-36 pb-24 md:pt-44 md:pb-32"
-            : "pt-32 pb-16 md:pt-40 md:pb-20"
+            ? "pt-28 pb-16 md:pt-44 md:pb-32"
+            : "pt-24 pb-12 md:pt-40 md:pb-20"
         }`}
       >
         <motion.div

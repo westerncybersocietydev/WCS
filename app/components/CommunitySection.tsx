@@ -179,12 +179,54 @@ const CommunitySection = () => {
           </p>
         </motion.div>
 
+        {/* ── MOBILE: compact horizontal scroll ── */}
+        <div className="md:hidden flex gap-3 overflow-x-auto snap-x snap-mandatory px-6 pb-2 no-scrollbar">
+          {SOCIALS_DATA.map((social, index) => (
+            <motion.a
+              key={index}
+              href={social.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "0px" }}
+              transition={{ duration: 0.4, delay: index * 0.08, ease: "easeOut" }}
+              className={`flex-none w-[72vw] snap-center rounded-2xl p-5 border border-black/10 bg-white shadow-[0_4px_20px_rgb(0,0,0,0.06)] active:scale-[0.98] transition-transform ${social.hoverStyle}`}
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center p-2 shadow-sm border border-black/5 shrink-0">
+                  <Image src="/branding/wcsLogo.png" alt="WCS" width={40} height={40} className="w-full h-full object-contain" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-black leading-tight" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                    {social.handle}
+                  </h3>
+                  <p className="text-[12px] text-black/40 font-medium" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                    @{social.handle.toLowerCase().replace(/ /g, "")}
+                  </p>
+                </div>
+                <div className={`ml-auto ${social.iconHover} text-black/15 transition-colors duration-300`}>
+                  <social.icon className="w-5 h-5" />
+                </div>
+              </div>
+              <p className="text-[13px] text-[#373a46] opacity-75 leading-relaxed line-clamp-3 whitespace-pre-line" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                {social.bio}
+              </p>
+              <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-black/60">
+                Visit Profile <span className="text-[14px] leading-none">→</span>
+              </div>
+            </motion.a>
+          ))}
+          <div className="flex-none w-2" />
+        </div>
+
+        {/* ── DESKTOP: original grid ── */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, margin: "-100px", amount: 0.2 }}
           variants={containerVariants}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto"
+          className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto"
         >
           {SOCIALS_DATA.map((social, index) => (
             <motion.a
@@ -196,60 +238,27 @@ const CommunitySection = () => {
               className={`block relative group overflow-hidden rounded-[2rem] p-8 border border-black/10 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 ${social.hoverStyle}`}
             >
               <div className="relative z-10 flex flex-col h-full">
-                {/* Header (PFP + Handle) */}
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center p-2.5 shadow-sm border border-black/5 shrink-0">
-                    <Image
-                      src="/branding/wcsLogo.png"
-                      alt="WCS"
-                      width={112}
-                      height={112}
-                      className="w-full h-full object-contain drop-shadow-sm"
-                    />
+                    <Image src="/branding/wcsLogo.png" alt="WCS" width={112} height={112} className="w-full h-full object-contain drop-shadow-sm" />
                   </div>
                   <div>
-                    <h3
-                      className="text-lg font-bold text-black tracking-tight leading-tight"
-                      style={{
-                        fontFamily:
-                          "var(--font-geist-sans), 'Geist', sans-serif",
-                      }}
-                    >
+                    <h3 className="text-lg font-bold text-black tracking-tight leading-tight" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
                       {social.handle}
                     </h3>
-                    <p
-                      className="text-[14px] text-black/50 font-medium tracking-wide mt-0.5"
-                      style={{
-                        fontFamily:
-                          "var(--font-geist-sans), 'Geist', sans-serif",
-                      }}
-                    >
+                    <p className="text-[14px] text-black/50 font-medium tracking-wide mt-0.5" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
                       @{social.handle.toLowerCase().replace(/ /g, "")}
                     </p>
                   </div>
                 </div>
-
-                {/* Bio text */}
-                <p
-                  className="text-[15px] text-[#373a46] opacity-80 leading-relaxed whitespace-pre-line flex-1"
-                  style={{
-                    fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
-                  }}
-                >
+                <p className="text-[15px] text-[#373a46] opacity-80 leading-relaxed whitespace-pre-line flex-1" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
                   {social.bio}
                 </p>
-
-                {/* Footer (Visit + Icon) */}
                 <div className="mt-8 flex items-end justify-between">
                   <div className="flex items-center gap-2 text-sm font-semibold text-black group-hover:translate-x-2 transition-transform duration-500">
-                    Visit Profile{" "}
-                    <span className="text-[16px] leading-none mb-[1px]">→</span>
+                    Visit Profile <span className="text-[16px] leading-none mb-[1px]">→</span>
                   </div>
-
-                  {/* Platform Icon */}
-                  <div
-                    className={`text-black/20 ${social.iconHover} transition-colors duration-500 group-hover:scale-110 origin-bottom-right`}
-                  >
+                  <div className={`text-black/20 ${social.iconHover} transition-colors duration-500 group-hover:scale-110 origin-bottom-right`}>
                     <social.icon className="w-8 h-8" />
                   </div>
                 </div>

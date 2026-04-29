@@ -292,6 +292,15 @@ div {
     background-size: 200% auto;
     animation: textShine 6s ease-in-out infinite;
   }
+
+  /* Hide scrollbar but keep scroll functionality (used on mobile carousels) */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 @keyframes textShine {

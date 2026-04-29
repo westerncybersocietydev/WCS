@@ -109,6 +109,7 @@ const LandingNavbar = () => {
   };
 
   return (
+    <>
     <motion.nav
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -342,214 +343,198 @@ const LandingNavbar = () => {
           )}
         </div>
 
-        {/* Mobile Hamburger Button */}
+        {/* Mobile Hamburger Button — animated into X when open */}
         <button
-          className="md:hidden flex flex-col justify-center items-center w-10 h-10 relative z-50"
+          className="md:hidden flex items-center justify-center w-9 h-9 transition-colors relative z-50"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
-          <span
-            className={`block w-5 h-0.5 bg-black/80 transition-all duration-300 ${mobileMenuOpen ? "rotate-45 translate-y-1" : ""
+          <span className="relative w-4 h-4 flex items-center justify-center">
+            <span
+              className={`absolute block h-0.5 bg-[#1a1a2e] rounded-full transition-all duration-300 ${
+                mobileMenuOpen ? "w-4 rotate-45" : "w-4 top-0"
               }`}
-          />
-          <span
-            className={`block w-5 h-0.5 bg-black/80 mt-1 transition-all duration-300 ${mobileMenuOpen ? "opacity-0" : ""
+              style={{ top: mobileMenuOpen ? "50%" : "25%", transform: mobileMenuOpen ? "translateY(-50%) rotate(45deg)" : "" }}
+            />
+            <span
+              className={`absolute block h-0.5 bg-[#1a1a2e] rounded-full transition-all duration-300 ${
+                mobileMenuOpen ? "opacity-0 w-0" : "w-4 opacity-100"
               }`}
-          />
-          <span
-            className={`block w-5 h-0.5 bg-black/80 mt-1 transition-all duration-300 ${mobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
+              style={{ top: "50%", transform: "translateY(-50%)" }}
+            />
+            <span
+              className={`absolute block h-0.5 bg-[#1a1a2e] rounded-full transition-all duration-300 ${
+                mobileMenuOpen ? "w-4 -rotate-45" : "w-4 bottom-0"
               }`}
-          />
+              style={{ bottom: mobileMenuOpen ? "50%" : "25%", transform: mobileMenuOpen ? "translateY(50%) rotate(-45deg)" : "" }}
+            />
+          </span>
         </button>
       </div>
+    </motion.nav>
 
-      {/* Mobile Menu Overlay */}
-      <div
-        className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300 pointer-events-auto ${mobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
-        onClick={() => setMobileMenuOpen(false)}
-      />
-
-      {/* Mobile Menu Drawer */}
-      <div
-        className={`fixed top-0 right-0 h-full w-72 bg-white/95 backdrop-blur-2xl z-50 md:hidden transform transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-xl pointer-events-auto ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-      >
-        <div className="flex flex-col h-full pt-16 pb-6 px-6 overflow-y-auto">
-          {/* User Info (if logged in) */}
-          {user && profileData && (
-            <div className="flex items-center space-x-3 pb-4 border-b border-black/[0.04] mb-4">
-              <div className="relative w-12 h-12 overflow-hidden rounded-full flex-shrink-0">
+      {/* Full-screen mobile menu — slides down from top */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[105] md:hidden flex flex-col bg-[#fdfcfd] pointer-events-auto"
+          >
+            {/* Top bar — matches nav pill height */}
+            <div className="flex items-center justify-between px-6 pt-6 pb-4">
+              <button onClick={() => handleMobileNavClick("/")} className="block hover:opacity-70 transition-opacity">
                 <Image
-                  src={profileData?.avatar || Avatar[0]}
-                  alt="Profile"
-                  fill
-                  className="object-cover"
+                  src="/branding/wcsLogo.png"
+                  alt="WCS"
+                  width={120}
+                  height={48}
+                  className="h-8 w-auto"
                 />
-              </div>
-              <div className="flex flex-col min-w-0">
-                <p
-                  className="font-semibold text-black truncate text-sm"
-                  style={{
-                    fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
-                  }}
-                >
-                  {profileData?.firstName} {profileData?.lastName}
-                </p>
-                <p
-                  className="text-xs text-black/50 truncate"
-                  style={{
-                    fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
-                  }}
-                >
-                  {profileData?.uwoEmail}
-                </p>
-                {profileData?.plan === "Basic" && (
-                  <button
-                    onClick={() => handleMobileNavClick("/membership")}
-                    className="text-xs font-semibold text-transparent bg-clip-text bg-gradient-to-r from-[#1a1a2e] to-[#4a4a6a] text-left mt-1"
-                  >
-                    Become a VIP →
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Mobile Navigation Links */}
-          <nav className="flex flex-col space-y-1">
-            {/* About Us Accordion */}
-            <div>
+              </button>
               <button
-                onClick={() => setMobileAboutUsExpanded(!mobileAboutUsExpanded)}
-                className="w-full flex justify-between items-center py-3 text-left text-black/80 font-medium text-sm border-b border-black/[0.04]"
-                style={{
-                  fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
-                }}
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-9 h-9 flex items-center justify-center text-black/50 transition-colors"
               >
-                About Us
-                <svg
-                  className={`w-4 h-4 transition-transform duration-300 ${mobileAboutUsExpanded ? "rotate-180" : ""
-                    }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              <div
-                className={`overflow-hidden transition-all duration-300 ${mobileAboutUsExpanded ? "max-h-60" : "max-h-0"
-                  }`}
-              >
-                <div className="py-2 pl-4 space-y-1">
-                  {[
-                    { name: "Overview", link: "/overview" },
-                    { name: "Meet the Team", link: "/meet-the-team" },
-                    { name: "Community", link: "#community" },
-                    { name: "FAQ", link: "#faq" },
-                  ].map((item) => (
-                    <button
-                      key={item.name}
-                      onClick={() => handleMobileNavClick(item.link)}
-                      className="block w-full text-left py-2 text-sm text-black/60 hover:text-black transition-colors"
-                      style={{
-                        fontFamily:
-                          "var(--font-geist-sans), 'Geist', sans-serif",
-                      }}
-                    >
-                      {item.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
 
-            {[
-              { name: "Projects", link: "/projects" },
-              { name: "Events", link: "/events" },
-              { name: "Sponsorships", link: "/sponsorships" },
-              { name: "IBM", link: "/ibm" },
-            ].map((item) => (
-              <button
-                key={item.name}
-                onClick={() => handleMobileNavClick(item.link)}
-                className="py-3 text-left text-black/80 font-medium text-sm border-b border-black/[0.04] hover:text-black transition-colors"
-                style={{
-                  fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
-                }}
-              >
-                {item.name}
-              </button>
-            ))}
-
-            {user && (
-              <>
-                <button
-                  onClick={() => handleMobileNavClick("/profile")}
-                  className="py-3 text-left text-black/80 font-medium text-sm border-b border-black/[0.04] hover:text-black transition-colors"
-                  style={{
-                    fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
-                  }}
-                >
-                  Profile
-                </button>
-                <button
-                  onClick={() => handleMobileNavClick("/myevents")}
-                  className="py-3 text-left text-black/80 font-medium text-sm border-b border-black/[0.04] hover:text-black transition-colors"
-                  style={{
-                    fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
-                  }}
-                >
-                  My Events
-                </button>
-              </>
-            )}
-          </nav>
-
-          {/* Bottom Actions */}
-          <div className="mt-auto pt-6">
-            {user ? (
-              <button
-                onClick={handleLogout}
-                className="w-full text-sm font-medium rounded-full border border-red-200 text-red-500 hover:bg-red-50/50 py-3 transition-all"
-                style={{
-                  fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
-                }}
-              >
-                Sign Out
-              </button>
-            ) : (
-              <div className="space-y-3">
-                <button
-                  onClick={() => handleMobileNavClick("/sign-up")}
-                  className="w-full text-sm font-medium rounded-full bg-gradient-to-br from-[#1a1a2e] via-[#4a4a6a] to-[#1a1a2e] text-white py-3 transition-transform hover:scale-[1.02] shadow-[inset_-4px_-6px_25px_0px_rgba(201,201,201,0.08),inset_4px_4px_10px_0px_rgba(29,29,29,0.24)]"
-                  style={{
-                    fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
-                  }}
-                >
-                  Register
-                </button>
-                <button
-                  onClick={() => handleMobileNavClick("/sign-in")}
-                  className="w-full text-sm font-medium rounded-full bg-gradient-to-r from-[#6B21A8] via-[#A21CAF] to-[#C026D3] text-white py-3 transition-all hover:shadow-lg hover:shadow-purple-500/25"
-                  style={{
-                    fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
-                  }}
-                >
-                  Sign In
-                </button>
+            {/* User info */}
+            {user && profileData && (
+              <div className="mx-6 mb-4 px-4 py-3 rounded-2xl bg-black/[0.03] flex items-center gap-3 border border-black/[0.04]">
+                <div className="relative w-9 h-9 overflow-hidden rounded-full flex-shrink-0">
+                  <Image src={profileData?.avatar || Avatar[0]} alt="Profile" fill className="object-cover" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[#1a1a2e] text-sm font-semibold truncate" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                    {profileData?.firstName} {profileData?.lastName}
+                  </p>
+                  <p className="text-black/40 text-xs truncate" style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}>
+                    {profileData?.uwoEmail}
+                  </p>
+                </div>
               </div>
             )}
-          </div>
-        </div>
-      </div>
-    </motion.nav>
+
+            {/* Staggered nav links */}
+            <motion.nav
+              className="flex-1 overflow-y-auto px-6 pt-2"
+              initial="hidden"
+              animate="visible"
+              variants={{ visible: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } } }}
+            >
+              <motion.button
+                variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3 } } }}
+                onClick={() => handleMobileNavClick("/")}
+                className="w-full flex items-center justify-between py-3.5 text-left text-[#1a1a2e] font-semibold text-[22px] tracking-tight border-b border-black/[0.05] hover:opacity-60 transition-opacity"
+                style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+              >
+                Home
+              </motion.button>
+
+              {/* About Us group */}
+              <motion.div
+                variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3 } } }}
+                className="mb-1"
+              >
+                <button
+                  onClick={() => setMobileAboutUsExpanded(!mobileAboutUsExpanded)}
+                  className="w-full flex justify-between items-center py-3.5 text-left text-[#1a1a2e] font-semibold text-[22px] tracking-tight border-b border-black/[0.05] hover:opacity-60 transition-opacity"
+                  style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                >
+                  About Us
+                  <svg
+                    className={`w-4 h-4 text-black/25 transition-transform duration-300 ${mobileAboutUsExpanded ? "rotate-180" : ""}`}
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div className={`overflow-hidden transition-all duration-300 ${mobileAboutUsExpanded ? "max-h-60" : "max-h-0"}`}>
+                  <div className="py-2 pl-2 space-y-1">
+                    {[
+                      { name: "Overview", link: "/overview" },
+                      { name: "Meet the Team", link: "/meet-the-team" },
+                      { name: "Community", link: "#community" },
+                      { name: "FAQ", link: "#faq" },
+                    ].map((item) => (
+                      <button
+                        key={item.name}
+                        onClick={() => handleMobileNavClick(item.link)}
+                        className="block w-full text-left py-2 px-2 text-[16px] text-black/50 hover:text-black/70 transition-colors"
+                        style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                      >
+                        {item.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+
+              {[
+                { name: "Projects", link: "/projects" },
+                { name: "Events", link: "/events" },
+                { name: "Sponsorships", link: "/sponsorships" },
+                ...(user ? [
+                  { name: "Profile", link: "/profile" },
+                  { name: "My Events", link: "/myevents" },
+                ] : []),
+              ].map((item) => (
+                <motion.button
+                  key={item.name}
+                  variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3 } } }}
+                  onClick={() => handleMobileNavClick(item.link)}
+                  className="w-full flex items-center justify-between py-3.5 text-left text-[#1a1a2e] font-semibold text-[22px] tracking-tight border-b border-black/[0.05] hover:opacity-60 transition-opacity"
+                  style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                >
+                  {item.name}
+                </motion.button>
+              ))}
+            </motion.nav>
+
+            {/* Bottom actions */}
+            <div className="px-6 pb-10 pt-5 space-y-2.5">
+              {user ? (
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-sm font-medium rounded-2xl border border-red-200 text-red-500 hover:bg-red-50 py-3 transition-all"
+                  style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                >
+                  Sign Out
+                </button>
+              ) : (
+                <>
+                  <button
+                    onClick={() => handleMobileNavClick("/sign-in")}
+                    className="w-full text-[15px] font-semibold rounded-2xl py-3.5 text-white transition-all"
+                    style={{
+                      background: "linear-gradient(135deg, #6B21A8, #A21CAF, #C026D3)",
+                      fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
+                      boxShadow: "0 4px 20px rgba(162, 28, 175, 0.25)",
+                    }}
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    onClick={() => handleMobileNavClick("/sign-up")}
+                    className="w-full text-[15px] font-medium rounded-2xl py-3.5 text-black/60 border border-black/10 hover:bg-black/[0.03] transition-all"
+                    style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
+                  >
+                    Register
+                  </button>
+                </>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

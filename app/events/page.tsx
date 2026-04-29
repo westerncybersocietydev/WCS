@@ -14,11 +14,6 @@ import { images } from "../dataFiles/eventPage/images";
 // - On there, add/edit events.
 // - For the image, put in the file path to the image (check other events as reference).
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
-};
-
 export default function Events() {
   return (
     <main className="bg-white min-h-screen">
@@ -32,15 +27,10 @@ export default function Events() {
       />
 
       {/* ── All Events ──────────────────────────────────────────────── */}
-      <section className="py-20 bg-white">
+      <section className="py-10 md:py-16 bg-white">
         <div className="max-w-6xl mx-auto px-6 md:px-10">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={fadeUp}
-            className="mb-10"
-          >
+          {/* Section header — no scroll gating, renders immediately */}
+          <div className="mb-8">
             <p
               className="text-[11px] font-semibold tracking-[0.2em] uppercase text-black/35 mb-2"
               style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
@@ -53,21 +43,15 @@ export default function Events() {
             >
               All Events
             </h2>
-          </motion.div>
+          </div>
           <Carousel />
         </div>
       </section>
 
       {/* ── Time Capsule ────────────────────────────────────────────── */}
-      <section className="py-20 bg-[#f9f9fb] border-t border-black/[0.04]">
+      <section className="py-10 md:py-16 bg-[#f9f9fb] border-t border-black/[0.04]">
         <div className="max-w-6xl mx-auto px-6 md:px-10">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={fadeUp}
-            className="mb-10"
-          >
+          <div className="mb-8">
             <p
               className="text-[11px] font-semibold tracking-[0.2em] uppercase text-black/35 mb-2"
               style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}
@@ -80,23 +64,15 @@ export default function Events() {
             >
               WCS Time Capsule
             </h2>
-          </motion.div>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {images.map((src, index) => (
               <motion.div
                 key={index}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-40px" }}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { duration: 0.5, delay: (index % 3) * 0.07, ease: "easeOut" },
-                  },
-                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: index * 0.03 }}
                 className="relative aspect-square rounded-2xl overflow-hidden border border-black/[0.06] shadow-sm hover:shadow-md transition-all duration-300 group"
               >
                 <Image

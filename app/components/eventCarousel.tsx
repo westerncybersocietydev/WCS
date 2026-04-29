@@ -414,10 +414,9 @@ const SearchParamsComponent: React.FC = () => {
             {events.map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6, delay: (index % 3) * 0.08, ease: "easeOut" }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.35, delay: index * 0.05 }}
                 className="w-full md:w-1/3 flex-shrink-0 px-3"
                 onClick={() => openModal(item)}
               >
@@ -454,8 +453,8 @@ const SearchParamsComponent: React.FC = () => {
                     </p>
                   </div>
 
-                  {/* Hover: blur + centred CTA */}
-                  <div className="absolute inset-0 bg-[#1a1a2e]/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 z-10 flex items-center justify-center">
+                  {/* Hover: blur + centred CTA — pointer-events-none so touch taps pass through on mobile */}
+                  <div className="pointer-events-none absolute inset-0 bg-[#1a1a2e]/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 z-10 flex items-center justify-center">
                     <span
                       className="inline-flex items-center gap-2 text-white text-[13px] font-semibold uppercase tracking-widest border-b border-white/40 pb-0.5 group-hover:border-white transition-colors duration-300"
                       style={{ fontFamily: "var(--font-geist-sans), 'Geist', sans-serif" }}

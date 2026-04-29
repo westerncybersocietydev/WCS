@@ -70,7 +70,7 @@ const FAQSection = () => {
   const textFilter = useTransform(textProgress, [0, 1], ["blur(8px)", "blur(0px)"]);
 
   return (
-    <section id="faq" ref={sectionRef} className="py-32 relative z-10">
+    <section id="faq" ref={sectionRef} className="py-14 md:py-32 relative z-10">
       {/* Background Image Wrapper */}
       <div
         className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
@@ -105,7 +105,7 @@ const FAQSection = () => {
           className="text-center mb-16"
         >
           <h2
-            className="text-4xl md:text-5xl lg:text-6xl font-medium bg-clip-text text-transparent bg-gradient-to-br from-[#1a1a2e] via-[#4a4a6a] to-[#1a1a2e] mb-6 tracking-[-0.04em]"
+            className="text-3xl md:text-5xl lg:text-6xl font-medium bg-clip-text text-transparent bg-gradient-to-br from-[#1a1a2e] via-[#4a4a6a] to-[#1a1a2e] mb-4 md:mb-6 tracking-[-0.04em]"
             style={{
               fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
             }}
@@ -113,7 +113,7 @@ const FAQSection = () => {
             Frequently Asked Questions
           </h2>
           <p
-            className="text-[18px] text-[#373a46] opacity-80 max-w-2xl mx-auto leading-relaxed"
+            className="text-[15px] md:text-[18px] text-[#373a46] opacity-80 max-w-2xl mx-auto leading-relaxed"
             style={{
               fontFamily: "var(--font-geist-sans), 'Geist', sans-serif",
             }}
@@ -128,7 +128,7 @@ const FAQSection = () => {
           whileInView="visible"
           viewport={{ once: false, margin: "-100px", amount: 0.2 }}
           variants={itemVariants}
-          className="bg-white/80 backdrop-blur-xl rounded-[2rem] p-6 md:p-10 border border-black/[0.04] shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500"
+          className="bg-white/80 backdrop-blur-xl rounded-2xl md:rounded-[2rem] p-5 md:p-10 border border-black/[0.04] shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500"
         >
           <Accordion type="single" collapsible className="w-full">
             {FAQS_DATA.map((faq, index) => (
@@ -138,16 +138,16 @@ const FAQSection = () => {
                 className="border-black/[0.04]"
               >
                 <AccordionTrigger
-                  className="text-left text-lg font-medium text-black hover:no-underline py-6"
+                  className="text-left text-[15px] md:text-lg font-medium text-black hover:no-underline py-4 md:py-6 items-start md:items-center gap-3"
                   style={{
                     fontFamily:
                       "var(--font-geist-sans), 'Geist', sans-serif",
                   }}
                 >
-                  {faq.question}
+                  <span className="flex-1">{faq.question}</span>
                 </AccordionTrigger>
                 <AccordionContent
-                  className="text-[#373a46] opacity-80 text-base leading-relaxed pb-6"
+                  className="text-[#373a46] opacity-80 text-[14px] md:text-base leading-relaxed pb-4 md:pb-6"
                   style={{
                     fontFamily:
                       "var(--font-geist-sans), 'Geist', sans-serif",
